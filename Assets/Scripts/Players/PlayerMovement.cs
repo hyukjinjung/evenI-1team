@@ -27,12 +27,14 @@ public class PlayerMovement : MonoBehaviour
     public JumpEffectSpawner jumpEffectSpawner;
 
 
-
+    private int currentFloor = 0;
+    [SerializeField] TestTileManager testTileManager;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-
+        animator = GetComponentInChildren<Animator>();
+        
         // 버튼 이벤트 등록
         leftButton.onClick.AddListener(() => Jump(-1));
         rightButton.onClick.AddListener(() => Jump(1));
@@ -63,6 +65,29 @@ public class PlayerMovement : MonoBehaviour
     void Jump(int direction)
     {
         if (isGameOver || isJumping) return;
+        
+        Tile tile = testTileManager.GetTile(currentFloor);
+        
+        if (tile == null)
+            return;
+        
+        bool isLeft = tile.TileOnLeft(transform);
+
+        if (isLeft)
+        {
+
+        }
+        else
+        {
+            
+        }
+        
+        
+        
+        
+        
+            
+            
 
         Vector2 previousPosition = transform.position; // 이전 위치 저장
         Vector2 jumpDirection = (direction == -1) ? leftDirection : rightDirection;
@@ -80,6 +105,8 @@ public class PlayerMovement : MonoBehaviour
 
         // 반대 방향에만 타일이 있는 경우 게임 오버
         CheckGameOverCondition();
+        
+        currentFloor++;
     }
 
 
