@@ -6,7 +6,7 @@ TagManager:
   tags:
   - TileRight
   - Tile
-  - Enemy
+  - Monster
   layers:
   - Default
   - TransparentFX
