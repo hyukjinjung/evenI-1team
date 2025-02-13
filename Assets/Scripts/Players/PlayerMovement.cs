@@ -15,8 +15,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isJumping = false;
     private bool isGameOver = false; // 게임 오버 중복 방지
 
-    public Button leftButton;
-    public Button rightButton;
+    
+    
 
     private Vector2 leftDirection = new Vector2(-1f, 0.5f); // 좌표는 타일 간격에 따라 변동
     private Vector2 rightDirection = new Vector2(1f, 0.5f); // 좌표는 타일 간격에 따라 변동
@@ -24,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
     public int lastJumpDirection { get; private set; } // 마지막 점프 방향을 저장할 변수 추가
                                                        // -1: 왼쪽, 1: 오른쪽
     public JumpEffectSpawner jumpEffectSpawner;
+
+    private PlayerInputController playerInputController;
 
     [SerializeField] private PlayerAnimationController playerAnimationController;
 
@@ -35,10 +37,9 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerAnimationController = GetComponent<PlayerAnimationController>();
-        
-        // 버튼 이벤트 등록
-        leftButton.onClick.AddListener(() => Jump(-1));
-        rightButton.onClick.AddListener(() => Jump(1));
+        playerInputController = GetComponent<PlayerInputController>();
+
+        playerInputController.OnJumpEvent += Jump;
 
         //animator.ResetTrigger("GameOver"); // 게임 시작 시 트리거 초기화
     }
@@ -60,9 +61,9 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-    void Jump(int direction)
+    void Jump(Vector2 direction)
     {
-        if (isGameOver || isJumping) return;
+        if (isGameOver) return;
 
         Tile tile = testTileManager.GetTile(currentFloor);
 
@@ -84,15 +85,13 @@ public class PlayerMovement : MonoBehaviour
             // 오른쪽으로 점프
             Jumping(1);
         }
-    }
-        
-        
-        
+    }     
+               
         
         
     void Jumping(int direction)
     {
-            
+        if (isGameOver || isJumping) return;
 
         Vector2 previousPosition = transform.position; // 이전 위치 저장
         Vector2 jumpDirection = (direction == -1) ? leftDirection : rightDirection;
@@ -107,66 +106,6 @@ public class PlayerMovement : MonoBehaviour
         
         currentFloor++;
     }
-
-
-    //// 타일 반대 편으로 점프할 경우 게임 오버
-    //void CheckGameOverCondition()
-    //{
-    //    if (isGameOver) return; // 이미 게임 오버 상태라면 체크하지 않음.
-
-    //    // 왼쪽과 오른쪽 타일 찾기
-    //    GameObject leftTile = FindNextTile(-1);
-    //    GameObject rightTile = FindNextTile(1);
-
-    //    // 플레이어가 점프한 방향이 타일이 있는 방향과 반대인지 확인
-    //    if (lastJumpDirection == -1 && rightTile != null && leftTile == null)
-    //    {
-    //        // 왼쪽으로 점프했지만, 오른쪽에만 타일이 있을 경우 게임 오버
-    //        GameManager.instance.GameOver();
-    //        isGameOver = true;
-    //    }
-    //    else if (lastJumpDirection == 1 &&  leftTile != null && rightTile == null)
-    //    {
-    //        // 오른쪽으로 점프했지만, 왼쪽에만 타일이 있을 경우 게임 오버
-    //        GameManager.instance.GameOver();
-    //        isGameOver = true;
-    //    }
-    //}
-
-
-
-    //GameObject FindNextTile(int direction)
-    //{
-    //    GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile"); // 게임 성능 저하 문제 우려
-    //    GameObject targetTile = null;
-    //    float closestDistance = Mathf.Infinity;
-
-    //    Vector2 nextPosition = (Vector2)transform.position + (direction == -1 ? leftDirection : rightDirection);
-
-    //    foreach (GameObject tile in tiles)
-    //    {
-    //        float tileX = tile.transform.position.x;
-    //        float tileY = tile.transform.position.y;
-    //        float nextX = nextPosition.x;
-
-    //        // 타일이 현재 위치보다 아래에 있으면 제외
-    //        if (tileY < transform.position.y - 0.2f) continue;
-
-    //        if (tileY > transform.position.y + 0.7f) continue;
-
-    //        float distance = Vector2.Distance(new Vector2(tileX, tileY), nextPosition);
-
-    //        if (distance < closestDistance)
-    //        {
-
-    //            closestDistance = distance;
-    //            targetTile = tile;
-
-    //        }
-    //    }
-
-    //    return targetTile;
-    //}
 
 
 
