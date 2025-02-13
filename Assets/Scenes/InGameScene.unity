@@ -1995,6 +1995,7 @@ GameObject:
   - component: {fileID: 417875389}
   - component: {fileID: 417875395}
   - component: {fileID: 417875394}
+  - component: {fileID: 417875397}
   - component: {fileID: 417875396}
   m_Layer: 0
   m_Name: Player
@@ -2095,8 +2096,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 0
   jumpForce: 0
-  leftButton: {fileID: 2053605922}
-  rightButton: {fileID: 511151179}
+  leftButton: {fileID: 0}
+  rightButton: {fileID: 0}
   jumpEffectSpawner: {fileID: 7698517093355806083, guid: fd104e76d59c212478094dc47c1a04d1, type: 3}
   playerAnimationController: {fileID: 417875396}
   testTileManager: {fileID: 768112586}
@@ -2130,6 +2131,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d1c143a19cdf44fb51807c7ae7abdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &417875397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417875385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bad6ae086b55774891dd6785555b6b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftButton: {fileID: 2053605922}
+  rightButton: {fileID: 511151179}
 --- !u!1 &431692775
 GameObject:
   m_ObjectHideFlags: 0

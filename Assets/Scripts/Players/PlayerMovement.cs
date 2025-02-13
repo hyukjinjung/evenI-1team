@@ -61,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-    void Jump(Vector2 direction)
+    void Jump(bool isleft)
     {
         if (isGameOver) return;
 
