@@ -17,7 +17,8 @@ public class UIManager : MonoBehaviour
     public GameObject PausePanel;
     public GameObject CautionPanel;
 
-  
+    public Animator playerAnimator;
+
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI bestScoreText;
@@ -25,7 +26,7 @@ public class UIManager : MonoBehaviour
 
     bool isGameOver = false;
 
-
+    public Button StartButton;
     public Button PauseButton;
     public Button PauseMainHomeButton;
     public Button PauseContinueButton;
@@ -97,8 +98,75 @@ public class UIManager : MonoBehaviour
 
     }
 
+    IEnumerator PlayTurnAround()
+    {
+        playerAnimator.SetTrigger("GameStart");
+
+        // 애니메이션 길이만큼 대기
+        AnimatorStateInfo stateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
+        float animationDuration = stateInfo.length;
+        yield return new WaitForSeconds(animationDuration);
+
+        // 패널 활성화/ 비활성화
+        StartPanel.SetActive(false);
+        PlayingPanel.SetActive(true);
+    }
+
+
+    /*public class PanelManager : MonoBehaviour
+{
+    public Animator playerAnimator;
+    public Button startButton;
+    public GameObject homePanel; // 홈 화면 패널
+    public GameObject gamePanel; // 게임 화면 패널
+
+    private void Start()
+    {
+        startButton.onClick.AddListener(OnGameStartClicked);
+
+        // 초기 패널 상태 설정 (홈 화면)
+        homePanel.SetActive(true);
+        gamePanel.SetActive(false);
+    }
+
+    void OnGameStartClicked()
+    {
+        startButton.interactable = false; // 버튼 중복 입력 방지
+        StartCoroutine(PlayTurnAround());
+    }
+
+    IEnumerator PlayTurnAround()
+    {
+        playerAnimator.SetTrigger("GameStart");
+
+        // 애니메이션 길이만큼 대기
+        AnimatorStateInfo stateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
+        float animationDuration = stateInfo.length;
+        yield return new WaitForSeconds(animationDuration);
+
+        // 패널 활성화/ 비활성화
+        homePanel.SetActive(false);
+        gamePanel.SetActive(true);
+    }
+}*/
+
+
+
+
+
+
+
 
     //버튼 클릭 
+
+    void OnGameStartClicked()
+    {
+        StartButton.interactable = false; // 버튼 중복 입력 방지
+        StartCoroutine(PlayTurnAround());
+    }
+
+
+
     void OnPauseButtonClicked()
     {
         PausePanel.SetActive(true);
