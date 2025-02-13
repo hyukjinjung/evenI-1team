@@ -20,16 +20,21 @@ public class NormalState : ITransformation
         this.transformationController = transformationController;
     }
 
+
     public void Activate()
     {
 
     }
 
+
     public void UseSpecialAbility() 
     {
-    
+        
     }
 
 
-    public void Deactivate() { }
+    public void Deactivate() 
+    { 
+    
+    }
 }

@@ -10,7 +10,6 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 0f;
     public float jumpForce = 0f;
-    public Animator animator;
 
     private Rigidbody2D rb;
     private bool isJumping = false;
@@ -19,12 +18,14 @@ public class PlayerMovement : MonoBehaviour
     public Button leftButton;
     public Button rightButton;
 
-    private Vector2 leftDirection = new Vector2(-0.75f, 0.45f); // 좌표는 타일 간격에 따라 변동
-    private Vector2 rightDirection = new Vector2(0.75f, 0.45f); // 좌표는 타일 간격에 따라 변동
+    private Vector2 leftDirection = new Vector2(-1f, 0.5f); // 좌표는 타일 간격에 따라 변동
+    private Vector2 rightDirection = new Vector2(1f, 0.5f); // 좌표는 타일 간격에 따라 변동
 
     public int lastJumpDirection { get; private set; } // 마지막 점프 방향을 저장할 변수 추가
                                                        // -1: 왼쪽, 1: 오른쪽
     public JumpEffectSpawner jumpEffectSpawner;
+
+    [SerializeField] private PlayerAnimationController playerAnimationController;
 
 
     private int currentFloor = 0;
@@ -33,13 +34,13 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponentInChildren<Animator>();
+        playerAnimationController = GetComponent<PlayerAnimationController>();
         
         // 버튼 이벤트 등록
         leftButton.onClick.AddListener(() => Jump(-1));
         rightButton.onClick.AddListener(() => Jump(1));
 
-        animator.ResetTrigger("GameOver"); // 게임 시작 시 트리거 초기화
+        //animator.ResetTrigger("GameOver"); // 게임 시작 시 트리거 초기화
     }
 
 
@@ -52,12 +53,9 @@ public class PlayerMovement : MonoBehaviour
         if (isJumping)
         {
             rb.velocity = new Vector2(rb.velocity.x * 0.95f, rb.velocity.y);
-            animator.SetBool("IsJumping", true);
         }
-        else
-        {
-            animator.SetBool("IsJumping", false);
-        }
+
+        playerAnimationController.SetJumping(isJumping);
     }
 
 
@@ -65,28 +63,35 @@ public class PlayerMovement : MonoBehaviour
     void Jump(int direction)
     {
         if (isGameOver || isJumping) return;
-        
+
         Tile tile = testTileManager.GetTile(currentFloor);
-        
+
         if (tile == null)
             return;
-        
+
         bool isLeft = tile.TileOnLeft(transform);
+
+
+
 
         if (isLeft)
         {
-
+            // 왼쪽으로 점프
+            Jumping(-1);
         }
         else
         {
-            
+            // 오른쪽으로 점프
+            Jumping(1);
         }
+    }
         
         
         
         
         
-            
+    void Jumping(int direction)
+    {
             
 
         Vector2 previousPosition = transform.position; // 이전 위치 저장
@@ -94,80 +99,74 @@ public class PlayerMovement : MonoBehaviour
         Vector2 targetPosition = (Vector2)transform.position + jumpDirection;
         targetPosition.y += 0.5f; // 타일 중앙에 착지
 
-        isJumping = true;
+        //isJumping = true;
         rb.velocity = new Vector2(jumpDirection.x * moveSpeed, jumpForce);
-        transform.position = targetPosition; // 타겟 위치 적용
-
-        lastJumpDirection = direction; // 마지막 점프 방향 설정
-                                       // 타일 반대 편으로 점프할 경우 게임 오버 
+        //transform.position = targetPosition; // 타겟 위치 적용
 
         jumpEffectSpawner.SpawnJumpEffect(previousPosition); // 이전 위치에 점프이펙트 생성
-
-        // 반대 방향에만 타일이 있는 경우 게임 오버
-        CheckGameOverCondition();
         
         currentFloor++;
     }
 
 
-    // 타일 반대 편으로 점프할 경우 게임 오버
-    void CheckGameOverCondition()
-    {
-        if (isGameOver) return; // 이미 게임 오버 상태라면 체크하지 않음.
+    //// 타일 반대 편으로 점프할 경우 게임 오버
+    //void CheckGameOverCondition()
+    //{
+    //    if (isGameOver) return; // 이미 게임 오버 상태라면 체크하지 않음.
 
-        // 왼쪽과 오른쪽 타일 찾기
-        GameObject leftTile = FindNextTile(-1);
-        GameObject rightTile = FindNextTile(1);
+    //    // 왼쪽과 오른쪽 타일 찾기
+    //    GameObject leftTile = FindNextTile(-1);
+    //    GameObject rightTile = FindNextTile(1);
 
-        // 플레이어가 점프한 방향이 타일이 있는 방향과 반대인지 확인
-        if (lastJumpDirection == -1 && rightTile != null && leftTile == null)
-        {
-            // 왼쪽으로 점프했지만, 오른쪽에만 타일이 있을 경우 게임 오버
-            GameManager.instance.GameOver();
-            isGameOver = true;
-        }
-        else if (lastJumpDirection == 1 &&  leftTile != null && rightTile == null)
-        {
-            // 오른쪽으로 점프했지만, 왼쪽에만 타일이 있을 경우 게임 오버
-            GameManager.instance.GameOver();
-            isGameOver = true;
-        }
-    }
+    //    // 플레이어가 점프한 방향이 타일이 있는 방향과 반대인지 확인
+    //    if (lastJumpDirection == -1 && rightTile != null && leftTile == null)
+    //    {
+    //        // 왼쪽으로 점프했지만, 오른쪽에만 타일이 있을 경우 게임 오버
+    //        GameManager.instance.GameOver();
+    //        isGameOver = true;
+    //    }
+    //    else if (lastJumpDirection == 1 &&  leftTile != null && rightTile == null)
+    //    {
+    //        // 오른쪽으로 점프했지만, 왼쪽에만 타일이 있을 경우 게임 오버
+    //        GameManager.instance.GameOver();
+    //        isGameOver = true;
+    //    }
+    //}
 
 
 
-    GameObject FindNextTile(int direction)
-    {
-        GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile"); // 게임 성능 저하 문제 우려
-        GameObject targetTile = null;
-        float closestDistance = Mathf.Infinity;
+    //GameObject FindNextTile(int direction)
+    //{
+    //    GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile"); // 게임 성능 저하 문제 우려
+    //    GameObject targetTile = null;
+    //    float closestDistance = Mathf.Infinity;
 
-        Vector2 nextPosition = (Vector2)transform.position + (direction == -1 ? leftDirection : rightDirection);
+    //    Vector2 nextPosition = (Vector2)transform.position + (direction == -1 ? leftDirection : rightDirection);
 
-        foreach (GameObject tile in tiles)
-        {
-            float tileX = tile.transform.position.x;
-            float tileY = tile.transform.position.y;
-            float nextX = nextPosition.x;
+    //    foreach (GameObject tile in tiles)
+    //    {
+    //        float tileX = tile.transform.position.x;
+    //        float tileY = tile.transform.position.y;
+    //        float nextX = nextPosition.x;
 
-            // 타일이 현재 위치보다 아래에 있으면 제외
-            if (tileY < transform.position.y - 0.2f) continue;
+    //        // 타일이 현재 위치보다 아래에 있으면 제외
+    //        if (tileY < transform.position.y - 0.2f) continue;
 
-            if (tileY > transform.position.y + 0.7f) continue;
+    //        if (tileY > transform.position.y + 0.7f) continue;
 
-            float distance = Vector2.Distance(new Vector2(tileX, tileY), nextPosition);
+    //        float distance = Vector2.Distance(new Vector2(tileX, tileY), nextPosition);
 
-            if (distance < closestDistance)
-            {
+    //        if (distance < closestDistance)
+    //        {
 
-                closestDistance = distance;
-                targetTile = tile;
+    //            closestDistance = distance;
+    //            targetTile = tile;
 
-            }
-        }
+    //        }
+    //    }
 
-        return targetTile;
-    }
+    //    return targetTile;
+    //}
 
 
 
@@ -181,7 +180,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Tile"))
         {
             isJumping = false;
-            animator.SetBool("IsJumping", false);
+            playerAnimationController.SetJumping(isJumping);
         }
 
 
