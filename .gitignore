@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,unity
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,unity
 
@@ -5,6 +6,12 @@
 # This .gitignore file should be placed at the root of your Unity project directory
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
+=======
+# This .gitignore file should be placed at the root of your Unity project directory
+#
+# Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
+#
+>>>>>>> 4d50aa0ef903c773e037cce6118103560c1a2350
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
@@ -62,6 +69,10 @@ sysinfo.txt
 *.apk
 *.aab
 *.unitypackage
+<<<<<<< HEAD
+=======
+*.unitypackage.meta
+>>>>>>> 4d50aa0ef903c773e037cce6118103560c1a2350
 *.app
 
 # Crashlytics generated file
@@ -73,6 +84,7 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+<<<<<<< HEAD
 
 ### VisualStudioCode ###
 .vscode/*
@@ -94,3 +106,5 @@ crashlytics-build.properties
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,unity
+=======
+>>>>>>> 4d50aa0ef903c773e037cce6118103560c1a2350

@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
+<<<<<<< HEAD
   tags: []
+=======
+  tags:
+  - TileRight
+  - Tile
+  - Monster
+>>>>>>> 4d50aa0ef903c773e037cce6118103560c1a2350
   layers:
   - Default
   - TransparentFX
@@ -12,8 +19,13 @@ TagManager:
   - Water
   - UI
   - 
+<<<<<<< HEAD
   - 
   - 
+=======
+  - Tile
+  - Monster
+>>>>>>> 4d50aa0ef903c773e037cce6118103560c1a2350
   - 
   - 
   - 
