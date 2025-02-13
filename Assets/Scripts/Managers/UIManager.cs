@@ -16,6 +16,8 @@ public class UIManager : MonoBehaviour
     public GameObject GameOverPanel;
     public GameObject PausePanel;
     public GameObject CautionPanel;
+    public GameObject ResultPanel;
+
 
     public Animator playerAnimator;
 
@@ -26,12 +28,17 @@ public class UIManager : MonoBehaviour
 
     bool isGameOver = false;
 
-    public Button StartButton;
+
+    public Button GameStartButton;
+    public Button AttackButton;
+    public Button LeftButton;
+    public Button RightButton;
     public Button PauseButton;
     public Button PauseMainHomeButton;
     public Button PauseContinueButton;
     public Button CautionMainHomeButton;
     public Button CautionContinueButton;
+
 
 
     private int score = 0;
@@ -51,6 +58,7 @@ public class UIManager : MonoBehaviour
         PausePanel.SetActive(false);
         CautionPanel.SetActive(false);
 
+        GameStartButton.onClick.AddListener(OnGameStartButtonClicked);
         PauseButton.onClick.AddListener(OnPauseButtonClicked);
         PauseMainHomeButton.onClick.AddListener(OnPauseMainHomeButtonClicked);
         PauseContinueButton.onClick.AddListener(OnPauseContinueButtonClicked);
@@ -69,6 +77,8 @@ public class UIManager : MonoBehaviour
     public void StartGame()
     {
         isGameOver = false;
+
+        PlayTurnAround();
 
         StartPanel.SetActive(false);
         PlayingPanel.SetActive(true);
@@ -107,9 +117,9 @@ public class UIManager : MonoBehaviour
         float animationDuration = stateInfo.length;
         yield return new WaitForSeconds(animationDuration);
 
-        // 패널 활성화/ 비활성화
-        StartPanel.SetActive(false);
-        PlayingPanel.SetActive(true);
+        //// 패널 활성화/ 비활성화
+        //StartPanel.SetActive(false);
+        //PlayingPanel.SetActive(true);
     }
 
 
@@ -161,7 +171,7 @@ public class UIManager : MonoBehaviour
 
     void OnGameStartClicked()
     {
-        StartButton.interactable = false; // 버튼 중복 입력 방지
+        GameStartButton.interactable = false; // 버튼 중복 입력 방지
         StartCoroutine(PlayTurnAround());
     }
 
@@ -210,6 +220,12 @@ public class UIManager : MonoBehaviour
         PausePanel.SetActive(true);
     }
 
+
+    void OnGameStartButtonClicked()
+    {
+        GameStartButton.interactable = false; // 버튼 중복 입력 방지
+        StartCoroutine(PlayTurnAround());
+    }
 
 
     //점수 합산 이어서 짜야됨
