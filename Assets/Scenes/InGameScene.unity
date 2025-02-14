@@ -1808,7 +1808,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 417875385}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -1858,8 +1858,8 @@ MonoBehaviour:
   moveSpeed: 0
   jumpForce: 0
   jumpEffectSpawner: {fileID: 7698517093355806083, guid: fd104e76d59c212478094dc47c1a04d1, type: 3}
-  playerAnimationController: {fileID: 417875396}
-  testTileManager: {fileID: 768112586}
+  testTileManager: {fileID: 768112588}
+  currentFloor: 0
 --- !u!114 &417875395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1874,10 +1874,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 320762912}
   attackButton: {fileID: 572036024}
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  lastJumpDirection: 0
+  testTileManager: {fileID: 768112588}
+  currentFloor: 0
 --- !u!114 &417875396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1902,8 +1900,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bad6ae086b55774891dd6785555b6b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftButton: {fileID: 2053605922}
-  rightButton: {fileID: 511151179}
+  LeftButton: {fileID: 2053605922}
+  RightButton: {fileID: 511151179}
+  AttackButton: {fileID: 572036024}
 --- !u!1 &431692775
 GameObject:
   m_ObjectHideFlags: 0
@@ -2135,7 +2134,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 511151180}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 417875397}
+        m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
+        m_MethodName: OnRightButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &511151180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2720,7 +2731,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 572036025}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 417875397}
+        m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
+        m_MethodName: OnAttackButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &572036025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3158,7 +3181,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 768112587}
-  - component: {fileID: 768112586}
+  - component: {fileID: 768112588}
   m_Layer: 0
   m_Name: Tiles_Test
   m_TagString: Untagged
@@ -3166,19 +3189,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &768112586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 768112585}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 013f74741e5cc164eb04920db949f873, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  testTilePrefab: {fileID: 3548926580945267067}
 --- !u!4 &768112587
 Transform:
   m_ObjectHideFlags: 0
@@ -3195,6 +3205,19 @@ Transform:
   - {fileID: 5492203768508028964}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &768112588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 768112585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 013f74741e5cc164eb04920db949f873, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testTilePrefab: {fileID: 3548926580945267067}
 --- !u!1 &775552308
 GameObject:
   m_ObjectHideFlags: 0
@@ -3593,7 +3616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 417875385}
-  animator: {fileID: 0}
+  animator: {fileID: 320762912}
 --- !u!1 &912230470
 GameObject:
   m_ObjectHideFlags: 0
@@ -4781,7 +4804,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1180345100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4903,7 +4926,7 @@ Transform:
   m_GameObject: {fileID: 1180345099}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.745, y: 0.557, z: 0}
+  m_LocalPosition: {x: 1, y: 3, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6219,7 +6242,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &1671409589
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6326,7 +6349,7 @@ Transform:
   m_GameObject: {fileID: 1671409588}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.73, y: 3.3, z: 0}
+  m_LocalPosition: {x: -1, y: 7, z: 0}
   m_LocalScale: {x: 2.54, y: 2.45, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8274,7 +8297,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2053605923}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 417875397}
+        m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
+        m_MethodName: OnLeftButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2053605923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8730,14 +8765,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5492203768508028964}
-  - component: {fileID: 5492203768508028965}
+  - component: {fileID: 5492203768508028966}
+  - component: {fileID: 5492203768508028967}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5492203768508028964
 Transform:
   m_ObjectHideFlags: 0
@@ -8754,7 +8790,52 @@ Transform:
   - {fileID: 946761426}
   m_Father: {fileID: 768112587}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5492203768508028965
+--- !u!61 &5492203768508028966
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3548926580945267067}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.6}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.2}
+  m_EdgeRadius: 0
+--- !u!114 &5492203768508028967
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
