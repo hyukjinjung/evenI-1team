@@ -8,88 +8,86 @@ public class PlayerAttackController : MonoBehaviour
 {
     public Animator animator; // 공격 애니메이터
     public Button attackButton; // 공격 UI 버튼
-    public LayerMask targetLayer; // 타일 및 몬스터 레이어
-    public int lastJumpDirection; // 마지막 점프 방향
 
     private bool isAttacking = false; // 공격 중인지 체크
 
+    private PlayerAnimationController playerAnimationController;
+    private PlayerInputController playerInputController;
+    [SerializeField] TestTileManager testTileManager;
+
+
+    [SerializeField] private int currentFloor = 0;
+
+
+
+
+
     private void Start()
     {
-        // 공격 버튼 클릭 시 PerformAttack 호출
-        attackButton.onClick.AddListener(PerformAttack);
-        Debug.Log("Attack button listener added");
+        playerAnimationController = GetComponent<PlayerAnimationController>();
+        playerInputController = GetComponent<PlayerInputController>();
+
+        playerInputController.OnAttackEvent += PerformAttack;
+
+
     }
 
 
-    void PerformAttack()
+    void PerformAttack(bool isleft)
     {
+
         // 공격 중일 때는 추가 공격을 막음
         if (isAttacking)
         {
-            Debug.Log("Attack already in progress");
+            Debug.Log("is Attacking");
             return;
         }
 
 
+        Tile tile = testTileManager.GetTile(currentFloor);
+
+        if (tile == null)
+        {
+            Debug.Log("타일 null");
+            return;
+        }
+
+        bool isLeft = tile.TileOnLeft(transform);
+
+        if (isLeft)
+        {
+            playerAnimationController.SetAttacking(isLeft);
+        }
+        
+
         // 공격 중 상태 설정
         isAttacking = true;
         Debug.Log("Attack started");
-
-        GameObject higherTile = FindNearestTile();
-        if (higherTile != null)
-        {
-            if (higherTile.transform.position.x < transform.position.x)
-            {
-                animator.SetTrigger("AttackLeft");
-            }
-            else
-            {
-                animator.SetTrigger("AttackRight");
-            }
-        }
-
-        else
-        {
-            // 기본적으로 오른쪽 공격
-            animator.SetTrigger("AttackRight");
-            Debug.Log("No tile detected above..");
-        }
-
-
-        // 애니메이션이 끝날 때까지 기다리고, 다시 공격 가능하도록 설정
         StartCoroutine(ResetAttackFlag());
+
     }
 
 
-    GameObject FindNearestTile()
-    {
-        GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
-        GameObject targetTile = null;
-        float closestDistance = Mathf.Infinity;
 
-        foreach (GameObject tile in tiles)
-        {
-            float tileX = tile.transform.position.x;
-            float tileY = tile.transform.position.y;
-            float playerX = transform.position.x;
-            float playerY = transform.position.y;
+    //void Jump(bool isleft)
+    //{
+    //    if (isGameOver) return;
 
-            // 타일이 플레이어보다 높은 위치에 있는지 확인
-            if (tileY > playerY)
-            {
-                float distance = Mathf.Abs(tileX - playerX);
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    targetTile = tile;
-                   
-                }
-            }
-        }
+    //    Debug.Log("현재 층" + currentFloor);
 
-        return targetTile;
-    }
+    //    Tile tile = testTileManager.GetTile(currentFloor);
 
+    //    if (tile == null)
+    //    {
+    //        Debug.Log("타일 null");
+    //        return;
+    //    }
+
+    //    bool isLeft = tile.TileOnLeft(transform);
+
+    //    Jumping(isLeft ? -1 : 1);
+
+    //}
 
 
     // 공격 중 상태를 리셋하는 코루틴
@@ -100,4 +98,4 @@ public class PlayerAttackController : MonoBehaviour
         isAttacking = false; // 공격 가능 상태로 복구
         Debug.Log("Attack ended. Ready for next Attack");
     }
-}
+} 

@@ -7,7 +7,7 @@ public class TestTileManager : MonoBehaviour
     [SerializeField] private GameObject testTilePrefab;
 
     private float xOffset = 1;
-    private float yOffset = 0.5f;
+    private float yOffset = 1;
     
     private int direction = 1;
     
@@ -46,9 +46,12 @@ public class TestTileManager : MonoBehaviour
 
     public Tile GetTile(int currentFloor)
     {
-        if (tiles.Count - 1 > currentFloor)
+        if (currentFloor >= tiles.Count || currentFloor < 0) // 범위 확인
             return null;
-        
-        return tiles[currentFloor + 1];
+
+        //if (tiles.Count - 1 > currentFloor)
+        //    return null;
+
+        return tiles[currentFloor +1];
     }
 }

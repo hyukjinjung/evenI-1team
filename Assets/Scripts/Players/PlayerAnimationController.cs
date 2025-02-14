@@ -7,18 +7,10 @@ public class PlayerAnimationController : MonoBehaviour
     private Animator animator;
 
 
-    private void Awake()
-    {
-        animator = GetComponentInChildren<Animator>();
-    }
-
-
-
-
     // Start is called before the first frame update
     void Start()
     {
-        
+        animator = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -31,5 +23,10 @@ public class PlayerAnimationController : MonoBehaviour
     public void SetJumping(bool isJumping)
     {
         animator.SetBool("IsJumping", isJumping);
+    }
+
+    public void SetAttacking(bool isLeft)
+    {
+        animator.SetTrigger(isLeft ? "AttackLeft" : "AttackRight"); // 왼쪽 오른쪽 공격 애니메이션 각각 실행
     }
 }
