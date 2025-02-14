@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerInputController : MonoBehaviour
 {
-    public event Action<bool> OnJumpEvent;
+    public event Action<Vector2> OnJumpEvent;
 
     public Button leftButton;
     public Button rightButton;
@@ -24,19 +24,19 @@ public class PlayerInputController : MonoBehaviour
         
     }
 
-    public void CallJumpEvent(bool isleft)
+    public void CallJumpEvent(Vector2 direction)
     {
-        OnJumpEvent?.Invoke(isleft);
+        OnJumpEvent?.Invoke(direction);
     }
 
     public void OnLeftButtonClick()
     {
 
-        CallJumpEvent(true); 
+        CallJumpEvent(new Vector2(-1f, 0.5f)); 
     }
 
     public void OnRightButtonClick()
     {
-        CallJumpEvent(false);
+        CallJumpEvent(new Vector2(1f, 0.5f));
     }
 }
