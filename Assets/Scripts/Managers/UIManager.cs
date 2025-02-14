@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     public GameObject PausePanel;
     public GameObject CautionPanel;
     public GameObject ResultPanel;
+    public GameObject StoryPanel;
 
 
     public Animator playerAnimator;
@@ -24,6 +25,11 @@ public class UIManager : MonoBehaviour
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI bestScoreText;
+    public TextMeshProUGUI ResultScoreText;
+    public TextMeshProUGUI ResultBestScoreText;
+    public TextMeshProUGUI ResultPileUpScoreText;
+    public TextMeshProUGUI ResultCoinScoreText;
+
 
 
     bool isGameOver = false;
@@ -38,6 +44,15 @@ public class UIManager : MonoBehaviour
     public Button PauseContinueButton;
     public Button CautionMainHomeButton;
     public Button CautionContinueButton;
+    public Button AdsComeBackButton;
+    public Button SkipButton;
+    public Button ResultScoreTwiceButton;
+    public Button ResultReStartButton;
+    public Button ResultMainHomeButton;
+    public Button ResultCoinTwiceButton;
+    public Button StoryReTurnButton;
+    public Button StoryButton;
+    
 
 
 
@@ -57,6 +72,8 @@ public class UIManager : MonoBehaviour
         GameOverPanel.SetActive(false);
         PausePanel.SetActive(false);
         CautionPanel.SetActive(false);
+        ResultPanel.SetActive(false);
+        StoryPanel.SetActive(false);
 
         GameStartButton.onClick.AddListener(OnGameStartButtonClicked);
         PauseButton.onClick.AddListener(OnPauseButtonClicked);
@@ -64,6 +81,15 @@ public class UIManager : MonoBehaviour
         PauseContinueButton.onClick.AddListener(OnPauseContinueButtonClicked);
         CautionMainHomeButton.onClick.AddListener(OnCautionMainHomeButtonClicked);
         CautionContinueButton.onClick.AddListener(OnCautionContineButtonClicked);
+        AdsComeBackButton.onClick.AddListener(OnAdsComeBackButtonClicked);
+        SkipButton.onClick.AddListener(OnSkipButtonClicked);
+        ResultCoinTwiceButton.onClick.AddListener(OnResultCoinTwiceButtonClicked);
+        ResultScoreTwiceButton.onClick.AddListener(OnResultScoreTwiceButtonClicked);
+        ResultReStartButton.onClick.AddListener(ResultReStartButtonClicked);
+        ResultMainHomeButton.onClick.AddListener(ResultMainHomeButtonClicked);
+
+
+
     }
 
 
@@ -169,7 +195,7 @@ public class UIManager : MonoBehaviour
 
     //버튼 클릭 
 
-    void OnGameStartClicked()
+    void OnGameStartButtonClicked()
     {
         GameStartButton.interactable = false; // 버튼 중복 입력 방지
         StartCoroutine(PlayTurnAround());
@@ -200,7 +226,7 @@ public class UIManager : MonoBehaviour
         PausePanel.SetActive(false);
         // SceneManager.LoadScene(SceneManager.GetActiveScene())
         Time.timeScale = 1f;
-     
+
     }
 
     void OnCautionMainHomeButtonClicked()
@@ -220,12 +246,42 @@ public class UIManager : MonoBehaviour
         PausePanel.SetActive(true);
     }
 
-
-    void OnGameStartButtonClicked()
+    //게임에서 죽었을 때 게임 오버 패널 5초 이상 터치 없을 시 결과창으로 화면 전환 ??
+    void OnAdsComeBackButtonClicked()
     {
-        GameStartButton.interactable = false; // 버튼 중복 입력 방지
-        StartCoroutine(PlayTurnAround());
+        PlayingPanel.SetActive(true);
+
     }
+    
+
+    void OnSkipButtonClicked()
+    {
+        ResultPanel.SetActive(true);
+        PlayingPanel.SetActive(false);
+    }
+
+    void OnResultCoinTwiceButtonClicked()
+    {
+
+    }
+
+    void OnResultScoreTwiceButtonClicked()
+    {
+
+    }
+
+    void ResultReStartButtonClicked()
+    {
+        // 입장권 하나 소실하면서 30분 타이머 시작과 동시에 게임 시작 
+        PlayingPanel.SetActive(true);
+    }
+
+    void ResultMainHomeButtonClicked()
+    {
+        StartPanel.SetActive(true);
+    }
+
+    
 
 
     //점수 합산 이어서 짜야됨
