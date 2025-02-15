@@ -1903,6 +1903,7 @@ MonoBehaviour:
   LeftButton: {fileID: 2053605922}
   RightButton: {fileID: 511151179}
   AttackButton: {fileID: 572036024}
+  isLeft: 1
 --- !u!1 &431692775
 GameObject:
   m_ObjectHideFlags: 0
@@ -2134,19 +2135,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 511151180}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 417875397}
-        m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
-        m_MethodName: OnRightButtonClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &511151180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2735,7 +2724,7 @@ MonoBehaviour:
       - m_Target: {fileID: 417875397}
         m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
         m_MethodName: OnAttackButtonClick
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3582,7 +3571,7 @@ GameObject:
   - component: {fileID: 885555218}
   - component: {fileID: 885555219}
   m_Layer: 0
-  m_Name: GamaManager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3616,7 +3605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 417875385}
-  animator: {fileID: 320762912}
+  playerAnimationController: {fileID: 417875396}
 --- !u!1 &912230470
 GameObject:
   m_ObjectHideFlags: 0
@@ -4804,7 +4793,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1180345100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8297,19 +8286,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2053605923}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 417875397}
-        m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
-        m_MethodName: OnLeftButtonClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &2053605923
 MonoBehaviour:
   m_ObjectHideFlags: 0

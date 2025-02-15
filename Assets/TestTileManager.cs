@@ -50,7 +50,9 @@ public class TestTileManager : MonoBehaviour
             return null;
 
         //if (tiles.Count - 1 > currentFloor)
+        //{
         //    return null;
+        //}
 
         return tiles[currentFloor +1];
     }

@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public GameObject player;
-    public Animator animator;
+    public PlayerAnimationController playerAnimationController;
 
     private bool isGameOver = false;
 
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        animator.ResetTrigger("GameOver"); // 게임 시작 시 트리거 초기화
+        //playerController.ResetTrigger("GameOver"); // 게임 시작 시 트리거 초기화
 
         // 게임 시작
         Debug.Log("게임 시작");
@@ -46,8 +46,8 @@ public class GameManager : MonoBehaviour
         player.GetComponent<PlayerMovement>().enabled = false; // 플레이어 이동 비활성화
         player.GetComponent<PlayerAttackController>().enabled = false; // 플레이어 공격 비활성화
 
-        animator.SetTrigger("GameOver");
-        player.GetComponent<Animator>().Play("Die");
+        playerAnimationController.PlayGameOverAnimation();
+        player.GetComponentInChildren<Animator>().Play("Die");
 
         // 애니메이션 후에 Time.timeScale을 0으로 설정
         StartCoroutine(FreezeGameAfterDelay());
