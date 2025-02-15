@@ -14,7 +14,6 @@ public class TestTileManager : MonoBehaviour
     private List<Tile>  tiles = new List<Tile>();
     
     
-
     // Start is called before the first frame update
     void Start()
     {
@@ -40,10 +39,10 @@ public class TestTileManager : MonoBehaviour
             }
 
             x += direction;
-        }              
+        }
+        
+        
     }
-
-
 
     public Tile GetTile(int currentFloor)
     {

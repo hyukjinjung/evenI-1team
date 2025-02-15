@@ -47,7 +47,7 @@ public class TransformationState : ITransformation
             // 변신 타입에 따라 다른 특수 능력
             switch (transformType)
             {
-                case TransformationType.NinjaFrog:
+                case TransformationType.Ninja:
                     PerformNinjaAbility();
                     break;
             }
