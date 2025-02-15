@@ -77,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
 
         PerformJump(jumpLeft);
 
-        if ((isLeft && !jumpLeft) || (!isLeft && jumpLeft)) // 플레이어 이동 시 게임 오버 조건
+        if ((isLeft && !jumpLeft) || (!isLeft && jumpLeft)) // 플레이어 이동 시 게임 오버 처리
         {
             GameManager.instance.GameOver();
         }
@@ -116,10 +116,6 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-
-
-    // 몬스터와 충돌 시 -> 게임 오버 처리
-    // 타일과 충돌 시
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // 타일과 충돌할 경우
@@ -137,6 +133,13 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Player hit a monster");
             GameManager.instance.GameOver();
             isGameOver = true;
+        }
+
+        if (collision.gameObject.CompareTag("TransformationItem"))
+        {
+            Debug.Log("변신 아이템 획득");
+
+
         }
     }
 }
