@@ -30,4 +30,16 @@ public class PlayerAnimationController : MonoBehaviour
     {
         animator.SetTrigger("GameOver");
     }
+
+    public float GetAttackAniamtionLength()
+    {
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        if(stateInfo.IsName("AttackLeft") || stateInfo.IsName("AttackRight"))
+        {
+            return stateInfo.length;
+        }
+
+        return 0.5f;
+    }
 }
