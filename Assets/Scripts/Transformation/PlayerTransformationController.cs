@@ -5,14 +5,27 @@ using UnityEngine;
 public class PlayerTransformationController : MonoBehaviour
 {
     private ITransformation currentState;
-    public PlayerAnimationController AnimationController {  get; private set; }
+
+    private GameObject currentCharacter;        // 현재 변신된 캐릭터
+    private GameObject originalCharacterPrefab;       // 기본 상태의 캐릭터
+
+    //public PlayerAnimationController AnimationController;
+
+    //public SpecialAbilityData currentAbility;       // 인스펙터에서 ScriptableObject 연결
+
+
+
 
 
 
     void Start()
     {
         currentState = new NormalState(this);
-        AnimationController = GetComponent<PlayerAnimationController>();
+        currentCharacter = gameObject;      // 시작할 때 현재 오브젝트 저장
+
+
+
+        //AnimationController = GetComponent<PlayerAnimationController>();
     }
 
 
@@ -25,19 +38,50 @@ public class PlayerTransformationController : MonoBehaviour
 
     
 
-    public void StartTransformation(TransformationItem item)
+    public void StartTransformation(TransformationData transformationData)
     {
-        ITransformation newTransformation = new TransformationState(this, item.transformationType,
-            item.duration, item.specialAbilityUses);
+        ITransformation newTransformation = new TransformationState(this, transformationData);
 
         ChangeState(newTransformation);
+
+        if (transformationData.transformationPrefab != null)
+        {
+            // 기존 캐릭터 삭제 후 변신 프리팹 생성
+            GameObject newCharacter = Instantiate(transformationData.transformationPrefab,
+                transform.position, Quaternion.identity);
+
+            PlayerTransformationController newController = newCharacter.GetComponent<PlayerTransformationController>();
+            if (newController != null)
+            {
+                // 원래 캐릭터 저장
+                newController.originalCharacterPrefab = originalCharacterPrefab;
+                newController.currentCharacter = newCharacter;
+            }
+
+            Destroy(gameObject);        // 기존 캐릭터 삭제
+
+        }
+    }
+
+
+
+    public void ReverToOriginalCharacter()
+    {
+        if (originalCharacterPrefab != null)
+        {
+            Instantiate(originalCharacterPrefab, transform.position, Quaternion.identity);
+            Destroy(gameObject);        // 변신된 캐릭터 삭제
+        }
     }
 
 
     public void UseSpecialAbility()
     {
-        currentState.UseSpecialAbility();
+        //currentAbility.ActivateAbility(transform);
     }
+
+
+
 
 
     public void StartTransformationTimer(ITransformation transformation)
