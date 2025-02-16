@@ -7,17 +7,13 @@ public class PlayerAnimationController : MonoBehaviour
     private Animator animator;
 
 
-    // Start is called before the first frame update
+
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 
 
     public void SetJumping(bool isJumping)
@@ -28,5 +24,22 @@ public class PlayerAnimationController : MonoBehaviour
     public void SetAttacking(bool isLeft)
     {
         animator.SetTrigger(isLeft ? "AttackLeft" : "AttackRight"); // 왼쪽 오른쪽 공격 애니메이션 각각 실행
+    }
+
+    public void PlayGameOverAnimation()
+    {
+        animator.SetTrigger("GameOver");
+    }
+
+    public float GetAttackAniamtionLength()
+    {
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        if(stateInfo.IsName("AttackLeft") || stateInfo.IsName("AttackRight"))
+        {
+            return stateInfo.length;
+        }
+
+        return 0.5f;
     }
 }

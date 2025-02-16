@@ -27,7 +27,7 @@ public class PlayerTransformationController : MonoBehaviour
 
     public void StartTransformation(TransformationItem item)
     {
-        ITransformation newTransformation = new TransformationState(this, item.transformationType, 
+        ITransformation newTransformation = new TransformationState(this, item.transformationType,
             item.duration, item.specialAbilityUses);
 
         ChangeState(newTransformation);

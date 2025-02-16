@@ -13,19 +13,20 @@ public class PlayerInputController : MonoBehaviour
     public Button RightButton;
     public Button AttackButton;
 
-    // Start is called before the first frame update
+    public bool isLeft = true;
+
+
+
     void Start()
     {
-        LeftButton.onClick.AddListener(() => OnLeftButtonClick());
-        RightButton.onClick.AddListener(() => OnRightButtonClick());
-        AttackButton.onClick.AddListener(() => OnAttackButtonClick());
+
+        // 왼쪽 점프를 클릭하면, 콘솔에 점프 버튼: 왼쪽과 점프 버튼: 오른쪽이 같이 출력됨(오류)
+        LeftButton.onClick.AddListener(() => OnJumpButtonClick(true));
+        RightButton.onClick.AddListener(() => OnJumpButtonClick(false));
+        AttackButton.onClick.AddListener(() => OnAttackButtonClick(isLeft));
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 
     public void CallJumpEvent(bool isLeft)
     {
@@ -37,22 +38,16 @@ public class PlayerInputController : MonoBehaviour
     }
 
 
-
-    public void OnLeftButtonClick()
+    public void OnJumpButtonClick(bool JumpLeft)
     {
-        //Debug.Log("left Clicked");
-        CallJumpEvent(true); 
+        //Debug.Log($"점프 버튼 {(JumpLeft ? "왼쪽" : "오른쪽")}"); // 중복 호출되는지 확인
+
+        CallJumpEvent(JumpLeft);
     }
 
-    public void OnRightButtonClick()
+    public void OnAttackButtonClick(bool AttackLeft)
     {
-        //Debug.Log("right Clicked");
-        CallJumpEvent(false);
-    }
-
-    public void OnAttackButtonClick()
-    {
-        CallAttackEvent(false);
+        CallAttackEvent(AttackLeft);
     }
 
 }
