@@ -5,12 +5,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 
 
 public class UIManager : MonoBehaviour
 {
-    
+
     public GameObject StartPanel;
     public GameObject PlayingPanel;
     public GameObject GameOverPanel;
@@ -52,7 +53,7 @@ public class UIManager : MonoBehaviour
     public Button ResultCoinTwiceButton;
     public Button StoryReTurnButton;
     public Button StoryButton;
-    
+
 
 
 
@@ -60,11 +61,23 @@ public class UIManager : MonoBehaviour
     private int bestScore = 0;
 
 
+    public PlayerInputController playerInputController;
 
-     
+
+    private void Awake()
+    {
+        // UIManager가 PlayerInputController를 저장할 수 있도록
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.uiManager = this; // GameManager에서 관리하도록 설정
+        }
+        else
+        {
+            Debug.Log("[UIManager] GameManager Instance NULL");
+        }
+    }
 
 
-    // Start is called before the first frame update
     void Start()
     {
         StartPanel.SetActive(true);
@@ -88,18 +101,27 @@ public class UIManager : MonoBehaviour
         ResultReStartButton.onClick.AddListener(ResultReStartButtonClicked);
         ResultMainHomeButton.onClick.AddListener(ResultMainHomeButtonClicked);
 
-
-
     }
 
 
 
-    // Update is called once per frame
-    void Update()
+
+    
+
+
+    public void UpdatePlayerInputController()
     {
+        PlayerInputController newPlayerInput = FindObjectOfType<PlayerInputController>();
 
+        if (newPlayerInput != null)
+        {
+            playerInputController = newPlayerInput;
+            playerInputController.AssignButtons(); // 버튼 다시 연결
+            playerInputController.AssignPlayerMovement(); // PlayerMovement 다시 연결
+        }
     }
-   
+
+
     public void StartGame()
     {
         isGameOver = false;
@@ -108,7 +130,7 @@ public class UIManager : MonoBehaviour
 
         StartPanel.SetActive(false);
         PlayingPanel.SetActive(true);
-       
+
 
     }
 
@@ -143,9 +165,6 @@ public class UIManager : MonoBehaviour
         float animationDuration = stateInfo.length;
         yield return new WaitForSeconds(animationDuration);
 
-        //// 패널 활성화/ 비활성화
-        //StartPanel.SetActive(false);
-        //PlayingPanel.SetActive(true);
     }
 
 
@@ -212,9 +231,9 @@ public class UIManager : MonoBehaviour
 
     void OnPauseMainHomeButtonClicked()
     {
-       // SceneManager.LoadScene("CautionPanel");
+        // SceneManager.LoadScene("CautionPanel");
 
-       // PausePanel.SetActive(true);
+        // PausePanel.SetActive(true);
         CautionPanel.SetActive(true);
     }
 
@@ -252,7 +271,7 @@ public class UIManager : MonoBehaviour
         PlayingPanel.SetActive(true);
 
     }
-    
+
 
     void OnSkipButtonClicked()
     {
@@ -281,7 +300,7 @@ public class UIManager : MonoBehaviour
         StartPanel.SetActive(true);
     }
 
-    
+
 
 
     //점수 합산 이어서 짜야됨

@@ -15,16 +15,62 @@ public class PlayerInputController : MonoBehaviour
 
     public bool isLeft = true;
 
+    private GameManager gameManager;
 
 
     void Start()
     {
+        gameManager = GameManager.Instance; // GameManager 가져오기
 
-        // 왼쪽 점프를 클릭하면, 콘솔에 점프 버튼: 왼쪽과 점프 버튼: 오른쪽이 같이 출력됨(오류)
-        LeftButton.onClick.AddListener(() => OnJumpButtonClick(true));
-        RightButton.onClick.AddListener(() => OnJumpButtonClick(false));
-        AttackButton.onClick.AddListener(() => OnAttackButtonClick(isLeft));
+        if (gameManager == null)
+        {
+            return;
+        }
+
+        if (gameManager.uiManager == null)
+        {
+            return;
+        }
+
+        gameManager.uiManager.playerInputController = this;
+        AssignButtons();
+
+
+
     }
+
+    public void AssignButtons()
+    {
+        UIManager uIManager = GameManager.Instance.uiManager;
+        if (uIManager == null) return;
+
+        LeftButton = uIManager.LeftButton;
+        RightButton = uIManager.RightButton;
+        AttackButton = uIManager.AttackButton;
+
+
+        if (LeftButton != null && RightButton != null && AttackButton != null)
+        {
+            LeftButton.onClick.AddListener(() => OnJumpButtonClick(true));
+            RightButton.onClick.AddListener(() => OnJumpButtonClick(false));
+            AttackButton.onClick.AddListener(() => OnAttackButtonClick(isLeft));
+        }
+    }
+
+
+    public void AssignPlayerMovement()
+    {
+        PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
+
+        if (playerMovement != null)
+        {
+            // 변신 후 기존 리스너를 제거하고 다시 등록
+            OnJumpEvent -= playerMovement.Jump;
+            OnJumpEvent += playerMovement.Jump;
+        }
+    }
+
+
 
 
 
@@ -38,10 +84,9 @@ public class PlayerInputController : MonoBehaviour
     }
 
 
+
     public void OnJumpButtonClick(bool JumpLeft)
     {
-        //Debug.Log($"점프 버튼 {(JumpLeft ? "왼쪽" : "오른쪽")}"); // 중복 호출되는지 확인
-
         CallJumpEvent(JumpLeft);
     }
 

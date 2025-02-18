@@ -278,5 +278,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0360b92882b5bad4c9c9468785c352e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AnimationController: {fileID: 8216372491489469413}
-  currentAbility: {fileID: 0}
+  playerInputController: {fileID: 0}

@@ -39,14 +39,14 @@ public enum TransformationItemType
 
 }
 
-public enum ScoreConditionType
+public enum AddScoreConditionType
 {
     OnKill,
     OnTransformEnd,
     OnSpecialAbilityUse
 }
 
-public enum ScoreTargetType
+public enum AddScoreTargetType
 {
     None = 0,               // 없음
     Item = 1,               // 아이템

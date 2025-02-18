@@ -13,12 +13,12 @@ public abstract class SpecialAbilityData : ScriptableObject
     public float efffectValue;                  // 능력 적용 값 (공격력)
     public int maxUsageCount;                   // 특수 능력 사용 가능 횟수
 
-    public ScoreConditionType scoreCondition;   // 점수 추가 조건
-    public ScoreTargetType scoreTarget;         // 점수 추가 대상
-    public float coreMultiplier;                // 점수 추가 배율
+    //public AddScoreConditionType scoreCondition;   // 점수 추가 조건
+    //public AddScoreTargetType scoreTarget;         // 점수 추가 대상
+    //public float coreMultiplier;                   // 점수 추가 배율
 
 
-    public GameObject abilityEffectPrefab;      // 능력 사용 시 나타나는 이펙트
+    //public GameObject abilityEffectPrefab;      // 능력 사용 시 나타나는 이펙트
     
 
 

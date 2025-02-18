@@ -14,6 +14,8 @@ public interface ITransformation    // 변신 시스템을 위한 인터페이스
 public class NormalState : ITransformation
 {
     private PlayerTransformationController transformationController;
+    
+    private GameManager gameManager; // GameManager 참조
 
 
 
@@ -25,24 +27,27 @@ public class NormalState : ITransformation
         // this를 사용하지 않으면 매개변수와 클래스의 필드(멤버 변수)가 헷갈릴 수 있기 때문에,
         // 명확하게 구분하기 위해 사용
         this.transformationController = transformationController;
+
+        // GameManager 초기화
+        gameManager = GameManager.Instance;
     }
 
 
 
     public void Activate()
     {
-
+        if (gameManager == null) return;
     }
 
 
     public void UseSpecialAbility() 
     {
-        
+        if (gameManager == null) return;
     }
 
 
     public void Deactivate() 
-    { 
-    
+    {
+        if (gameManager == null) return;
     }
 }

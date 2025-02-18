@@ -31,10 +31,16 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerAnimationController = GetComponent<PlayerAnimationController>();
-        playerInputController = GetComponent<PlayerInputController>();
+
+        playerInputController = FindObjectOfType<PlayerInputController>();
 
         playerInputController.OnJumpEvent -= Jump; // 기존 리스너를 제거한 후 다시 등록(중복 실행 방지)
         playerInputController.OnJumpEvent += Jump;
+
+        if (playerInputController != null )
+        {
+            playerInputController.AssignPlayerMovement(); // PlayerMovement 다시 등록
+        }
 
     }
 
@@ -59,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-    void Jump(bool jumpLeft)
+    public void Jump(bool jumpLeft)
     {
         if (isGameOver || isJumping) return;
 
@@ -77,10 +83,7 @@ public class PlayerMovement : MonoBehaviour
 
         PerformJump(jumpLeft);
 
-        if ((isLeft && !jumpLeft) || (!isLeft && jumpLeft)) // 플레이어 이동 시 게임 오버 처리
-        {
-            GameManager.instance.GameOver();
-        }
+        CheckGameOver(isLeft, jumpLeft);
 
     }     
                
@@ -131,7 +134,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // 게임 오버 처리
             Debug.Log("Player hit a monster");
-            GameManager.instance.GameOver();
+            GameManager.Instance.GameOver();
             isGameOver = true;
         }
 
@@ -140,6 +143,19 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("변신 아이템 획득");
 
 
+        }
+    }
+
+
+
+    void CheckGameOver(bool isLeft, bool jumpLeft)
+    {
+        if ((isLeft && !jumpLeft) || (!isLeft && jumpLeft)) // 플레이어 이동 시 게임 오버 처리
+        {
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.GameOver();
+            }
         }
     }
 }
