@@ -23,7 +23,7 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void SetAttacking(bool isLeft)
     {
-        animator.SetTrigger(isLeft ? "AttackLeft" : "AttackRight"); // 왼쪽 오른쪽 공격 애니메이션 각각 실행
+        animator.SetTrigger(isLeft ? "LeftAttack" : "RightAttack"); // 왼쪽 오른쪽 공격 애니메이션 각각 실행
     }
 
     public void PlayGameOverAnimation()

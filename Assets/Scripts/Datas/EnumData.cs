@@ -12,14 +12,14 @@ public enum CharacterState
 
 public enum TransformationType
 {
-    NormalFrog,     // 기본 개구리
-    NinjaFrog,      // 닌자 개구리
-    BullFrog,       // 황소 개구리
-    LotusFrog,      // 연꽃 개구리
-    FlyingFrog,     // 비행 개구리
-    MusicianFrog,   // 악사 개구리
-    MagicianFrog,   // 마술 개구리
-    GoldenFrog,     // 황금 개구리 (피버)
+    NormalFrog,     // 기본 개구리 
+    NinjaFrog,      // 닌자 개구리 
+    BullFrog,       // 황소 개구리 
+    LotusFrog,      // 연꽃 개구리 
+    FlyingFrog,     // 비행 개구리 
+    MusicianFrog,   // 악사 개구리 
+    MagicianFrog,   // 마술 개구리 
+    GoldenFrog,     // 황금 개구리 
 }
 
 public enum ItemType
