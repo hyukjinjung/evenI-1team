@@ -11,28 +11,30 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 1f;
     public float jumpForce = 1f;
 
-    private Rigidbody2D rb;
-
     private bool isJumping = false;
     private bool isGameOver = false; // 게임 오버 중복 방지
 
     private Vector2 leftDirection = new Vector2(-1f, 1f); // 좌표는 타일 간격에 따라 변동
     private Vector2 rightDirection = new Vector2(1f, 1f); // 좌표는 타일 간격에 따라 변동
 
-    public JumpEffectSpawner jumpEffectSpawner;
+    private Rigidbody2D rb;
     private PlayerInputController playerInputController;
-    private PlayerAnimationController playerAnimationController;    
-    [SerializeField] TestTileManager testTileManager;
+    private PlayerAnimationController playerAnimationController;
+    private PlayerTransformationController playerTransformationController;
 
+    [SerializeField] TestTileManager testTileManager;
     [SerializeField] private int currentFloor = 0;
+
+    public JumpEffectSpawner jumpEffectSpawner;
+
 
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         playerAnimationController = GetComponent<PlayerAnimationController>();
-
-        playerInputController = FindObjectOfType<PlayerInputController>();
+        playerInputController = GetComponent<PlayerInputController>();
+        playerTransformationController = GetComponent<PlayerTransformationController>();
 
         playerInputController.OnJumpEvent -= Jump; // 기존 리스너를 제거한 후 다시 등록(중복 실행 방지)
         playerInputController.OnJumpEvent += Jump;
@@ -58,8 +60,17 @@ public class PlayerMovement : MonoBehaviour
 
         Debug.Log("현재 층" + currentFloor);
 
-        playerAnimationController.SetJumping(isJumping);
+        // 점프 후 하강 속도 증가
+        if (rb.velocity.y < 0 )
+        {
+            rb.gravityScale = 3f;          
+        }
+        else
+        {
+            rb.gravityScale = 1.0f;
+        }
 
+        playerAnimationController.SetJumping(isJumping);
         
     }
 
@@ -73,11 +84,8 @@ public class PlayerMovement : MonoBehaviour
 
         Tile tile = testTileManager.GetTile(currentFloor);    
 
-        if (tile == null)
-        {
-            Debug.Log("타일 null");
-            return;
-        }
+        if (tile == null) return;
+
 
         bool isLeft = tile.TileOnLeft(transform);
 
@@ -93,13 +101,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGameOver || isJumping) return; // 점프 중이면 추가 점프를 막음
 
+
         isJumping = true; // 점프 중
 
         Vector2 previousPosition = transform.position;  // 이전 위치 저장
                                                         // 점프 이펙트 생성할 때 사용
-
-        //Debug.Log($"PerformJump 함수 실행jumpLeft = {jumpLeft}"); // 점프 방향을 확인
-
 
         Vector2 jumpDirection = jumpLeft ? leftDirection : rightDirection;
 
@@ -132,10 +138,21 @@ public class PlayerMovement : MonoBehaviour
         // 몬스터와 충돌할 경우
         if (collision.gameObject.CompareTag("Monster"))
         {
-            // 게임 오버 처리
-            Debug.Log("Player hit a monster");
-            GameManager.Instance.GameOver();
-            isGameOver = true;
+            if (playerTransformationController.IsTransformed())
+            {
+                // 변신 상태일 경우는 변신 해제 애니메이션 실행
+                Debug.Log("몬스터와 충돌 - 변신 해제");
+                GetComponent<PlayerTransformationController>().StartRevertProcess();
+            }
+
+            else
+            {
+                // 기본 상태일 경우는 게임 오버 처리
+                Debug.Log("몬스터와 충돌 - 게임 오버");
+                GameManager.Instance.GameOver();
+                isGameOver = true;
+            }
+
         }
 
         if (collision.gameObject.CompareTag("TransformationItem"))

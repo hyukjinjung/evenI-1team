@@ -12,13 +12,18 @@ public class TransformationData : ScriptableObject
     public float duration;                          // 변신 지속 시간
 
     public SpecialAbilityData specialAbility;       // 변신 시 사용할 특수 능력
-    public int abilityUsageLimit;                   // 특수 능력 사용 가능 횟수
+
+    public GameObject transformationPrefab;         // 변신할 캐릭터 프리팹
+
+
+
+    //public int abilityUsageLimit;                   // 특수 능력 사용 가능 횟수
+
 
     //public AddScoreConditionType addScoreCondition;    // 추가 점수 조건
     //public AddScoreTargetType addScoreTarget;          // 추가 점수 대상
     //public float addScoreMultiplier;                   // 추가 점수 배율
 
-    public GameObject transformationPrefab;         // 변신할 캐릭터 프리팹
 
     //public GameObject transformationEffect;         // 변신 시 나타나는 이펙트
 

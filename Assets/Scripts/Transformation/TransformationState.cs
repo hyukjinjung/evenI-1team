@@ -7,13 +7,11 @@ using UnityEngine;
 public class TransformationState : ITransformation
 {
     private PlayerTransformationController transformController;
+    private PlayerAnimationController PlayerAnimationController;
+
     private TransformationData transformationData;
 
-    //private int specialAbilityUses;
-
-    private Coroutine transformationCoroutine;
-
-    private GameManager gameManager; // GameManager 참조
+    private GameManager gameManager;
 
     
 
@@ -22,28 +20,29 @@ public class TransformationState : ITransformation
     {
         this.transformController = transformController;
         this.transformationData = transformationData;
+        this.gameManager = GameManager.Instance; // Start()에서 한 번만 할당
+        this.PlayerAnimationController = transformController.GetComponent<PlayerAnimationController>();
 
         // GameManager 초기화
-        gameManager = GameManager.Instance;
+        if (gameManager == null)
+        {
+            gameManager = GameManager.Instance;
+        }
+
+        PlayerAnimationController = transformController.GetComponent<PlayerAnimationController>();
     }
 
 
 
     public void Activate()
     {
-        if (GameManager.Instance == null) // GameManager가 NULL이면 종료
-        {
-            Debug.Log("[TransformationState] GameManager 재설정");
-            gameManager = GameManager.Instance;
+        if (gameManager == null)
+            return;
 
-            if (gameManager == null)
-                return; 
-        }
 
         // 변신 지속 시간 타이머 시작
-        transformController.StartTransformationTimer(this);
+        transformController.StartTransformationTimer(this, transformationData.duration);
 
-        // 변신 애니메이션 실행
     }
 
 
@@ -54,6 +53,7 @@ public class TransformationState : ITransformation
             return;
 
         // 횟수 차감 후 변신 해제
+        transformController.ChangeState(new NormalState(transformController));
     }
 
 
@@ -65,24 +65,15 @@ public class TransformationState : ITransformation
             return;
 
         // 변신 해제 애니메이션 실행
+        if (transformController != null)
+        {
+            PlayerAnimationController.PlayerTransformationAnimation(TransformationType.NormalFrog);
+        }
 
         // 기본 상태로 복귀
         transformController.ChangeState(new NormalState(transformController));
     }
 
-
-    // 가장 가까운 적을 찾아, 순간적으로 적에게 다가가 즉시 공격
-    private void PerformNinjaAbility()
-    {
-        if (gameManager == null) // GameManager가 NULL이면 종료
-            return;
-
-        // 플레이어를 적의 위치로 순간이동
-
-        // 공격 애니메이션 실행
-
-        // 적에게 데미지 적용
-    }
 
 }
 
