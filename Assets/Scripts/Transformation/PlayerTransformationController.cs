@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,13 +13,12 @@ public class PlayerTransformationController : MonoBehaviour
 
     private Coroutine transformationTimer; // 변신 타이머 관리
 
-
+    // 변신 데이터 리스트 (ScriptableObject)
+    public List<TransformationData> transformationDataList;
 
     void Start()
     {
-        //gameManager = GameManager.Instance; // Start()에서 한 번만 할당
         playerAnimationController = GetComponent<PlayerAnimationController>();
-        //playerInputController = GetComponent<PlayerInputController>();
         currentState = new NormalState(this);
         currentTransformation = TransformationType.NormalFrog;
 
@@ -35,12 +35,14 @@ public class PlayerTransformationController : MonoBehaviour
     {
         if (currentTransformation == transformationData.transformationType) return;
 
-        // 변신 해제 및 애니메이션 리셋
-        ResetCurrentTransformation();
 
+        // 기존 변신 해제
+        playerAnimationController.ResetAllTransformation();
         Debug.Log($"변신 시작: {transformationData.transformationType}"); // 어떤 변신인지 확인
-        playerAnimationController.PlayerTransformationAnimation(transformationData.transformationType);
+        
 
+        // 변신 애니메이션 실행
+        playerAnimationController.PlayerTransformationAnimation(transformationData.transformationType);
         currentTransformation = transformationData.transformationType;
 
 
@@ -48,38 +50,25 @@ public class PlayerTransformationController : MonoBehaviour
         if (transformationTimer != null)
             StopCoroutine(transformationTimer);
         transformationTimer = StartCoroutine(TransformationTimer(transformationData.duration));
+
+
+        // 변신 지속 시간 적용
+        transformationTimer = StartCoroutine(TransformationTimer(transformationData.duration));
     }
 
 
-
-
-    private void ResetCurrentTransformation()
-    {
-        playerAnimationController.ResetAllTransformation();
-
-    }
 
     public void StartRevertProcess()
-    {
+    {     
+
         StopTransformationTimer();
-        playerAnimationController.StartRevertAnimation();
-        StartCoroutine(RevertToNormalAfterDelay());
+
+        Debug.Log("변신 해제 애니메이션 실행"); // 애니메이션 호출 확인
+        playerAnimationController.StartRevertAnimation(); // 변신 해제 애니메이션 실행
+        //StartCoroutine(RevertToNormalAfterDelay()); // WaitJump로 전환
 
     }
 
-    private IEnumerator RevertToNormalAfterDelay()
-    {
-        yield return new WaitForSeconds(1.5f);
-        RevertToOriginalCharacter();
-    }
-
-
-    public void RevertToOriginalCharacter()
-    {
-        ResetCurrentTransformation();
-        currentTransformation = TransformationType.NormalFrog;
-        playerAnimationController.PlayerTransformationAnimation(TransformationType.NormalFrog);
-    }
 
     private void StopTransformationTimer()
     {
@@ -91,6 +80,28 @@ public class PlayerTransformationController : MonoBehaviour
     }
 
 
+    public void RevertToOriginalCharacter()
+    {
+        playerAnimationController.ResetAllTransformation();
+        currentTransformation = TransformationType.NormalFrog;
+    }
+
+    
+    // 변신 타입에 따라 TransformationData 찾기
+    public TransformationData GetTransformationData(TransformationType type)
+    {
+        return transformationDataList.Find(data => data.transformationType == type);
+    }
+
+
+    private IEnumerator RevertToNormalAfterDelay()
+    {
+        yield return new WaitForSeconds(playerAnimationController.GetCurrentAnimationLength());
+
+        RevertToOriginalCharacter(); // NormalFrog로 복귀
+    }
+
+
     //변신 타이머 추가
     public void StartTransformationTimer(ITransformation transformation, float duration)
     {
@@ -99,11 +110,13 @@ public class PlayerTransformationController : MonoBehaviour
         transformationTimer = StartCoroutine(TransformationTimer(duration));
     }
 
+
     // 변신 지속 시간 후 해제
     public IEnumerator TransformationTimer(float duration)
     {
         yield return new WaitForSeconds(duration);
-        RevertToOriginalCharacter();
+        //RevertToOriginalCharacter();
+        StartRevertProcess(); // 변신 해제 실행
     }
 
     public void ChangeState(ITransformation newState)

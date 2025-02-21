@@ -142,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 // 변신 상태일 경우는 변신 해제 애니메이션 실행
                 Debug.Log("몬스터와 충돌 - 변신 해제");
-                GetComponent<PlayerTransformationController>().StartRevertProcess();
+                playerTransformationController.StartRevertProcess();
             }
 
             else
