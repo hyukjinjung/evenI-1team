@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
     public GameObject CautionPanel;
     public GameObject ResultPanel;
     public GameObject StoryPanel;
+    public GameObject SettingPanel;
 
 
     public Animator playerAnimator;
@@ -36,12 +37,15 @@ public class UIManager : MonoBehaviour
 
 
     public Button GameStartButton;
+    public Button SettingButton;
     public Button AttackButton;
     public Button LeftButton;
     public Button RightButton;
     public Button PauseButton;
     public Button PauseMainHomeButton;
     public Button PauseContinueButton;
+    public Button BGMButton;
+    public Button SoundEffectButton;
     public Button CautionMainHomeButton;
     public Button CautionContinueButton;
     public Button AdsComeBackButton;
@@ -52,7 +56,10 @@ public class UIManager : MonoBehaviour
     public Button ResultCoinTwiceButton;
     public Button StoryReTurnButton;
     public Button StoryButton;
-    
+    public Button SettingInstagrambutton;
+    public Button SettingSourceButton;
+    public Button SettingSoundEffectButton;
+
 
 
 
@@ -74,6 +81,7 @@ public class UIManager : MonoBehaviour
         CautionPanel.SetActive(false);
         ResultPanel.SetActive(false);
         StoryPanel.SetActive(false);
+        SettingPanel.SetActive(false);
 
         GameStartButton.onClick.AddListener(OnGameStartButtonClicked);
         PauseButton.onClick.AddListener(OnPauseButtonClicked);
@@ -85,14 +93,13 @@ public class UIManager : MonoBehaviour
         SkipButton.onClick.AddListener(OnSkipButtonClicked);
         ResultCoinTwiceButton.onClick.AddListener(OnResultCoinTwiceButtonClicked);
         ResultScoreTwiceButton.onClick.AddListener(OnResultScoreTwiceButtonClicked);
-        ResultReStartButton.onClick.AddListener(ResultReStartButtonClicked);
-        ResultMainHomeButton.onClick.AddListener(ResultMainHomeButtonClicked);
-        StoryReTurnButton.onClick.AddListener(StoryReTurnButtonClicked);
-        StoryButton.onClick.AddListener(StoryButtonClicked);
-        
+        ResultReStartButton.onClick.AddListener(OnResultReStartButtonClicked);
+        ResultMainHomeButton.onClick.AddListener(OnResultMainHomeButtonClicked);
+        StoryReTurnButton.onClick.AddListener(OnStoryReTurnButtonClicked);
+        StoryButton.onClick.AddListener(OnStoryButtonClicked);
+        SettingButton.onClick.AddListener(OnSettingButtonClicked);
 
     }
-
 
 
     // Update is called once per frame
@@ -109,7 +116,7 @@ public class UIManager : MonoBehaviour
 
         StartPanel.SetActive(false);
         PlayingPanel.SetActive(true);
-       
+        SettingPanel.SetActive(false);
 
     }
 
@@ -146,54 +153,8 @@ public class UIManager : MonoBehaviour
         float animationDuration = stateInfo.length;
         yield return new WaitForSeconds(animationDuration);
 
-        //// 패널 활성화/ 비활성화
-        //StartPanel.SetActive(false);
-        //PlayingPanel.SetActive(true);
+       
     }
-
-
-    /*public class PanelManager : MonoBehaviour
-{
-    public Animator playerAnimator;
-    public Button startButton;
-    public GameObject homePanel; // 홈 화면 패널
-    public GameObject gamePanel; // 게임 화면 패널
-
-    private void Start()
-    {
-        startButton.onClick.AddListener(OnGameStartClicked);
-
-        // 초기 패널 상태 설정 (홈 화면)
-        homePanel.SetActive(true);
-        gamePanel.SetActive(false);
-    }
-
-    void OnGameStartClicked()
-    {
-        startButton.interactable = false; // 버튼 중복 입력 방지
-        StartCoroutine(PlayTurnAround());
-    }
-
-    IEnumerator PlayTurnAround()
-    {
-        playerAnimator.SetTrigger("GameStart");
-
-        // 애니메이션 길이만큼 대기
-        AnimatorStateInfo stateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
-        float animationDuration = stateInfo.length;
-        yield return new WaitForSeconds(animationDuration);
-
-        // 패널 활성화/ 비활성화
-        homePanel.SetActive(false);
-        gamePanel.SetActive(true);
-    }
-}*/
-
-
-
-
-
-
 
 
     //버튼 클릭 
@@ -204,7 +165,11 @@ public class UIManager : MonoBehaviour
         StartCoroutine(PlayTurnAround());
     }
 
-
+    void OnSettingButtonClicked()
+    {
+        SettingPanel.SetActive(true);
+        StartPanel.SetActive(false);
+    }
 
     void OnPauseButtonClicked()
     {
@@ -273,7 +238,7 @@ public class UIManager : MonoBehaviour
 
     }
 
-    void ResultReStartButtonClicked()
+    void OnResultReStartButtonClicked()
     {
         // 입장권 하나 소실하면서 30분 타이머 시작과 동시에 게임 시작 
         PlayingPanel.SetActive(true);
@@ -281,7 +246,7 @@ public class UIManager : MonoBehaviour
         RestartGame();
     }
 
-    void ResultMainHomeButtonClicked()
+    void OnResultMainHomeButtonClicked()
     {
         ResultPanel.SetActive(false);
         GameOverPanel.SetActive(false);
@@ -290,12 +255,12 @@ public class UIManager : MonoBehaviour
     }
     
 
-    void StoryReTurnButtonClicked()
+    void OnStoryReTurnButtonClicked()
     {
         ResultPanel.SetActive(true);
     }
 
-   void StoryButtonClicked()
+   void OnStoryButtonClicked()
     {
 
     }
@@ -317,4 +282,41 @@ public class UIManager : MonoBehaviour
             bestScore = value;
         }
     }
+
+    /*public class PanelManager : MonoBehaviour
+{
+    public Animator playerAnimator;
+    public Button startButton;
+    public GameObject homePanel; // 홈 화면 패널
+    public GameObject gamePanel; // 게임 화면 패널
+
+    private void Start()
+    {
+        startButton.onClick.AddListener(OnGameStartClicked);
+
+        // 초기 패널 상태 설정 (홈 화면)
+        homePanel.SetActive(true);
+        gamePanel.SetActive(false);
+    }
+
+    void OnGameStartClicked()
+    {
+        startButton.interactable = false; // 버튼 중복 입력 방지
+        StartCoroutine(PlayTurnAround());
+    }
+
+    IEnumerator PlayTurnAround()
+    {
+        playerAnimator.SetTrigger("GameStart");
+
+        // 애니메이션 길이만큼 대기
+        AnimatorStateInfo stateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
+        float animationDuration = stateInfo.length;
+        yield return new WaitForSeconds(animationDuration);
+
+        // 패널 활성화/ 비활성화
+        homePanel.SetActive(false);
+        gamePanel.SetActive(true);
+    }
+}*/
 }
