@@ -10,7 +10,9 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    
+    bool isGameOver = false; 
+
+
     public GameObject StartPanel;
     public GameObject PlayingPanel;
     public GameObject GameOverPanel;
@@ -33,7 +35,7 @@ public class UIManager : MonoBehaviour
 
 
 
-    bool isGameOver = false;
+
 
 
     public Button GameStartButton;
@@ -98,6 +100,7 @@ public class UIManager : MonoBehaviour
         StoryReTurnButton.onClick.AddListener(OnStoryReTurnButtonClicked);
         StoryButton.onClick.AddListener(OnStoryButtonClicked);
         SettingButton.onClick.AddListener(OnSettingButtonClicked);
+
 
     }
 
