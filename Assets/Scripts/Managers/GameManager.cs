@@ -10,6 +10,10 @@ public class GameManager : MonoBehaviour
 
     private bool isGameOver = false;
 
+    public GameObject StartPanel;
+    public GameObject PlayingPanel;
+    public GameObject GameOverPanel;
+
     private void Awake()
     {
 
@@ -34,11 +38,16 @@ public class GameManager : MonoBehaviour
         player.GetComponent<PlayerAttackController>().enabled = true; // 플레이어 공격 활성화
 
         Time.timeScale = 1f; // 게임 흐름 다시 시작
+
+        StartPanel.SetActive(false);
+        PlayingPanel.SetActive(true);
     }
 
     public void GameOver()
     {
         if (isGameOver) return; // 이미 게임 오버된 경우 실행 방지
+
+        GameOverPanel.SetActive(true);
 
         isGameOver = true;
         Debug.Log("게임 오버");

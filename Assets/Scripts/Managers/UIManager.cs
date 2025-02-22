@@ -87,8 +87,9 @@ public class UIManager : MonoBehaviour
         ResultScoreTwiceButton.onClick.AddListener(OnResultScoreTwiceButtonClicked);
         ResultReStartButton.onClick.AddListener(ResultReStartButtonClicked);
         ResultMainHomeButton.onClick.AddListener(ResultMainHomeButtonClicked);
-
-
+        StoryReTurnButton.onClick.AddListener(StoryReTurnButtonClicked);
+        StoryButton.onClick.AddListener(StoryButtonClicked);
+        
 
     }
 
@@ -121,6 +122,7 @@ public class UIManager : MonoBehaviour
 
         PausePanel.SetActive(false);
         CautionPanel.SetActive(false);
+
 
 
         UpdateBestScore(score);
@@ -280,7 +282,17 @@ public class UIManager : MonoBehaviour
     {
         StartPanel.SetActive(true);
     }
+    
 
+    void StoryReTurnButtonClicked()
+    {
+        ResultPanel.SetActive(true);
+    }
+
+   void StoryButtonClicked()
+    {
+
+    }
     
 
 
