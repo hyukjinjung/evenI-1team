@@ -68,5 +68,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.5f); // 애니메이션 실행을 위해 0.5초 대기
         Time.timeScale = 0f; // 게임 일시 정지
     }
+
+
 }
 
