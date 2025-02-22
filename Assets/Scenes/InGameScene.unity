@@ -3643,6 +3643,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 417875385}
   playerAnimationController: {fileID: 417875396}
+  StartPanel: {fileID: 0}
+  PlayingPanel: {fileID: 0}
+  GameOverPanel: {fileID: 0}
 --- !u!1 &912230470
 GameObject:
   m_ObjectHideFlags: 0
@@ -5757,10 +5760,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 997ee39dd2883f8428cca38255e45d6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalStairPrefab: {fileID: 8920812300064717486, guid: 0d44617fc539ad64881ced272a28d66d, type: 3}
+  normalStairPrefab: {fileID: 445571766616817460, guid: e95ee439b44279243a8b2f2510bf63ca, type: 3}
   obstacleStairPrefab: {fileID: 3982903563770976092, guid: c28eaf017af72974da2285cd13042716, type: 3}
   stairParent: {fileID: 0}
-  maxStairs: 5
+  maxStairs: 10
   spawnTime: 0.5
   obstacleChance: 0.3
 --- !u!4 &1549411172
