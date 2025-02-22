@@ -11,7 +11,7 @@ public class TestTileManager : MonoBehaviour
     
     private int direction = 1;
     
-    private List<Tile>  tiles = new List<Tile>();
+    private List<Tile> tiles = new List<Tile>();
     
     
 

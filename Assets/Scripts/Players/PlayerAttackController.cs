@@ -1,88 +1,117 @@
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
-    using UnityEngine;
-    using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using UnityEngine;
+using UnityEngine.UI;
 
 
-    public class PlayerAttackController : MonoBehaviour
+public class PlayerAttackController : MonoBehaviour
+{
+
+    private bool isAttacking = false; // 공격 중인지 체크
+    private bool isTransformed = false; // 변신 상태 여부
+
+    private PlayerAnimationController playerAnimationController;
+    private PlayerInputController playerInputController;
+    [SerializeField] TestTileManager testTileManager;
+
+
+    [SerializeField] private int currentFloor = 0;
+
+    private GameManager gameManager; // GamaeManager 인스턴스 추가
+
+    // 변신 상태에서 사용할 특수 능력 (ScriptableObject)
+    public SpecialAbilityData specialAbilityData;
+
+
+    private void Start()
     {
+        gameManager = GameManager.Instance; // GameManager 가져오기
 
-        private bool isAttacking = false; // 공격 중인지 체크
+        if (gameManager == null)
+            return;
 
-        private PlayerAnimationController playerAnimationController;
-        private PlayerInputController playerInputController;
-        [SerializeField] TestTileManager testTileManager;
+        playerAnimationController = GetComponent<PlayerAnimationController>();
+        playerInputController = GetComponent<PlayerInputController>();
 
-
-        [SerializeField] private int currentFloor = 0;
-
-        private GameManager gameManager; // GamaeManager 인스턴스 추가
-
+        // 중복 실행 방지
+        playerInputController.OnAttackEvent -= PerformAttack;
+        playerInputController.OnAttackEvent += PerformAttack;
 
 
-        private void Start()
+    }
+
+
+    // 외부에서 변신 상태를 변경할 수 있도록
+    public void SetTransformedState(bool transformed)
+    {
+        isTransformed = transform;
+    }
+
+
+    void PerformAttack(bool isleft)
+    {
+        // 공격 중일 때는 추가 공격을 막음
+        if (isAttacking)
         {
-            gameManager = GameManager.Instance; // GameManager 가져오기
-
-            if (gameManager == null)
-                return;
-
-            playerAnimationController = GetComponent<PlayerAnimationController>();
-            playerInputController = GetComponent<PlayerInputController>();
-        
-            // 중복 실행 방지
-            playerInputController.OnAttackEvent -= PerformAttack;
-            playerInputController.OnAttackEvent += PerformAttack;
-
-
+            Debug.Log("is Attacking");
+            return;
         }
 
 
-        void PerformAttack(bool isleft)
-        {
-        
 
-            // 공격 중일 때는 추가 공격을 막음
-            if (isAttacking)
+        // 특수 공격
+        // 변신 상태라면 특수 공격 실행
+        if (isTransformed)
+        {
+            if (specialAbilityData != null)
             {
-                Debug.Log("is Attacking");
-                return;
+                // 특수 능력 활성화
+                specialAbilityData.ActivateAbility(transform);
+
+                // 특수 공격에 맞는 애니메이션 처리 가능
+
             }
-
-
-            Tile tile = testTileManager.GetTile(currentFloor);
-
-            if (tile == null)
-            {
-                Debug.Log("타일 null");
-                return;
-            }
-
-            bool isLeft = tile.TileOnLeft(transform);
-
-            // 공격 애니메이션 트리거 실행
-            playerAnimationController.SetAttacking(isLeft);
-
-            // 공격 중 상태 설정
-            isAttacking = true;
-            Debug.Log("Attack started");
-
-            StartCoroutine(ResetAttackFlag());
-
         }
 
 
 
-        // 공격 중 상태를 리셋하는 코루틴
-        IEnumerator ResetAttackFlag()
+        // 일반 공격
+        // NormalFrog 상태의 일반 공격 실행
+        Tile tile = testTileManager.GetTile(currentFloor);
+
+        if (tile == null)
         {
-            // 애니메이션 길이를 가져옴
-            float attackAnimationLength = playerAnimationController.GetAttackAniamtionLength();
-
-            yield return new WaitForSeconds(attackAnimationLength);
-
-            isAttacking = false; // 공격 가능 상태로 복구
-            Debug.Log("다음 공격 준비");
+            Debug.Log("타일 null");
+            return;
         }
-    } 
+
+
+        // 타일 정보를 바탕을 왼쪽 공격 여부 결정
+        bool isLeft = tile.TileOnLeft(transform);
+
+
+        // 일반 공격 애니메이션 실행
+        playerAnimationController.SetAttacking(isLeft);
+        isAttacking = true;
+        Debug.Log("Attack started");
+        StartCoroutine(ResetAttackFlag());
+
+    }
+
+
+
+    // 공격 중 상태를 리셋하는 코루틴
+    IEnumerator ResetAttackFlag()
+    {
+        // 애니메이션 길이를 가져옴
+        float attackAnimationLength = playerAnimationController.GetAttackAniamtionLength();
+
+        // 변신 상태의 특수 공격 애니메이션 길이
+
+        yield return new WaitForSeconds(attackAnimationLength);
+
+        isAttacking = false; // 공격 가능 상태로 복구
+        Debug.Log("다음 공격 준비");
+    }
+}
