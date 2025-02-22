@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
     public GameObject ResultPanel;
     public GameObject StoryPanel;
     public GameObject SettingPanel;
+    public GameObject SourcePanel;
 
 
     public Animator playerAnimator;
@@ -32,10 +33,6 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI ResultBestScoreText;
     public TextMeshProUGUI ResultPileUpScoreText;
     public TextMeshProUGUI ResultCoinScoreText;
-
-
-
-
 
 
     public Button GameStartButton;
@@ -61,8 +58,12 @@ public class UIManager : MonoBehaviour
     public Button SettingInstagrambutton;
     public Button SettingSourceButton;
     public Button SettingSoundEffectButton;
+    public Button SourceReTurnButton;
 
-
+    
+    public Image buttonImage;    // 이미지 컴포넌트 (버튼의 이미지)
+    public Sprite activeSprite;  // 활성화된 상태 이미지
+    public Sprite inactiveSprite; // 비활성화된 상태 이미지
 
 
     private int score = 0;
@@ -84,6 +85,7 @@ public class UIManager : MonoBehaviour
         ResultPanel.SetActive(false);
         StoryPanel.SetActive(false);
         SettingPanel.SetActive(false);
+        SourcePanel.SetActive(false);
 
         GameStartButton.onClick.AddListener(OnGameStartButtonClicked);
         PauseButton.onClick.AddListener(OnPauseButtonClicked);
@@ -100,7 +102,7 @@ public class UIManager : MonoBehaviour
         StoryReTurnButton.onClick.AddListener(OnStoryReTurnButtonClicked);
         StoryButton.onClick.AddListener(OnStoryButtonClicked);
         SettingButton.onClick.AddListener(OnSettingButtonClicked);
-
+        SourceReTurnButton.onClick.AddListener(OnSourceReTurnButtonClicked);
 
     }
 
@@ -171,6 +173,12 @@ public class UIManager : MonoBehaviour
     {
         SettingPanel.SetActive(true);
         StartPanel.SetActive(false);
+    }
+
+    public void OnSourceReTurnButtonClicked()
+    {
+        SettingPanel.SetActive(true);
+        SourcePanel.SetActive(false);
     }
 
     void OnPauseButtonClicked()
@@ -261,8 +269,20 @@ public class UIManager : MonoBehaviour
     {
 
     }
-    
 
+    // 소리 상태에 맞춰 이미지를 업데이트하는 함수
+   /* private void UpdateImage()
+    {
+        // 소리 상태에 따라 이미지 변경
+        if (isSoundActive)
+        {
+            ButtonImage.sprite = ButtonOnSprite;  // 활성화된 이미지
+        }
+        else
+        {
+            ButtonImage.sprite = ButtonOffSprite;  // 비활성화된 이미지
+        }
+    }*/
 
     //점수 합산 이어서 짜야됨
     public void AddScore(int vlaue)
