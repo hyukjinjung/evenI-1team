@@ -123,18 +123,17 @@ public class UIManager : MonoBehaviour
         PausePanel.SetActive(false);
         CautionPanel.SetActive(false);
 
-        ResultPanel.SetActive(true);
+
 
         UpdateBestScore(score);
     }
 
 
-   public void RestartGame()// 
+    public void RestartGame()// 
     {
         //SceneManager.LoadScene(0);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
-        GameManager.instance.StartGame();
     }
 
     IEnumerator PlayTurnAround()
@@ -277,16 +276,11 @@ public class UIManager : MonoBehaviour
     {
         // 입장권 하나 소실하면서 30분 타이머 시작과 동시에 게임 시작 
         PlayingPanel.SetActive(true);
-
-        RestartGame();
     }
 
     void ResultMainHomeButtonClicked()
     {
-        ResultPanel.SetActive(false);
-        GameOverPanel.SetActive(false);
-
-        RestartGame();
+        StartPanel.SetActive(true);
     }
     
 
