@@ -45,7 +45,7 @@ public class PlayerAttackController : MonoBehaviour
     // 외부에서 변신 상태를 변경할 수 있도록
     public void SetTransformedState(bool transformed)
     {
-        isTransformed = transform;
+        isTransformed = transformed;
     }
 
 
@@ -88,11 +88,11 @@ public class PlayerAttackController : MonoBehaviour
 
 
         // 타일 정보를 바탕을 왼쪽 공격 여부 결정
-        bool isLeft = tile.TileOnLeft(transform);
+        bool attackLeft = tile.TileOnLeft(transform);
 
 
         // 일반 공격 애니메이션 실행
-        playerAnimationController.SetAttacking(isLeft);
+        playerAnimationController.SetAttacking(attackLeft);
         isAttacking = true;
         Debug.Log("Attack started");
         StartCoroutine(ResetAttackFlag());
