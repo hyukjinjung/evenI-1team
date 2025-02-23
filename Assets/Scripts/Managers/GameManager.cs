@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public UIManager uiManager; // GameManager¿¡¼­ UIManager ÂüÁ¶
+    public UIManager uiManager; // GameManagerï¿½ï¿½ï¿½ï¿½ UIManager ï¿½ï¿½ï¿½ï¿½
 
     public PlayerAnimationController playerAnimationController;
 
@@ -34,6 +34,9 @@ public class GameManager : MonoBehaviour
 
     private bool isGameOver = false;
 
+    public GameObject StartPanel;
+    public GameObject PlayingPanel;
+    public GameObject GameOverPanel;
 
     private void Awake()
     {
@@ -45,7 +48,7 @@ public class GameManager : MonoBehaviour
         }
         else if (_instance != this)
         {
-            Destroy(gameObject); // Áßº¹µÈ GameManager Á¦°Å
+            Destroy(gameObject); // ï¿½ßºï¿½ï¿½ï¿½ GameManager ï¿½ï¿½ï¿½ï¿½
         }
     }
 
@@ -53,43 +56,48 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     { 
 
-        // °ÔÀÓ ½ÃÀÛ
-        Debug.Log("°ÔÀÓ ½ÃÀÛ");
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
         if (player != null)
         {
-            player.GetComponent<PlayerMovement>().enabled = true; // ÇÃ·¹ÀÌ¾î ÀÌµ¿ È°¼ºÈ­
-            player.GetComponent<PlayerAttackController>().enabled = true; // ÇÃ·¹ÀÌ¾î °ø°Ý È°¼ºÈ­
+            player.GetComponent<PlayerMovement>().enabled = true; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ìµï¿½ È°ï¿½ï¿½È­
+            player.GetComponent<PlayerAttackController>().enabled = true; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­
         }
 
-        Time.timeScale = 1f; // °ÔÀÓ Èå¸§ ´Ù½Ã ½ÃÀÛ
+        Time.timeScale = 1f; // ï¿½ï¿½ï¿½ï¿½ ï¿½å¸§ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½
+
+        StartPanel.SetActive(false);
+        PlayingPanel.SetActive(true);
     }
 
     public void GameOver()
     {
-        if (isGameOver) return; // ÀÌ¹Ì °ÔÀÓ ¿À¹öµÈ °æ¿ì ½ÇÇà ¹æÁö
+        if (isGameOver) return; // ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+
+        GameOverPanel.SetActive(true);
 
         isGameOver = true;
-        Debug.Log("[GameManager] °ÔÀÓ ¿À¹ö");
+        Debug.Log("[GameManager] ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 
         if (player != null)
         {
-            player.GetComponent<PlayerMovement>().enabled = false; // ÇÃ·¹ÀÌ¾î ÀÌµ¿ ºñÈ°¼ºÈ­
-            player.GetComponent<PlayerAttackController>().enabled = false; // ÇÃ·¹ÀÌ¾î °ø°Ý ºñÈ°¼ºÈ­
+            player.GetComponent<PlayerMovement>().enabled = false; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
+            player.GetComponent<PlayerAttackController>().enabled = false; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
 
             playerAnimationController.PlayGameOverAnimation();
             player.GetComponentInChildren<Animator>().Play("Die");
 
         }
    
-        // ¾Ö´Ï¸ÞÀÌ¼Ç ÈÄ¿¡ Time.timeScaleÀ» 0À¸·Î ¼³Á¤
+        // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½Ä¿ï¿½ Time.timeScaleï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         StartCoroutine(FreezeGameAfterDelay());
 
     }    
         
     private IEnumerator FreezeGameAfterDelay()
     {
-        yield return new WaitForSecondsRealtime(0.5f); // ¾Ö´Ï¸ÞÀÌ¼Ç ½ÇÇàÀ» À§ÇØ 0.5ÃÊ ´ë±â
-        Time.timeScale = 0f; // °ÔÀÓ ÀÏ½Ã Á¤Áö
+        yield return new WaitForSecondsRealtime(0.5f); // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 0.5ï¿½ï¿½ ï¿½ï¿½ï¿½
+        Time.timeScale = 0f; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 }
 
