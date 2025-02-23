@@ -1446,7 +1446,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 366100214}
-  - component: {fileID: 366100213}
   m_Layer: 0
   m_Name: ObstacleStair
   m_TagString: Untagged
@@ -1454,19 +1453,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &366100213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 366100212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99605b0abbc1c0d418e0066597454a05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  obstacleType: 0
 --- !u!4 &366100214
 Transform:
   m_ObjectHideFlags: 0
@@ -1518,7 +1504,7 @@ MonoBehaviour:
   CautionPanel: {fileID: 431692775}
   ResultPanel: {fileID: 1280343123}
   StoryPanel: {fileID: 622312740}
-  SettingPanel: {fileID: 0}
+  SettingPanel: {fileID: 2020177328}
   playerAnimator: {fileID: 320762912}
   scoreText: {fileID: 2068323898}
   bestScoreText: {fileID: 98302414}
@@ -1527,15 +1513,15 @@ MonoBehaviour:
   ResultPileUpScoreText: {fileID: 533258573}
   ResultCoinScoreText: {fileID: 1680666363}
   GameStartButton: {fileID: 625539885}
-  SettingButton: {fileID: 0}
+  SettingButton: {fileID: 1726701768}
   AttackButton: {fileID: 572036024}
   LeftButton: {fileID: 2053605922}
   RightButton: {fileID: 511151179}
   PauseButton: {fileID: 1668859719}
   PauseMainHomeButton: {fileID: 996964732}
   PauseContinueButton: {fileID: 377377109}
-  BGMButton: {fileID: 0}
-  SoundEffectButton: {fileID: 0}
+  BGMButton: {fileID: 47771071}
+  SoundEffectButton: {fileID: 1941280447}
   CautionMainHomeButton: {fileID: 962102615}
   CautionContinueButton: {fileID: 1990577462}
   AdsComeBackButton: {fileID: 2081990898}
@@ -1546,9 +1532,9 @@ MonoBehaviour:
   ResultCoinTwiceButton: {fileID: 106290032}
   StoryReTurnButton: {fileID: 1636488044}
   StoryButton: {fileID: 1963182635}
-  SettingInstagrambutton: {fileID: 0}
-  SettingSourceButton: {fileID: 0}
-  SettingSoundEffectButton: {fileID: 0}
+  SettingInstagrambutton: {fileID: 2133786572}
+  SettingSourceButton: {fileID: 970741479}
+  SettingSoundEffectButton: {fileID: 1710194287}
 --- !u!4 &376860744
 Transform:
   m_ObjectHideFlags: 0
@@ -3308,7 +3294,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 786116372}
-  - component: {fileID: 786116373}
   m_Layer: 0
   m_Name: SoundManager
   m_TagString: Untagged
@@ -3331,22 +3316,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &786116373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 786116371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19bd83baee281374f959afa1295c80c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  toggleButton: {fileID: 0}
-  buttonImage: {fileID: 0}
-  activeSprite: {fileID: 0}
-  inactiveSprite: {fileID: 0}
 --- !u!1 &820093927
 GameObject:
   m_ObjectHideFlags: 0
@@ -4228,7 +4197,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1031492014}
-  - component: {fileID: 1031492013}
   m_Layer: 0
   m_Name: GameManagerT
   m_TagString: Untagged
@@ -4236,24 +4204,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1031492013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1031492012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 997ee39dd2883f8428cca38255e45d6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  normalStairPrefab: {fileID: 445571766616817460, guid: e95ee439b44279243a8b2f2510bf63ca, type: 3}
-  obstacleStairPrefab: {fileID: 3982903563770976092, guid: c28eaf017af72974da2285cd13042716, type: 3}
-  stairParent: {fileID: 0}
-  maxStairs: 20
-  spawnTime: 0.5
-  obstacleChance: 0.3
 --- !u!4 &1031492014
 Transform:
   m_ObjectHideFlags: 0
