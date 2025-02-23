@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public UIManager uiManager; // GameManager���� UIManager ����
+    public UIManager uiManager;
 
     public PlayerAnimationController playerAnimationController;
 
@@ -48,23 +48,21 @@ public class GameManager : MonoBehaviour
         }
         else if (_instance != this)
         {
-            Destroy(gameObject); // �ߺ��� GameManager ����
+            Destroy(gameObject);
         }
     }
 
 
     public void StartGame()
-    { 
-
-        // ���� ����
-        Debug.Log("���� ����");
+    {
+        Debug.Log("게임 시작");
         if (player != null)
         {
-            player.GetComponent<PlayerMovement>().enabled = true; // �÷��̾� �̵� Ȱ��ȭ
-            player.GetComponent<PlayerAttackController>().enabled = true; // �÷��̾� ���� Ȱ��ȭ
+            player.GetComponent<PlayerMovement>().enabled = true;
+            player.GetComponent<PlayerAttackController>().enabled = true;
         }
 
-        Time.timeScale = 1f; // ���� �帧 �ٽ� ����
+        Time.timeScale = 1f;
 
         StartPanel.SetActive(false);
         PlayingPanel.SetActive(true);
@@ -72,7 +70,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        if (isGameOver) return; // �̹� ���� ������ ��� ���� ����
+        if (isGameOver) return;
 
         GameOverPanel.SetActive(true);
 
@@ -81,23 +79,23 @@ public class GameManager : MonoBehaviour
 
         if (player != null)
         {
-            player.GetComponent<PlayerMovement>().enabled = false; // �÷��̾� �̵� ��Ȱ��ȭ
-            player.GetComponent<PlayerAttackController>().enabled = false; // �÷��̾� ���� ��Ȱ��ȭ
+            player.GetComponent<PlayerMovement>().enabled = false;
+            player.GetComponent<PlayerAttackController>().enabled = false;
 
             playerAnimationController.PlayGameOverAnimation();
             player.GetComponentInChildren<Animator>().Play("Die");
 
         }
    
-        // �ִϸ��̼� �Ŀ� Time.timeScale�� 0���� ����
+        
         StartCoroutine(FreezeGameAfterDelay());
 
     }    
         
     private IEnumerator FreezeGameAfterDelay()
     {
-        yield return new WaitForSecondsRealtime(0.5f); // �ִϸ��̼� ������ ���� 0.5�� ���
-        Time.timeScale = 0f; // ���� �Ͻ� ����
+        yield return new WaitForSecondsRealtime(0.5f);
+        Time.timeScale = 0f;
     }
 }
 
