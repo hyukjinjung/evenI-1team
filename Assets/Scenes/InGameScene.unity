@@ -3209,6 +3209,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testTilePrefab: {fileID: 3548926580945267067}
+  tileParams:
+  - probability: 50
+    defaultDirection: 1
+  - probability: 50
+    defaultDirection: 1
+  - probability: 50
+    defaultDirection: 1
+  - probability: 50
+    defaultDirection: -1
+  - probability: 50
+    defaultDirection: -1
+  - probability: 50
+    defaultDirection: -1
+  - probability: 50
+    defaultDirection: -1
+  - probability: 50
+    defaultDirection: 1
+  - probability: 50
+    defaultDirection: 1
+  - probability: 50
+    defaultDirection: 1
+  - probability: 50
+    defaultDirection: 1
+  - probability: 50
+    defaultDirection: 1
+  - probability: 50
+    defaultDirection: 1
+  - probability: 50
+    defaultDirection: 1
+  - probability: 50
+    defaultDirection: 1
 --- !u!1 &775552308
 GameObject:
   m_ObjectHideFlags: 0
