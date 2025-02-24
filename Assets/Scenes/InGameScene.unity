@@ -4374,7 +4374,7 @@ MonoBehaviour:
   normalStairPrefab: {fileID: 445571766616817460, guid: e95ee439b44279243a8b2f2510bf63ca, type: 3}
   obstacleStairPrefab: {fileID: 3982903563770976092, guid: c28eaf017af72974da2285cd13042716, type: 3}
   stairParent: {fileID: 0}
-  maxStairs: 5
+  maxStairs: 20
   spawnTime: 0.5
   obstacleChance: 0.3
 --- !u!4 &1031492014
