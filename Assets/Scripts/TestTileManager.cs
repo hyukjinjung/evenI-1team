@@ -19,6 +19,8 @@ public class TestTileManager : MonoBehaviour
     [SerializeField] private GameObject TransparentPrefab; // 투명 발판 오브젝트 프리팹 추가
     [SerializeField] private GameObject StickyPrefab; // 끈끈이 발판 오브젝트 프리팹 추가
     [SerializeField] private GameObject HideNextPrefab; // 다음 발판 숨김 오브젝트 프리팹 추가
+    [SerializeField] private GameObject MonsterTilePrefab; // 몬스터 타일 프리팹 추가
+    [SerializeField] private GameObject MonsterPrefab; // 몬스터 프리팹 추가
 
     // 타일 간의 간격
     private float xOffset = 1;
@@ -44,6 +46,9 @@ public class TestTileManager : MonoBehaviour
     // 방해 오브젝트 생성 확률 (0 ~ 1)
     [SerializeField] private float obstacleSpawnChance = 0.3f;
 
+    // 몬스터 타일 생성 확률 (0 ~ 1)
+    [SerializeField] private float monsterTileSpawnChance = 0.25f;
+
     // 최대 타일 수
     [SerializeField] private int maxTiles = 20;
 
@@ -57,19 +62,34 @@ public class TestTileManager : MonoBehaviour
     {
         while (true)
         {
-            // 타일 생성
-            GameObject testTile = Instantiate(testTilePrefab, transform);
-            testTile.transform.localPosition = new Vector3(currentX, currentY, 0);
-            testTile.gameObject.SetActive(true);
+            GameObject tile;
+            Tile tileComponent;
 
-            Tile tileComponent = testTile.GetComponent<Tile>();
-            tiles.Add(tileComponent);
-
-            // 일정 확률로 방해 오브젝트 생성
-            if (Random.value < obstacleSpawnChance)
+            // 일정 확률로 몬스터 타일 생성
+            if (Random.value < monsterTileSpawnChance)
             {
-                CreateObstacleOnTile(tileComponent);
+                tile = Instantiate(MonsterTilePrefab, transform);
+                tileComponent = tile.GetComponent<Tile>();
+                CreateMonsterOnTile(tileComponent);
             }
+            else
+            {
+                // 기본 타일 생성
+                tile = Instantiate(testTilePrefab, transform);
+                tileComponent = tile.GetComponent<Tile>();
+
+                // 일정 확률로 방해 오브젝트 생성
+                if (Random.value < obstacleSpawnChance)
+                {
+                    CreateObstacleOnTile(tileComponent);
+                }
+            }
+
+            // 타일 위치 설정
+            tile.transform.localPosition = new Vector3(currentX, currentY, 0);
+            tile.gameObject.SetActive(true);
+
+            tiles.Add(tileComponent);
 
             // 최대 타일 수를 초과하면 가장 오래된 타일 삭제
             if (tiles.Count > maxTiles)
@@ -145,6 +165,19 @@ public class TestTileManager : MonoBehaviour
             obstacle.transform.localPosition = new Vector3(0, 0.1f, -0.2f); // 타일보다 살짝 위에 위치하고 앞쪽으로 이동
             obstacle.gameObject.SetActive(true);
         }
+    }
+
+    // 특정 타일 위에 몬스터를 생성하는 함수
+    private void CreateMonsterOnTile(Tile tile)
+    {
+        if (tile == null) return;
+
+        // 몬스터 생성 후 타일의 자식으로 설정
+        GameObject monster = Instantiate(MonsterPrefab, tile.transform);
+
+        // 몬스터를 타일의 중앙, 약간 위쪽에 배치하고 Z 좌표를 조정하여 앞쪽에 위치시킴
+        monster.transform.localPosition = new Vector3(0, 0.1f, -0.2f); // 타일보다 살짝 위에 위치하고 앞쪽으로 이동
+        monster.gameObject.SetActive(true);
     }
 
     // 현재 층에 해당하는 타일을 반환

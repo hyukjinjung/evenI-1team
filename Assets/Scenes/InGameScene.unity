@@ -3105,6 +3105,8 @@ MonoBehaviour:
   TransparentPrefab: {fileID: 5234649158223806813, guid: 9f556d6980c56b649811b31c3f28b845, type: 3}
   StickyPrefab: {fileID: 8466313677258121854, guid: 785a9496b1398f046b3e346be9b22a8e, type: 3}
   HideNextPrefab: {fileID: 6153712333649976916, guid: b0b23d0d68285434f9b2cd4586ef1745, type: 3}
+  MonsterTilePrefab: {fileID: 8739971171360135241, guid: f58938db14db21848b4a9f0ff5ed86c7, type: 3}
+  MonsterPrefab: {fileID: 0}
   tileParams:
   - probability: 50
     defaultDirection: 1
@@ -3138,6 +3140,7 @@ MonoBehaviour:
     defaultDirection: 1
   spawnInterval: 0.5
   obstacleSpawnChance: 0.3
+  monsterTileSpawnChance: 0.1
   maxTiles: 20
 --- !u!1 &775552308
 GameObject:

@@ -4,8 +4,8 @@ using UnityEngine;
 
 /*
  
-Å¬·¡½º ¼³¸í: 
-°ÔÀÓ ³» Å¸ÀÏ Á¤º¸¸¦ °ü¸®
+Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: 
+ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
  
 */
 public class Tile : MonoBehaviour
@@ -13,23 +13,39 @@ public class Tile : MonoBehaviour
     private List<Monster> monstersOnTile = new List<Monster>();
 
 
-    // ÇÃ·¹ÀÌ¾î°¡ Å¸ÀÏ ¿ÞÂÊ¿¡ ÀÖ´ÂÁö È®ÀÎ
+    // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+    private GameObject obstacle;
+
+    public void SetObstacle(GameObject obstacle)
+    {
+        this.obstacle = obstacle;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player") && obstacle != null)
+        {
+            Destroy(obstacle);
+            obstacle = null;
+        }
+    }
+
     public bool TileOnLeft(Transform position)
     {
         return position.position.x > transform.position.x;
     }
 
 
-    // ¸®½ºÆ®¿¡ ¸ó½ºÅÍ°¡ ÀÖ´ÂÁö È®ÀÎ
-    // Ã¹ ¹øÂ° ¸ó½ºÅÍ¸¦ ¹ÝÈ¯
-    // NinjaFrogÀÇ Æ¯¼ö ´É·Â ¹ßµ¿ ½Ã »ç¿ëµÊ
+    // ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+    // Ã¹ ï¿½ï¿½Â° ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½È¯
+    // NinjaFrogï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½É·ï¿½ ï¿½ßµï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public Monster GetFirstMonster()
     {
         return monstersOnTile.Count > 0 ? monstersOnTile[0] : null;
     }
 
 
-    // Å¸ÀÏ¿¡ ¸ó½ºÅÍ Ãß°¡
+    // Å¸ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
     public void AddMonster(Monster monster)
     {
         if (!monstersOnTile.Contains(monster))
@@ -37,7 +53,7 @@ public class Tile : MonoBehaviour
     }
 
 
-    // Å¸ÀÏ¿¡¼­ ¸ó½ºÅÍ Á¦°Å
+    // Å¸ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void RemoveMonster(Monster monster)
     {
         if (monstersOnTile.Contains(monster))
