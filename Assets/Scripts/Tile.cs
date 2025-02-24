@@ -1,21 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 /*
- 
-Ŭ���� ����: 
-���� �� Ÿ�� ������ ����
+
+클래스 설명:
  
 */
 public class Tile : MonoBehaviour
 {
-    private List<Monster> monstersOnTile = new List<Monster>();
-
-
-    // �÷��̾ Ÿ�� ���ʿ� �ִ��� Ȯ��
+    private Monster monsterOnTile;
     private GameObject obstacle;
 
+
+    // 몬스터 추가
+    public void SetMonster(Monster monster)
+    {
+        monsterOnTile = monster;
+    }
     public void SetObstacle(GameObject obstacle)
     {
         this.obstacle = obstacle;
@@ -36,28 +39,24 @@ public class Tile : MonoBehaviour
     }
 
 
-    // ����Ʈ�� ���Ͱ� �ִ��� Ȯ��
-    // ù ��° ���͸� ��ȯ
-    // NinjaFrog�� Ư�� �ɷ� �ߵ� �� ����
+
+
+    // 몬스터 반환
     public Monster GetFirstMonster()
     {
-        return monstersOnTile.Count > 0 ? monstersOnTile[0] : null;
+        return monsterOnTile;
     }
 
-
-    // Ÿ�Ͽ� ���� �߰�
-    public void AddMonster(Monster monster)
+    // 몬스터 제거
+    public void RemoveMonster()
     {
-        if (!monstersOnTile.Contains(monster))
-            monstersOnTile.Add(monster);
+        monsterOnTile = null;
     }
 
-
-    // Ÿ�Ͽ��� ���� ����
-    public void RemoveMonster(Monster monster)
+    // 해당 타일에 몬스터가 있는지 확인
+    public bool HasMonster()
     {
-        if (monstersOnTile.Contains(monster))
-            monstersOnTile.Remove(monster);
+        return monsterOnTile != null;
     }
 
 }

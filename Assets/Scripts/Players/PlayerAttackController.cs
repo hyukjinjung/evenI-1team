@@ -46,6 +46,8 @@ public class PlayerAttackController : MonoBehaviour
     // 외부에서 변신 상태를 변경할 수 있도록
     public void SetTransformedState(bool transformed, SpecialAbilityData ability)
     {
+        Debug.Log($"변신 상태 변경 - 변신 여부: {transformed}, 특수 능력: {(ability != null ? "설정됨" : "NULL")}");
+
         isTransformed = transformed;
         specialAbilityData = ability;
     }
@@ -61,7 +63,7 @@ public class PlayerAttackController : MonoBehaviour
             return;
         }
 
-
+        Debug.Log($"변신 여부: {isTransformed}, 특수 능력: {(specialAbilityData != null ? "설정됨" : "NULL")}");
 
         // 특수 공격
         // 변신 상태라면 특수 공격 실행
@@ -69,6 +71,7 @@ public class PlayerAttackController : MonoBehaviour
         {
 
             // 특수 능력 활성화
+            Debug.Log("특수 능력 활성화");
             specialAbilityData.ActivateAbility(transform);
 
             // 특수 공격에 맞는 애니메이션 처리 가능

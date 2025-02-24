@@ -3107,37 +3107,6 @@ MonoBehaviour:
   HideNextPrefab: {fileID: 6153712333649976916, guid: b0b23d0d68285434f9b2cd4586ef1745, type: 3}
   MonsterTilePrefab: {fileID: 8739971171360135241, guid: f58938db14db21848b4a9f0ff5ed86c7, type: 3}
   MonsterPrefab: {fileID: 4484346038493015994, guid: e12d6f85f99a39b45b2e8e0ca6f8f664, type: 3}
-  tileParams:
-  - probability: 50
-    defaultDirection: 1
-  - probability: 50
-    defaultDirection: 1
-  - probability: 50
-    defaultDirection: 1
-  - probability: 50
-    defaultDirection: -1
-  - probability: 50
-    defaultDirection: -1
-  - probability: 50
-    defaultDirection: -1
-  - probability: 50
-    defaultDirection: -1
-  - probability: 50
-    defaultDirection: 1
-  - probability: 50
-    defaultDirection: 1
-  - probability: 50
-    defaultDirection: 1
-  - probability: 50
-    defaultDirection: 1
-  - probability: 50
-    defaultDirection: 1
-  - probability: 50
-    defaultDirection: 1
-  - probability: 50
-    defaultDirection: 1
-  - probability: 50
-    defaultDirection: 1
   spawnInterval: 0.5
   obstacleSpawnChance: 0.3
   monsterTileSpawnChance: 0.1
@@ -3571,6 +3540,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 376860743}
+  tileManager: {fileID: 768112588}
   playerAnimationController: {fileID: 417875396}
   player: {fileID: 417875385}
   StartPanel: {fileID: 1496740455}
@@ -6080,6 +6050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60af326a5039a144911e55198a762ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 3
 --- !u!1 &1673022246
 GameObject:
   m_ObjectHideFlags: 0
@@ -8919,7 +8890,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7927195594348371117, guid: 8702ed313f8009e4a8c3f8ad882634bb, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7927195594348371117, guid: 8702ed313f8009e4a8c3f8ad882634bb, type: 3}
       propertyPath: m_TagString
@@ -9186,6 +9157,10 @@ PrefabInstance:
     - target: {fileID: 4484346038493015994, guid: e12d6f85f99a39b45b2e8e0ca6f8f664, type: 3}
       propertyPath: m_Name
       value: Monster_Test
+      objectReference: {fileID: 0}
+    - target: {fileID: 4484346038493015994, guid: e12d6f85f99a39b45b2e8e0ca6f8f664, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8336316638034200498, guid: e12d6f85f99a39b45b2e8e0ca6f8f664, type: 3}
       propertyPath: m_LocalPosition.x

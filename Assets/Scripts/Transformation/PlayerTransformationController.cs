@@ -35,24 +35,28 @@ public class PlayerTransformationController : MonoBehaviour
         if (currentTransformation == transformationData.transformationType) return;
 
 
-        // 기존 변신 해제
-        playerAnimationController.ResetAllTransformation();
-        Debug.Log($"변신 시작: {transformationData.transformationType}"); // 어떤 변신인지 확인
+        
+        //playerAnimationController.ResetAllTransformation();
+        //Debug.Log($"변신 시작: {transformationData.transformationType}"); // 어떤 변신인지 확인
         
 
         // 변신 애니메이션 실행
         playerAnimationController.PlayerTransformationAnimation(transformationData.transformationType);
         currentTransformation = transformationData.transformationType;
 
+        // 특수 능력 설정
+        PlayerAttackController attackController = GetComponent<PlayerAttackController>();
+        if (attackController != null)
+        {
+            Debug.Log("특수 능력 할당됨");
+            attackController.SetTransformedState(true, transformationData.specialAbility);
+        }
 
-        // 기존 변신 타이머 종료 후 새로운 타이머 시작
+        // 변신 지속 시간 타이머 시작
         if (transformationTimer != null)
             StopCoroutine(transformationTimer);
         transformationTimer = StartCoroutine(TransformationTimer(transformationData.duration));
 
-
-        // 변신 지속 시간 적용
-        transformationTimer = StartCoroutine(TransformationTimer(transformationData.duration));
     }
 
 

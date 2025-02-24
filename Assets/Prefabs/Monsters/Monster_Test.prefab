@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8336316638034200498}
   - component: {fileID: 7722479611739194154}
   - component: {fileID: 7886002701293139751}
+  - component: {fileID: 1832778883396969407}
   m_Layer: 8
   m_Name: Monster_Test
   m_TagString: Monster
@@ -130,3 +131,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.2}
   m_EdgeRadius: 0
+--- !u!114 &1832778883396969407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4484346038493015994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e60af326a5039a144911e55198a762ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 1

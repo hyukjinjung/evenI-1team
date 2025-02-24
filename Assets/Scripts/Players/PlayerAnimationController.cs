@@ -59,6 +59,30 @@ public class PlayerAnimationController : MonoBehaviour
     }
 
 
+    // 사라지는 애니메이션 실행
+    public void PlayDisappearAnimation()
+    {
+        animator.SetTrigger("Disappear");
+    }
+
+    // 사라지는 애니메이션 길이 반환
+    public float GetDisappearAnimationLength()
+    {
+        return 0.5f; // 실제 애니메이션 길이에 맞게 조정
+    }
+
+    // 암살 애니메이션 실행
+    public void PlayAssassinationAnimation()
+    {
+        animator.SetTrigger("Assassination");
+    }
+
+    // 암살 애니메이션 길이 반환
+    public float GetAssassinationAnimationLength()
+    {
+        return 0.7f; // 실제 애니메이션 길이에 맞게 조정
+    }
+
 
     public void PlayerTransformationAnimation(TransformationType newTransformation)
     {

@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
         GameOverPanel.SetActive(true);
 
         isGameOver = true;
-        Debug.Log("[GameManager] ���� ����");
+
 
         if (player != null)
         {
