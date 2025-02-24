@@ -46,6 +46,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testTilePrefab: {fileID: 3937353631704208331}
+  tileParams:
+  - probability: 50
+    defaultDirection: -1
+  - probability: 50
+    defaultDirection: -1
+  - probability: 53
+    defaultDirection: 1
+  - probability: 53
+    defaultDirection: 1
+  - probability: 53
+    defaultDirection: -1
+  - probability: 53
+    defaultDirection: -1
+  - probability: 58
+    defaultDirection: 1
+  - probability: 58
+    defaultDirection: 1
+  - probability: 53
+    defaultDirection: -1
+  - probability: 53
+    defaultDirection: 1
+  - probability: 53
+    defaultDirection: 1
+  - probability: 53
+    defaultDirection: 1
+  - probability: 49
+    defaultDirection: 1
+  - probability: 49
+    defaultDirection: 1
+  - probability: 49
+    defaultDirection: -1
+  - probability: 49
+    defaultDirection: -1
 --- !u!1001 &3497809741196930303
 PrefabInstance:
   m_ObjectHideFlags: 0

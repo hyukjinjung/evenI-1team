@@ -43,8 +43,8 @@ public class UIManager : MonoBehaviour
     public Button PauseButton;
     public Button PauseMainHomeButton;
     public Button PauseContinueButton;
-    public Button BGMButton;
-    public Button SoundEffectButton;
+    public Button PauseBGMButton;
+    public Button PauseSoundEffectButton;
     public Button CautionMainHomeButton;
     public Button CautionContinueButton;
     public Button AdsComeBackButton;
@@ -58,20 +58,32 @@ public class UIManager : MonoBehaviour
     public Button SettingInstagrambutton;
     public Button SettingSourceButton;
     public Button SettingSoundEffectButton;
+    public Button SettingBGMButton;
     public Button SourceReTurnButton;
 
-    
-    public Image buttonImage;    // ÀÌ¹ÌÁö ÄÄÆ÷³ÍÆ® (¹öÆ°ÀÇ ÀÌ¹ÌÁö)
-    public Sprite activeSprite;  // È°¼ºÈ­µÈ »óÅÂ ÀÌ¹ÌÁö
-    public Sprite inactiveSprite; // ºñÈ°¼ºÈ­µÈ »óÅÂ ÀÌ¹ÌÁö
+   /* PauseSoundEffectButton.onClick.AddListener(PauseSoundEffectImage);
+        PauseBGMButton.onClick.AddListener(PauseBGMImage);
+        SettingBGMButton.onClick.AddListener(SettingBGMImage);
+        SettingSoundEffectButton.onClick.AddListener(SettingSoundEffectImage);*/
+
+
+    public Image buttonImage;    // ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® (ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½)
+    public Sprite PauseSoundEffectButtonOnSprite;  // È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+    public Sprite PauseBGMButtonOffSprite; // ï¿½ï¿½È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+    public Sprite SettingBGMButtonOnSprite;  // È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+    public Sprite SettingSoundEffectButtonOffSprite;
+
+    private bool isActive = true; // ï¿½Ê±ï¿½ ï¿½ï¿½ï¿½Â´ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½
 
 
     private int score = 0;
     private int bestScore = 0;
 
+    Sprite ButtonOnSprite;
+    Sprite ButtonOffSprite;
 
+    public PlayerInputController playerInputController;
 
-     
 
 
     // Start is called before the first frame update
@@ -103,6 +115,17 @@ public class UIManager : MonoBehaviour
         StoryButton.onClick.AddListener(OnStoryButtonClicked);
         SettingButton.onClick.AddListener(OnSettingButtonClicked);
         SourceReTurnButton.onClick.AddListener(OnSourceReTurnButtonClicked);
+
+        /*public Button BGMButton;
+        public Button SoundEffectButton;
+        public Button SettingSoundEffectButton;
+        public Button SourceReTurnButton;
+        // ï¿½ï¿½Æ° Å¬ï¿½ï¿½ ï¿½ï¿½ ToggleImage ï¿½Ô¼ï¿½ È£ï¿½ï¿½ */
+
+        PauseSoundEffectButton.onClick.AddListener(PauseSoundEffectImage);
+        PauseBGMButton.onClick.AddListener(PauseBGMImage);
+        SettingBGMButton.onClick.AddListener(SettingBGMImage);
+        SettingSoundEffectButton.onClick.AddListener(SettingSoundEffectImage);
 
     }
 
@@ -136,7 +159,6 @@ public class UIManager : MonoBehaviour
         CautionPanel.SetActive(false);
 
 
-
         UpdateBestScore(score);
     }
 
@@ -152,7 +174,7 @@ public class UIManager : MonoBehaviour
     {
         playerAnimator.SetTrigger("GameStart");
 
-        // ¾Ö´Ï¸ÞÀÌ¼Ç ±æÀÌ¸¸Å­ ´ë±â
+        // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½Å­ ï¿½ï¿½ï¿½
         AnimatorStateInfo stateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
         float animationDuration = stateInfo.length;
         yield return new WaitForSeconds(animationDuration);
@@ -161,11 +183,11 @@ public class UIManager : MonoBehaviour
     }
 
 
-    //¹öÆ° Å¬¸¯ 
+    //ï¿½ï¿½Æ° Å¬ï¿½ï¿½ 
 
     void OnGameStartButtonClicked()
     {
-        GameStartButton.interactable = false; // ¹öÆ° Áßº¹ ÀÔ·Â ¹æÁö
+        GameStartButton.interactable = false; // ï¿½ï¿½Æ° ï¿½ßºï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½
         StartCoroutine(PlayTurnAround());
     }
 
@@ -214,7 +236,7 @@ public class UIManager : MonoBehaviour
         PausePanel.SetActive(false);
         CautionPanel.SetActive(false);
 
-        //°ÔÀÓÀ» ³ª°¬À» ¶§ Á¡¼ö ÇÕ»ê È­¸é ±âÈ¹¼­ È®ÀÎÇØº¸±â 
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Õ»ï¿½ È­ï¿½ï¿½ ï¿½ï¿½È¹ï¿½ï¿½ È®ï¿½ï¿½ï¿½Øºï¿½ï¿½ï¿½ 
     }
 
     void OnCautionContineButtonClicked()
@@ -224,7 +246,7 @@ public class UIManager : MonoBehaviour
         PausePanel.SetActive(true);
     }
 
-    //°ÔÀÓ¿¡¼­ Á×¾úÀ» ¶§ °ÔÀÓ ¿À¹ö ÆÐ³Î 5ÃÊ ÀÌ»ó ÅÍÄ¡ ¾øÀ» ½Ã °á°úÃ¢À¸·Î È­¸é ÀüÈ¯ ??
+    //ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ ï¿½×¾ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ 5ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ ï¿½ï¿½È¯ ??
     void OnAdsComeBackButtonClicked()
     {
         PlayingPanel.SetActive(true);
@@ -250,7 +272,7 @@ public class UIManager : MonoBehaviour
 
     void OnResultReStartButtonClicked()
     {
-        // ÀÔÀå±Ç ÇÏ³ª ¼Ò½ÇÇÏ¸é¼­ 30ºÐ Å¸ÀÌ¸Ó ½ÃÀÛ°ú µ¿½Ã¿¡ °ÔÀÓ ½ÃÀÛ 
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½Ò½ï¿½ï¿½Ï¸é¼­ 30ï¿½ï¿½ Å¸ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½Û°ï¿½ ï¿½ï¿½ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         PlayingPanel.SetActive(true);
     }
 
@@ -270,21 +292,94 @@ public class UIManager : MonoBehaviour
 
     }
 
-    // ¼Ò¸® »óÅÂ¿¡ ¸ÂÃç ÀÌ¹ÌÁö¸¦ ¾÷µ¥ÀÌÆ®ÇÏ´Â ÇÔ¼ö
-   /* private void UpdateImage()
+
+   
+    
+       
+        
+
+     /*PauseSoundEffectButton.onClick.AddListener(PauseSoundEffectImage);
+     PauseBGMButton.onClick.AddListener(PauseBGMImage);
+     SettingBGMButton.onClick.AddListener(SettingBGMImage);
+     SettingSoundEffectButton.onClick.AddListener(SettingSoundEffectImage);*/
+    
+
+     // ï¿½ï¿½Æ° Å¬ï¿½ï¿½ ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
+     private void PauseSoundEffectImage()
+     {
+            // ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+            isActive = !isActive;
+
+            if (isActive)
+            {
+                buttonImage.sprite = ButtonOnSprite;  // È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            }
+            else
+            {
+                buttonImage.sprite = ButtonOffSprite;  // ï¿½ï¿½È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            }
+     }
+
+   
+
+    private void PauseBGMImage()
     {
-        // ¼Ò¸® »óÅÂ¿¡ µû¶ó ÀÌ¹ÌÁö º¯°æ
-        if (isSoundActive)
+        isActive = !isActive;
+
+        if (isActive)
         {
-            ButtonImage.sprite = ButtonOnSprite;  // È°¼ºÈ­µÈ ÀÌ¹ÌÁö
+            buttonImage.sprite = ButtonOnSprite; 
         }
         else
         {
-            ButtonImage.sprite = ButtonOffSprite;  // ºñÈ°¼ºÈ­µÈ ÀÌ¹ÌÁö
+            buttonImage.sprite = ButtonOffSprite;
         }
-    }*/
+    }
 
-    //Á¡¼ö ÇÕ»ê ÀÌ¾î¼­ Â¥¾ßµÊ
+    private void SettingBGMImage()
+    {
+        isActive = !isActive;
+
+        if (isActive)
+        {
+            buttonImage.sprite = ButtonOnSprite;
+        }
+        else
+        {
+            buttonImage.sprite = ButtonOffSprite;
+        }
+    }
+
+    private void SettingSoundEffectImage()
+    {
+        isActive = !isActive;
+
+        if (isActive)
+        {
+            buttonImage.sprite = ButtonOnSprite;
+        }
+        else
+        {
+            buttonImage.sprite = ButtonOffSprite;
+        }
+    }
+
+
+    // ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
+    /* private void UpdateImage()
+     {
+         // ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+         if (isSoundActive)
+         {
+             ButtonImage.sprite = ButtonOnSprite;  // È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+         }
+         else
+         {
+             ButtonImage.sprite = ButtonOffSprite;  // ï¿½ï¿½È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+         }
+     }*/
+
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½Õ»ï¿½ ï¿½Ì¾î¼­ Â¥ï¿½ßµï¿½
     public void AddScore(int vlaue)
     {
         if (isGameOver) return;
@@ -304,21 +399,21 @@ public class UIManager : MonoBehaviour
 {
     public Animator playerAnimator;
     public Button startButton;
-    public GameObject homePanel; // È¨ È­¸é ÆÐ³Î
-    public GameObject gamePanel; // °ÔÀÓ È­¸é ÆÐ³Î
+    public GameObject homePanel; // È¨ È­ï¿½ï¿½ ï¿½Ð³ï¿½
+    public GameObject gamePanel; // ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ ï¿½Ð³ï¿½
 
     private void Start()
     {
         startButton.onClick.AddListener(OnGameStartClicked);
 
-        // ÃÊ±â ÆÐ³Î »óÅÂ ¼³Á¤ (È¨ È­¸é)
+        // ï¿½Ê±ï¿½ ï¿½Ð³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (È¨ È­ï¿½ï¿½)
         homePanel.SetActive(true);
         gamePanel.SetActive(false);
     }
 
     void OnGameStartClicked()
     {
-        startButton.interactable = false; // ¹öÆ° Áßº¹ ÀÔ·Â ¹æÁö
+        startButton.interactable = false; // ï¿½ï¿½Æ° ï¿½ßºï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½
         StartCoroutine(PlayTurnAround());
     }
 
@@ -326,12 +421,12 @@ public class UIManager : MonoBehaviour
     {
         playerAnimator.SetTrigger("GameStart");
 
-        // ¾Ö´Ï¸ÞÀÌ¼Ç ±æÀÌ¸¸Å­ ´ë±â
+        // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½Å­ ï¿½ï¿½ï¿½
         AnimatorStateInfo stateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
         float animationDuration = stateInfo.length;
         yield return new WaitForSeconds(animationDuration);
 
-        // ÆÐ³Î È°¼ºÈ­/ ºñÈ°¼ºÈ­
+        // ï¿½Ð³ï¿½ È°ï¿½ï¿½È­/ ï¿½ï¿½È°ï¿½ï¿½È­
         homePanel.SetActive(false);
         gamePanel.SetActive(true);
     }

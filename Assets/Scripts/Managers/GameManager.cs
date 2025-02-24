@@ -4,9 +4,33 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
-    public GameObject player;
+    private static GameManager _instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<GameManager>();
+
+                if (_instance == null )
+                {
+                    Debug.Log("[GameManager] GameManager NULL");
+                    GameObject go = new GameObject();
+                    _instance = go.AddComponent<GameManager>();
+                    DontDestroyOnLoad(go);
+                }
+            }
+
+            return _instance;
+        }
+    }
+
+    public UIManager uiManager;
+
     public PlayerAnimationController playerAnimationController;
+
+    public GameObject player;
 
     private bool isGameOver = false;
 
@@ -17,11 +41,12 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
 
-        if (instance == null)
+        if (_instance == null)
         {
-            instance = this;
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        else
+        else if (_instance != this)
         {
             Destroy(gameObject);
         }
@@ -30,14 +55,14 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        //playerController.ResetTrigger("GameOver"); // ∞‘¿” Ω√¿€ Ω√ ∆Æ∏Æ∞≈ √ ±‚»≠
+        Debug.Log("Í≤åÏûÑ ÏãúÏûë");
+        if (player != null)
+        {
+            player.GetComponent<PlayerMovement>().enabled = true;
+            player.GetComponent<PlayerAttackController>().enabled = true;
+        }
 
-        // ∞‘¿” Ω√¿€
-        Debug.Log("∞‘¿” Ω√¿€");
-        player.GetComponent<PlayerMovement>().enabled = true; // «√∑π¿ÃæÓ ¿Ãµø »∞º∫»≠
-        player.GetComponent<PlayerAttackController>().enabled = true; // «√∑π¿ÃæÓ ∞¯∞› »∞º∫»≠
-
-        Time.timeScale = 1f; // ∞‘¿” »Â∏ß ¥ŸΩ√ Ω√¿€
+        Time.timeScale = 1f;
 
         StartPanel.SetActive(false);
         PlayingPanel.SetActive(true);
@@ -45,28 +70,32 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        if (isGameOver) return; // ¿ÃπÃ ∞‘¿” ø¿πˆµ» ∞ÊøÏ Ω««‡ πÊ¡ˆ
+        if (isGameOver) return;
 
         GameOverPanel.SetActive(true);
 
         isGameOver = true;
-        Debug.Log("∞‘¿” ø¿πˆ");
+        Debug.Log("[GameManager] ÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ");
 
-        player.GetComponent<PlayerMovement>().enabled = false; // «√∑π¿ÃæÓ ¿Ãµø ∫Ò»∞º∫»≠
-        player.GetComponent<PlayerAttackController>().enabled = false; // «√∑π¿ÃæÓ ∞¯∞› ∫Ò»∞º∫»≠
+        if (player != null)
+        {
+            player.GetComponent<PlayerMovement>().enabled = false;
+            player.GetComponent<PlayerAttackController>().enabled = false;
 
-        playerAnimationController.PlayGameOverAnimation();
-        player.GetComponentInChildren<Animator>().Play("Die");
+            playerAnimationController.PlayGameOverAnimation();
+            player.GetComponentInChildren<Animator>().Play("Die");
 
-        // æ÷¥œ∏ﬁ¿Ãº« »ƒø° Time.timeScale¿ª 0¿∏∑Œ º≥¡§
+        }
+   
+        
         StartCoroutine(FreezeGameAfterDelay());
 
     }    
         
     private IEnumerator FreezeGameAfterDelay()
     {
-        yield return new WaitForSecondsRealtime(0.5f); // æ÷¥œ∏ﬁ¿Ãº« Ω««‡¿ª ¿ß«ÿ 0.5√  ¥Î±‚
-        Time.timeScale = 0f; // ∞‘¿” ¿œΩ√ ¡§¡ˆ
+        yield return new WaitForSecondsRealtime(0.5f);
+        Time.timeScale = 0f;
     }
 }
 
