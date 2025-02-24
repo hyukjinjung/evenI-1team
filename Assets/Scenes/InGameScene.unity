@@ -1437,37 +1437,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!1 &366100212
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 366100214}
-  m_Layer: 0
-  m_Name: ObstacleStair
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &366100214
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 366100212}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &376860742
 GameObject:
   m_ObjectHideFlags: 0
@@ -1505,6 +1474,7 @@ MonoBehaviour:
   ResultPanel: {fileID: 1280343123}
   StoryPanel: {fileID: 622312740}
   SettingPanel: {fileID: 2020177328}
+  SourcePanel: {fileID: 0}
   playerAnimator: {fileID: 320762912}
   scoreText: {fileID: 2068323898}
   bestScoreText: {fileID: 98302414}
@@ -1520,8 +1490,8 @@ MonoBehaviour:
   PauseButton: {fileID: 1668859719}
   PauseMainHomeButton: {fileID: 996964732}
   PauseContinueButton: {fileID: 377377109}
-  BGMButton: {fileID: 47771071}
-  SoundEffectButton: {fileID: 1941280447}
+  PauseBGMButton: {fileID: 0}
+  PauseSoundEffectButton: {fileID: 0}
   CautionMainHomeButton: {fileID: 962102615}
   CautionContinueButton: {fileID: 1990577462}
   AdsComeBackButton: {fileID: 2081990898}
@@ -1535,6 +1505,13 @@ MonoBehaviour:
   SettingInstagrambutton: {fileID: 2133786572}
   SettingSourceButton: {fileID: 970741479}
   SettingSoundEffectButton: {fileID: 1710194287}
+  SettingBGMButton: {fileID: 0}
+  SourceReTurnButton: {fileID: 0}
+  buttonImage: {fileID: 0}
+  PauseSoundEffectButtonOnSprite: {fileID: 0}
+  PauseBGMButtonOffSprite: {fileID: 0}
+  SettingBGMButtonOnSprite: {fileID: 0}
+  SettingSoundEffectButtonOffSprite: {fileID: 0}
   playerInputController: {fileID: 417875397}
 --- !u!4 &376860744
 Transform:
@@ -2634,63 +2611,6 @@ RectTransform:
   m_AnchoredPosition: {x: 440, y: -1638}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0, y: 1}
---- !u!1001 &590475641
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8162327040606820687, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_Name
-      value: Stairs
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 791d292f9973e0647a41842d6a107265, type: 3}
 --- !u!1 &601449552
 GameObject:
   m_ObjectHideFlags: 0
@@ -3181,6 +3101,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testTilePrefab: {fileID: 3548926580945267067}
+  ReverseControlPrefab: {fileID: 2933800916708524401, guid: 5d274fcc0024ebc4fa326bfe035e9418, type: 3}
+  TransparentPrefab: {fileID: 5234649158223806813, guid: 9f556d6980c56b649811b31c3f28b845, type: 3}
+  StickyPrefab: {fileID: 8466313677258121854, guid: 785a9496b1398f046b3e346be9b22a8e, type: 3}
+  HideNextPrefab: {fileID: 6153712333649976916, guid: b0b23d0d68285434f9b2cd4586ef1745, type: 3}
   tileParams:
   - probability: 50
     defaultDirection: 1
@@ -3212,6 +3136,9 @@ MonoBehaviour:
     defaultDirection: 1
   - probability: 50
     defaultDirection: 1
+  spawnInterval: 0.5
+  obstacleSpawnChance: 0.3
+  maxTiles: 20
 --- !u!1 &775552308
 GameObject:
   m_ObjectHideFlags: 0
@@ -3797,7 +3724,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &925008082
 Transform:
   m_ObjectHideFlags: 0
@@ -4469,37 +4396,6 @@ RectTransform:
   m_AnchoredPosition: {x: 363.28998, y: 698}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1031492012
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1031492014}
-  m_Layer: 0
-  m_Name: GameManagerT
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1031492014
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1031492012}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1043093619
 GameObject:
   m_ObjectHideFlags: 0
@@ -9484,10 +9380,7 @@ SceneRoots:
   - {fileID: 512083787}
   - {fileID: 1557261785}
   - {fileID: 51306403}
-  - {fileID: 366100214}
   - {fileID: 960801438}
-  - {fileID: 1031492014}
-  - {fileID: 590475641}
   - {fileID: 376860744}
   - {fileID: 786116372}
   - {fileID: 885555218}
