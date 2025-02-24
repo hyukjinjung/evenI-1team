@@ -2,40 +2,53 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using System;
 
-public class SoundManager : MonoBehaviour
+public class TestSoundUIManager : MonoBehaviour
 {
-    public AudioSource audioSource;
-    public bool isSoundActive = true; // 檬扁 家府绰 劝己拳
-    //bool pressed = false; // 喘赴 惑怕
+    private bool isActive = true;
+    private bool isSoundActive = true;
 
-    public UIManager uiManager;
-   
-    public Button SettingBGMButton; 
+    public Button SettingBGMButton;
     public Button SettingSoundEffectButton;
-    public Button PauseBGMButton; 
+    public Button PauseBGMButton;
     public Button PauseSoundEffectButton;
+
 
     public Sprite SettingBGMButtonOnSprite;
     public Sprite SettingBGMButtonOffSprite;
-    public Sprite SettingSoundEffectButtonnOnSprite;
-    public Sprite SettingSoundEffectButtonOffSprite;
-    public Sprite PauseBGMButtonOnSprite;
-    public Sprite PauseBGMButtonOffSprite;
-    public Sprite PauseSoundEffectButtonOnSprite;
-    public Sprite PauseSoundEffectButtonOffSprite;
 
-    public void Start()
+    public AudioSource audioSource;
+
+
+    // Start is called before the first frame update
+    void Start()
     {
         SettingBGMButton.onClick.AddListener(SettingBGMButtonSoundState);
         SettingSoundEffectButton.onClick.AddListener(SettingSoundEffectButtonSoundState);
         PauseBGMButton.onClick.AddListener(PauseBGMButtonSoundState);
         PauseSoundEffectButton.onClick.AddListener(PauseSoundEffectButtonSoundState);
 
-        uiManager = GetComponent<UIManager>();
     }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void UpdateImage()
+    {
+        if (isSoundActive)
+        {
+            SettingBGMButton.image.sprite = SettingBGMButtonOnSprite;
+        }
+        else
+        {
+            SettingBGMButton.image.sprite = SettingBGMButtonOffSprite;
+        }
+    }
+
+    
 
     public void SettingBGMButtonSoundState()
     {
@@ -46,20 +59,15 @@ public class SoundManager : MonoBehaviour
         {
             audioSource.Play();  // 家府 劝己拳
             Debug.Log("家府 劝己拳");
-
-            SettingBGMButton.image.sprite = SettingBGMButtonOnSprite;
         }
-
         else
         {
             audioSource.Pause();  // 家府 厚劝己拳
             Debug.Log("家府 厚劝己拳");
-
-            SettingBGMButton.image.sprite = SettingBGMButtonOffSprite;
-
         }
 
-        
+        //if (uiManager != null)
+            //uiManager.UpdateImage();
     }
 
     public void SettingSoundEffectButtonSoundState()
@@ -71,21 +79,16 @@ public class SoundManager : MonoBehaviour
         {
             audioSource.Play();  // 家府 劝己拳
             Debug.Log("家府 劝己拳");
-
-            SettingSoundEffectButton.image.sprite = SettingSoundEffectButtonnOnSprite;
         }
-    
         else
         {
             audioSource.Pause();  // 家府 厚劝己拳
             Debug.Log("家府 厚劝己拳");
+        }
 
-            SettingSoundEffectButton.image.sprite = SettingSoundEffectButtonOffSprite;
-                                           
-}
+       // if (uiManager != null)
+           // uiManager.UpdateImage();
     }
-
-
     public void PauseBGMButtonSoundState()
     {
         isSoundActive = !isSoundActive;  // 家府 惑怕甫 馆傈
@@ -95,18 +98,15 @@ public class SoundManager : MonoBehaviour
         {
             audioSource.Play();  // 家府 劝己拳
             Debug.Log("家府 劝己拳");
-
-            PauseBGMButton.image.sprite = PauseBGMButtonOnSprite;
         }
         else
         {
             audioSource.Pause();  // 家府 厚劝己拳
             Debug.Log("家府 厚劝己拳");
-            
-            PauseBGMButton.image.sprite = PauseBGMButtonOffSprite;
         }
 
-
+        //if (uiManager != null)
+            //uiManager.UpdateImage();
     }
 
     public void PauseSoundEffectButtonSoundState()
@@ -118,17 +118,16 @@ public class SoundManager : MonoBehaviour
         {
             audioSource.Play();  // 家府 劝己拳
             Debug.Log("家府 劝己拳");
-
-            PauseSoundEffectButton.image.sprite = PauseSoundEffectButtonOnSprite;
         }
         else
         {
             audioSource.Pause();  // 家府 厚劝己拳
             Debug.Log("家府 厚劝己拳");
-
-            PauseSoundEffectButton.image.sprite = PauseSoundEffectButtonOffSprite;
         }
+
+        //if (uiManager != null)
+           // uiManager.UpdateImage();
     }
-        
 }
+
 
