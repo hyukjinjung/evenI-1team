@@ -620,7 +620,7 @@ AnimatorController:
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 1
+    m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: RightAttack
     m_Type: 9
@@ -926,11 +926,11 @@ AnimatorStateMachine:
   - first: {fileID: -8089371482165623594}
     second:
     - {fileID: -6405205892592244996}
+  - first: {fileID: -7581386413480109804}
+    second: []
   - first: {fileID: -3958044562346194602}
     second:
     - {fileID: -8378265264464469033}
-  - first: {fileID: -7581386413480109804}
-    second: []
   - first: {fileID: 9076079896559221847}
     second: []
   m_StateMachineBehaviours: []

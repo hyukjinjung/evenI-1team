@@ -1474,8 +1474,7 @@ MonoBehaviour:
   ResultPanel: {fileID: 1280343123}
   StoryPanel: {fileID: 622312740}
   SettingPanel: {fileID: 2020177328}
-  SourcePanel: {fileID: 0}
-  playerAnimator: {fileID: 320762912}
+  SourcePanel: {fileID: 320040628}
   scoreText: {fileID: 2068323898}
   bestScoreText: {fileID: 98302414}
   ResultScoreText: {fileID: 1914207352}
@@ -1490,8 +1489,8 @@ MonoBehaviour:
   PauseButton: {fileID: 1668859719}
   PauseMainHomeButton: {fileID: 996964732}
   PauseContinueButton: {fileID: 377377109}
-  PauseBGMButton: {fileID: 0}
-  PauseSoundEffectButton: {fileID: 0}
+  PauseBGMButton: {fileID: 47771071}
+  PauseSoundEffectButton: {fileID: 1941280447}
   CautionMainHomeButton: {fileID: 962102615}
   CautionContinueButton: {fileID: 1990577462}
   AdsComeBackButton: {fileID: 2081990898}
@@ -1505,14 +1504,15 @@ MonoBehaviour:
   SettingInstagrambutton: {fileID: 2133786572}
   SettingSourceButton: {fileID: 970741479}
   SettingSoundEffectButton: {fileID: 1710194287}
-  SettingBGMButton: {fileID: 0}
-  SourceReTurnButton: {fileID: 0}
+  SettingBGMButton: {fileID: 1936533214}
+  SourceReTurnButton: {fileID: 1043093621}
   buttonImage: {fileID: 0}
   PauseSoundEffectButtonOnSprite: {fileID: 0}
   PauseBGMButtonOffSprite: {fileID: 0}
   SettingBGMButtonOnSprite: {fileID: 0}
   SettingSoundEffectButtonOffSprite: {fileID: 0}
   playerInputController: {fileID: 417875397}
+  playerAnimationController: {fileID: 417875396}
 --- !u!4 &376860744
 Transform:
   m_ObjectHideFlags: 0
@@ -1877,7 +1877,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!4 &417875391
 Transform:
@@ -8262,7 +8262,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2049676894
 Transform:
   m_ObjectHideFlags: 0
@@ -9029,7 +9029,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7927195594348371117, guid: 8702ed313f8009e4a8c3f8ad882634bb, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7927195594348371117, guid: 8702ed313f8009e4a8c3f8ad882634bb, type: 3}
       propertyPath: m_TagString
@@ -9162,6 +9162,10 @@ PrefabInstance:
     - target: {fileID: 1888779295636118862, guid: 1cb44a99be8bb654eb46c21d5deac87d, type: 3}
       propertyPath: m_Name
       value: TransformationItem_Bull_Test
+      objectReference: {fileID: 0}
+    - target: {fileID: 1888779295636118862, guid: 1cb44a99be8bb654eb46c21d5deac87d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5730867208740588559, guid: 1cb44a99be8bb654eb46c21d5deac87d, type: 3}
       propertyPath: m_LocalPosition.x
