@@ -14,8 +14,12 @@ public struct TileGenerationParam
 
 public class TestTileManager : MonoBehaviour
 {
-    [SerializeField] private GameObject testTilePrefab;
+    [SerializeField] private GameObject testTilePrefab;      // 테스트 타일 프리팹 추가
     [SerializeField] private GameObject obstacleStairPrefab; // 방해 오브젝트 프리팹 추가
+    [SerializeField] private GameObject ReverseControlPrefab; // 방향키 반전 오브젝트 프리팹 추가
+    [SerializeField] private GameObject TransparentPrefab; // 투명 발판 오브젝트 프리팹 추가
+    [SerializeField] private GameObject StickyPrefab; // 끈끈이 발판 오브젝트 프리팹 추가
+    [SerializeField] private GameObject HideNextPrefab; // 다음 발판 숨김 오브젝트 프리팹 추가
 
     // 타일 간의 간격
     private float xOffset = 1;
@@ -31,6 +35,9 @@ public class TestTileManager : MonoBehaviour
 
     // x 좌표의 현재 값
     private int currentX = 0;
+
+    // y 좌표의 현재 값
+    private int currentY = 0;
 
     // 타일 생성 간격
     [SerializeField] private float spawnInterval = 0.5f;
@@ -53,7 +60,7 @@ public class TestTileManager : MonoBehaviour
         {
             // 타일 생성
             GameObject testTile = Instantiate(testTilePrefab, transform);
-            testTile.transform.localPosition = new Vector3(currentX, yOffset * tiles.Count, 0);
+            testTile.transform.localPosition = new Vector3(currentX, currentY, 0);
             testTile.gameObject.SetActive(true);
 
             Tile tileComponent = testTile.GetComponent<Tile>();
@@ -65,10 +72,17 @@ public class TestTileManager : MonoBehaviour
                 CreateObstacleOnTile(tileComponent);
             }
 
-            // 타일 매개변수가 지정되어 있다면 이를 사용하여 x 좌표 갱신
-            if (tiles.Count - 1 < tileParams.Count)
+            // 최대 타일 수를 초과하면 가장 오래된 타일 삭제
+            if (tiles.Count > maxTiles)
             {
-                TileGenerationParam param = tileParams[tiles.Count - 1];
+                Destroy(tiles[0].gameObject);
+                tiles.RemoveAt(0);
+            }
+
+            // 타일 매개변수가 지정되어 있다면 이를 사용하여 x 좌표 갱신
+            if (tiles.Count < tileParams.Count)
+            {
+                TileGenerationParam param = tileParams[tiles.Count];
 
                 // 0~100 사이의 랜덤 숫자 생성
                 int randValue = Random.Range(0, 101);
@@ -91,12 +105,8 @@ public class TestTileManager : MonoBehaviour
                 currentX += randomDirection;
             }
 
-            // 최대 타일 수를 초과하면 가장 오래된 타일 삭제
-            if (tiles.Count > maxTiles)
-            {
-                Destroy(tiles[0].gameObject);
-                tiles.RemoveAt(0);
-            }
+            // y 좌표 업데이트
+            currentY += 1;
 
             yield return new WaitForSeconds(spawnInterval);
         }
