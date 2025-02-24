@@ -4,16 +4,23 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
+/*
+
+클래스 설명:
+플레이어가 변신했을 때의 상태를 관리
+ 
+*/
+
 public class TransformationState : ITransformation
 {
-    private PlayerTransformationController transformController;
     private PlayerAnimationController PlayerAnimationController;
-
-    private TransformationData transformationData;
-
     private GameManager gameManager;
 
-    
+    private PlayerTransformationController transformController;
+    private TransformationData transformationData;
+
+    private int abilityUsageCount; // 특수 능력 사용 횟수 관리
+
 
     public TransformationState(PlayerTransformationController transformController, 
         TransformationData transformationData)
@@ -23,37 +30,38 @@ public class TransformationState : ITransformation
         this.gameManager = GameManager.Instance; // Start()에서 한 번만 할당
         this.PlayerAnimationController = transformController.GetComponent<PlayerAnimationController>();
 
-        // GameManager 초기화
-        if (gameManager == null)
-        {
-            gameManager = GameManager.Instance;
-        }
+        // 특수 능력 사용 횟수 설정
+        abilityUsageCount = transformationData.specialAbility.maxUsageCount; 
 
-        PlayerAnimationController = transformController.GetComponent<PlayerAnimationController>();
     }
 
 
-
+    // 변신 활성화
     public void Activate()
     {
         if (gameManager == null)
             return;
 
-
+        // 변신 지속 시간이 지나면 자동으로 변신이 해제되도록
         // 변신 지속 시간 타이머 시작
         transformController.StartTransformationTimer(this, transformationData.duration);
 
     }
 
 
-
+    // 특수 능력 사용(횟수)
     public void UseSpecialAbility()
     {
-        if (gameManager == null) // GameManager가 NULL이면 종료
+        if (gameManager == null && abilityUsageCount <= 0)
             return;
 
-        // 횟수 차감 후 변신 해제
-        transformController.ChangeState(new NormalState(transformController));
+        transformationData.specialAbility.ActivateAbility(transformController.transform);
+        abilityUsageCount--;
+
+        if (abilityUsageCount <= 0)
+        {
+            Deactivate();
+        }
     }
 
 

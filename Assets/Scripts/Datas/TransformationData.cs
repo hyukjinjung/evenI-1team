@@ -16,10 +16,6 @@ public class TransformationData : ScriptableObject
     public GameObject transformationPrefab;         // 변신할 캐릭터 프리팹
 
 
-
-    //public int abilityUsageLimit;                   // 특수 능력 사용 가능 횟수
-
-
     //public AddScoreConditionType addScoreCondition;    // 추가 점수 조건
     //public AddScoreTargetType addScoreTarget;          // 추가 점수 대상
     //public float addScoreMultiplier;                   // 추가 점수 배율
