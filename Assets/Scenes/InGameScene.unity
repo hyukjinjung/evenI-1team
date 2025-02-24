@@ -1474,6 +1474,7 @@ MonoBehaviour:
   ResultPanel: {fileID: 1280343123}
   StoryPanel: {fileID: 622312740}
   SettingPanel: {fileID: 2020177328}
+  SourcePanel: {fileID: 0}
   playerAnimator: {fileID: 320762912}
   scoreText: {fileID: 2068323898}
   bestScoreText: {fileID: 98302414}
@@ -1489,8 +1490,8 @@ MonoBehaviour:
   PauseButton: {fileID: 1668859719}
   PauseMainHomeButton: {fileID: 996964732}
   PauseContinueButton: {fileID: 377377109}
-  BGMButton: {fileID: 47771071}
-  SoundEffectButton: {fileID: 1941280447}
+  PauseBGMButton: {fileID: 0}
+  PauseSoundEffectButton: {fileID: 0}
   CautionMainHomeButton: {fileID: 962102615}
   CautionContinueButton: {fileID: 1990577462}
   AdsComeBackButton: {fileID: 2081990898}
@@ -1504,6 +1505,13 @@ MonoBehaviour:
   SettingInstagrambutton: {fileID: 2133786572}
   SettingSourceButton: {fileID: 970741479}
   SettingSoundEffectButton: {fileID: 1710194287}
+  SettingBGMButton: {fileID: 0}
+  SourceReTurnButton: {fileID: 0}
+  buttonImage: {fileID: 0}
+  PauseSoundEffectButtonOnSprite: {fileID: 0}
+  PauseBGMButtonOffSprite: {fileID: 0}
+  SettingBGMButtonOnSprite: {fileID: 0}
+  SettingSoundEffectButtonOffSprite: {fileID: 0}
   playerInputController: {fileID: 417875397}
 --- !u!4 &376860744
 Transform:
@@ -3093,7 +3101,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testTilePrefab: {fileID: 3548926580945267067}
-  obstacleStairPrefab: {fileID: 3982903563770976092, guid: c28eaf017af72974da2285cd13042716, type: 3}
   ReverseControlPrefab: {fileID: 2933800916708524401, guid: 5d274fcc0024ebc4fa326bfe035e9418, type: 3}
   TransparentPrefab: {fileID: 5234649158223806813, guid: 9f556d6980c56b649811b31c3f28b845, type: 3}
   StickyPrefab: {fileID: 8466313677258121854, guid: 785a9496b1398f046b3e346be9b22a8e, type: 3}
