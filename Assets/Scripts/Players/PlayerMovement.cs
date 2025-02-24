@@ -54,12 +54,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (isJumping) return;
 
-        //// 점프 중일 때, 이동 감속 효과
-        //if (isJumping)
-        //{
-        //    rb.velocity = new Vector2(rb.velocity.x * 0.95f, rb.velocity.y);
-        //}
-
         Debug.Log("현재 층" + currentFloor);
 
         // 점프 후 하강 속도 증가

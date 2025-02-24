@@ -19,14 +19,14 @@ public class TransformationItem : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("[TransformationItem] 플레이어와 충돌");
+            Debug.Log("플레이어와 충돌");
             PlayerTransformationController player = other.GetComponent<PlayerTransformationController>();
             if (player != null)
             {
-                Debug.Log("[TransformationItem] 변신 시작");
+                Debug.Log("변신 시작");
                 player.StartTransformation(transformationData);
 
-                Debug.Log("[TransformationItem] 아이템 제거");
+                Debug.Log("아이템 제거");
                 Destroy(gameObject);
             }
         }
