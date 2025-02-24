@@ -2603,63 +2603,6 @@ RectTransform:
   m_AnchoredPosition: {x: 440, y: -1638}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0, y: 1}
---- !u!1001 &590475641
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8162327040606820687, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_Name
-      value: Stairs
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 791d292f9973e0647a41842d6a107265, type: 3}
 --- !u!1 &601449552
 GameObject:
   m_ObjectHideFlags: 0
@@ -3151,6 +3094,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testTilePrefab: {fileID: 3548926580945267067}
   obstacleStairPrefab: {fileID: 3982903563770976092, guid: c28eaf017af72974da2285cd13042716, type: 3}
+  ReverseControlPrefab: {fileID: 2933800916708524401, guid: 5d274fcc0024ebc4fa326bfe035e9418, type: 3}
+  TransparentPrefab: {fileID: 5234649158223806813, guid: 9f556d6980c56b649811b31c3f28b845, type: 3}
+  StickyPrefab: {fileID: 8466313677258121854, guid: 785a9496b1398f046b3e346be9b22a8e, type: 3}
+  HideNextPrefab: {fileID: 6153712333649976916, guid: b0b23d0d68285434f9b2cd4586ef1745, type: 3}
   tileParams:
   - probability: 50
     defaultDirection: 1
@@ -9427,7 +9374,6 @@ SceneRoots:
   - {fileID: 1557261785}
   - {fileID: 51306403}
   - {fileID: 960801438}
-  - {fileID: 590475641}
   - {fileID: 376860744}
   - {fileID: 786116372}
   - {fileID: 885555218}

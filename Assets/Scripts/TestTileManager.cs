@@ -15,7 +15,6 @@ public struct TileGenerationParam
 public class TestTileManager : MonoBehaviour
 {
     [SerializeField] private GameObject testTilePrefab;      // 테스트 타일 프리팹 추가
-    [SerializeField] private GameObject obstacleStairPrefab; // 방해 오브젝트 프리팹 추가
     [SerializeField] private GameObject ReverseControlPrefab; // 방향키 반전 오브젝트 프리팹 추가
     [SerializeField] private GameObject TransparentPrefab; // 투명 발판 오브젝트 프리팹 추가
     [SerializeField] private GameObject StickyPrefab; // 끈끈이 발판 오브젝트 프리팹 추가
@@ -117,18 +116,34 @@ public class TestTileManager : MonoBehaviour
     {
         if (tile == null) return;
 
-        // 장애물 생성 후 타일의 자식으로 설정
-        GameObject obstacle = Instantiate(obstacleStairPrefab, tile.transform);
+        // 장애물 타입을 랜덤 지정
+        int obstacleType = Random.Range(0, 4);
+        GameObject obstaclePrefab = null;
 
-        // 장애물을 타일의 중앙, 약간 위쪽에 배치하고 Z 좌표를 조정하여 앞쪽에 위치시킴
-        obstacle.transform.localPosition = new Vector3(0, 0.1f, -0.1f); // 타일보다 살짝 위에 위치하고 앞쪽으로 이동
-        obstacle.gameObject.SetActive(true);
-
-        // 장애물의 타입을 랜덤 지정
-        ObstacleStair obstacleScript = obstacle.GetComponent<ObstacleStair>();
-        if (obstacleScript != null)
+        switch (obstacleType)
         {
-            obstacleScript.AssignRandomObstacle();
+            case 0:
+                obstaclePrefab = ReverseControlPrefab;
+                break;
+            case 1:
+                obstaclePrefab = TransparentPrefab;
+                break;
+            case 2:
+                obstaclePrefab = StickyPrefab;
+                break;
+            case 3:
+                obstaclePrefab = HideNextPrefab;
+                break;
+        }
+
+        if (obstaclePrefab != null)
+        {
+            // 장애물 생성 후 타일의 자식으로 설정
+            GameObject obstacle = Instantiate(obstaclePrefab, tile.transform);
+
+            // 장애물을 타일의 중앙, 약간 위쪽에 배치하고 Z 좌표를 조정하여 앞쪽에 위치시킴
+            obstacle.transform.localPosition = new Vector3(0, 0.1f, -0.2f); // 타일보다 살짝 위에 위치하고 앞쪽으로 이동
+            obstacle.gameObject.SetActive(true);
         }
     }
 
