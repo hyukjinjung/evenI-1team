@@ -60,6 +60,14 @@ public enum AddScoreTargetType
     TrackingMonster = 9     // 추적 몬스터
 }
 
+public enum TileType
+{
+    NormalTile,
+    MonsterTile,
+    ObstacleTile,
+    CoinTile,
+}
+
 
 
 public class EnumData : MonoBehaviour

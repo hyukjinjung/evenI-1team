@@ -34,6 +34,9 @@ public class TestTileManager : MonoBehaviour
     // 타일들을 저장하는 리스트
     private List<Tile> tiles = new List<Tile>();
 
+    // 동수
+    private List<Tile> monsterTiles = new List<Tile>(); // 몬스터가 있는 타일만 저장
+
     // x 좌표의 현재 값
     private int currentX = 0;
 
