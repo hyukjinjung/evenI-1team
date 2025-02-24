@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 [System.Serializable]
 public struct TileGenerationParam
 {
@@ -12,7 +11,6 @@ public struct TileGenerationParam
     // 기본 방향: 1은 오른쪽, -1은 왼쪽
     public int defaultDirection;
 }
-
 
 public class TestTileManager : MonoBehaviour
 {
@@ -40,6 +38,9 @@ public class TestTileManager : MonoBehaviour
     // 방해 오브젝트 생성 확률 (0 ~ 1)
     [SerializeField] private float obstacleSpawnChance = 0.3f;
 
+    // 최대 타일 수
+    [SerializeField] private int maxTiles = 20;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,21 +51,18 @@ public class TestTileManager : MonoBehaviour
     {
         while (true)
         {
-            GameObject testTile = Instantiate(testTilePrefab);
-            testTile.transform.SetParent(transform);
-
+            // 타일 생성
+            GameObject testTile = Instantiate(testTilePrefab, transform);
             testTile.transform.localPosition = new Vector3(currentX, yOffset * tiles.Count, 0);
             testTile.gameObject.SetActive(true);
 
-            tiles.Add(testTile.GetComponent<Tile>());
+            Tile tileComponent = testTile.GetComponent<Tile>();
+            tiles.Add(tileComponent);
 
             // 일정 확률로 방해 오브젝트 생성
             if (Random.value < obstacleSpawnChance)
             {
-                GameObject obstacle = Instantiate(obstacleStairPrefab);
-                obstacle.transform.SetParent(transform);
-                obstacle.transform.localPosition = new Vector3(currentX, yOffset * tiles.Count, 0);
-                obstacle.gameObject.SetActive(true);
+                CreateObstacleOnTile(tileComponent);
             }
 
             // 타일 매개변수가 지정되어 있다면 이를 사용하여 x 좌표 갱신
@@ -93,7 +91,34 @@ public class TestTileManager : MonoBehaviour
                 currentX += randomDirection;
             }
 
+            // 최대 타일 수를 초과하면 가장 오래된 타일 삭제
+            if (tiles.Count > maxTiles)
+            {
+                Destroy(tiles[0].gameObject);
+                tiles.RemoveAt(0);
+            }
+
             yield return new WaitForSeconds(spawnInterval);
+        }
+    }
+
+    // 특정 타일 위에 장애물을 생성하는 함수
+    private void CreateObstacleOnTile(Tile tile)
+    {
+        if (tile == null) return;
+
+        // 장애물 생성 후 타일의 자식으로 설정
+        GameObject obstacle = Instantiate(obstacleStairPrefab, tile.transform);
+
+        // 장애물을 타일의 중앙, 약간 위쪽에 배치하고 Z 좌표를 조정하여 앞쪽에 위치시킴
+        obstacle.transform.localPosition = new Vector3(0, 0.1f, -0.1f); // 타일보다 살짝 위에 위치하고 앞쪽으로 이동
+        obstacle.gameObject.SetActive(true);
+
+        // 장애물의 타입을 랜덤 지정
+        ObstacleStair obstacleScript = obstacle.GetComponent<ObstacleStair>();
+        if (obstacleScript != null)
+        {
+            obstacleScript.AssignRandomObstacle();
         }
     }
 
