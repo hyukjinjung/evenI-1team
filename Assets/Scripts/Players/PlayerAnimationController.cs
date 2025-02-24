@@ -25,17 +25,6 @@ public class PlayerAnimationController : MonoBehaviour
         animator.SetTrigger(isLeft ? "LeftAttack" : "RightAttack"); // 왼쪽 오른쪽 공격 애니메이션 각각 실행
     }
 
-    //IEnumerator PlayTurnAround()
-    //{
-    //    playerAnimator.SetTrigger("GameStart");
-
-    //    // 애니메이션 길이만큼 대기
-    //    AnimatorStateInfo stateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
-    //    float animationDuration = stateInfo.length;
-    //    yield return new WaitForSeconds(animationDuration);
-    //}
-
-
 
     // 게임 시작 시 캐릭터 TrunAround 애니메이션 실행
     public void PlayGameStartAnimation()

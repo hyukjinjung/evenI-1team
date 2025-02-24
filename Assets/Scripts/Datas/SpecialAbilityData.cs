@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+   클래스 설명: 
+   모든 특수 능력을 공통 인터페이스로 관리하고,
+   개별 능력별로 상속하여 기능을 구현
+*/
 
 [CreateAssetMenu(fileName = "NewSpecialAbility", menuName = "SpecialAbilities/New Special Ability")]
 

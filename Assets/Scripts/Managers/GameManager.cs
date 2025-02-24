@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     }
 
     public UIManager uiManager;
-
+    public TestTileManager tileManager;
     public PlayerAnimationController playerAnimationController;
 
     public GameObject player;

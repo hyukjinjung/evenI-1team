@@ -65,7 +65,7 @@ public enum TileType
     NormalTile,
     MonsterTile,
     ObstacleTile,
-    CoinTile,
+    ItemTile,
 }
 
 
