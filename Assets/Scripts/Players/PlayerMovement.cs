@@ -56,15 +56,18 @@ public class PlayerMovement : MonoBehaviour
 
         Debug.Log("현재 층" + currentFloor);
 
-        // 점프 후 하강 속도 증가
-        if (rb.velocity.y < 0 )
+        // y축 속도를 기반으로 점프 상태를 감지
+        if (Mathf.Abs(rb.velocity.y) > 0.1f)
         {
-            rb.gravityScale = 3f;          
+            isJumping = true;
         }
         else
         {
-            rb.gravityScale = 1.0f;
+            isJumping = false;
         }
+
+        // 점프 후 하강 속도 증가
+        rb.gravityScale = (rb.velocity.y < 0) ? 3f : 1.0f;
 
         playerAnimationController.SetJumping(isJumping);
         
@@ -76,8 +79,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGameOver || isJumping) return;
 
-        //Debug.Log($"Jump 함수 실행 jumpLeft = {jumpLeft}"); // 점프 방향을 확인
-
         Tile tile = testTileManager.GetTile(currentFloor);    
 
         if (tile == null) return;
@@ -86,6 +87,9 @@ public class PlayerMovement : MonoBehaviour
         bool isLeft = tile.TileOnLeft(transform);
 
         PerformJump(jumpLeft);
+
+        isJumping = true;
+        playerAnimationController.SetJumping(true);
 
         CheckGameOver(isLeft, jumpLeft);
 
@@ -154,8 +158,6 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("TransformationItem"))
         {
             Debug.Log("변신 아이템 획득");
-
-
         }
     }
 

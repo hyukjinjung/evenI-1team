@@ -8,7 +8,6 @@ public class PlayerTransformationController : MonoBehaviour
     private ITransformation currentState;
     private TransformationType currentTransformation; // 현재 변신 타입
 
-    //public PlayerInputController playerInputController;
     private PlayerAnimationController playerAnimationController;
 
     private Coroutine transformationTimer; // 변신 타이머 관리
@@ -65,7 +64,6 @@ public class PlayerTransformationController : MonoBehaviour
 
         Debug.Log("변신 해제 애니메이션 실행"); // 애니메이션 호출 확인
         playerAnimationController.StartRevertAnimation(); // 변신 해제 애니메이션 실행
-        //StartCoroutine(RevertToNormalAfterDelay()); // WaitJump로 전환
 
     }
 
@@ -115,7 +113,6 @@ public class PlayerTransformationController : MonoBehaviour
     public IEnumerator TransformationTimer(float duration)
     {
         yield return new WaitForSeconds(duration);
-        //RevertToOriginalCharacter();
         StartRevertProcess(); // 변신 해제 실행
     }
 
