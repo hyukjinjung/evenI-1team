@@ -1908,8 +1908,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017301b4acc0cfe4c91f0b4bd3d6fd8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0
-  jumpForce: 0
   testTileManager: {fileID: 768112588}
   currentFloor: 0
   jumpEffectSpawner: {fileID: 7698517093355806083, guid: fd104e76d59c212478094dc47c1a04d1, type: 3}
@@ -1968,7 +1966,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0360b92882b5bad4c9c9468785c352e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transformationDataList: []
+  transformationDataList:
+  - {fileID: 11400000, guid: b2b7571f504acc949894443ebc425bba, type: 2}
+  - {fileID: 11400000, guid: 3c15fbb2e1ab4754d9f0d317875fe612, type: 2}
 --- !u!114 &417875399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3120,7 +3120,7 @@ MonoBehaviour:
   HideNextPrefab: {fileID: 6153712333649976916, guid: b0b23d0d68285434f9b2cd4586ef1745, type: 3}
   MonsterTilePrefab: {fileID: 8739971171360135241, guid: f58938db14db21848b4a9f0ff5ed86c7, type: 3}
   MonsterPrefab: {fileID: 4484346038493015994, guid: e12d6f85f99a39b45b2e8e0ca6f8f664, type: 3}
-  spawnInterval: 0.5
+  spawnInterval: 0.4
   obstacleSpawnChance: 0.3
   monsterTileSpawnChance: 0.1
   maxTiles: 20

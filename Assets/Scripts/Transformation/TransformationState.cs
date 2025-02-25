@@ -71,19 +71,23 @@ public class TransformationState : ITransformation
 
     public void Deactivate()
     {
-        if (gameManager == null) return;
-
 
         if (transformController != null)
         {
             transformController.StartRevertProcess();
         }
+        
 
+        // 변신 해제 후, 일정 시간 동안 몬스터 충돌 무시
+        // 변신 해제 후 게임 오버 되는 오류 발생
         PlayerCollisionController collisionController = transformController.GetComponent< PlayerCollisionController>();
+        if (collisionController != null)
+        {
+            collisionController.EnableMonsterIgnore(0.2f);
+        }
 
 
-
-        // 기본 상태로 복귀
+        // NormalFrog 상태로 변경
         transformController.ChangeState(new NormalState(transformController));
     }
 

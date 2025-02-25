@@ -88,12 +88,22 @@ public class TestTileManager : MonoBehaviour
         }
 
 
-        if (tilePrefab == testTilePrefab || tilePrefab == MonsterPrefab)
+        //if (tilePrefab == MonsterPrefab)
+        //{
+        //    if (Random.value < obstacleSpawnChance)
+        //    {
+        //        CreateObstacleOnTile(tileComponent);
+        //    }
+        //}
+
+        if (tilePrefab == MonsterTilePrefab)
         {
-            if (Random.value < obstacleSpawnChance)
-            {
-                CreateObstacleOnTile(tileComponent);
-            }
+            monsterTiles.Add(tileComponent);
+            CreateMonsterOnTile(tileComponent);
+        }
+        else if (Random.value < obstacleSpawnChance)
+        {
+            CreateObstacleOnTile(tileComponent);
         }
 
 
@@ -108,11 +118,12 @@ public class TestTileManager : MonoBehaviour
             }
 
 
-            oldestTile.DestroyTile();
+            Destroy(oldestTile.gameObject);
         }
 
         UpdateTilePosition();
     }
+
 
     private void UpdateTilePosition()
     {
@@ -176,7 +187,6 @@ public class TestTileManager : MonoBehaviour
         // 몬스터를 타일의 중앙, 약간 위쪽에 배치하고 Z 좌표를 조정하여 앞쪽에 위치시킴
         monster.transform.localPosition = new Vector3(0, 0.1f, -0.2f); // 타일보다 살짝 위에 위치하고 앞쪽으로 이동
         monster.gameObject.SetActive(true);
-        //tile.SetMonster(monster.GetComponent<Monster>());
 
         Monster monsterComponent = monster.GetComponent<Monster>();
         if (monsterComponent == null)

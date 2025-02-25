@@ -117,6 +117,11 @@ public class NinjaAbility : SpecialAbilityData
             playerTransformationController.GetCurrentState().Deactivate(); // 변신 해제 애니메이션 실행
         }
 
+        if (targetTile != null)
+        {
+            targetTile.RemoveMonster(); // 몬스터만 삭제하고 타일은 유지
+        }
+
         // 중력 다시 활성화
         if (rb != null)
         {

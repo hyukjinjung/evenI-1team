@@ -121,16 +121,8 @@ public class PlayerAnimationController : MonoBehaviour
         //animator.ResetTrigger("ToMusician");
     }
 
-    // 모든 트리거 초기화
-    private void ResetAllTriggers()
-    {
-        animator.ResetTrigger("Disappear");
-        animator.ResetTrigger("Assassination");
-        animator.ResetTrigger("ToNinja");
-        animator.ResetTrigger("ToBull");
-        animator.ResetTrigger("Revert");
-        animator.ResetTrigger("ToJumpWait");
-    }
+    
+
 
     public void ResetTrigger(string triggerName)
     {
@@ -148,19 +140,30 @@ public class PlayerAnimationController : MonoBehaviour
     {
         Debug.Log("Revert 트리거 실행");
 
-        animator.ResetTrigger("Disappear");
-        animator.ResetTrigger("Assassination");
-        animator.ResetTrigger("ToNinja");
-        animator.ResetTrigger("ToBull");
-        //animator.ResetTrigger("ToJumpWait");
+        // 기존 트리거 초기화
+        ResetAllTriggers();
 
-        // RevertToNormal(변신 해제) 애니메이션 실행
-        animator.SetTrigger("Revert");
-        
+        // 변신 해제 애니메이션 실행
+        animator.SetTrigger("RevertToNormal");
+
+
         //StopAllCoroutines(); // 기존 변신 해제 관련 코루틴 중복 방지 실행
         //StartCoroutine(SetRevertToNormal());
         StartCoroutine(RevertToNormalAfterDelay());
     }
+
+
+    // 모든 트리거 초기화
+    private void ResetAllTriggers()
+    {
+        animator.ResetTrigger("Disappear");
+        animator.ResetTrigger("Assassination");
+        animator.ResetTrigger("ToNinja");
+        animator.ResetTrigger("ToBull");
+        animator.ResetTrigger("Revert");
+        animator.ResetTrigger("ToJumpWait");
+    }
+
 
     private IEnumerator TransitionToAssassination()
     {

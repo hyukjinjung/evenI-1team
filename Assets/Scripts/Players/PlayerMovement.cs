@@ -52,20 +52,12 @@ public class PlayerMovement : MonoBehaviour
         if (isGameOver) return;
 
         if (isJumping) return;
+        
 
         Debug.Log("현재 층" + currentFloor);
 
-        // 캐릭터가 특정 높이 이하로 떨어지면 게임 오버
-        if (transform.position.y < deathHeight)
-        {
-            GameManager.Instance.GameOver();
-            isGameOver = true;
-            return;
-        }
-
 
         // y축 속도를 기반으로 점프 상태를 감지
-
         isJumping = Mathf.Abs(rb.velocity.y) > 0.1f;
 
         // 점프 후 하강 속도 증가
@@ -75,6 +67,33 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    private void FixedUpdate()
+    {
+        if (isGameOver) return;
+
+        // 플레이어가 타일이 없어지는 곳에서 아래로 떨어지면 게임 오버
+        if (transform.position.y < -0.2f)
+        {
+            Debug.Log("플레이어 추락. 게임 오버");
+            TriggerGameOver();
+        }
+    }
+
+
+    private void TriggerGameOver()
+    {
+        if (isGameOver) return;
+
+        isGameOver = true;
+
+        // 게임 오버 애니메이션 실행
+        if (playerAnimationController != null)
+        {
+            playerAnimationController.PlayGameOverAnimation();
+        }
+
+        GameManager.Instance.GameOver();
+    }
 
 
     public void Jump(bool jumpLeft)
@@ -186,12 +205,19 @@ public class PlayerMovement : MonoBehaviour
             if (collisionController != null && collisionController.CanIgnoreMonster())
             {
                 Debug.Log("NinjaFrog 상태. 몬스터와 충돌 무시");
-                isJumping = false;
                 return;
             }
 
+            // 변신 해제 직후 일정 시간 동안 충돌 방지
+            if (playerTransformationController.IsRecentlyTransformed())
+            {
+                Debug.Log("변신 해제 직후 몬스터 충돌 무시"); // 변신 해제 직후 게임 오버 판정 오류
+                return;
+            }
+
+
             // NormalFrog 상태에서는 충돌 시 게임 오버
-            Debug.Log("NormalFrog 상태. 몬스터와 충돌 무시");
+            Debug.Log("NormalFrog 상태. 몬스터와 충돌. 게임 오버");
             GameManager.Instance.GameOver();
             isGameOver = true;
         }

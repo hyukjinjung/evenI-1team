@@ -15,6 +15,7 @@ public class PlayerTransformationController : MonoBehaviour
     // 변신 데이터 리스트 (ScriptableObject)
     public List<TransformationData> transformationDataList;
 
+    private float lastTransformationEndTime = -1f; // 변신 시간이 끝난 시간을 저장
 
     void Start()
     {
@@ -30,7 +31,7 @@ public class PlayerTransformationController : MonoBehaviour
     }
 
 
-
+    // 변신 시작 메서드
     public void StartTransformation(TransformationData transformationData)
     {
         if (currentTransformation == transformationData.transformationType) return;
@@ -67,22 +68,20 @@ public class PlayerTransformationController : MonoBehaviour
     }
 
 
-
+    // 변신 해제 시작
     public void StartRevertProcess()
     {
+        // 이미 NormalFrog 상태면실 실행할 필요 없음
         if (currentTransformation == TransformationType.NormalFrog)
-            return; // 이미 NormalFrog 상태면실 실행할 필요 없음
+            return; 
 
         StopTransformationTimer();
-
         Debug.Log("변신 해제 애니메이션 실행"); // 애니메이션 호출 확인
 
         playerAnimationController.StartRevertAnimation(); // 변신 해제 애니메이션 실행
-        StartCoroutine(RevertToNormalAfterDelay());
 
-        // 변신 해제 후 NormalFrog로 복귀
-        //currentTransformation = TransformationType.NormalFrog;
-        //ChangeState(new NormalState(this));
+        lastTransformationEndTime = Time.time; // 변신 해제 시간 기록
+        StartCoroutine(RevertToNormalAfterDelay());
 
     }
 
@@ -97,7 +96,7 @@ public class PlayerTransformationController : MonoBehaviour
     }
 
 
-
+    // 특수 능력 사용 후 즉시 변신 해제 확인
     public void UseSpecialAbilityAndCheckRevert()
     {
         if (currentState is TransformationState transformationState)
@@ -120,7 +119,7 @@ public class PlayerTransformationController : MonoBehaviour
         return transformationDataList.Find(data => data.transformationType == type);
     }
 
-
+    //변신 해제 후 NormalFrog 상태로 복귀
     private IEnumerator RevertToNormalAfterDelay()
     {
         yield return new WaitUntil(() => playerAnimationController.IsAnimationPlaying("RevertToNormal"));
@@ -133,7 +132,7 @@ public class PlayerTransformationController : MonoBehaviour
     }
 
 
-    //변신 타이머 추가
+    //변신 타이머 관리
     public void StartTransformationTimer(ITransformation transformation, float duration)
     {
         if (transformationTimer != null)
@@ -142,7 +141,7 @@ public class PlayerTransformationController : MonoBehaviour
     }
 
 
-    // 변신 지속 시간 후 해제
+    // 변신 지속 시간이 끝나면 자동 해제
     public IEnumerator TransformationTimer(float duration)
     {
         yield return new WaitForSeconds(duration);
@@ -158,5 +157,16 @@ public class PlayerTransformationController : MonoBehaviour
     public ITransformation GetCurrentState()
     {
         return currentState;
+    }
+
+
+    // 변신 해제 직후 일정 시간 동안 충돌 무시
+    public bool IsRecentlyTransformed()
+    {
+        float timeSinceRevert = Time.time - lastTransformationEndTime;
+
+        // 0.2초 동안 충돌 무시
+        // 변신 해제 직후 게임 오버 처리되는 오류 방지
+        return (timeSinceRevert >= 0 && timeSinceRevert <= 0.2f); 
     }
 }

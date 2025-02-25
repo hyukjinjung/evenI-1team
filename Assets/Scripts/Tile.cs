@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 /*
 
@@ -50,7 +51,13 @@ public class Tile : MonoBehaviour
     // 몬스터 제거
     public void RemoveMonster()
     {
-        monsterOnTile = null;
+        if (monsterOnTile != null)
+        {
+            Destroy(monsterOnTile.gameObject);
+            monsterOnTile = null;
+            Debug.Log("몬스터 삭제됨. 타일은 유지됨");
+        }
+        
     }
 
     // 해당 타일에 몬스터가 있는지 확인
@@ -63,7 +70,7 @@ public class Tile : MonoBehaviour
     // 타일 삭제 시, 위에 플레이어가 있으면 게임 오버 처리
     public void DestroyTile()
     {
-        if (IsPlayerOInTile()) ;
+        if (IsPlayerOnTile())
         {
             Debug.Log("타일이 사라짐. 캐릭터도 게임 오버");
             GameManager.Instance.GameOver();
@@ -74,16 +81,19 @@ public class Tile : MonoBehaviour
 
 
     // 타일 위에 플레이어가 있는지 확인
-    private bool IsPlayerOInTile()
+    private bool IsPlayerOnTile()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-        if (player != null && Mathf.Abs(player.transform.position.x - transform.position.x) < 0.5f &&
-            Mathf.Abs(player.transform.position.y - transform.position.y) < 0.5f)
+        
+        if (player != null)
         {
-            return true;
+            float distanceX = Mathf.Abs(player.transform.position.x - transform.position.x);
+            float distanceY = Mathf.Abs(player.transform.position.y - transform.position.y);
+
+            return (distanceX < 0.5f && distanceY < 0.5f);
         }
 
         return false;
     }
+
 }
