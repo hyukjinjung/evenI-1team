@@ -86,10 +86,17 @@ public class TestTileManager : MonoBehaviour
             monsterTiles.Add(tileComponent);
             CreateMonsterOnTile(tileComponent);
         }
-        else if (tilePrefab == MonsterTilePrefab)
+
+
+        if (tilePrefab == testTilePrefab || tilePrefab == MonsterPrefab)
         {
-            CreateObstacleOnTile(tileComponent);
+            if (Random.value < obstacleSpawnChance)
+            {
+                CreateObstacleOnTile(tileComponent);
+            }
         }
+
+
 
         if (tiles.Count > maxTiles)
         {
