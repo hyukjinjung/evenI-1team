@@ -3120,7 +3120,7 @@ MonoBehaviour:
   HideNextPrefab: {fileID: 6153712333649976916, guid: b0b23d0d68285434f9b2cd4586ef1745, type: 3}
   MonsterTilePrefab: {fileID: 8739971171360135241, guid: f58938db14db21848b4a9f0ff5ed86c7, type: 3}
   MonsterPrefab: {fileID: 4484346038493015994, guid: e12d6f85f99a39b45b2e8e0ca6f8f664, type: 3}
-  spawnInterval: 0.4
+  spawnInterval: 0.5
   obstacleSpawnChance: 0.3
   monsterTileSpawnChance: 0.1
   maxTiles: 20
@@ -6046,24 +6046,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1671229766}
   m_CullTransparentMesh: 1
---- !u!1 &1671409588 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4484346038493015994, guid: e12d6f85f99a39b45b2e8e0ca6f8f664, type: 3}
-  m_PrefabInstance: {fileID: 6653430014896547193}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1671409592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1671409588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e60af326a5039a144911e55198a762ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 3
 --- !u!1 &1673022246
 GameObject:
   m_ObjectHideFlags: 0
@@ -9218,10 +9200,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4484346038493015994, guid: e12d6f85f99a39b45b2e8e0ca6f8f664, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1671409592}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e12d6f85f99a39b45b2e8e0ca6f8f664, type: 3}
 --- !u!1001 &9097377934507765791
 PrefabInstance:

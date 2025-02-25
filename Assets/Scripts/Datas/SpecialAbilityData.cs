@@ -15,7 +15,7 @@ public abstract class SpecialAbilityData : ScriptableObject
 {
     public string abilityName;                  // 능력 이름
     public int effectRange;                     // 적용 칸 수
-    public float efffectValue;                  // 능력 적용 값 (공격력)
+    public float effectValue;                  // 능력 적용 값 (공격력)
     public int maxUsageCount;                   // 특수 능력 사용 가능 횟수
 
     //public AddScoreConditionType scoreCondition;   // 점수 추가 조건

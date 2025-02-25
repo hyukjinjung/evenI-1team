@@ -27,7 +27,6 @@ public class TransformationState : ITransformation
     {
         this.transformController = transformController;
         this.transformationData = transformationData;
-        //this.gameManager = GameManager.Instance; // Start()에서 한 번만 할당
         this.PlayerAnimationController = transformController.GetComponent<PlayerAnimationController>();
 
         // 특수 능력 사용 횟수 설정
@@ -58,10 +57,16 @@ public class TransformationState : ITransformation
         transformationData.specialAbility.ActivateAbility(transformController.transform);
         abilityUsageCount--;
 
+
         // 특수 능력 사용 횟수를 모두 소진했을 경우 변신 해제 애니메이션 실행
         if (abilityUsageCount <= 0)
         {
+
+            // 변신 해제 애니메이션 즉시 실행
+            PlayerAnimationController.PlayRevertToNormalAnimation();
+
             Debug.Log("특수 능력 사용 완료. 변신 해제 시작");
+            // 변신 해제 실행
             Deactivate();
         }
     }
@@ -74,6 +79,13 @@ public class TransformationState : ITransformation
 
         if (transformController != null)
         {
+            Debug.Log("즉시 RevertToNormal 애니메이션 실행");
+
+            // 변신 해제 애니메이션 즉시 실행
+            PlayerAnimationController.PlayRevertToNormalAnimation();
+
+
+            // 변신 해제 실행
             transformController.StartRevertProcess();
         }
         

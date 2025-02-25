@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: NinjaAbility
   m_EditorClassIdentifier: 
   abilityName: NinjaAbility
-  effectRange: 0
-  efffectValue: 0
+  effectRange: 1
+  effectValue: 0
   maxUsageCount: 1

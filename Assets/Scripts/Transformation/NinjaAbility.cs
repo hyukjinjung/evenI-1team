@@ -16,6 +16,7 @@ public class NinjaAbility : SpecialAbilityData
     //public GameObject hitEffectPrefab; // 타격 이펙트 프리팹
 
 
+
     public override void ActivateAbility(Transform playerTransform)
     {
         if (GameManager.Instance == null || GameManager.Instance.tileManager == null)
@@ -105,8 +106,12 @@ public class NinjaAbility : SpecialAbilityData
         if (targetMonster != null)
         {
 
-            targetMonster.TakeDamage(targetMonster.health);
-            Debug.Log("몬스터 처치 완료");
+            targetMonster.TakeDamage((int)effectValue);
+
+            if (targetMonster.health <= 0)
+            {
+                Debug.Log("몬스터 처치 완료");
+            }
         }
 
 
@@ -136,8 +141,17 @@ public class NinjaAbility : SpecialAbilityData
         Tile closestTile = null;
         float minDistance = Mathf.Infinity;
 
-        foreach (Tile tile in monsterTiles)
+        // 삭제된 타일을 제거하고 유효한 타일만 남기기
+        monsterTiles.RemoveAll(tile => tile == null ||  tile.gameObject == null);
+
+        foreach (Tile tile in monsterTiles) // 이미 삭제된 타일을 참조할 가능성이 있음
         {
+            // 삭제된 타일 체크
+            if (tile == null || tile.gameObject == null)
+            { 
+                continue;
+            }
+
             // 플레이어보다 아래쪽에 있는 몬스터는 무시
             if (tile.transform.position.y < playerPosition.y)
             {

@@ -36,6 +36,27 @@ public class PlayerAnimationController : MonoBehaviour
         animator.SetTrigger("GameOver");
     }
 
+    public void PlayDisappearAnimation()
+    {
+        ResetAllTriggers();
+        animator.SetTrigger("Disappear");
+        //StartCoroutine(TransitionToAssassination());
+    }
+
+    public void PlayAssassinationAnimation()
+    {
+        ResetAllTriggers();
+        animator.SetTrigger("Assassination");
+    }
+
+
+    // 변신 해제 애니메이션 즉시 실행
+    public void PlayRevertToNormalAnimation()
+    {
+        ResetAllTriggers();
+        animator.Play("RevertToNormal");
+    }
+
 
     public float GetAttackAniamtionLength()
     {
@@ -58,18 +79,6 @@ public class PlayerAnimationController : MonoBehaviour
 
 
     // 사라지는 애니메이션 실행 후 암살 애니메이션으로 전환
-    public void PlayDisappearAnimation()
-    {
-        ResetAllTriggers();
-        animator.SetTrigger("Disappear");
-        //StartCoroutine(TransitionToAssassination());
-    }
-
-    public void PlayAssassinationAnimation()
-    {
-        ResetAllTriggers();
-        animator.SetTrigger("Assassination");
-    }
 
     // 사라지는 애니메이션 길이 반환
     public float GetDisappearAnimationLength()
@@ -143,8 +152,8 @@ public class PlayerAnimationController : MonoBehaviour
         // 기존 트리거 초기화
         ResetAllTriggers();
 
-        // 변신 해제 애니메이션 실행
-        animator.SetTrigger("RevertToNormal");
+        // 변신 해제 애니메이션 즉시 실행
+        animator.Play("RevertToNormal");
 
 
         //StopAllCoroutines(); // 기존 변신 해제 관련 코루틴 중복 방지 실행
