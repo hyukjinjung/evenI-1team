@@ -65,27 +65,59 @@ public class NinjaAbility : SpecialAbilityData
         Monster targetMonster)
     {
         PlayerAnimationController playerAnimationController = playertransform.GetComponent<PlayerAnimationController>();
+        PlayerCollisionController playerCollisionController = playertransform.GetComponent<PlayerCollisionController>();
+        Rigidbody2D rb = playertransform.GetComponent<Rigidbody2D>();
+        Collider2D playerCollider = playertransform.GetComponent<Collider2D>();
+        Collider2D monsterCollider = targetMonster.GetComponent<Collider2D>();
 
+
+        // 사라지는 애니메이션 길이
         float disappearTime = playerAnimationController.GetDisappearAnimationLength();
 
-            // 사라지는 애니메이션 길이만큼 대기
+        // 사라지는 애니메이션 길이만큼 대기
         yield return new WaitForSeconds(disappearTime);
+        
+        // 사라지는 애니메이션이 끝났으므로 즉시 암살 애니메이션으로 전환
+        playerAnimationController.PlayDisappearAnimation();
 
+        // 몬스터와 충돌을 순간적으로 무시하여 충돌 문제 방지
+        if (playerCollider != null && monsterCollider != null)
+        {
+            Physics2D.IgnoreCollision(playerCollider, monsterCollider, true);
+        }
 
-        // 플레이어를 몬스터 타일 위치로 이동
-        playertransform.position = targetTile.transform.position;
+        // 플레이어를 몬스터 타일보다 살짝 위로 이동 (충돌 방지)
+        Vector3 newPosition = targetTile.transform.position + new Vector3(0, 0.7f, 0);
+        playertransform.position = newPosition;
 
-
-        // 공격 애니메이션 실행
+        //// 충돌을 즉시 활성화하여 타일에서 떨어지는 문제 방지
+        //playerCollisionController.EnableCollisionImmediately();
+        
+        // 중력 영향을 제거하여 순간 이동 시 낙하 방지
+        if (rb != null)
+        {
+            rb.velocity = Vector3.zero;
+            rb.gravityScale = 0; // 순간 이동 중 중력 제거
+        }
+    
+        // 이동 후 암살 애니메이션 실행
         playerAnimationController.PlayAssassinationAnimation();
-        float NinjaSpecialAttackTime = playerAnimationController.GetAssassinationAnimationLength();
-        yield return new WaitForSeconds(NinjaSpecialAttackTime);
 
+        // 암살 애니메이션이 끝날 때까지 대기
+        float assassinationTime = playerAnimationController.GetAssassinationAnimationLength();
+        yield return new WaitForSeconds(assassinationTime);
 
         // 몬스터 처치
         targetMonster.TakeDamage(targetMonster.health);
         Debug.Log("몬스터 처치 완료");
+        
+        // 몬스터와의 충돌을 다시 활성화
 
+        // 중력 다시 활성화
+        if (rb != null)
+        {
+            rb.gravityScale = 3f; // 원래 중력으로 복구
+        }
     }
 
     //플레이어를 몬스터치 위치로 순간 이동

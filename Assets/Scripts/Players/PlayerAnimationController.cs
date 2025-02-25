@@ -62,7 +62,14 @@ public class PlayerAnimationController : MonoBehaviour
     // 사라지는 애니메이션 실행
     public void PlayDisappearAnimation()
     {
+        animator.ResetTrigger("Assassination"); // 남아있을 수 있는 트리거 초기화
         animator.SetTrigger("Disappear");
+    }
+
+    public void PlayAssassinationAnimation()
+    {
+        animator.ResetTrigger("Disappear");
+        animator.SetTrigger("Assassination");
     }
 
     // 사라지는 애니메이션 길이 반환
@@ -71,11 +78,6 @@ public class PlayerAnimationController : MonoBehaviour
         return 0.5f; // 실제 애니메이션 길이에 맞게 조정
     }
 
-    // 암살 애니메이션 실행
-    public void PlayAssassinationAnimation()
-    {
-        animator.SetTrigger("Assassination");
-    }
 
     // 암살 애니메이션 길이 반환
     public float GetAssassinationAnimationLength()
@@ -163,5 +165,6 @@ public class PlayerAnimationController : MonoBehaviour
         // WaitJump 상태로 전환
         animator.SetTrigger("ToJumpWait");
     }
+
 
 }

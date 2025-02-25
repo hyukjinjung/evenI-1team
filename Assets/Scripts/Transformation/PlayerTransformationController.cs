@@ -33,16 +33,12 @@ public class PlayerTransformationController : MonoBehaviour
     public void StartTransformation(TransformationData transformationData)
     {
         if (currentTransformation == transformationData.transformationType) return;
-
-
-        
-        //playerAnimationController.ResetAllTransformation();
-        //Debug.Log($"변신 시작: {transformationData.transformationType}"); // 어떤 변신인지 확인
         
 
         // 변신 애니메이션 실행
         playerAnimationController.PlayerTransformationAnimation(transformationData.transformationType);
         currentTransformation = transformationData.transformationType;
+
 
         // 특수 능력 설정
         PlayerAttackController attackController = GetComponent<PlayerAttackController>();
@@ -51,6 +47,16 @@ public class PlayerTransformationController : MonoBehaviour
             Debug.Log("특수 능력 할당됨");
             attackController.SetTransformedState(true, transformationData.specialAbility);
         }
+
+
+        // NinjaFrog 패시브 효과 적용 (몬스터 충돌 무시)
+        if (currentTransformation == TransformationType.NinjaFrog)
+        {
+            PlayerCollisionController collisionController = GetComponent<PlayerCollisionController>();
+            collisionController.EnableMonsterIgnore(transformationData.duration);
+        }
+
+
 
         // 변신 지속 시간 타이머 시작
         if (transformationTimer != null)

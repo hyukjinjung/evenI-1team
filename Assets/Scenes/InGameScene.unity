@@ -1810,6 +1810,7 @@ GameObject:
   - component: {fileID: 417875397}
   - component: {fileID: 417875396}
   - component: {fileID: 417875398}
+  - component: {fileID: 417875399}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1926,7 +1927,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testTileManager: {fileID: 768112588}
   currentFloor: 0
-  specialAbilityData: {fileID: 0}
+  specialAbilityData: {fileID: 11400000, guid: 27a419489d0be8543b1419be8920d68d, type: 2}
 --- !u!114 &417875396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1968,6 +1969,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformationDataList: []
+--- !u!114 &417875399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417875385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea245d094305b52478b97b8e57a81f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &431692775
 GameObject:
   m_ObjectHideFlags: 0
@@ -9299,9 +9312,9 @@ SceneRoots:
   - {fileID: 1715734861}
   - {fileID: 1556452283}
   - {fileID: 417875391}
-  - {fileID: 9097377934507765791}
-  - {fileID: 1169831983901351373}
   - {fileID: 1956778834}
+  - {fileID: 1169831983901351373}
+  - {fileID: 9097377934507765791}
   - {fileID: 6653430014896547193}
   - {fileID: 768112587}
   - {fileID: 860566770806024824}

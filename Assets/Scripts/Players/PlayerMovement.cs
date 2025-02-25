@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
         playerInputController.OnJumpEvent -= Jump; // 기존 리스너를 제거한 후 다시 등록(중복 실행 방지)
         playerInputController.OnJumpEvent += Jump;
 
-        if (playerInputController != null )
+        if (playerInputController != null)
         {
             playerInputController.AssignPlayerMovement(); // PlayerMovement 다시 등록
         }
@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
         rb.gravityScale = (rb.velocity.y < 0) ? 3f : 1.0f;
 
         playerAnimationController.SetJumping(isJumping);
-        
+
     }
 
 
@@ -79,13 +79,27 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGameOver || isJumping) return;
 
-        Tile tile = testTileManager.GetTile(currentFloor);    
+        Tile tile = testTileManager.GetTile(currentFloor);
 
         if (tile == null) return;
 
 
         bool isLeft = tile.TileOnLeft(transform);
 
+        PlayerCollisionController collisionController = GetComponent<PlayerCollisionController>();
+
+
+        // 몬스터가 있는 타일이면, NinjaFrog 상태에서는 무시하고 지나감
+        if (tile.HasMonster() && collisionController != null && collisionController.CanIgnoreMonster())
+        {
+
+            Debug.Log("NinjaFrog 상태. 몬스터 무시하고 점프");
+            PerformJump(jumpLeft); // 점프 강제 실행
+            return;
+
+        }
+
+        // 기본 점프 처리
         PerformJump(jumpLeft);
 
         isJumping = true;
@@ -93,10 +107,10 @@ public class PlayerMovement : MonoBehaviour
 
         CheckGameOver(isLeft, jumpLeft);
 
-    }     
-               
-        
-        
+    }
+
+
+
     void PerformJump(bool jumpLeft)
     {
         if (isGameOver || isJumping) return; // 점프 중이면 추가 점프를 막음
@@ -112,8 +126,37 @@ public class PlayerMovement : MonoBehaviour
         Vector2 targetPosition = (Vector2)transform.position + jumpDirection;
         targetPosition.y += 0.5f; // 타일 중앙에 착지하도록 조정 
 
+        Tile targetTile = testTileManager.GetTile(currentFloor + 1);
 
-        rb.velocity = new Vector2(jumpDirection.x * moveSpeed, jumpForce);
+        // 몬스터가 있는  타일이라도 NinjaFrog 상태라면 점프 가능하게 설정
+        PlayerCollisionController collisionController = GetComponentInParent<PlayerCollisionController>();
+
+
+        if (targetTile != null && targetTile.HasMonster() && collisionController == null && collisionController.CanIgnoreMonster())
+        {
+            Debug.Log("NinjaFrog 상태. 몬스터 타일 위로 착지");
+
+            // 착지 위치를 타일 위로 설정
+            targetPosition = targetTile.transform.position;
+
+            // 몬스터와 충돌 방지
+            Monster targetMonster = targetTile.GetFirstMonster();
+            if (targetMonster != null)
+            {
+                Collider2D monsterCollider = targetMonster.GetComponent<Collider2D>();
+                Collider2D playerCollider = targetMonster.GetComponent<Collider2D>();
+
+                if (monsterCollider != null && playerCollider != null)
+                {
+                    Physics2D.IgnoreCollision(playerCollider, monsterCollider, true);
+
+                }
+            }
+        }
+
+
+
+        // 기본 상태 점프
         transform.position = targetPosition; // 타겟 위치로 즉시 이동
 
 
@@ -121,12 +164,17 @@ public class PlayerMovement : MonoBehaviour
 
         currentFloor++; // 층 증가
 
+        isJumping = false;
     }
 
 
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // 충돌 무효화 상태라면 아무 효과도 주지 않음
+        PlayerCollisionController collisionController = GetComponent<PlayerCollisionController>();
+
+
         // 타일과 충돌할 경우
         if (collision.gameObject.CompareTag("Tile"))
         {
@@ -138,6 +186,24 @@ public class PlayerMovement : MonoBehaviour
         // 몬스터와 충돌할 경우
         if (collision.gameObject.CompareTag("Monster"))
         {
+            if (collisionController != null && collisionController.CanIgnoreMonster())
+            {
+                Debug.Log("몬스터 충돌 무시");
+                isJumping = false;
+
+                Collider2D monsterCollider = collision.gameObject.GetComponent<Collider2D>();
+                Collider2D playerCollider = GetComponent<Collider2D>();
+
+                if (monsterCollider != null && playerCollider != null)
+                {
+                    Physics2D.IgnoreCollision(playerCollider, monsterCollider, false);
+                }
+
+                return;
+            }
+
+
+            // 기본 로직
             if (playerTransformationController.IsTransformed())
             {
                 // 변신 상태일 경우는 변신 해제 애니메이션 실행
