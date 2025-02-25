@@ -15,6 +15,7 @@ public class PlayerTransformationController : MonoBehaviour
     // 변신 데이터 리스트 (ScriptableObject)
     public List<TransformationData> transformationDataList;
 
+
     void Start()
     {
         playerAnimationController = GetComponent<PlayerAnimationController>();
@@ -68,12 +69,20 @@ public class PlayerTransformationController : MonoBehaviour
 
 
     public void StartRevertProcess()
-    {     
+    {
+        if (currentTransformation == TransformationType.NormalFrog)
+            return; // 이미 NormalFrog 상태면실 실행할 필요 없음
 
         StopTransformationTimer();
 
         Debug.Log("변신 해제 애니메이션 실행"); // 애니메이션 호출 확인
+
         playerAnimationController.StartRevertAnimation(); // 변신 해제 애니메이션 실행
+        StartCoroutine(RevertToNormalAfterDelay());
+
+        // 변신 해제 후 NormalFrog로 복귀
+        //currentTransformation = TransformationType.NormalFrog;
+        //ChangeState(new NormalState(this));
 
     }
 
@@ -88,13 +97,23 @@ public class PlayerTransformationController : MonoBehaviour
     }
 
 
-    public void RevertToOriginalCharacter()
+
+    public void UseSpecialAbilityAndCheckRevert()
     {
-        playerAnimationController.ResetAllTransformation();
-        currentTransformation = TransformationType.NormalFrog;
+        if (currentState is TransformationState transformationState)
+        {
+            transformationState.UseSpecialAbility();
+
+            // 능력 사용 후 즉시 변신 해제 실행
+            if (transformationState.IsAbilityUsageDepleted())
+            {
+                Debug.Log("암살 성공. 즉시 변신 해제 실행");
+                StartRevertProcess();
+            }
+        }
     }
 
-    
+
     // 변신 타입에 따라 TransformationData 찾기
     public TransformationData GetTransformationData(TransformationType type)
     {
@@ -104,9 +123,13 @@ public class PlayerTransformationController : MonoBehaviour
 
     private IEnumerator RevertToNormalAfterDelay()
     {
-        yield return new WaitForSeconds(playerAnimationController.GetCurrentAnimationLength());
+        yield return new WaitUntil(() => playerAnimationController.IsAnimationPlaying("RevertToNormal"));
 
-        RevertToOriginalCharacter(); // NormalFrog로 복귀
+        Debug.Log("변신 해제 애니메이션 종료");
+
+        // 변신 상태 초기화
+        playerAnimationController.ResetAllTransformation();
+        currentTransformation = TransformationType.NormalFrog;
     }
 
 
@@ -130,5 +153,10 @@ public class PlayerTransformationController : MonoBehaviour
     {
         currentState = newState;
         currentState.Activate();
+    }
+
+    public ITransformation GetCurrentState()
+    {
+        return currentState;
     }
 }

@@ -66,52 +66,56 @@ public class NinjaAbility : SpecialAbilityData
     {
         PlayerAnimationController playerAnimationController = playertransform.GetComponent<PlayerAnimationController>();
         PlayerCollisionController playerCollisionController = playertransform.GetComponent<PlayerCollisionController>();
+        PlayerTransformationController playerTransformationController = playertransform.GetComponent<PlayerTransformationController>();
         Rigidbody2D rb = playertransform.GetComponent<Rigidbody2D>();
-        Collider2D playerCollider = playertransform.GetComponent<Collider2D>();
-        Collider2D monsterCollider = targetMonster.GetComponent<Collider2D>();
 
-
-        // 사라지는 애니메이션 길이
-        float disappearTime = playerAnimationController.GetDisappearAnimationLength();
-
-        // 사라지는 애니메이션 길이만큼 대기
-        yield return new WaitForSeconds(disappearTime);
-        
-        // 사라지는 애니메이션이 끝났으므로 즉시 암살 애니메이션으로 전환
+        // 1. 사라지는 애니메이션 실행 (NInjaFrog)
         playerAnimationController.PlayDisappearAnimation();
 
-        // 몬스터와 충돌을 순간적으로 무시하여 충돌 문제 방지
-        if (playerCollider != null && monsterCollider != null)
-        {
-            Physics2D.IgnoreCollision(playerCollider, monsterCollider, true);
-        }
+        // 2. 사라지는 애니메이션 길이만큼 대기
+        float disappearTime = playerAnimationController.GetDisappearAnimationLength();
+        yield return new WaitForSeconds(disappearTime);
 
-        // 플레이어를 몬스터 타일보다 살짝 위로 이동 (충돌 방지)
-        Vector3 newPosition = targetTile.transform.position + new Vector3(0, 0.7f, 0);
-        playertransform.position = newPosition;
 
-        //// 충돌을 즉시 활성화하여 타일에서 떨어지는 문제 방지
-        //playerCollisionController.EnableCollisionImmediately();
-        
+        // 3. Disappear 애니메이션 트리거 초기화
+        playerAnimationController.ResetTrigger("Disappear");
+
         // 중력 영향을 제거하여 순간 이동 시 낙하 방지
         if (rb != null)
         {
             rb.velocity = Vector3.zero;
             rb.gravityScale = 0; // 순간 이동 중 중력 제거
         }
-    
-        // 이동 후 암살 애니메이션 실행
+
+
+        // 4. 플레이어를 몬스터 타일로 순간 이동
+        Vector3 newPosition = targetTile.transform.position + new Vector3(0, 0.7f, 0);
+        playertransform.position = newPosition;
+
+        
+        // 5. 이동 후 즉시 암살 애니메이션 실행
         playerAnimationController.PlayAssassinationAnimation();
 
-        // 암살 애니메이션이 끝날 때까지 대기
-        float assassinationTime = playerAnimationController.GetAssassinationAnimationLength();
-        yield return new WaitForSeconds(assassinationTime);
 
-        // 몬스터 처치
-        targetMonster.TakeDamage(targetMonster.health);
-        Debug.Log("몬스터 처치 완료");
-        
-        // 몬스터와의 충돌을 다시 활성화
+        // 6. 암살 애니메이션이 끝날 때까지 대기
+        yield return new WaitForSeconds(playerAnimationController.GetAssassinationAnimationLength());
+
+
+        // 7. 몬스터 처치
+        if (targetMonster != null)
+        {
+
+            targetMonster.TakeDamage(targetMonster.health);
+            Debug.Log("몬스터 처치 완료");
+        }
+
+
+        // 8. 변신 해제 실행
+        if (playerCollisionController != null)
+        {
+            Debug.Log("변신 해제 시도 중");
+            playerTransformationController.GetCurrentState().Deactivate(); // 변신 해제 애니메이션 실행
+        }
 
         // 중력 다시 활성화
         if (rb != null)
@@ -119,17 +123,6 @@ public class NinjaAbility : SpecialAbilityData
             rb.gravityScale = 3f; // 원래 중력으로 복구
         }
     }
-
-    //플레이어를 몬스터치 위치로 순간 이동
-
-    // 타격 이펙트
-    //if (hitEffectPrefab != null)
-    //{
-    //    Instantiate(hitEffectPrefab, targetTile.transform.position, Quaternion.identity);
-    //}
-
-
-
 
 
     // 가장 가까운 적을 찾는 메서드
@@ -140,6 +133,13 @@ public class NinjaAbility : SpecialAbilityData
 
         foreach (Tile tile in monsterTiles)
         {
+            // 플레이어보다 아래쪽에 있는 몬스터는 무시
+            if (tile.transform.position.y < playerPosition.y)
+            {
+                continue; // 아래에 있는 몬스터는 건너뜀
+            }
+
+
             float distance = Vector2.Distance(playerPosition, tile.transform.position);
             Debug.Log($"타일 위치: {tile.transform.position}");
 

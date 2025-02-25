@@ -8,11 +8,10 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 1f;
-    public float jumpForce = 1f;
 
     private bool isJumping = false;
     private bool isGameOver = false; // 게임 오버 중복 방지
+    private float deathHeight = -5f; // 캐릭터가 떨어지면 게임 오버되는 높이
 
     private Vector2 leftDirection = new Vector2(-1f, 1f); // 좌표는 타일 간격에 따라 변동
     private Vector2 rightDirection = new Vector2(1f, 1f); // 좌표는 타일 간격에 따라 변동
@@ -56,15 +55,18 @@ public class PlayerMovement : MonoBehaviour
 
         Debug.Log("현재 층" + currentFloor);
 
+        // 캐릭터가 특정 높이 이하로 떨어지면 게임 오버
+        if (transform.position.y < deathHeight)
+        {
+            GameManager.Instance.GameOver();
+            isGameOver = true;
+            return;
+        }
+
+
         // y축 속도를 기반으로 점프 상태를 감지
-        if (Mathf.Abs(rb.velocity.y) > 0.1f)
-        {
-            isJumping = true;
-        }
-        else
-        {
-            isJumping = false;
-        }
+
+        isJumping = Mathf.Abs(rb.velocity.y) > 0.1f;
 
         // 점프 후 하강 속도 증가
         rb.gravityScale = (rb.velocity.y < 0) ? 3f : 1.0f;
@@ -126,32 +128,27 @@ public class PlayerMovement : MonoBehaviour
         Vector2 targetPosition = (Vector2)transform.position + jumpDirection;
         targetPosition.y += 0.5f; // 타일 중앙에 착지하도록 조정 
 
-        Tile targetTile = testTileManager.GetTile(currentFloor + 1);
+        Tile targetTile = testTileManager.GetTile(currentFloor);
 
         // 몬스터가 있는  타일이라도 NinjaFrog 상태라면 점프 가능하게 설정
         PlayerCollisionController collisionController = GetComponentInParent<PlayerCollisionController>();
 
 
-        if (targetTile != null && targetTile.HasMonster() && collisionController == null && collisionController.CanIgnoreMonster())
+        if (targetTile != null && targetTile.HasMonster() && collisionController != null)
         {
-            Debug.Log("NinjaFrog 상태. 몬스터 타일 위로 착지");
-
-            // 착지 위치를 타일 위로 설정
-            targetPosition = targetTile.transform.position;
-
-            // 몬스터와 충돌 방지
-            Monster targetMonster = targetTile.GetFirstMonster();
-            if (targetMonster != null)
+            if (collisionController.CanIgnoreMonster())
             {
-                Collider2D monsterCollider = targetMonster.GetComponent<Collider2D>();
-                Collider2D playerCollider = targetMonster.GetComponent<Collider2D>();
+                Debug.Log("NinjaFrog 상태. 몬스터 타일 위로 착지");
 
-                if (monsterCollider != null && playerCollider != null)
-                {
-                    Physics2D.IgnoreCollision(playerCollider, monsterCollider, true);
-
-                }
+                // 착지 위치를 타일 위로 설정
+                targetPosition = targetTile.transform.position;
             }
+            else
+            {
+                Debug.Log("NormalFrog 상태. 몬스터 타일을 밟을 수 없음");
+                GameManager.Instance.GameOver(); // 몬스터 타일에서 이동 불가. 게임 오버
+            }
+
         }
 
 
@@ -183,43 +180,24 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        // 몬스터와 충돌할 경우
+        // 몬스터와 충돌할 경우 (NormalFrog 상태에서 게임 오버)
         if (collision.gameObject.CompareTag("Monster"))
         {
             if (collisionController != null && collisionController.CanIgnoreMonster())
             {
-                Debug.Log("몬스터 충돌 무시");
+                Debug.Log("NinjaFrog 상태. 몬스터와 충돌 무시");
                 isJumping = false;
-
-                Collider2D monsterCollider = collision.gameObject.GetComponent<Collider2D>();
-                Collider2D playerCollider = GetComponent<Collider2D>();
-
-                if (monsterCollider != null && playerCollider != null)
-                {
-                    Physics2D.IgnoreCollision(playerCollider, monsterCollider, false);
-                }
-
                 return;
             }
 
-
-            // 기본 로직
-            if (playerTransformationController.IsTransformed())
-            {
-                // 변신 상태일 경우는 변신 해제 애니메이션 실행
-                Debug.Log("몬스터와 충돌 - 변신 해제");
-                playerTransformationController.StartRevertProcess();
-            }
-
-            else
-            {
-                // 기본 상태일 경우는 게임 오버 처리
-                Debug.Log("몬스터와 충돌 - 게임 오버");
-                GameManager.Instance.GameOver();
-                isGameOver = true;
-            }
-
+            // NormalFrog 상태에서는 충돌 시 게임 오버
+            Debug.Log("NormalFrog 상태. 몬스터와 충돌 무시");
+            GameManager.Instance.GameOver();
+            isGameOver = true;
         }
+
+
+
 
         if (collision.gameObject.CompareTag("TransformationItem"))
         {

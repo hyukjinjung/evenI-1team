@@ -54,7 +54,7 @@ MonoBehaviour:
   MonsterPrefab: {fileID: 4484346038493015994, guid: e12d6f85f99a39b45b2e8e0ca6f8f664, type: 3}
   spawnInterval: 0.5
   obstacleSpawnChance: 0.3
-  monsterTileSpawnChance: 0.25
+  monsterTileSpawnChance: 0.2
   maxTiles: 20
 --- !u!1001 &3497809741196930303
 PrefabInstance:

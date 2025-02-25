@@ -13,8 +13,6 @@ public class PlayerAnimationController : MonoBehaviour
     }
 
 
-
-
     public void SetJumping(bool isJumping)
     {
         animator.SetBool("IsJumping", isJumping);
@@ -59,16 +57,17 @@ public class PlayerAnimationController : MonoBehaviour
     }
 
 
-    // 사라지는 애니메이션 실행
+    // 사라지는 애니메이션 실행 후 암살 애니메이션으로 전환
     public void PlayDisappearAnimation()
     {
-        animator.ResetTrigger("Assassination"); // 남아있을 수 있는 트리거 초기화
+        ResetAllTriggers();
         animator.SetTrigger("Disappear");
+        //StartCoroutine(TransitionToAssassination());
     }
 
     public void PlayAssassinationAnimation()
     {
-        animator.ResetTrigger("Disappear");
+        ResetAllTriggers();
         animator.SetTrigger("Assassination");
     }
 
@@ -120,8 +119,27 @@ public class PlayerAnimationController : MonoBehaviour
         animator.ResetTrigger("ToBull");
         //animator.ResetTrigger("ToLotus");
         //animator.ResetTrigger("ToMusician");
+    }
 
-        animator.SetTrigger("Reset"); // 모든 변신 지속시간 이후 기본 상태로 전환하는 코드
+    // 모든 트리거 초기화
+    private void ResetAllTriggers()
+    {
+        animator.ResetTrigger("Disappear");
+        animator.ResetTrigger("Assassination");
+        animator.ResetTrigger("ToNinja");
+        animator.ResetTrigger("ToBull");
+        animator.ResetTrigger("Revert");
+        animator.ResetTrigger("ToJumpWait");
+    }
+
+    public void ResetTrigger(string triggerName)
+    {
+        animator.ResetTrigger(triggerName);
+    }
+
+    public bool IsAnimationPlaying(string animationName)
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).IsName(animationName);
     }
 
 
@@ -129,22 +147,30 @@ public class PlayerAnimationController : MonoBehaviour
     public void StartRevertAnimation()
     {
         Debug.Log("Revert 트리거 실행");
-        animator.SetTrigger("Revert"); // RevertToNormal(변신 해제) 애니메이션 실행
 
-        StartCoroutine(SetRevertToNormal());
+        animator.ResetTrigger("Disappear");
+        animator.ResetTrigger("Assassination");
+        animator.ResetTrigger("ToNinja");
+        animator.ResetTrigger("ToBull");
+        //animator.ResetTrigger("ToJumpWait");
+
+        // RevertToNormal(변신 해제) 애니메이션 실행
+        animator.SetTrigger("Revert");
+        
+        //StopAllCoroutines(); // 기존 변신 해제 관련 코루틴 중복 방지 실행
+        //StartCoroutine(SetRevertToNormal());
         StartCoroutine(RevertToNormalAfterDelay());
     }
 
-
-    private IEnumerator SetRevertToNormal()
+    private IEnumerator TransitionToAssassination()
     {
-        yield return new WaitForSeconds(0.1f); // 대기 후 강제 전환
-
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("RevertToNormal"))
-        {
-            animator.Play("RevertToNormal"); // 애니메이션 강제 변경
-        }
+        // 사라지는 애니메이션 끝날 때까지 대기
+        yield return new WaitForSeconds(GetDisappearAnimationLength());
+        PlayAssassinationAnimation();
     }
+
+
+
 
 
     // 변신 해제 애니메이션 끝난 후 NormalFrog로 복귀
@@ -154,9 +180,9 @@ public class PlayerAnimationController : MonoBehaviour
         yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).IsName("RevertToNormal"));
 
 
-        //// 변신 해제 애니메이션 길이에 맞춰 대기
-        //yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
-        
+        // 변신 해제 애니메이션 길이에 맞춰 대기
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+
         Debug.Log("변신 해제 애니메이션 종료");
 
         // 변신 상태 초기화

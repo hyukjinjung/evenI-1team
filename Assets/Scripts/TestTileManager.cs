@@ -97,7 +97,7 @@ public class TestTileManager : MonoBehaviour
         }
 
 
-
+        // 타일이 너무 많아지면 오래된 타일 제거
         if (tiles.Count > maxTiles)
         {
             Tile oldestTile = tiles[0];
@@ -106,7 +106,9 @@ public class TestTileManager : MonoBehaviour
             {
                 monsterTiles.Remove(oldestTile);
             }
-            Destroy(oldestTile.gameObject);
+
+
+            oldestTile.DestroyTile();
         }
 
         UpdateTilePosition();
@@ -119,70 +121,6 @@ public class TestTileManager : MonoBehaviour
         currentY += 1;
     }
 
-    //GameObject tile;
-    //Tile tileComponent;
-
-    //// 일정 확률로 몬스터 타일 생성
-    //if (Random.value < monsterTileSpawnChance)
-    //{
-    //    tile = Instantiate(MonsterTilePrefab, transform);
-    //    tileComponent = tile.GetComponent<Tile>();
-    //    CreateMonsterOnTile(tileComponent);
-    //}
-    //else
-    //{
-    //    // 기본 타일 생성
-    //    tile = Instantiate(testTilePrefab, transform);
-    //    tileComponent = tile.GetComponent<Tile>();
-
-    //    // 일정 확률로 방해 오브젝트 생성
-    //    if (Random.value < obstacleSpawnChance)
-    //    {
-    //        CreateObstacleOnTile(tileComponent);
-    //    }
-    //}
-
-    //// 타일 위치 설정
-    //tile.transform.localPosition = new Vector3(currentX, currentY, 0);
-    //tile.gameObject.SetActive(true);
-
-    //tiles.Add(tileComponent);
-
-    //// 최대 타일 수를 초과하면 가장 오래된 타일 삭제
-    //if (tiles.Count > maxTiles)
-    //{
-    //    Destroy(tiles[0].gameObject);
-    //    tiles.RemoveAt(0);
-    //}
-
-    //// 타일 매개변수가 지정되어 있다면 이를 사용하여 x 좌표 갱신
-    //if (tiles.Count < tileParams.Count)
-    //{
-    //    TileGenerationParam param = tileParams[tiles.Count];
-
-    //    // 0~100 사이의 랜덤 숫자 생성
-    //    int randValue = Random.Range(0, 101);
-
-    //    int chosenDirection;
-
-    //    // 랜덤 값이 매개변수의 확률보다 작으면 기본 방향, 그렇지 않으면 반대 방향 선택
-    //    if (randValue < param.probability)
-    //        chosenDirection = param.defaultDirection;
-    //    else
-    //        chosenDirection = -param.defaultDirection;
-
-    //    // 선택된 방향에 따라 x 좌표 업데이트
-    //    currentX += chosenDirection;
-    //}
-    //else
-    //{
-    //    // 매개변수가 없다면 랜덤하게 방향 선택
-    //    int randomDirection = Random.Range(0, 2) * 2 - 1; // -1 또는 1
-    //    currentX += randomDirection;
-    //}
-
-    //// y 좌표 업데이트
-    //currentY += 1;
 
 
     // 특정 타일 위에 장애물을 생성하는 함수

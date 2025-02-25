@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd97168ec6f71a84f9c7895dcf6500fe, type: 3}
   m_Name: NewTransformation
   m_EditorClassIdentifier: 
-  transformationType: 0
+  transformationType: 3
   duration: 0
   specialAbility: {fileID: 0}
   transformationPrefab: {fileID: 0}

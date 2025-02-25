@@ -59,4 +59,31 @@ public class Tile : MonoBehaviour
         return monsterOnTile != null;
     }
 
+
+    // 타일 삭제 시, 위에 플레이어가 있으면 게임 오버 처리
+    public void DestroyTile()
+    {
+        if (IsPlayerOInTile()) ;
+        {
+            Debug.Log("타일이 사라짐. 캐릭터도 게임 오버");
+            GameManager.Instance.GameOver();
+        }
+
+        Destroy(gameObject);
+    }
+
+
+    // 타일 위에 플레이어가 있는지 확인
+    private bool IsPlayerOInTile()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player != null && Mathf.Abs(player.transform.position.x - transform.position.x) < 0.5f &&
+            Mathf.Abs(player.transform.position.y - transform.position.y) < 0.5f)
+        {
+            return true;
+        }
+
+        return false;
+    }
 }
