@@ -30,14 +30,9 @@ public class TestTileManager : MonoBehaviour
 
     private int direction = 1;
 
-    // Inspector에서 각 타일에 대한 매개변수를 설정할 수 있음
-    //[SerializeField] private List<TileGenerationParam> tileParams = new List<TileGenerationParam>();
-
     // 타일들을 저장하는 리스트
     private List<Tile> tiles = new List<Tile>();
-
     private List<Tile> monsterTiles = new List<Tile>();
-
     private List<Tile> itemTiles = new List<Tile>();
 
     // x 좌표의 현재 값
@@ -56,18 +51,15 @@ public class TestTileManager : MonoBehaviour
     [SerializeField] private float monsterTileSpawnChance = 0.18f;
 
     // 아이템 타일 생성 확률 (0 ~ 1)
-    [SerializeField] private float itemTileSpawnChance = 0.15f; 
+    [SerializeField] private float itemTileSpawnChance = 0.15f;
 
     // 최대 타일 수
     [SerializeField] private int maxTiles = 20;
-
 
     void Start()
     {
         StartCoroutine(GenerateTiles());
     }
-
-
 
     private IEnumerator GenerateTiles()
     {
@@ -81,11 +73,13 @@ public class TestTileManager : MonoBehaviour
     private void GenerateTile()
     {
         GameObject tilePrefab;
-        if (Random.value < monsterTileSpawnChance)
+        float randomValue = Random.value;
+
+        if (randomValue < monsterTileSpawnChance)
         {
             tilePrefab = MonsterTilePrefab;
         }
-        else if (Random.value < itemTileSpawnChance)
+        else if (randomValue < monsterTileSpawnChance + itemTileSpawnChance)
         {
             tilePrefab = ItemTilePrefab;
         }
@@ -145,73 +139,6 @@ public class TestTileManager : MonoBehaviour
         currentY += 1;
     }
 
-    //GameObject tile;
-    //Tile tileComponent;
-
-    //// 일정 확률로 몬스터 타일 생성
-    //if (Random.value < monsterTileSpawnChance)
-    //{
-    //    tile = Instantiate(MonsterTilePrefab, transform);
-    //    tileComponent = tile.GetComponent<Tile>();
-    //    CreateMonsterOnTile(tileComponent);
-    //}
-    //else
-    //{
-    //    // 기본 타일 생성
-    //    tile = Instantiate(testTilePrefab, transform);
-    //    tileComponent = tile.GetComponent<Tile>();
-
-    //    // 일정 확률로 방해 오브젝트 생성
-    //    if (Random.value < obstacleSpawnChance)
-    //    {
-    //        CreateObstacleOnTile(tileComponent);
-    //    }
-    //}
-
-    //// 타일 위치 설정
-    //tile.transform.localPosition = new Vector3(currentX, currentY, 0);
-    //tile.gameObject.SetActive(true);
-
-    //tiles.Add(tileComponent);
-
-    //// 최대 타일 수를 초과하면 가장 오래된 타일 삭제
-    //if (tiles.Count > maxTiles)
-    //{
-    //    Destroy(tiles[0].gameObject);
-    //    tiles.RemoveAt(0);
-    //}
-
-    //// 타일 매개변수가 지정되어 있다면 이를 사용하여 x 좌표 갱신
-    //if (tiles.Count < tileParams.Count)
-    //{
-    //    TileGenerationParam param = tileParams[tiles.Count];
-
-    //    // 0~100 사이의 랜덤 숫자 생성
-    //    int randValue = Random.Range(0, 101);
-
-    //    int chosenDirection;
-
-    //    // 랜덤 값이 매개변수의 확률보다 작으면 기본 방향, 그렇지 않으면 반대 방향 선택
-    //    if (randValue < param.probability)
-    //        chosenDirection = param.defaultDirection;
-    //    else
-    //        chosenDirection = -param.defaultDirection;
-
-    //    // 선택된 방향에 따라 x 좌표 업데이트
-    //    currentX += chosenDirection;
-    //}
-    //else
-    //{
-    //    // 매개변수가 없다면 랜덤하게 방향 선택
-    //    int randomDirection = Random.Range(0, 2) * 2 - 1; // -1 또는 1
-    //    currentX += randomDirection;
-    //}
-
-    //// y 좌표 업데이트
-    //currentY += 1;
-
-
-    // 특정 타일 위에 장애물을 생성하는 함수
     private void CreateObstacleOnTile(Tile tile)
     {
         if (tile == null) return;
@@ -248,7 +175,6 @@ public class TestTileManager : MonoBehaviour
         }
     }
 
-    // 특정 타일 위에 몬스터를 생성하는 함수
     private void CreateMonsterOnTile(Tile tile)
     {
         if (tile == null)
@@ -257,14 +183,12 @@ public class TestTileManager : MonoBehaviour
             return;
         }
 
-
         // 몬스터 생성 후 타일의 자식으로 설정
         GameObject monster = Instantiate(MonsterPrefab, tile.transform);
 
         // 몬스터를 타일의 중앙, 약간 위쪽에 배치하고 Z 좌표를 조정하여 앞쪽에 위치시킴
         monster.transform.localPosition = new Vector3(0, 0.1f, -0.2f); // 타일보다 살짝 위에 위치하고 앞쪽으로 이동
         monster.gameObject.SetActive(true);
-        //tile.SetMonster(monster.GetComponent<Monster>());
 
         Monster monsterComponent = monster.GetComponent<Monster>();
         if (monsterComponent == null)
@@ -280,7 +204,6 @@ public class TestTileManager : MonoBehaviour
         return monsterTiles;
     }
 
-    // 현재 층에 해당하는 타일을 반환
     public Tile GetTile(int currentFloor)
     {
         if (currentFloor < 0 || currentFloor >= tiles.Count - 1) // 범위 확인
@@ -288,6 +211,7 @@ public class TestTileManager : MonoBehaviour
 
         return tiles[currentFloor + 1];
     }
+
     private void CreateItemOnTile(Tile tile)
     {
         if (tile == null) return;
@@ -300,5 +224,4 @@ public class TestTileManager : MonoBehaviour
         item.gameObject.SetActive(true);
         tile.SetItem(item);
     }
-
 }
