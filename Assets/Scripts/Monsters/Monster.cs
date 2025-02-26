@@ -24,6 +24,7 @@ public class Monster : MonoBehaviour
         }
     }
 
+
     private void Die()
     {
         Debug.Log($"몬스터 {gameObject.name} 삭제");

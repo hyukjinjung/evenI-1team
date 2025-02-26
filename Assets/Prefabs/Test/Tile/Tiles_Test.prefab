@@ -56,9 +56,9 @@ MonoBehaviour:
   ItemPrefab: {fileID: 7927195594348371117, guid: 8702ed313f8009e4a8c3f8ad882634bb, type: 3}
   spawnInterval: 0.5
   obstacleSpawnChance: 0.3
-  monsterTileSpawnChance: 0.2
+  monsterTileSpawnChance: 0.25
   itemTileSpawnChance: 0.15
-  maxTiles: 20
+  maxTiles: 100
 --- !u!1001 &3497809741196930303
 PrefabInstance:
   m_ObjectHideFlags: 0

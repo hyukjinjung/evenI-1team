@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 5201560280233227766}
   - component: {fileID: 4998562800436391691}
   m_Layer: 0
-  m_Name: AttackEffect
+  m_Name: NormalAttackEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
