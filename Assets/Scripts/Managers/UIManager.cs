@@ -1,7 +1,6 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,7 +21,7 @@ public class UIManager : MonoBehaviour
     public GameObject ResultPanel;
     public GameObject StoryPanel;
     public GameObject SettingPanel;
-    public GameObject CreditsPanel;
+    public GameObject SourcePanel;
 
 
     public TextMeshProUGUI scoreText;
@@ -56,21 +55,33 @@ public class UIManager : MonoBehaviour
     public Button SettingInstagrambutton;
     public Button SettingSourceButton;
     public Button SettingSoundEffectButton;
-    public Button SettingBGMOnButton;
-    public Button SettingBGmOffButton;
-    public Button CreditsReTurnButton;
+    public Button SettingBGMButton;
+    public Button SourceReTurnButton;
 
-    private bool isActive = true;
+   /* PauseSoundEffectButton.onClick.AddListener(PauseSoundEffectImage);
+        PauseBGMButton.onClick.AddListener(PauseBGMImage);
+        SettingBGMButton.onClick.AddListener(SettingBGMImage);
+        SettingSoundEffectButton.onClick.AddListener(SettingSoundEffectImage);*/
 
-    public Image soundImage;
-    private bool isSoundActive = true;
+
+    public Image buttonImage;    // 이미지 컴포넌트 (버튼의 이미지)
+    public Sprite PauseSoundEffectButtonOnSprite;  // 활성화된 상태 이미지
+    public Sprite PauseBGMButtonOffSprite; // 비활성화된 상태 이미지
+    public Sprite SettingBGMButtonOnSprite;  // 활성화된 상태 이미지
+    public Sprite SettingSoundEffectButtonOffSprite;
+
+    private bool isActive = true; // 초기 상태는 활성화 상태
+
 
     private int score = 0;
     private int bestScore = 0;
 
+    Sprite ButtonOnSprite;
+    Sprite ButtonOffSprite;
 
     public PlayerInputController playerInputController;
-    public SoundManager soundManager;
+    public PlayerAnimationController playerAnimationController;
+
 
 
     // Start is called before the first frame update
@@ -84,7 +95,7 @@ public class UIManager : MonoBehaviour
         ResultPanel.SetActive(false);
         StoryPanel.SetActive(false);
         SettingPanel.SetActive(false);
-        CreditsPanel.SetActive(false);
+        SourcePanel.SetActive(false);
 
         GameStartButton.onClick.AddListener(OnGameStartButtonClicked);
         PauseButton.onClick.AddListener(OnPauseButtonClicked);
@@ -101,19 +112,28 @@ public class UIManager : MonoBehaviour
         StoryReTurnButton.onClick.AddListener(OnStoryReTurnButtonClicked);
         StoryButton.onClick.AddListener(OnStoryButtonClicked);
         SettingButton.onClick.AddListener(OnSettingButtonClicked);
-        CreditsReTurnButton.onClick.AddListener(OnSourceReTurnButtonClicked);
+        SourceReTurnButton.onClick.AddListener(OnSourceReTurnButtonClicked);
+
+        /*public Button BGMButton;
+        public Button SoundEffectButton;
+        public Button SettingSoundEffectButton;
+        public Button SourceReTurnButton;
+        // 버튼 클릭 시 ToggleImage 함수 호출 */
+
+        PauseSoundEffectButton.onClick.AddListener(PauseSoundEffectImage);
+        PauseBGMButton.onClick.AddListener(PauseBGMImage);
+        SettingBGMButton.onClick.AddListener(SettingBGMImage);
+        SettingSoundEffectButton.onClick.AddListener(SettingSoundEffectImage);
 
         playerAnimationController = FindObjectOfType<PlayerAnimationController>();
 
-        soundManager = GetComponent<SoundManager>();
-       
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
    
     public void StartGame()
@@ -122,9 +142,8 @@ public class UIManager : MonoBehaviour
 
         isGameOver = false;
 
-        // 占쏙옙占쏙옙 占쏙옙占쌜곤옙 占쏙옙占시울옙 占시뤄옙占싱억옙 TurnAround 占쌍니몌옙占싱쇽옙 占쏙옙占쏙옙
+        // 게임 시작과 동시에 플레이어 TurnAround 애니메이션 실행
         playerAnimationController.PlayGameStartAnimation();
-        public PlayerAnimationController playerAnimationController;
 
         StartPanel.SetActive(false);
         PlayingPanel.SetActive(true);
@@ -143,8 +162,6 @@ public class UIManager : MonoBehaviour
         UpdateBestScore(score);
 
         playerAnimationController.PlayGameStartAnimation();
-
-       // UpdateBestScore(score);
     }
 
 
@@ -158,11 +175,11 @@ public class UIManager : MonoBehaviour
 
 
 
-    
+    //버튼 클릭 
 
     void OnGameStartButtonClicked()
     {
-        GameStartButton.interactable = false; // 占쏙옙튼 占쌩븝옙 占쌉뤄옙 占쏙옙占쏙옙
+        GameStartButton.interactable = false; // 버튼 중복 입력 방지
         StartGame();
     }
 
@@ -172,22 +189,10 @@ public class UIManager : MonoBehaviour
         StartPanel.SetActive(false);
     }
 
-    public void OnSettingBGMButtonClicked()
-    {
-        soundManager.SettingBGMButtonSoundState();
-    }
-
-    public void OnSettingSoundEffectButtonClicked()
-    {
-        soundManager.SettingSoundEffectButtonSoundState();
-    }
-
-  
-
     public void OnSourceReTurnButtonClicked()
     {
         SettingPanel.SetActive(true);
-        CreditsPanel.SetActive(false);
+        SourcePanel.SetActive(false);
     }
 
     void OnPauseButtonClicked()
@@ -199,31 +204,22 @@ public class UIManager : MonoBehaviour
 
     void OnPauseMainHomeButtonClicked()
     {
-        CautionPanel.SetActive(true);
+       // SceneManager.LoadScene("CautionPanel");
 
-        //SoundManager(); 占쏙옙占쏙옙 占신댐옙占쏙옙 호占쏙옙 
+       // PausePanel.SetActive(true);
+        CautionPanel.SetActive(true);
     }
 
     void OnPauseContinueButtonClicked()
     {
-        
+        // SceneManager.LoadScene("");
+
         PlayingPanel.SetActive(true);
         PausePanel.SetActive(false);
-        
+        // SceneManager.LoadScene(SceneManager.GetActiveScene())
         Time.timeScale = 1f;
-    }
 
-
-    public void OnPauseBGMButtonClicked()
-    {
-        soundManager.PauseBGMButtonSoundState();
     }
-
-    public void OnPauseSoundEffectButtonClicked()
-    {
-        soundManager.PauseBGMButtonSoundState();
-    }
-   
 
     void OnCautionMainHomeButtonClicked()
     {
@@ -232,6 +228,7 @@ public class UIManager : MonoBehaviour
         PausePanel.SetActive(false);
         CautionPanel.SetActive(false);
 
+        //게임을 나갔을 때 점수 합산 화면 기획서 확인해보기 
     }
 
     void OnCautionContineButtonClicked()
@@ -241,7 +238,7 @@ public class UIManager : MonoBehaviour
         PausePanel.SetActive(true);
     }
 
-    
+    //게임에서 죽었을 때 게임 오버 패널 5초 이상 터치 없을 시 결과창으로 화면 전환 ??
     void OnAdsComeBackButtonClicked()
     {
         PlayingPanel.SetActive(true);
@@ -265,10 +262,10 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void OnResultReStartButtonClicked()
+    void OnResultReStartButtonClicked()
     {
-        PlayingPanel.SetActive(false);
-        RestartGame();
+        // 입장권 하나 소실하면서 30분 타이머 시작과 동시에 게임 시작 
+        PlayingPanel.SetActive(true);
     }
 
     void OnResultMainHomeButtonClicked()
@@ -284,18 +281,98 @@ public class UIManager : MonoBehaviour
 
    void OnStoryButtonClicked()
     {
-        StoryPanel.SetActive(true);
+
     }
 
 
-
+   
     
+       
+        
+
+     /*PauseSoundEffectButton.onClick.AddListener(PauseSoundEffectImage);
+     PauseBGMButton.onClick.AddListener(PauseBGMImage);
+     SettingBGMButton.onClick.AddListener(SettingBGMImage);
+     SettingSoundEffectButton.onClick.AddListener(SettingSoundEffectImage);*/
     
 
+     // 버튼 클릭 시 이미지 전환
+     private void PauseSoundEffectImage()
+     {
+            // 이미지 상태 토글
+            isActive = !isActive;
+
+            if (isActive)
+            {
+                buttonImage.sprite = ButtonOnSprite;  // 활성화된 이미지로 설정
+            }
+            else
+            {
+                buttonImage.sprite = ButtonOffSprite;  // 비활성화된 이미지로 설정
+            }
+     }
+
+   
+
+    private void PauseBGMImage()
+    {
+        isActive = !isActive;
+
+        if (isActive)
+        {
+            buttonImage.sprite = ButtonOnSprite; 
+        }
+        else
+        {
+            buttonImage.sprite = ButtonOffSprite;
+        }
+    }
+
+    private void SettingBGMImage()
+    {
+        isActive = !isActive;
+
+        if (isActive)
+        {
+            buttonImage.sprite = ButtonOnSprite;
+        }
+        else
+        {
+            buttonImage.sprite = ButtonOffSprite;
+        }
+    }
+
+    private void SettingSoundEffectImage()
+    {
+        isActive = !isActive;
+
+        if (isActive)
+        {
+            buttonImage.sprite = ButtonOnSprite;
+        }
+        else
+        {
+            buttonImage.sprite = ButtonOffSprite;
+        }
+    }
 
 
+    // 소리 상태에 맞춰 이미지를 업데이트하는 함수
+    /* private void UpdateImage()
+     {
+         // 소리 상태에 따라 이미지 변경
+         if (isSoundActive)
+         {
+             ButtonImage.sprite = ButtonOnSprite;  // 활성화된 이미지
+         }
+         else
+         {
+             ButtonImage.sprite = ButtonOffSprite;  // 비활성화된 이미지
+         }
+     }*/
 
-    /*public void AddScore(int vlaue)
+    //점수 합산 이어서 짜야됨
+    public void AddScore(int vlaue)
     {
         if (isGameOver) return;
 
@@ -308,6 +385,6 @@ public class UIManager : MonoBehaviour
         {
             bestScore = value;
         }
-    }*/
+    }
 
 }
