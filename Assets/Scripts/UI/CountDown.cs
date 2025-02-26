@@ -6,21 +6,48 @@ using UnityEngine.UI;
 
 public class CountDown : MonoBehaviour
 {
+    private float countdownTime = 5f;
+    private bool isCounting = false;
 
-    public GameObject gameOverPanel;
+    public Image image;
+    
+
+    void Start()
+    {
+        StartCoroutine(TestCoroutine());  // 코루틴 활성화
+        Invoke("ActiveFalse", 5.0f);  // 3초후 비활성화
+    }
+
+    IEnumerator TestCoroutine()
+    {
+        while (true)
+        {
+            yield return null;
+
+            Debug.Log("활성화");
+        }
+    }
+
+    void ActiveFalse()
+    {
+        this.gameObject.SetActive(false);
+    }
+
+
+
+}
+
+
+    /*public GameObject gameOverPanel;
     public Image countdownImage;
     public TextMeshProUGUI countdownText;
     public Button adsComeBackButton;
-    public Button skipoButton;
+    public Button skipButton;
 
     private float countdownTime = 5f;
     private bool isCounting = false;
 
-    private void Start()
-    {
-        StartCoroutine(StartCountDown());//시점을 만들어야됨, 창을 켜야할때 코드를 만들어야함
-        Invoke("activeFalse", 5.0f);
-    }
+ 
     public void ShowGameOverPanel()
     {
         gameOverPanel.SetActive(true);
@@ -31,6 +58,8 @@ public class CountDown : MonoBehaviour
 
     private IEnumerator StartCountDown()
     {
+        Invoke("activeFalse", 5.0f);
+
         isCounting = true; // 카운트다운 시작
         float timeLeft = countdownTime; // 카운트다운 시간 설정
 
@@ -105,5 +134,5 @@ public class CountDown : MonoBehaviour
     //}*/
 
 
-}
+
 

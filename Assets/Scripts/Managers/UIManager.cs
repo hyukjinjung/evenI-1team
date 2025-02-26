@@ -270,10 +270,10 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void OnResultReStartButtonClicked()
+    void OnResultReStartButtonClicked()
     {
-        PlayingPanel.SetActive(false);
-        RestartGame();
+        PlayingPanel.SetActive(true);
+       
     }
 
     void OnResultMainHomeButtonClicked()
