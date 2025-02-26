@@ -16,3 +16,4 @@ MonoBehaviour:
   effectRange: 1
   effectValue: 999
   maxUsageCount: 1
+  ninjaAttackEffect: {fileID: 2404944003320474627, guid: e9224a0715115c3489cf078f0224bf3c, type: 3}

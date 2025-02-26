@@ -13,7 +13,7 @@ SpecialAbilityData를 상속하여 구현
 
 public class NinjaAbility : SpecialAbilityData
 {
-    //public GameObject hitEffectPrefab; // 타격 이펙트 프리팹
+    public GameObject ninjaAttackEffect; // 타격 이펙트 프리팹
 
 
 
@@ -94,7 +94,9 @@ public class NinjaAbility : SpecialAbilityData
         Vector3 newPosition = targetTile.transform.position + new Vector3(0, 0.7f, 0);
         playertransform.position = newPosition;
 
-        
+        // NinajaFrog - Assassination 이펙트 생성
+        SpawnAttackEffect(newPosition);
+
         // 5. 이동 후 즉시 암살 애니메이션 실행
         playerAnimationController.PlayAssassinationAnimation();
 
@@ -135,6 +137,19 @@ public class NinjaAbility : SpecialAbilityData
         }
     }
 
+    private void SpawnAttackEffect(Vector3 position)
+    {
+        if (ninjaAttackEffect == null) return;
+
+
+        // Y축을 약간 낮춰 이펙트가 플레이어보다 아래에서 생성되도록 설정
+        float yOffset = -1f; // 이펙트가 플레이어의 중심이 아닌 아래에서 생성되도록 설정
+        Vector3 effectPosition = position + new Vector3(0, yOffset, 0);
+
+        GameObject effect = Instantiate(ninjaAttackEffect, effectPosition, Quaternion.identity);
+
+    }
+
 
     // 가장 가까운 적을 찾는 메서드
     private Tile FindClosestMonsterTile(Vector2 playerPosition, List<Tile> monsterTiles)
@@ -143,13 +158,13 @@ public class NinjaAbility : SpecialAbilityData
         float minDistance = Mathf.Infinity;
 
         // 삭제된 타일을 제거하고 유효한 타일만 남기기
-        monsterTiles.RemoveAll(tile => tile == null ||  tile.gameObject == null);
+        monsterTiles.RemoveAll(tile => tile == null || tile.gameObject == null);
 
         foreach (Tile tile in monsterTiles) // 이미 삭제된 타일을 참조할 가능성이 있음
         {
             // 삭제된 타일 체크
             if (tile == null || tile.gameObject == null)
-            { 
+            {
                 continue;
             }
 

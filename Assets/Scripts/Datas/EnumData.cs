@@ -7,7 +7,6 @@ public enum CharacterState
     Normal,         // 일반 상태
     Transformation, // 변신 상태
     Fever,          // 피버 모드 상태
-    Invincible,     // 무적 상태
 }
 
 public enum TransformationType
@@ -67,6 +66,8 @@ public enum TileType
     ObstacleTile,
     ItemTile,
 }
+
+
 
 
 
