@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
             {
                 _instance = FindObjectOfType<GameManager>();
 
-                if (_instance == null )
+                if (_instance == null)
                 {
                     Debug.Log("[GameManager] GameManager NULL");
                     GameObject go = new GameObject();
@@ -96,6 +96,11 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(0.5f);
         Time.timeScale = 0f;
+    }
+
+    public void ResultPanel()
+    {
+        Debug.Log("점수 합산 창으로 이동");
     }
 }
 
