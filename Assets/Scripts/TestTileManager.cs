@@ -2,15 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//[System.Serializable]
-//public struct TileGenerationParam
-//{
-//    // 0 ~ 100 ������ Ȯ����
-//    public int probability;
 
-//    // �⺻ ����: 1�� ������, -1�� ����
-//    public int defaultDirection;
-//}
 
 public class TestTileManager : MonoBehaviour
 {
@@ -106,13 +98,7 @@ public class TestTileManager : MonoBehaviour
             CreateItemOnTile(tileComponent);
         }
 
-        //if (tilePrefab == MonsterPrefab)
-        //{
-        //    if (Random.value < obstacleSpawnChance)
-        //    {
-        //        CreateObstacleOnTile(tileComponent);
-        //    }
-        //}
+
 
         if (tilePrefab == MonsterTilePrefab)
         {
@@ -154,7 +140,7 @@ public class TestTileManager : MonoBehaviour
     {
         if (tile == null) return;
 
-        // ��ֹ� Ÿ���� ���� ����
+        
         GameObject obstaclePrefab = null;
         int obstacleType = Random.Range(0, 4);
 
@@ -176,11 +162,11 @@ public class TestTileManager : MonoBehaviour
 
         if (obstaclePrefab != null)
         {
-            // ��ֹ� ���� �� Ÿ���� �ڽ����� ����
+            
             GameObject obstacle = Instantiate(obstaclePrefab, tile.transform);
 
-            // ��ֹ��� Ÿ���� �߾�, �ణ ���ʿ� ��ġ�ϰ� Z ��ǥ�� �����Ͽ� ���ʿ� ��ġ��Ŵ
-            obstacle.transform.localPosition = new Vector3(0, 0.1f, -0.2f); // Ÿ�Ϻ��� ��¦ ���� ��ġ�ϰ� �������� �̵�
+            
+            obstacle.transform.localPosition = new Vector3(0, 0.1f, -0.2f); 
             obstacle.gameObject.SetActive(true);
             tile.SetObstacle(obstacle);
         }
@@ -193,11 +179,10 @@ public class TestTileManager : MonoBehaviour
             return;
         }
 
-        // ���� ���� �� Ÿ���� �ڽ����� ����
         GameObject monster = Instantiate(MonsterPrefab, tile.transform);
 
-        // ���͸� Ÿ���� �߾�, �ణ ���ʿ� ��ġ�ϰ� Z ��ǥ�� �����Ͽ� ���ʿ� ��ġ��Ŵ
-        monster.transform.localPosition = new Vector3(0, 0.1f, -0.2f); // Ÿ�Ϻ��� ��¦ ���� ��ġ�ϰ� �������� �̵�
+    
+        monster.transform.localPosition = new Vector3(0, 0.1f, -0.2f);
         monster.gameObject.SetActive(true);
 
         Monster monsterComponent = monster.GetComponent<Monster>();
@@ -212,9 +197,31 @@ public class TestTileManager : MonoBehaviour
         return monsterTiles;
     }
 
+    public Tile GetForwardTile(Vector3 playerPosition)
+    {
+        Tile forwardTile = null;
+        float misDistance = Mathf.Infinity;
+
+        foreach (Tile tile in tiles)
+        {
+            if (tile.transform.position.y > playerPosition.y)
+            {
+                float distance = Vector3.Distance(playerPosition, tile.transform.position);
+                if (distance < misDistance)
+                {
+                    misDistance = distance;
+                    forwardTile = tile;
+                }
+            }
+        }
+
+        return forwardTile;
+    }
+
+
     public Tile GetTile(int currentFloor)
     {
-        if (currentFloor < 0 || currentFloor >= tiles.Count - 1) // ���� Ȯ��
+        if (currentFloor < 0 || currentFloor >= tiles.Count - 1)
             return null;
 
         return tiles[currentFloor + 1];
@@ -224,11 +231,9 @@ public class TestTileManager : MonoBehaviour
     {
         if (tile == null) return;
 
-        // ������ ���� �� Ÿ���� �ڽ����� ����
         GameObject item = Instantiate(ItemPrefab, tile.transform);
 
-        // �������� Ÿ���� �߾�, �ణ ���ʿ� ��ġ�ϰ� Z ��ǥ�� �����Ͽ� ���ʿ� ��ġ��Ŵ
-        item.transform.localPosition = new Vector3(0, 0.1f, -0.2f); // Ÿ�Ϻ��� ��¦ ���� ��ġ�ϰ� �������� �̵�
+        item.transform.localPosition = new Vector3(0, 0.1f, -0.2f); //
         item.gameObject.SetActive(true);
         tile.SetItem(item);
     }

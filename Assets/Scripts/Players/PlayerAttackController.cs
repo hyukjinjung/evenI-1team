@@ -91,17 +91,17 @@ public class PlayerAttackController : MonoBehaviour
     // NormalFrog 상태의 일반 공격 실행
     void NormalAttack(bool isleft)
     {
-        Tile tile = testTileManager.GetTile(currentFloor);
-        if (tile == null) return;
+        Tile forwardTile = testTileManager.GetForwardTile(transform.position);
+        if (forwardTile == null) return;
 
 
         // 타일 정보를 바탕을 왼쪽 공격 여부 결정
-        bool attackLeft = tile.TileOnLeft(transform);
+        bool attackLeft = forwardTile.TileOnLeft(transform);
 
         // 일반 공격 애니메이션 실행
         playerAnimationController.SetAttacking(attackLeft);
 
-        SpawnAttackEffect(tile, attackLeft);
+        SpawnAttackEffect(forwardTile, attackLeft);
 
         isAttacking = true;
         Debug.Log("공격 시작");
@@ -111,17 +111,17 @@ public class PlayerAttackController : MonoBehaviour
     }
 
 
-    void SpawnAttackEffect(Tile tile, bool attackLeft)
+    void SpawnAttackEffect(Tile forwardTile, bool attackLeft)
     {
-        if (attackEffectPrefab == null || tile == null)
+        if (attackEffectPrefab == null || forwardTile == null)
         {
             Debug.LogError("타격 이펙트 프리팹 생성 위치가 설정되지 않음");
             return;
         }
 
         // 이펙트 방향 설정 (왼, 오)
-        Vector3 spawnPosition = tile.transform.position;
-        spawnPosition.y += 0.5f; // 타일 위쪽에서 발생하도록 조정
+        Vector3 spawnPosition = forwardTile.transform.position;
+        /*spawnPosition.y -= 0f;*/ // 타일 위쪽에서 발생하도록 조정
 
         Quaternion rotation = attackLeft ? Quaternion.Euler(0f, 180f, 0f) : Quaternion.identity;
 
