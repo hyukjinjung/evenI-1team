@@ -5,6 +5,8 @@ using UnityEngine;
 public class ScoreZone : MonoBehaviour
 {
     private bool hasScored = false;
+    
+   
 
     // Start is called before the first frame update
     void Start()

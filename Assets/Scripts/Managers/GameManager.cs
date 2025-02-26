@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -32,11 +33,19 @@ public class GameManager : MonoBehaviour
 
     public GameObject player;
 
-    private bool isGameOver = false;
 
     public GameObject StartPanel;
     public GameObject PlayingPanel;
     public GameObject GameOverPanel;
+
+    private int score = 0;
+    private int bestScore = 0;
+    private bool isGameOver = false;
+
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI bestScoreText;
+
+   
 
     private void Awake()
     {
@@ -66,6 +75,11 @@ public class GameManager : MonoBehaviour
 
         StartPanel.SetActive(false);
         PlayingPanel.SetActive(true);
+
+        isGameOver = false;
+
+        AddScore(0);
+        UpdateBestScore(0);
     }
 
     public void GameOver()
@@ -87,7 +101,6 @@ public class GameManager : MonoBehaviour
 
         }
    
-        
         StartCoroutine(FreezeGameAfterDelay());
 
         UpdateBestScore(score);
@@ -109,6 +122,10 @@ public class GameManager : MonoBehaviour
         if (isGameOver) return;
 
         score += value;
+
+        Debug.Log(score);
+
+        scoreText.text = "Score:" + score.ToString();
     }
 
     private void UpdateBestScore(int value)
@@ -116,7 +133,12 @@ public class GameManager : MonoBehaviour
         if (bestScore < value)
         {
             bestScore = value;
+
+            bestScoreText.text = " Best Score" + bestScore.ToString();
+
         }
     }
+
+    
 }
 
