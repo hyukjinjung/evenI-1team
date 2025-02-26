@@ -19,9 +19,11 @@ public class NinjaAbility : SpecialAbilityData
 
     public override void ActivateAbility(Transform playerTransform)
     {
-        if (GameManager.Instance == null || GameManager.Instance.tileManager == null)
+        if (GameManager.Instance == null)
+        {
+            Debug.Log("GameManager NULL");
             return;
-        Debug.Log("GameManager, TileManager NULL");
+        }
 
         TestTileManager tileManager = GameManager.Instance.tileManager;
         List<Tile> monsterTiles = tileManager.GetMonsterTiles();
@@ -32,7 +34,6 @@ public class NinjaAbility : SpecialAbilityData
 
         if (targetTile == null)
         {
-            Debug.Log("가까운 몬스터 타일 없음");
             return;
         }
 

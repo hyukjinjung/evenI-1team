@@ -1925,7 +1925,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testTileManager: {fileID: 768112588}
   currentFloor: 0
-  specialAbilityData: {fileID: 11400000, guid: 27a419489d0be8543b1419be8920d68d, type: 2}
+  specialAbilityData: {fileID: 0}
 --- !u!114 &417875396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3121,7 +3121,7 @@ MonoBehaviour:
   MonsterTilePrefab: {fileID: 8739971171360135241, guid: f58938db14db21848b4a9f0ff5ed86c7, type: 3}
   MonsterPrefab: {fileID: 4484346038493015994, guid: e12d6f85f99a39b45b2e8e0ca6f8f664, type: 3}
   ItemTilePrefab: {fileID: 8630953280370161833, guid: 7c2b2224622b83f4f824175669f303cb, type: 3}
-  ItemPrefab: {fileID: 0}
+  ItemPrefab: {fileID: 1248678462}
   spawnInterval: 0.5
   obstacleSpawnChance: 0.3
   monsterTileSpawnChance: 0.1
@@ -5107,6 +5107,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1204258541}
   m_CullTransparentMesh: 1
+--- !u!1 &1248678462 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7927195594348371117, guid: 8702ed313f8009e4a8c3f8ad882634bb, type: 3}
+  m_PrefabInstance: {fileID: 860566770806024824}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1280343123
 GameObject:
   m_ObjectHideFlags: 0
@@ -8888,7 +8893,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7927195594348371117, guid: 8702ed313f8009e4a8c3f8ad882634bb, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7927195594348371117, guid: 8702ed313f8009e4a8c3f8ad882634bb, type: 3}
       propertyPath: m_TagString

@@ -100,23 +100,23 @@ public class PlayerAttackController : MonoBehaviour
             isAttacking = true;
             Debug.Log("공격 시작");
             StartCoroutine(ResetAttackFlag());
+
+
         }
-
     }
 
 
+        // 공격 중 상태를 리셋하는 코루틴
+        IEnumerator ResetAttackFlag()
+        {
+            // 애니메이션 길이를 가져옴
+            float attackAnimationLength = playerAnimationController.GetAttackAniamtionLength();
 
-    // 공격 중 상태를 리셋하는 코루틴
-    IEnumerator ResetAttackFlag()
-    {
-        // 애니메이션 길이를 가져옴
-        float attackAnimationLength = playerAnimationController.GetAttackAniamtionLength();
+            // 변신 상태의 특수 공격 애니메이션 길이
 
-        // 변신 상태의 특수 공격 애니메이션 길이
+            yield return new WaitForSeconds(attackAnimationLength);
 
-        yield return new WaitForSeconds(attackAnimationLength);
-
-        isAttacking = false; // 공격 가능 상태로 복구
-        Debug.Log("다음 공격 준비");
+            isAttacking = false; // 공격 가능 상태로 복구
+            Debug.Log("다음 공격 준비");
+        }
     }
-}

@@ -190,7 +190,6 @@ public class TestTileManager : MonoBehaviour
     {
         if (tile == null)
         {
-            Debug.Log("���� Ÿ�� NULL");
             return;
         }
 
@@ -206,12 +205,10 @@ public class TestTileManager : MonoBehaviour
             return;
 
         tile.SetMonster(monsterComponent);
-        Debug.Log($"���� ���� �Ϸ�. ��ġ: {monster.transform.position}");
     }
 
     public List<Tile> GetMonsterTiles()
     {
-        Debug.Log($"���� Ÿ�� ����: {monsterTiles.Count}");
         return monsterTiles;
     }
 
