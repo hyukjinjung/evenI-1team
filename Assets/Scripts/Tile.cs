@@ -12,34 +12,41 @@ public class Tile : MonoBehaviour
 {
     private Monster monsterOnTile;
     private GameObject obstacle;
-
+    private GameObject item; // 아이템 추가
 
     // 몬스터 추가
     public void SetMonster(Monster monster)
     {
         monsterOnTile = monster;
     }
+
+    // 장애물 추가
     public void SetObstacle(GameObject obstacle)
     {
         this.obstacle = obstacle;
     }
 
+    // 아이템 추가
+    public void SetItem(GameObject item)
+    {
+        this.item = item;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && obstacle != null)
+        // 아이템 획득 로직 추가
+        if (other.CompareTag("Player") && item != null)
         {
-            Destroy(obstacle);
-            obstacle = null;
+            // 아이템 획득 처리
+            Destroy(item);
+            item = null;
         }
     }
 
     public bool TileOnLeft(Transform position)
     {
-        return position.position.x > transform.position.x;
+        return transform.position.x < position.position.x;
     }
-
-
-
 
     // 몬스터 반환
     public Monster GetFirstMonster()
@@ -58,5 +65,4 @@ public class Tile : MonoBehaviour
     {
         return monsterOnTile != null;
     }
-
 }

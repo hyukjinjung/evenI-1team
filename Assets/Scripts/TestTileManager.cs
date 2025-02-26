@@ -21,6 +21,8 @@ public class TestTileManager : MonoBehaviour
     [SerializeField] private GameObject HideNextPrefab; // 다음 발판 숨김 오브젝트 프리팹 추가
     [SerializeField] private GameObject MonsterTilePrefab; // 몬스터 타일 프리팹 추가
     [SerializeField] private GameObject MonsterPrefab; // 몬스터 프리팹 추가
+    [SerializeField] private GameObject ItemTilePrefab; // 아이템 타일 프리팹 추가
+    [SerializeField] private GameObject ItemPrefab; // 아이템 프리팹 추가
 
     // 타일 간의 간격
     private float xOffset = 1;
@@ -36,6 +38,8 @@ public class TestTileManager : MonoBehaviour
 
     private List<Tile> monsterTiles = new List<Tile>();
 
+    private List<Tile> itemTiles = new List<Tile>();
+
     // x 좌표의 현재 값
     private int currentX = 0;
 
@@ -46,10 +50,13 @@ public class TestTileManager : MonoBehaviour
     [SerializeField] private float spawnInterval = 0.5f;
 
     // 방해 오브젝트 생성 확률 (0 ~ 1)
-    [SerializeField] private float obstacleSpawnChance = 0.3f;
+    [SerializeField] private float obstacleSpawnChance = 0.2f;
 
     // 몬스터 타일 생성 확률 (0 ~ 1)
-    [SerializeField] private float monsterTileSpawnChance = 0.25f;
+    [SerializeField] private float monsterTileSpawnChance = 0.18f;
+
+    // 아이템 타일 생성 확률 (0 ~ 1)
+    [SerializeField] private float itemTileSpawnChance = 0.15f; 
 
     // 최대 타일 수
     [SerializeField] private int maxTiles = 20;
@@ -73,7 +80,20 @@ public class TestTileManager : MonoBehaviour
 
     private void GenerateTile()
     {
-        GameObject tilePrefab = (Random.value < monsterTileSpawnChance) ? MonsterTilePrefab : testTilePrefab;
+        GameObject tilePrefab;
+        if (Random.value < monsterTileSpawnChance)
+        {
+            tilePrefab = MonsterTilePrefab;
+        }
+        else if (Random.value < itemTileSpawnChance)
+        {
+            tilePrefab = ItemTilePrefab;
+        }
+        else
+        {
+            tilePrefab = testTilePrefab;
+        }
+
         GameObject tileObject = Instantiate(tilePrefab, transform);
         Tile tileComponent = tileObject.GetComponent<Tile>();
 
@@ -86,7 +106,11 @@ public class TestTileManager : MonoBehaviour
             monsterTiles.Add(tileComponent);
             CreateMonsterOnTile(tileComponent);
         }
-
+        else if (tilePrefab == ItemTilePrefab)
+        {
+            itemTiles.Add(tileComponent);
+            CreateItemOnTile(tileComponent);
+        }
 
         if (tilePrefab == testTilePrefab || tilePrefab == MonsterPrefab)
         {
@@ -96,8 +120,6 @@ public class TestTileManager : MonoBehaviour
             }
         }
 
-
-
         if (tiles.Count > maxTiles)
         {
             Tile oldestTile = tiles[0];
@@ -105,6 +127,10 @@ public class TestTileManager : MonoBehaviour
             if (monsterTiles.Contains(oldestTile))
             {
                 monsterTiles.Remove(oldestTile);
+            }
+            if (itemTiles.Contains(oldestTile))
+            {
+                itemTiles.Remove(oldestTile);
             }
             Destroy(oldestTile.gameObject);
         }
@@ -261,6 +287,18 @@ public class TestTileManager : MonoBehaviour
             return null;
 
         return tiles[currentFloor + 1];
+    }
+    private void CreateItemOnTile(Tile tile)
+    {
+        if (tile == null) return;
+
+        // 아이템 생성 후 타일의 자식으로 설정
+        GameObject item = Instantiate(ItemPrefab, tile.transform);
+
+        // 아이템을 타일의 중앙, 약간 위쪽에 배치하고 Z 좌표를 조정하여 앞쪽에 위치시킴
+        item.transform.localPosition = new Vector3(0, 0.1f, -0.2f); // 타일보다 살짝 위에 위치하고 앞쪽으로 이동
+        item.gameObject.SetActive(true);
+        tile.SetItem(item);
     }
 
 }
