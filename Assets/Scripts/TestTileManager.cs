@@ -5,62 +5,61 @@ using UnityEngine;
 //[System.Serializable]
 //public struct TileGenerationParam
 //{
-//    // 0 ~ 100 »çÀÌÀÇ È®·ü°ª
+//    // 0 ~ 100 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½
 //    public int probability;
 
-//    // ±âº» ¹æÇâ: 1Àº ¿À¸¥ÂÊ, -1Àº ¿ÞÂÊ
+//    // ï¿½âº» ï¿½ï¿½ï¿½ï¿½: 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, -1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //    public int defaultDirection;
 //}
 
 public class TestTileManager : MonoBehaviour
 {
-    [SerializeField] private GameObject testTilePrefab;      // Å×½ºÆ® Å¸ÀÏ ÇÁ¸®ÆÕ Ãß°¡
-    [SerializeField] private GameObject ReverseControlPrefab; // ¹æÇâÅ° ¹ÝÀü ¿ÀºêÁ§Æ® ÇÁ¸®ÆÕ Ãß°¡
-    [SerializeField] private GameObject TransparentPrefab; // Åõ¸í ¹ßÆÇ ¿ÀºêÁ§Æ® ÇÁ¸®ÆÕ Ãß°¡
-    [SerializeField] private GameObject StickyPrefab; // ²ö²öÀÌ ¹ßÆÇ ¿ÀºêÁ§Æ® ÇÁ¸®ÆÕ Ãß°¡
-    [SerializeField] private GameObject HideNextPrefab; // ´ÙÀ½ ¹ßÆÇ ¼û±è ¿ÀºêÁ§Æ® ÇÁ¸®ÆÕ Ãß°¡
-    [SerializeField] private GameObject MonsterTilePrefab; // ¸ó½ºÅÍ Å¸ÀÏ ÇÁ¸®ÆÕ Ãß°¡
-    [SerializeField] private GameObject MonsterPrefab; // ¸ó½ºÅÍ ÇÁ¸®ÆÕ Ãß°¡
+    [SerializeField] private GameObject testTilePrefab;      // ï¿½×½ï¿½Æ® Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    [SerializeField] private GameObject ReverseControlPrefab; // ï¿½ï¿½ï¿½ï¿½Å° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    [SerializeField] private GameObject TransparentPrefab; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    [SerializeField] private GameObject StickyPrefab; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    [SerializeField] private GameObject HideNextPrefab; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    [SerializeField] private GameObject MonsterTilePrefab; // ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    [SerializeField] private GameObject MonsterPrefab; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    [SerializeField] private GameObject ItemTilePrefab; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    [SerializeField] private GameObject ItemPrefab; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 
-    // Å¸ÀÏ °£ÀÇ °£°Ý
+    // Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private float xOffset = 1;
     private float yOffset = 1;
 
     private int direction = 1;
 
-    // Inspector¿¡¼­ °¢ Å¸ÀÏ¿¡ ´ëÇÑ ¸Å°³º¯¼ö¸¦ ¼³Á¤ÇÒ ¼ö ÀÖÀ½
-    //[SerializeField] private List<TileGenerationParam> tileParams = new List<TileGenerationParam>();
-
-    // Å¸ÀÏµéÀ» ÀúÀåÇÏ´Â ¸®½ºÆ®
+    // Å¸ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
     private List<Tile> tiles = new List<Tile>();
-
     private List<Tile> monsterTiles = new List<Tile>();
+    private List<Tile> itemTiles = new List<Tile>();
 
-    // x ÁÂÇ¥ÀÇ ÇöÀç °ª
+    // x ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     private int currentX = 0;
 
-    // y ÁÂÇ¥ÀÇ ÇöÀç °ª
+    // y ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     private int currentY = 0;
 
-    // Å¸ÀÏ »ý¼º °£°Ý
+    // Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     [SerializeField] private float spawnInterval = 0.5f;
 
-    // ¹æÇØ ¿ÀºêÁ§Æ® »ý¼º È®·ü (0 ~ 1)
-    [SerializeField] private float obstacleSpawnChance = 0.3f;
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ (0 ~ 1)
+    [SerializeField] private float obstacleSpawnChance = 0.2f;
 
-    // ¸ó½ºÅÍ Å¸ÀÏ »ý¼º È®·ü (0 ~ 1)
-    [SerializeField] private float monsterTileSpawnChance = 0.25f;
+    // ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ (0 ~ 1)
+    [SerializeField] private float monsterTileSpawnChance = 0.18f;
 
-    // ÃÖ´ë Å¸ÀÏ ¼ö
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ (0 ~ 1)
+    [SerializeField] private float itemTileSpawnChance = 0.15f;
+
+    // ï¿½Ö´ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½
     [SerializeField] private int maxTiles = 20;
-
 
     void Start()
     {
         StartCoroutine(GenerateTiles());
     }
-
-
 
     private IEnumerator GenerateTiles()
     {
@@ -73,7 +72,22 @@ public class TestTileManager : MonoBehaviour
 
     private void GenerateTile()
     {
-        GameObject tilePrefab = (Random.value < monsterTileSpawnChance) ? MonsterTilePrefab : testTilePrefab;
+        GameObject tilePrefab;
+        float randomValue = Random.value;
+
+        if (randomValue < monsterTileSpawnChance)
+        {
+            tilePrefab = MonsterTilePrefab;
+        }
+        else if (randomValue < monsterTileSpawnChance + itemTileSpawnChance)
+        {
+            tilePrefab = ItemTilePrefab;
+        }
+        else
+        {
+            tilePrefab = testTilePrefab;
+        }
+
         GameObject tileObject = Instantiate(tilePrefab, transform);
         Tile tileComponent = tileObject.GetComponent<Tile>();
 
@@ -86,7 +100,11 @@ public class TestTileManager : MonoBehaviour
             monsterTiles.Add(tileComponent);
             CreateMonsterOnTile(tileComponent);
         }
-
+        else if (tilePrefab == ItemTilePrefab)
+        {
+            itemTiles.Add(tileComponent);
+            CreateItemOnTile(tileComponent);
+        }
 
         //if (tilePrefab == MonsterPrefab)
         //{
@@ -106,8 +124,6 @@ public class TestTileManager : MonoBehaviour
             CreateObstacleOnTile(tileComponent);
         }
 
-
-        // Å¸ÀÏÀÌ ³Ê¹« ¸¹¾ÆÁö¸é ¿À·¡µÈ Å¸ÀÏ Á¦°Å
         if (tiles.Count > maxTiles)
         {
             Tile oldestTile = tiles[0];
@@ -116,8 +132,10 @@ public class TestTileManager : MonoBehaviour
             {
                 monsterTiles.Remove(oldestTile);
             }
-
-
+            if (itemTiles.Contains(oldestTile))
+            {
+                itemTiles.Remove(oldestTile);
+            }
             Destroy(oldestTile.gameObject);
         }
 
@@ -132,14 +150,11 @@ public class TestTileManager : MonoBehaviour
         currentY += 1;
     }
 
-
-
-    // Æ¯Á¤ Å¸ÀÏ À§¿¡ Àå¾Ö¹°À» »ý¼ºÇÏ´Â ÇÔ¼ö
     private void CreateObstacleOnTile(Tile tile)
     {
         if (tile == null) return;
 
-        // Àå¾Ö¹° Å¸ÀÔÀ» ·£´ý ÁöÁ¤
+        // ï¿½ï¿½Ö¹ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         GameObject obstaclePrefab = null;
         int obstacleType = Random.Range(0, 4);
 
@@ -161,31 +176,29 @@ public class TestTileManager : MonoBehaviour
 
         if (obstaclePrefab != null)
         {
-            // Àå¾Ö¹° »ý¼º ÈÄ Å¸ÀÏÀÇ ÀÚ½ÄÀ¸·Î ¼³Á¤
+            // ï¿½ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             GameObject obstacle = Instantiate(obstaclePrefab, tile.transform);
 
-            // Àå¾Ö¹°À» Å¸ÀÏÀÇ Áß¾Ó, ¾à°£ À§ÂÊ¿¡ ¹èÄ¡ÇÏ°í Z ÁÂÇ¥¸¦ Á¶Á¤ÇÏ¿© ¾ÕÂÊ¿¡ À§Ä¡½ÃÅ´
-            obstacle.transform.localPosition = new Vector3(0, 0.1f, -0.2f); // Å¸ÀÏº¸´Ù »ìÂ¦ À§¿¡ À§Ä¡ÇÏ°í ¾ÕÂÊÀ¸·Î ÀÌµ¿
+            // ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ß¾ï¿½, ï¿½à°£ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½ï¿½Ä¡ï¿½Ï°ï¿½ Z ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½Å´
+            obstacle.transform.localPosition = new Vector3(0, 0.1f, -0.2f); // Å¸ï¿½Ïºï¿½ï¿½ï¿½ ï¿½ï¿½Â¦ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
             obstacle.gameObject.SetActive(true);
             tile.SetObstacle(obstacle);
         }
     }
 
-    // Æ¯Á¤ Å¸ÀÏ À§¿¡ ¸ó½ºÅÍ¸¦ »ý¼ºÇÏ´Â ÇÔ¼ö
     private void CreateMonsterOnTile(Tile tile)
     {
         if (tile == null)
         {
-            Debug.Log("¸ó½ºÅÍ Å¸ÀÏ NULL");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ NULL");
             return;
         }
 
-
-        // ¸ó½ºÅÍ »ý¼º ÈÄ Å¸ÀÏÀÇ ÀÚ½ÄÀ¸·Î ¼³Á¤
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         GameObject monster = Instantiate(MonsterPrefab, tile.transform);
 
-        // ¸ó½ºÅÍ¸¦ Å¸ÀÏÀÇ Áß¾Ó, ¾à°£ À§ÂÊ¿¡ ¹èÄ¡ÇÏ°í Z ÁÂÇ¥¸¦ Á¶Á¤ÇÏ¿© ¾ÕÂÊ¿¡ À§Ä¡½ÃÅ´
-        monster.transform.localPosition = new Vector3(0, 0.1f, -0.2f); // Å¸ÀÏº¸´Ù »ìÂ¦ À§¿¡ À§Ä¡ÇÏ°í ¾ÕÂÊÀ¸·Î ÀÌµ¿
+        // ï¿½ï¿½ï¿½Í¸ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ß¾ï¿½, ï¿½à°£ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½ï¿½Ä¡ï¿½Ï°ï¿½ Z ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½Å´
+        monster.transform.localPosition = new Vector3(0, 0.1f, -0.2f); // Å¸ï¿½Ïºï¿½ï¿½ï¿½ ï¿½ï¿½Â¦ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
         monster.gameObject.SetActive(true);
 
         Monster monsterComponent = monster.GetComponent<Monster>();
@@ -193,22 +206,33 @@ public class TestTileManager : MonoBehaviour
             return;
 
         tile.SetMonster(monsterComponent);
-        Debug.Log($"¸ó½ºÅÍ »ý¼º ¿Ï·á. À§Ä¡: {monster.transform.position}");
+        Debug.Log($"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½. ï¿½ï¿½Ä¡: {monster.transform.position}");
     }
 
     public List<Tile> GetMonsterTiles()
     {
-        Debug.Log($"¸ó½ºÅÍ Å¸ÀÏ °³¼ö: {monsterTiles.Count}");
+        Debug.Log($"ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: {monsterTiles.Count}");
         return monsterTiles;
     }
 
-    // ÇöÀç Ãþ¿¡ ÇØ´çÇÏ´Â Å¸ÀÏÀ» ¹ÝÈ¯
     public Tile GetTile(int currentFloor)
     {
-        if (currentFloor < 0 || currentFloor >= tiles.Count - 1) // ¹üÀ§ È®ÀÎ
+        if (currentFloor < 0 || currentFloor >= tiles.Count - 1) // ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
             return null;
 
         return tiles[currentFloor + 1];
     }
 
+    private void CreateItemOnTile(Tile tile)
+    {
+        if (tile == null) return;
+
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        GameObject item = Instantiate(ItemPrefab, tile.transform);
+
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ß¾ï¿½, ï¿½à°£ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½ï¿½Ä¡ï¿½Ï°ï¿½ Z ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½Å´
+        item.transform.localPosition = new Vector3(0, 0.1f, -0.2f); // Å¸ï¿½Ïºï¿½ï¿½ï¿½ ï¿½ï¿½Â¦ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+        item.gameObject.SetActive(true);
+        tile.SetItem(item);
+    }
 }

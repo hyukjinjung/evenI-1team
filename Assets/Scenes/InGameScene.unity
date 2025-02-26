@@ -3120,9 +3120,12 @@ MonoBehaviour:
   HideNextPrefab: {fileID: 6153712333649976916, guid: b0b23d0d68285434f9b2cd4586ef1745, type: 3}
   MonsterTilePrefab: {fileID: 8739971171360135241, guid: f58938db14db21848b4a9f0ff5ed86c7, type: 3}
   MonsterPrefab: {fileID: 4484346038493015994, guid: e12d6f85f99a39b45b2e8e0ca6f8f664, type: 3}
+  ItemTilePrefab: {fileID: 8630953280370161833, guid: 7c2b2224622b83f4f824175669f303cb, type: 3}
+  ItemPrefab: {fileID: 0}
   spawnInterval: 0.5
   obstacleSpawnChance: 0.3
   monsterTileSpawnChance: 0.1
+  itemTileSpawnChance: 0.15
   maxTiles: 20
 --- !u!1 &775552308
 GameObject:
