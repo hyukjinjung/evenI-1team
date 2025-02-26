@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,8 @@ public class PlayerAttackController : MonoBehaviour
 
     // 변신 상태에서 사용할 특수 능력 (ScriptableObject)
     public SpecialAbilityData specialAbilityData;
+
+    [SerializeField] private GameObject attackEffectPrefab; // 타격 이펙트 프리팹
 
 
     private void Start()
@@ -80,43 +83,65 @@ public class PlayerAttackController : MonoBehaviour
         {
             NormalAttack(isleft);
         }
-
-
-
-        // 일반 공격
-        // NormalFrog 상태의 일반 공격 실행
-        void NormalAttack(bool isleft)
-        {
-            Tile tile = testTileManager.GetTile(currentFloor);
-            if (tile == null) return;
-
-
-            // 타일 정보를 바탕을 왼쪽 공격 여부 결정
-            bool attackLeft = tile.TileOnLeft(transform);
-            // 일반 공격 애니메이션 실행
-            playerAnimationController.SetAttacking(attackLeft);
-
-
-            isAttacking = true;
-            Debug.Log("공격 시작");
-            StartCoroutine(ResetAttackFlag());
-
-
-        }
     }
 
 
-        // 공격 중 상태를 리셋하는 코루틴
-        IEnumerator ResetAttackFlag()
-        {
-            // 애니메이션 길이를 가져옴
-            float attackAnimationLength = playerAnimationController.GetAttackAniamtionLength();
 
-            // 변신 상태의 특수 공격 애니메이션 길이
+    // 일반 공격
+    // NormalFrog 상태의 일반 공격 실행
+    void NormalAttack(bool isleft)
+    {
+        Tile tile = testTileManager.GetTile(currentFloor);
+        if (tile == null) return;
 
-            yield return new WaitForSeconds(attackAnimationLength);
 
-            isAttacking = false; // 공격 가능 상태로 복구
-            Debug.Log("다음 공격 준비");
-        }
+        // 타일 정보를 바탕을 왼쪽 공격 여부 결정
+        bool attackLeft = tile.TileOnLeft(transform);
+
+        // 일반 공격 애니메이션 실행
+        playerAnimationController.SetAttacking(attackLeft);
+
+        SpawnAttackEffect(tile, attackLeft);
+
+        isAttacking = true;
+        Debug.Log("공격 시작");
+        StartCoroutine(ResetAttackFlag());
+
+
     }
+
+
+    void SpawnAttackEffect(Tile tile, bool attackLeft)
+    {
+        if (attackEffectPrefab == null || tile == null)
+        {
+            Debug.LogError("타격 이펙트 프리팹 생성 위치가 설정되지 않음");
+            return;
+        }
+
+        // 이펙트 방향 설정 (왼, 오)
+        Vector3 spawnPosition = tile.transform.position;
+        spawnPosition.y += 0.5f; // 타일 위쪽에서 발생하도록 조정
+
+        Quaternion rotation = attackLeft ? Quaternion.Euler(0f, 180f, 0f) : Quaternion.identity;
+
+        // 타격 이펙트 생성
+        GameObject effect = Instantiate(attackEffectPrefab, spawnPosition, rotation);
+    }
+
+
+    // 공격 중 상태를 리셋하는 코루틴
+    IEnumerator ResetAttackFlag()
+    {
+        // 애니메이션 길이를 가져옴
+        float attackAnimationLength = playerAnimationController.GetAttackAniamtionLength();
+
+        // 변신 상태의 특수 공격 애니메이션 길이
+        yield return new WaitForSeconds(attackAnimationLength);
+
+        isAttacking = false; // 공격 가능 상태로 복구
+        Debug.Log("다음 공격 준비");
+    }
+}
+
+

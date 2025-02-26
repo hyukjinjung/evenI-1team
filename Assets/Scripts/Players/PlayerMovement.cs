@@ -100,6 +100,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGameOver || isJumping) return;
 
+        // 변신 해제 후 타일 정보 다시 업데이트
+        UpdateTileInfo();
+
         Tile tile = testTileManager.GetTile(currentFloor);
 
         if (tile == null) return;
@@ -242,5 +245,21 @@ public class PlayerMovement : MonoBehaviour
                 GameManager.Instance.GameOver();
             }
         }
+    }
+
+
+
+    private void UpdateTileInfo()
+    {
+        Tile newTile = testTileManager.GetTile(currentFloor);
+        if (newTile == null)
+        {
+            Debug.Log("타일 정보를 찾을 수 없음");
+            return;
+        }
+
+
+        bool isLeft = newTile.TileOnLeft(transform);
+        Debug.Log($"타일 정보 갱신. 현재 타일 기준: {(isLeft ? "왼쪽" : " 오른쪽")}");
     }
 }
