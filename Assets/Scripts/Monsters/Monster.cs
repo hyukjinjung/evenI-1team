@@ -11,7 +11,7 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
-    public int health = 3;
+    public int health = 1;
 
     public void TakeDamage(int damage)
     {
