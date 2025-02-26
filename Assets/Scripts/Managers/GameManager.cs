@@ -90,6 +90,7 @@ public class GameManager : MonoBehaviour
         
         StartCoroutine(FreezeGameAfterDelay());
 
+        UpdateBestScore(score);
     }    
         
     private IEnumerator FreezeGameAfterDelay()
@@ -101,6 +102,21 @@ public class GameManager : MonoBehaviour
     public void ResultPanel()
     {
         Debug.Log("점수 합산 창으로 이동");
+    }
+
+    public void AddScore(int value)
+    {
+        if (isGameOver) return;
+
+        score += value;
+    }
+
+    private void UpdateBestScore(int value)
+    {
+        if (bestScore < value)
+        {
+            bestScore = value;
+        }
     }
 }
 
