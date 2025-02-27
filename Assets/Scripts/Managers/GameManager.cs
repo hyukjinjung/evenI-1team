@@ -40,12 +40,18 @@ public class GameManager : MonoBehaviour
 
     private int score = 0;
     private int bestScore = 0;
+    private int resultScore = 0;
+    private int resultBestScore = 0;
+
+    private PlayerScoreTracker playerScoreTracker;
+
     private bool isGameOver = false;
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI bestScoreText;
+    public TextMeshProUGUI resultScoreText;
+    public TextMeshProUGUI resultBestScoreText;
 
-   
 
     private void Awake()
     {
@@ -82,8 +88,15 @@ public class GameManager : MonoBehaviour
         UpdateBestScore(0);
     }
 
+    private void Start()
+    {
+        playerScoreTracker = FindObjectOfType<PlayerScoreTracker>();
+    }
+
     public void GameOver()
     {
+        Debug.Log("게임 오버 발생!");
+
         if (isGameOver) return;
 
         GameOverPanel.SetActive(true);
@@ -104,6 +117,11 @@ public class GameManager : MonoBehaviour
         StartCoroutine(FreezeGameAfterDelay());
 
         UpdateBestScore(score);
+
+        if (playerScoreTracker != null)
+        {
+            playerScoreTracker.CalculateScore();
+        }
     }    
         
     private IEnumerator FreezeGameAfterDelay()
@@ -126,6 +144,7 @@ public class GameManager : MonoBehaviour
         Debug.Log(score);
 
         scoreText.text = score.ToString();
+        resultScoreText.text = scoreText.text;
     }
 
     private void UpdateBestScore(int value)
@@ -135,6 +154,7 @@ public class GameManager : MonoBehaviour
             bestScore = value;
 
             bestScoreText.text = bestScore.ToString();
+            resultBestScoreText.text = resultScoreText.text;
 
         }
     }
