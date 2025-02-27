@@ -49,23 +49,33 @@ public class TestTileManager : MonoBehaviour
         GameObject tilePrefab;
         float randomValue = Random.value;
 
-        if (randomValue < monsterTileSpawnChance)
-        {
-            tilePrefab = MonsterTilePrefab;
-        }
-        else if (randomValue < monsterTileSpawnChance + itemTileSpawnChance)
-        {
-            tilePrefab = ItemTilePrefab;
-        }
-        else if (randomValue < monsterTileSpawnChance + itemTileSpawnChance + transparentTileSpawnChance)
-        {
-            tilePrefab = TransparentTilePrefab;
-        }
-        else
+        // 플레이어가 위치하는 첫 번째 타일은 무조건 기본 타일 생성
+        if (tiles.Count == 0)
         {
             tilePrefab = testTilePrefab;
         }
+        else
+        {
+            // 랜덤한 타일 생성 (기존 로직 유지)
+            if (randomValue < monsterTileSpawnChance)
+            {
+                tilePrefab = MonsterTilePrefab;
+            }
+            else if (randomValue < monsterTileSpawnChance + itemTileSpawnChance)
+            {
+                tilePrefab = ItemTilePrefab;
+            }
+            else if (randomValue < monsterTileSpawnChance + itemTileSpawnChance + transparentTileSpawnChance)
+            {
+                tilePrefab = TransparentTilePrefab;
+            }
+            else
+            {
+                tilePrefab = testTilePrefab;
+            }
+        }
 
+        // 타일 생성
         GameObject tileObject = Instantiate(tilePrefab, transform);
         Tile tileComponent = tileObject.GetComponent<Tile>();
 
@@ -78,27 +88,24 @@ public class TestTileManager : MonoBehaviour
         tileObject.gameObject.SetActive(true);
         tiles.Add(tileComponent);
 
-        // **타일 유형에 따라 정확하게 몬스터 또는 아이템을 생성**
+        // 타일 유형별 추가 설정
         if (tilePrefab == MonsterTilePrefab)
         {
             monsterTiles.Add(tileComponent);
-            CreateMonsterOnTile(tileComponent); // ✅ 몬스터 타일에서만 실행
+            CreateMonsterOnTile(tileComponent);
         }
         else if (tilePrefab == ItemTilePrefab)
         {
             itemTiles.Add(tileComponent);
-            CreateItemOnTile(tileComponent); // ✅ 아이템 타일에서만 실행
+            CreateItemOnTile(tileComponent);
         }
-
-        // 온오프 발판이면 타일에 TogglePlatform 추가
-        if (tilePrefab == TransparentTilePrefab)
+        else if (tilePrefab == TransparentTilePrefab)
         {
             TogglePlatform togglePlatform = tileObject.AddComponent<TogglePlatform>();
             togglePlatform.SetToggleInterval(3f);
         }
 
-        // 장애물 생성 (일반 발판에만 추가)
-        if (tilePrefab == testTilePrefab && Random.value < obstacleSpawnChance)
+        if (Random.value < obstacleSpawnChance && tiles.Count > 1) // 첫 번째 타일엔 장애물 없음
         {
             CreateObstacleOnTile(tileComponent);
         }
@@ -110,6 +117,7 @@ public class TestTileManager : MonoBehaviour
 
         UpdateTilePosition();
     }
+
 
     private void DestroyOldestTile()
     {
