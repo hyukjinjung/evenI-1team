@@ -15,7 +15,8 @@ public class PlayerTransformationController : MonoBehaviour
     // 변신 데이터 리스트 (ScriptableObject)
     public List<TransformationData> transformationDataList;
 
-    private float lastTransformationEndTime = -1f; // 변신 시간이 끝난 시간을 저장
+    private float remainingTime = 0f; // 변신 남은 시간 추적 변수
+
 
     void Start()
     {
@@ -63,7 +64,9 @@ public class PlayerTransformationController : MonoBehaviour
         // 변신 지속 시간 타이머 시작
         if (transformationTimer != null)
             StopCoroutine(transformationTimer);
-        transformationTimer = StartCoroutine(TransformationTimer(transformationData.duration));
+
+        remainingTime = transformationData.duration; // 남은 시간 초기화
+        transformationTimer = StartCoroutine(TransformationTimer());
 
     }
 
@@ -80,7 +83,7 @@ public class PlayerTransformationController : MonoBehaviour
 
         playerAnimationController.StartRevertAnimation(); // 변신 해제 애니메이션 실행
 
-        lastTransformationEndTime = Time.time; // 변신 해제 시간 기록
+        //lastTransformationEndTime = Time.time; // 변신 해제 시간 기록
         StartCoroutine(RevertToNormalAfterDelay());
 
     }
@@ -137,15 +140,22 @@ public class PlayerTransformationController : MonoBehaviour
     {
         if (transformationTimer != null)
             StopCoroutine(transformationTimer);
-        transformationTimer = StartCoroutine(TransformationTimer(duration));
+        transformationTimer = StartCoroutine(TransformationTimer());
     }
 
 
     // 변신 지속 시간이 끝나면 자동 해제
-    public IEnumerator TransformationTimer(float duration)
+    public IEnumerator TransformationTimer()
     {
-        yield return new WaitForSeconds(duration);
-        StartRevertProcess(); // 변신 해제 실행
+        while (remainingTime > 0)
+        {
+            Debug.Log($"변신 남은 시간: {remainingTime}초");
+
+            yield return new WaitForSeconds(1);
+            remainingTime -= 1f;
+        }
+
+        StartRevertProcess(); // 변신 지속시간이 끝나면 해제
     }
 
     public void ChangeState(ITransformation newState)
@@ -160,13 +170,13 @@ public class PlayerTransformationController : MonoBehaviour
     }
 
 
-    // 변신 해제 직후 일정 시간 동안 충돌 무시
-    public bool IsRecentlyTransformed()
-    {
-        float timeSinceRevert = Time.time - lastTransformationEndTime;
+    //// 변신 해제 직후 일정 시간 동안 충돌 무시
+    //public bool IsRecentlyTransformed()
+    //{
+    //    float timeSinceRevert = Time.time - lastTransformationEndTime;
 
-        // 0.2초 동안 충돌 무시
-        // 변신 해제 직후 게임 오버 처리되는 오류 방지
-        return (timeSinceRevert >= 0 && timeSinceRevert <= 0.2f); 
-    }
+    //    // 0.2초 동안 충돌 무시
+    //    // 변신 해제 직후 게임 오버 처리되는 오류 방지
+    //    return (timeSinceRevert >= 0 && timeSinceRevert <= 0.2f); 
+    //}
 }

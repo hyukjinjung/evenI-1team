@@ -211,12 +211,12 @@ public class PlayerMovement : MonoBehaviour
                 return;
             }
 
-            // 변신 해제 직후 일정 시간 동안 충돌 방지
-            if (playerTransformationController.IsRecentlyTransformed())
-            {
-                Debug.Log("변신 해제 직후 몬스터 충돌 무시"); // 변신 해제 직후 게임 오버 판정 오류
-                return;
-            }
+            //// 변신 해제 직후 일정 시간 동안 충돌 방지
+            //if (playerTransformationController.IsRecentlyTransformed())
+            //{
+            //    Debug.Log("변신 해제 직후 몬스터 충돌 무시"); // 변신 해제 직후 게임 오버 판정 오류
+            //    return;
+            //}
 
 
             // NormalFrog 상태에서는 충돌 시 게임 오버

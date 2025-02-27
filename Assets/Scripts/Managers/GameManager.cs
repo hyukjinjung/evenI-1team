@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
         {
             if (_instance == null)
             {
+                _instance = FindObjectOfType<GameManager>();
                 Debug.Log("GameManager NULL");
             }
 
@@ -18,22 +19,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //        if (_instance == null)
-    //        {
-    //            _instance = FindObjectOfType<GameManager>();
-
-    //            if (_instance == null )
-    //            {
-    //                Debug.Log("GameManager NULL");
-    //                GameObject go = new GameObject();
-    //                _instance = go.AddComponent<GameManager>();
-    //                DontDestroyOnLoad(go);
-    //            }
-    //        }
-
-    //        return _instance;
-    //    }
-    //}
 
     public UIManager uiManager;
     public TestTileManager tileManager;
@@ -58,18 +43,6 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-
-        //if (_instance == null)
-        //{
-        //    _instance = this;
-        //    DontDestroyOnLoad(gameObject);
-        //}
-        //else if (_instance != this)
-        //{
-        //    Destroy(gameObject);
-        //}
-
 
 
     public void StartGame()
