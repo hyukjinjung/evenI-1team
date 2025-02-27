@@ -56,33 +56,20 @@ public class UIManager : MonoBehaviour
     public Button SettingSourceButton;
     public Button SettingSoundEffectButton;
     public Button SettingBGMButton;
-    public Button SourceReTurnButton;
     public Button CreditsReTurnButton;
 
-   /* PauseSoundEffectButton.onClick.AddListener(PauseSoundEffectImage);
-        PauseBGMButton.onClick.AddListener(PauseBGMImage);
-        SettingBGMButton.onClick.AddListener(SettingBGMImage);
-        SettingSoundEffectButton.onClick.AddListener(SettingSoundEffectImage);*/
-
-
-    public Image buttonImage;    // �̹��� ������Ʈ (��ư�� �̹���)
-    public Sprite PauseSoundEffectButtonOnSprite;  // Ȱ��ȭ�� ���� �̹���
-    public Sprite PauseBGMButtonOffSprite; // ��Ȱ��ȭ�� ���� �̹���
-    public Sprite SettingBGMButtonOnSprite;  // Ȱ��ȭ�� ���� �̹���
-    public Sprite SettingSoundEffectButtonOffSprite;
-
-    private bool isActive = true; // �ʱ� ���´� Ȱ��ȭ ����
+ 
+    private bool isActive = true; 
 
 
     private int score = 0;
     private int bestScore = 0;
 
-    Sprite ButtonOnSprite;
-    Sprite ButtonOffSprite;
+    
 
     public PlayerInputController playerInputController;
     public PlayerAnimationController playerAnimationController;
-    public SoundManager soundManager;
+   
 
 
     // Start is called before the first frame update
@@ -116,7 +103,7 @@ public class UIManager : MonoBehaviour
         CreditsReTurnButton.onClick.AddListener(OnSourceReTurnButtonClicked);
         
         playerAnimationController = FindObjectOfType<PlayerAnimationController>();
-        soundManager = GetComponent<SoundManager>();
+        
     }
 
 
@@ -132,12 +119,13 @@ public class UIManager : MonoBehaviour
 
         isGameOver = false;
 
-        // ???? ????? ????? ?��???? TurnAround ??????? ????
+        
         playerAnimationController.PlayGameStartAnimation();
 
         StartPanel.SetActive(false);
         PlayingPanel.SetActive(true);
         SettingPanel.SetActive(false);
+        GameOverPanel.SetActive(false);
 
     }
 
@@ -159,18 +147,21 @@ public class UIManager : MonoBehaviour
         //SceneManager.LoadScene(0);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
+
     }
 
     void OnGameStartButtonClicked()
     {
-        GameStartButton.interactable = false; // ??? ??? ??? ????
+        GameStartButton.interactable = false; 
         StartGame();
     }
 
-    void OnSettingButtonClicked()
+    public void OnSettingButtonClicked()
     {
         SettingPanel.SetActive(true);
-        StartPanel.SetActive(false);
+        StartPanel.SetActive(true);
+
+        Time.timeScale = 0f;
     }
 
     public void OnSourceReTurnButtonClicked()
@@ -179,21 +170,19 @@ public class UIManager : MonoBehaviour
         SourcePanel.SetActive(false);
     }
 
-    void OnPauseButtonClicked()
+     public void OnPauseButtonClicked()
     {
         PausePanel.SetActive(true);
 
         Time.timeScale = 0f; //Gamepause
     }
 
-    void OnPauseMainHomeButtonClicked()
+    public void OnPauseMainHomeButtonClicked()
     {
-       // SceneManager.LoadScene("CautionPanel");
-
-        //SoundManager(); ???? ????? ??? 
+        CautionPanel.SetActive(true);
     }
 
-    void OnPauseContinueButtonClicked()
+    public void OnPauseContinueButtonClicked()
     {
         // SceneManager.LoadScene("");
 
@@ -204,32 +193,32 @@ public class UIManager : MonoBehaviour
 
     }
 
-    void OnCautionMainHomeButtonClicked()
+    public void OnCautionMainHomeButtonClicked()
     {
         StartPanel.SetActive(true);
         PlayingPanel.SetActive(false);
         PausePanel.SetActive(false);
         CautionPanel.SetActive(false);
 
-        //������ ������ �� ���� �ջ� ȭ�� ��ȹ�� Ȯ���غ��� 
+       
     }
 
-    void OnCautionContineButtonClicked()
+    public void OnCautionContineButtonClicked()
     {
         PlayingPanel.SetActive(false);
         CautionPanel.SetActive(false);
         PausePanel.SetActive(true);
     }
 
-    //���ӿ��� �׾��� �� ���� ���� �г� 5�� �̻� ��ġ ���� �� ���â���� ȭ�� ��ȯ ??
-    void OnAdsComeBackButtonClicked()
+    
+    public void OnAdsComeBackButtonClicked()
     {
         PlayingPanel.SetActive(true);
 
     }
     
 
-    void OnSkipButtonClicked()
+    public void OnSkipButtonClicked()
     {
         ResultPanel.SetActive(true);
         PlayingPanel.SetActive(false);
@@ -245,24 +234,27 @@ public class UIManager : MonoBehaviour
 
     }
 
-    void OnResultReStartButtonClicked()
+    public void OnResultReStartButtonClicked()
     {
         PlayingPanel.SetActive(true);
+        ResultPanel.SetActive(false); 
        
     }
 
-    void OnResultMainHomeButtonClicked()
+    public void OnResultMainHomeButtonClicked()
     {
         StartPanel.SetActive(true);
+        ResultPanel.SetActive(false);
+
     }
     
 
-    void OnStoryReTurnButtonClicked()
+    public void OnStoryReTurnButtonClicked()
     {
         ResultPanel.SetActive(true);
     }
 
-   void OnStoryButtonClicked()
+   public void OnStoryButtonClicked()
     {
 
     }
@@ -273,101 +265,5 @@ public class UIManager : MonoBehaviour
        
         
 
-     /*PauseSoundEffectButton.onClick.AddListener(PauseSoundEffectImage);
-     PauseBGMButton.onClick.AddListener(PauseBGMImage);
-     SettingBGMButton.onClick.AddListener(SettingBGMImage);
-     SettingSoundEffectButton.onClick.AddListener(SettingSoundEffectImage);*/
-    
-
-     // ��ư Ŭ�� �� �̹��� ��ȯ
-     private void PauseSoundEffectImage()
-     {
-            // �̹��� ���� ���
-            isActive = !isActive;
-
-            if (isActive)
-            {
-                buttonImage.sprite = ButtonOnSprite;  // Ȱ��ȭ�� �̹����� ����
-            }
-            else
-            {
-                buttonImage.sprite = ButtonOffSprite;  // ��Ȱ��ȭ�� �̹����� ����
-            }
-     }
-
-   
-
-    private void PauseBGMImage()
-    {
-        isActive = !isActive;
-
-        if (isActive)
-        {
-            buttonImage.sprite = ButtonOnSprite; 
-        }
-        else
-        {
-            buttonImage.sprite = ButtonOffSprite;
-        }
-    }
-
-    private void SettingBGMImage()
-    {
-        isActive = !isActive;
-
-        if (isActive)
-        {
-            buttonImage.sprite = ButtonOnSprite;
-        }
-        else
-        {
-            buttonImage.sprite = ButtonOffSprite;
-        }
-    }
-
-    private void SettingSoundEffectImage()
-    {
-        isActive = !isActive;
-
-        if (isActive)
-        {
-            buttonImage.sprite = ButtonOnSprite;
-        }
-        else
-        {
-            buttonImage.sprite = ButtonOffSprite;
-        }
-    }
-
-
-    // �Ҹ� ���¿� ���� �̹����� ������Ʈ�ϴ� �Լ�
-    /* private void UpdateImage()
-     {
-         // �Ҹ� ���¿� ���� �̹��� ����
-         if (isSoundActive)
-         {
-             ButtonImage.sprite = ButtonOnSprite;  // Ȱ��ȭ�� �̹���
-         }
-         else
-         {
-             ButtonImage.sprite = ButtonOffSprite;  // ��Ȱ��ȭ�� �̹���
-         }
-     }*/
-
-    //���� �ջ� �̾ ¥�ߵ�
-    public void AddScore(int vlaue)
-    {
-        if (isGameOver) return;
-
-        score += vlaue;
-    }
-
-    private void UpdateBestScore(int value)
-    {
-        if (bestScore < value)
-        {
-            bestScore = value;
-        }
-    }
 
 }
