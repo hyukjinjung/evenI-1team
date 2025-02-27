@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TogglePlatform : MonoBehaviour
@@ -7,61 +6,50 @@ public class TogglePlatform : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Collider2D platformCollider;
     private bool isVisible = true;
-
-    [SerializeField] private float toggleInterval = 3f; // On/Off 간격
-    [SerializeField] private float fadeDuration = 1f; // 서서히 사라지는 시간
+    private float toggleInterval = 3f;
 
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         platformCollider = GetComponent<Collider2D>();
 
+        if (spriteRenderer == null)
+        {
+            Debug.LogError($" {gameObject.name}에는 SpriteRenderer가 없습니다! Inspector에서 추가하세요.");
+        }
+
         StartCoroutine(TogglePlatformRoutine());
+    }
+
+    public void SetToggleInterval(float interval)
+    {
+        toggleInterval = interval;
     }
 
     private IEnumerator TogglePlatformRoutine()
     {
         while (true)
         {
+            yield return new WaitForSeconds(toggleInterval);
+
             if (isVisible)
             {
-                yield return StartCoroutine(FadeOut());
+                SetPlatformState(false);
             }
             else
             {
-                yield return StartCoroutine(FadeIn());
+                SetPlatformState(true);
             }
 
             isVisible = !isVisible;
-            yield return new WaitForSeconds(toggleInterval);
         }
     }
 
-    private IEnumerator FadeOut()
+    private void SetPlatformState(bool state)
     {
-        float elapsedTime = 0f;
-        Color color = spriteRenderer.color;
-        while (elapsedTime < fadeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            color.a = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
-            spriteRenderer.color = color;
-            yield return null;
-        }
-        platformCollider.enabled = false; // 충돌 방지
-    }
+        if (spriteRenderer == null || platformCollider == null) return;
 
-    private IEnumerator FadeIn()
-    {
-        float elapsedTime = 0f;
-        Color color = spriteRenderer.color;
-        while (elapsedTime < fadeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            color.a = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
-            spriteRenderer.color = color;
-            yield return null;
-        }
-        platformCollider.enabled = true; // 충돌 활성화
+        spriteRenderer.enabled = state;
+        platformCollider.enabled = state;
     }
 }

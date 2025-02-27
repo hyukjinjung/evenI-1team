@@ -2,50 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class TestTileManager : MonoBehaviour
 {
-    [SerializeField] private GameObject testTilePrefab;      // �׽�Ʈ Ÿ�� ������ �߰�
-    [SerializeField] private GameObject ReverseControlPrefab; // ����Ű ���� ������Ʈ ������ �߰�
-    [SerializeField] private GameObject TransparentPrefab; // ���� ���� ������Ʈ ������ �߰�
-    [SerializeField] private GameObject StickyPrefab; // ������ ���� ������Ʈ ������ �߰�
-    [SerializeField] private GameObject HideNextPrefab; // ���� ���� ���� ������Ʈ ������ �߰�
-    [SerializeField] private GameObject MonsterTilePrefab; // ���� Ÿ�� ������ �߰�
-    [SerializeField] private GameObject MonsterPrefab; // ���� ������ �߰�
-    [SerializeField] private GameObject ItemTilePrefab; // ������ Ÿ�� ������ �߰�
-    [SerializeField] private GameObject ItemPrefab; // ������ ������ �߰�
+    [SerializeField] private GameObject testTilePrefab;
+    [SerializeField] private GameObject ReverseControlPrefab;
+    [SerializeField] private GameObject TransparentTilePrefab;
+    [SerializeField] private GameObject StickyPrefab;
+    [SerializeField] private GameObject HideNextPrefab;
+    [SerializeField] private GameObject MonsterTilePrefab;
+    [SerializeField] private GameObject MonsterPrefab;
+    [SerializeField] private GameObject ItemTilePrefab;
+    [SerializeField] private GameObject ItemPrefab;
 
-    // Ÿ�� ���� ����
-    private float xOffset = 1;
-    private float yOffset = 1;
-
-    private int direction = 1;
-
-    // Ÿ�ϵ��� �����ϴ� ����Ʈ
     private List<Tile> tiles = new List<Tile>();
     private List<Tile> monsterTiles = new List<Tile>();
     private List<Tile> itemTiles = new List<Tile>();
+    private List<Tile> transparentTiles = new List<Tile>();
 
-    // x ��ǥ�� ���� ��
     private int currentX = 0;
-
-    // y ��ǥ�� ���� ��
     private int currentY = 0;
+    private int direction = 1;
 
-    // Ÿ�� ���� ����
     [SerializeField] private float spawnInterval = 0.5f;
-
-    // ���� ������Ʈ ���� Ȯ�� (0 ~ 1)
     [SerializeField] private float obstacleSpawnChance = 0.2f;
-
-    // ���� Ÿ�� ���� Ȯ�� (0 ~ 1)
     [SerializeField] private float monsterTileSpawnChance = 0.18f;
-
-    // ������ Ÿ�� ���� Ȯ�� (0 ~ 1)
     [SerializeField] private float itemTileSpawnChance = 0.15f;
-
-    // �ִ� Ÿ�� ��
+    [SerializeField] private float transparentTileSpawnChance = 0.15f;
     [SerializeField] private int maxTiles = 20;
 
     void Start()
@@ -75,6 +57,10 @@ public class TestTileManager : MonoBehaviour
         {
             tilePrefab = ItemTilePrefab;
         }
+        else if (randomValue < monsterTileSpawnChance + itemTileSpawnChance + transparentTileSpawnChance)
+        {
+            tilePrefab = TransparentTilePrefab;
+        }
         else
         {
             tilePrefab = testTilePrefab;
@@ -83,64 +69,134 @@ public class TestTileManager : MonoBehaviour
         GameObject tileObject = Instantiate(tilePrefab, transform);
         Tile tileComponent = tileObject.GetComponent<Tile>();
 
+        if (tileComponent == null)
+        {
+            tileComponent = tileObject.AddComponent<Tile>(); // 없으면 추가
+        }
+
         tileObject.transform.localPosition = new Vector3(currentX, currentY, 0);
         tileObject.gameObject.SetActive(true);
         tiles.Add(tileComponent);
 
+        // **타일 유형에 따라 정확하게 몬스터 또는 아이템을 생성**
         if (tilePrefab == MonsterTilePrefab)
         {
             monsterTiles.Add(tileComponent);
-            CreateMonsterOnTile(tileComponent);
+            CreateMonsterOnTile(tileComponent); // ✅ 몬스터 타일에서만 실행
         }
         else if (tilePrefab == ItemTilePrefab)
         {
             itemTiles.Add(tileComponent);
-            CreateItemOnTile(tileComponent);
+            CreateItemOnTile(tileComponent); // ✅ 아이템 타일에서만 실행
         }
 
-
-
-        if (tilePrefab == MonsterTilePrefab)
+        // 온오프 발판이면 타일에 TogglePlatform 추가
+        if (tilePrefab == TransparentTilePrefab)
         {
-            monsterTiles.Add(tileComponent);
-            CreateMonsterOnTile(tileComponent);
+            TogglePlatform togglePlatform = tileObject.AddComponent<TogglePlatform>();
+            togglePlatform.SetToggleInterval(3f);
         }
-        else if (Random.value < obstacleSpawnChance)
+
+        // 장애물 생성 (일반 발판에만 추가)
+        if (tilePrefab == testTilePrefab && Random.value < obstacleSpawnChance)
         {
             CreateObstacleOnTile(tileComponent);
         }
 
         if (tiles.Count > maxTiles)
         {
-            Tile oldestTile = tiles[0];
-            tiles.RemoveAt(0);
-            if (monsterTiles.Contains(oldestTile))
-            {
-                monsterTiles.Remove(oldestTile);
-            }
-            if (itemTiles.Contains(oldestTile))
-            {
-                itemTiles.Remove(oldestTile);
-            }
-            Destroy(oldestTile.gameObject);
+            DestroyOldestTile();
         }
 
         UpdateTilePosition();
     }
 
+    private void DestroyOldestTile()
+    {
+        if (tiles.Count == 0) return;
+
+        Tile oldestTile = tiles[0];
+        tiles.RemoveAt(0);
+        Destroy(oldestTile.gameObject);
+    }
 
     private void UpdateTilePosition()
     {
-        int randomDirection = Random.Range(0, 2) * 2 - 1;
-        currentX += randomDirection;
+        if (currentX <= -2)
+        {
+            direction = 1;
+        }
+        else if (currentX >= 2)
+        {
+            direction = -1;
+        }
+        currentX += direction;
         currentY += 1;
+    }
+    public Tile GetForwardTile(Vector3 playerPosition)
+    {
+        Tile forwardTile = null;
+        float minDistance = Mathf.Infinity;
+
+        foreach (Tile tile in tiles)
+        {
+            if (tile.transform.position.y > playerPosition.y) // 플레이어보다 위에 있는 타일 찾기
+            {
+                float distance = Vector3.Distance(playerPosition, tile.transform.position);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    forwardTile = tile;
+                }
+            }
+        }
+
+        return forwardTile;
+    }
+
+    public List<Tile> GetMonsterTiles()
+    {
+        return monsterTiles;
+    }
+
+    public Tile GetTile(int currentFloor)
+    {
+        if (currentFloor < 0 || currentFloor >= tiles.Count)
+            return null; // 유효하지 않은 층이면 null 반환
+
+        return tiles[currentFloor]; // 해당 층의 타일 반환
+    }
+
+    private void CreateMonsterOnTile(Tile tile)
+    {
+        if (tile == null) return;
+
+        GameObject monster = Instantiate(MonsterPrefab, tile.transform);
+        monster.transform.localPosition = Vector3.zero; // ✅ 타일의 중앙에 배치
+        monster.gameObject.SetActive(true);
+
+        Monster monsterComponent = monster.GetComponent<Monster>();
+        if (monsterComponent != null)
+        {
+            tile.SetMonster(monsterComponent);
+        }
+    }
+
+    private void CreateItemOnTile(Tile tile)
+    {
+        if (tile == null) return;
+
+        GameObject item = Instantiate(ItemPrefab, tile.transform);
+        item.transform.localPosition = Vector3.zero; // ✅ 타일의 중앙에 배치
+        item.gameObject.SetActive(true);
+
+        tile.SetItem(item);
     }
 
     private void CreateObstacleOnTile(Tile tile)
     {
         if (tile == null) return;
 
-        
         GameObject obstaclePrefab = null;
         int obstacleType = Random.Range(0, 4);
 
@@ -150,7 +206,7 @@ public class TestTileManager : MonoBehaviour
                 obstaclePrefab = ReverseControlPrefab;
                 break;
             case 1:
-                obstaclePrefab = TransparentPrefab;
+                obstaclePrefab = TransparentTilePrefab;
                 break;
             case 2:
                 obstaclePrefab = StickyPrefab;
@@ -162,79 +218,10 @@ public class TestTileManager : MonoBehaviour
 
         if (obstaclePrefab != null)
         {
-            
             GameObject obstacle = Instantiate(obstaclePrefab, tile.transform);
-
-            
-            obstacle.transform.localPosition = new Vector3(0, 0.1f, -0.2f); 
+            obstacle.transform.localPosition = Vector3.zero; // ✅ 타일의 중앙에 배치
             obstacle.gameObject.SetActive(true);
             tile.SetObstacle(obstacle);
         }
-    }
-
-    private void CreateMonsterOnTile(Tile tile)
-    {
-        if (tile == null)
-        {
-            return;
-        }
-
-        GameObject monster = Instantiate(MonsterPrefab, tile.transform);
-
-    
-        monster.transform.localPosition = new Vector3(0, 0.1f, -0.2f);
-        monster.gameObject.SetActive(true);
-
-        Monster monsterComponent = monster.GetComponent<Monster>();
-        if (monsterComponent == null)
-            return;
-
-        tile.SetMonster(monsterComponent);
-    }
-
-    public List<Tile> GetMonsterTiles()
-    {
-        return monsterTiles;
-    }
-
-    public Tile GetForwardTile(Vector3 playerPosition)
-    {
-        Tile forwardTile = null;
-        float misDistance = Mathf.Infinity;
-
-        foreach (Tile tile in tiles)
-        {
-            if (tile.transform.position.y > playerPosition.y)
-            {
-                float distance = Vector3.Distance(playerPosition, tile.transform.position);
-                if (distance < misDistance)
-                {
-                    misDistance = distance;
-                    forwardTile = tile;
-                }
-            }
-        }
-
-        return forwardTile;
-    }
-
-
-    public Tile GetTile(int currentFloor)
-    {
-        if (currentFloor < 0 || currentFloor >= tiles.Count - 1)
-            return null;
-
-        return tiles[currentFloor + 1];
-    }
-
-    private void CreateItemOnTile(Tile tile)
-    {
-        if (tile == null) return;
-
-        GameObject item = Instantiate(ItemPrefab, tile.transform);
-
-        item.transform.localPosition = new Vector3(0, 0.1f, -0.2f); //
-        item.gameObject.SetActive(true);
-        tile.SetItem(item);
     }
 }
