@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 
 
-public class ToggleButtonImage : MonoBehaviour
+public class SoundManager : MonoBehaviour
 {
     public Button toggleButton;  // 버튼 컴포넌트
     public Image buttonImage;    // 이미지 컴포넌트 (버튼의 이미지)

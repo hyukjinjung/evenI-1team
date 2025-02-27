@@ -2283,8 +2283,7 @@ MonoBehaviour:
   ResultPanel: {fileID: 1280343123}
   StoryPanel: {fileID: 622312740}
   SettingPanel: {fileID: 2020177328}
-  CreditsPanel: {fileID: 971037435}
-  playerAnimator: {fileID: 320762912}
+  SourcePanel: {fileID: 0}
   scoreText: {fileID: 2068323898}
   bestScoreText: {fileID: 98302414}
   ResultScoreText: {fileID: 1914207352}
@@ -2314,11 +2313,16 @@ MonoBehaviour:
   SettingInstagrambutton: {fileID: 2133786572}
   SettingSourceButton: {fileID: 970741479}
   SettingSoundEffectButton: {fileID: 1710194287}
-  SettingBGMOnButton: {fileID: 1936533214}
-  SettingBGmOffButton: {fileID: 0}
+  SettingBGMButton: {fileID: 0}
+  SourceReTurnButton: {fileID: 0}
   CreditsReTurnButton: {fileID: 363454251}
-  soundImage: {fileID: 0}
+  buttonImage: {fileID: 0}
+  PauseSoundEffectButtonOnSprite: {fileID: 0}
+  PauseBGMButtonOffSprite: {fileID: 0}
+  SettingBGMButtonOnSprite: {fileID: 0}
+  SettingSoundEffectButtonOffSprite: {fileID: 0}
   playerInputController: {fileID: 417875397}
+  playerAnimationController: {fileID: 0}
   soundManager: {fileID: 648011950}
 --- !u!4 &376860744
 Transform:
@@ -3839,63 +3843,6 @@ RectTransform:
   m_AnchoredPosition: {x: 440, y: -1638}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0, y: 1}
---- !u!1001 &590475641
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120724731483102506, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8162327040606820687, guid: 791d292f9973e0647a41842d6a107265, type: 3}
-      propertyPath: m_Name
-      value: Stairs
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 791d292f9973e0647a41842d6a107265, type: 3}
 --- !u!1 &598167183
 GameObject:
   m_ObjectHideFlags: 0
@@ -4672,21 +4619,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19bd83baee281374f959afa1295c80c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 2020177330}
-  isSoundActive: 1
-  uiManager: {fileID: 376860743}
-  SettingBGMButton: {fileID: 1936533214}
-  SettingSoundEffectButton: {fileID: 1710194287}
-  PauseBGMButton: {fileID: 47771071}
-  PauseSoundEffectButton: {fileID: 1941280447}
-  SettingBGMButtonOnSprite: {fileID: 21300000, guid: 8c5da5f4b5a400b438483e82cf00f5f0, type: 3}
-  SettingBGMButtonOffSprite: {fileID: 21300000, guid: 87868f4791bae35428b3959d90321b99, type: 3}
-  SettingSoundEffectButtonnOnSprite: {fileID: 21300000, guid: 1f0402721b59d004e88f912df563783d, type: 3}
-  SettingSoundEffectButtonOffSprite: {fileID: 21300000, guid: ab0132c763d3aea469e588c474ba4cba, type: 3}
-  PauseBGMButtonOnSprite: {fileID: 21300000, guid: 8c5da5f4b5a400b438483e82cf00f5f0, type: 3}
-  PauseBGMButtonOffSprite: {fileID: 21300000, guid: 87868f4791bae35428b3959d90321b99, type: 3}
-  PauseSoundEffectButtonOnSprite: {fileID: 21300000, guid: 1f0402721b59d004e88f912df563783d, type: 3}
-  PauseSoundEffectButtonOffSprite: {fileID: 21300000, guid: ab0132c763d3aea469e588c474ba4cba, type: 3}
+  toggleButton: {fileID: 0}
+  buttonImage: {fileID: 0}
+  activeSprite: {fileID: 0}
+  inactiveSprite: {fileID: 0}
 --- !u!4 &648011951
 Transform:
   m_ObjectHideFlags: 0
@@ -5001,8 +4937,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 912230471}
+  m_Children: []
   m_Father: {fileID: 1280343124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -5591,10 +5526,10 @@ MonoBehaviour:
   StartPanel: {fileID: 1496740455}
   PlayingPanel: {fileID: 1655964126}
   GameOverPanel: {fileID: 1435799839}
-  scoreText: {fileID: 2068323898}
-  bestScoreText: {fileID: 98302414}
-  resultScoreText: {fileID: 1914207352}
-  resultBestScoreText: {fileID: 319736886}
+  scoreText: {fileID: 0}
+  bestScoreText: {fileID: 0}
+  resultScoreText: {fileID: 0}
+  resultBestScoreText: {fileID: 0}
 --- !u!1 &946761425
 GameObject:
   m_ObjectHideFlags: 0
@@ -6587,103 +6522,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1125269615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1125269613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: "\uBCF4\uB7EC\uAC00\uAE30"
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2f5de3ea8e077c64cb2f6c72be339f69, type: 2}
-  m_sharedMaterial: {fileID: 3242431367816757528, guid: 2f5de3ea8e077c64cb2f6c72be339f69, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 17
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &1125269616
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1125269613}
-  m_CullTransparentMesh: 1
 --- !u!1 &1131800710
 GameObject:
   m_ObjectHideFlags: 0
@@ -7787,6 +7625,7 @@ RectTransform:
   - {fileID: 1280343124}
   - {fileID: 622312741}
   - {fileID: 383040209}
+  - {fileID: 971037436}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -8382,7 +8221,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1673022249
@@ -10220,8 +10059,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1125269614}
+  m_Children: []
   m_Father: {fileID: 622312741}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -11925,5 +11763,6 @@ SceneRoots:
   - {fileID: 885555218}
   - {fileID: 2072568427}
   - {fileID: 2110626868}
-  - {fileID: 715479064}
   - {fileID: 1999838871}
+  - {fileID: 366100214}
+  - {fileID: 648011951}

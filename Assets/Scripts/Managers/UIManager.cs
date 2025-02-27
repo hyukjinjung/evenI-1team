@@ -57,6 +57,7 @@ public class UIManager : MonoBehaviour
     public Button SettingSoundEffectButton;
     public Button SettingBGMButton;
     public Button SourceReTurnButton;
+    public Button CreditsReTurnButton;
 
    /* PauseSoundEffectButton.onClick.AddListener(PauseSoundEffectImage);
         PauseBGMButton.onClick.AddListener(PauseBGMImage);
