@@ -143,10 +143,9 @@ public class NinjaAbility : SpecialAbilityData
 
 
         // Y축을 약간 낮춰 이펙트가 플레이어보다 아래에서 생성되도록 설정
-        float yOffset = -1f; // 이펙트가 플레이어의 중심이 아닌 아래에서 생성되도록 설정
-        Vector3 effectPosition = position + new Vector3(0, yOffset, 0);
+        Vector3 effectPosition = position + new Vector3(0, -1f, 0);
 
-        GameObject effect = Instantiate(ninjaAttackEffect, effectPosition, Quaternion.identity);
+        Instantiate(ninjaAttackEffect, effectPosition, Quaternion.identity);
 
     }
 

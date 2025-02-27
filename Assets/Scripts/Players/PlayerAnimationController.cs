@@ -36,6 +36,7 @@ public class PlayerAnimationController : MonoBehaviour
         animator.SetTrigger("GameOver");
     }
 
+    // NinjaFrog 애니메이션
     public void PlayDisappearAnimation()
     {
         ResetAllTriggers();
@@ -43,6 +44,7 @@ public class PlayerAnimationController : MonoBehaviour
         //StartCoroutine(TransitionToAssassination());
     }
 
+    // NinjaFrog 애니메이션
     public void PlayAssassinationAnimation()
     {
         ResetAllTriggers();
@@ -54,7 +56,7 @@ public class PlayerAnimationController : MonoBehaviour
     public void PlayRevertToNormalAnimation()
     {
         ResetAllTriggers();
-        animator.Play("RevertToNormal");
+        animator.SetTrigger("ToJumpWait");
     }
 
 
@@ -70,6 +72,9 @@ public class PlayerAnimationController : MonoBehaviour
         return 0.5f;
     }
 
+    public float GetDisappearAnimationLength() => 0.5f;
+    public float GetAssassinationAnimationLength() => 0.5f;
+
 
     // 애니메이션 길이만큼 기다렸다가 변신을 해제
     public float GetCurrentAnimationLength()
@@ -77,21 +82,6 @@ public class PlayerAnimationController : MonoBehaviour
         return animator.GetCurrentAnimatorStateInfo(0).length;
     }
 
-
-    // 사라지는 애니메이션 실행 후 암살 애니메이션으로 전환
-
-    // 사라지는 애니메이션 길이 반환
-    public float GetDisappearAnimationLength()
-    {
-        return 0.5f; // 실제 애니메이션 길이에 맞게 조정
-    }
-
-
-    // 암살 애니메이션 길이 반환
-    public float GetAssassinationAnimationLength()
-    {
-        return 0.7f; // 실제 애니메이션 길이에 맞게 조정
-    }
 
 
     public void PlayerTransformationAnimation(TransformationType newTransformation)
@@ -155,9 +145,6 @@ public class PlayerAnimationController : MonoBehaviour
         // 변신 해제 애니메이션 즉시 실행
         animator.Play("RevertToNormal");
 
-
-        //StopAllCoroutines(); // 기존 변신 해제 관련 코루틴 중복 방지 실행
-        //StartCoroutine(SetRevertToNormal());
         StartCoroutine(RevertToNormalAfterDelay());
     }
 

@@ -2803,8 +2803,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 376860743}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 885555219}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
@@ -3126,7 +3126,7 @@ MonoBehaviour:
   spawnInterval: 0.5
   obstacleSpawnChance: 0.1
   monsterTileSpawnChance: 0.2
-  itemTileSpawnChance: 0.05
+  itemTileSpawnChance: 0.1
   maxTiles: 100
 --- !u!1 &775552308
 GameObject:

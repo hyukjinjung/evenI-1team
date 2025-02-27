@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerTransformationController : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerTransformationController : MonoBehaviour
     public List<TransformationData> transformationDataList;
 
     private float remainingTime = 0f; // 변신 남은 시간 추적 변수
+    private int specialAbilityUsesRemaning = 0; // 남은 특수 능력 사용 횟수
 
 
     void Start()
@@ -43,6 +45,11 @@ public class PlayerTransformationController : MonoBehaviour
         currentTransformation = transformationData.transformationType;
 
 
+        // 특수 능력 최대 사용 횟수 설정
+        specialAbilityUsesRemaning = transformationData.specialAbility.maxUsageCount;
+        remainingTime = transformationData.duration;
+
+
         // 특수 능력 설정
         PlayerAttackController attackController = GetComponent<PlayerAttackController>();
         if (attackController != null)
@@ -55,19 +62,31 @@ public class PlayerTransformationController : MonoBehaviour
         // NinjaFrog 패시브 효과 적용 (몬스터 충돌 무시)
         if (currentTransformation == TransformationType.NinjaFrog)
         {
-            PlayerCollisionController collisionController = GetComponent<PlayerCollisionController>();
-            collisionController.EnableMonsterIgnore(transformationData.duration);
+            GetComponent<PlayerCollisionController>().EnableMonsterIgnore(transformationData.duration);
         }
 
 
-
         // 변신 지속 시간 타이머 시작
-        if (transformationTimer != null)
-            StopCoroutine(transformationTimer);
+        ResetTransformationTimer();
 
-        remainingTime = transformationData.duration; // 남은 시간 초기화
         transformationTimer = StartCoroutine(TransformationTimer());
 
+    }
+
+
+    public void UseSpecialAbility()
+    {
+        if (specialAbilityUsesRemaning > 0)
+        {
+            specialAbilityUsesRemaning--;
+            Debug.Log($"특수 능력 사용. 남은 횟수: {specialAbilityUsesRemaning}");
+
+            if (specialAbilityUsesRemaning == 0)
+            {
+                Debug.Log("특수 능력 횟수 소진.즉시 변신 해제");
+                StartRevertProcess();
+            }
+        }
     }
 
 
@@ -76,16 +95,25 @@ public class PlayerTransformationController : MonoBehaviour
     {
         // 이미 NormalFrog 상태면실 실행할 필요 없음
         if (currentTransformation == TransformationType.NormalFrog)
-            return; 
+            return;
 
-        StopTransformationTimer();
+        ResetTransformationTimer();
         Debug.Log("변신 해제 애니메이션 실행"); // 애니메이션 호출 확인
 
         playerAnimationController.StartRevertAnimation(); // 변신 해제 애니메이션 실행
 
-        //lastTransformationEndTime = Time.time; // 변신 해제 시간 기록
         StartCoroutine(RevertToNormalAfterDelay());
 
+    }
+
+
+    private void ResetTransformationTimer()
+    {
+        if (transformationTimer != null)
+        {
+            StopCoroutine(transformationTimer);
+            transformationTimer = null;
+        }
     }
 
 
@@ -169,14 +197,4 @@ public class PlayerTransformationController : MonoBehaviour
         return currentState;
     }
 
-
-    //// 변신 해제 직후 일정 시간 동안 충돌 무시
-    //public bool IsRecentlyTransformed()
-    //{
-    //    float timeSinceRevert = Time.time - lastTransformationEndTime;
-
-    //    // 0.2초 동안 충돌 무시
-    //    // 변신 해제 직후 게임 오버 처리되는 오류 방지
-    //    return (timeSinceRevert >= 0 && timeSinceRevert <= 0.2f); 
-    //}
 }
