@@ -1433,8 +1433,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
-<<<<<<< HEAD
-=======
 --- !u!1 &363454249
 GameObject:
   m_ObjectHideFlags: 0
@@ -1598,7 +1596,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
->>>>>>> 6126162c5d9394495a84c02054989487a51a6e8e
 --- !u!1 &376860742
 GameObject:
   m_ObjectHideFlags: 0
@@ -1636,12 +1633,8 @@ MonoBehaviour:
   ResultPanel: {fileID: 1280343123}
   StoryPanel: {fileID: 622312740}
   SettingPanel: {fileID: 2020177328}
-<<<<<<< HEAD
-  SourcePanel: {fileID: 320040628}
-=======
   CreditsPanel: {fileID: 971037435}
   playerAnimator: {fileID: 320762912}
->>>>>>> 6126162c5d9394495a84c02054989487a51a6e8e
   scoreText: {fileID: 2068323898}
   bestScoreText: {fileID: 98302414}
   ResultScoreText: {fileID: 1914207352}
@@ -1671,24 +1664,12 @@ MonoBehaviour:
   SettingInstagrambutton: {fileID: 2133786572}
   SettingSourceButton: {fileID: 970741479}
   SettingSoundEffectButton: {fileID: 1710194287}
-<<<<<<< HEAD
-  SettingBGMButton: {fileID: 1936533214}
-  SourceReTurnButton: {fileID: 1043093621}
-  buttonImage: {fileID: 0}
-  PauseSoundEffectButtonOnSprite: {fileID: 0}
-  PauseBGMButtonOffSprite: {fileID: 0}
-  SettingBGMButtonOnSprite: {fileID: 0}
-  SettingSoundEffectButtonOffSprite: {fileID: 0}
-  playerInputController: {fileID: 417875397}
-  playerAnimationController: {fileID: 417875396}
-=======
   SettingBGMOnButton: {fileID: 1936533214}
   SettingBGmOffButton: {fileID: 0}
   CreditsReTurnButton: {fileID: 363454251}
   soundImage: {fileID: 0}
   playerInputController: {fileID: 417875397}
   soundManager: {fileID: 648011950}
->>>>>>> 6126162c5d9394495a84c02054989487a51a6e8e
 --- !u!4 &376860744
 Transform:
   m_ObjectHideFlags: 0

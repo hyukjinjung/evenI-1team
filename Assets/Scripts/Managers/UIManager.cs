@@ -70,12 +70,8 @@ public class UIManager : MonoBehaviour
 
 
     public PlayerInputController playerInputController;
-<<<<<<< HEAD
     public PlayerAnimationController playerAnimationController;
-
-=======
     public SoundManager soundManager;
->>>>>>> 6126162c5d9394495a84c02054989487a51a6e8e
 
 
     // Start is called before the first frame update
@@ -107,14 +103,9 @@ public class UIManager : MonoBehaviour
         StoryButton.onClick.AddListener(OnStoryButtonClicked);
         SettingButton.onClick.AddListener(OnSettingButtonClicked);
         CreditsReTurnButton.onClick.AddListener(OnSourceReTurnButtonClicked);
-
-<<<<<<< HEAD
+        
         playerAnimationController = FindObjectOfType<PlayerAnimationController>();
-
-=======
         soundManager = GetComponent<SoundManager>();
-       
->>>>>>> 6126162c5d9394495a84c02054989487a51a6e8e
     }
 
 
@@ -130,7 +121,7 @@ public class UIManager : MonoBehaviour
 
         isGameOver = false;
 
-        // 게임 시작과 동시에 플레이어 TurnAround 애니메이션 실행
+        // ???? ????? ????? ?÷???? TurnAround ??????? ????
         playerAnimationController.PlayGameStartAnimation();
 
         StartPanel.SetActive(false);
@@ -146,15 +137,9 @@ public class UIManager : MonoBehaviour
         GameOverPanel.SetActive(true);
         PausePanel.SetActive(false);
         CautionPanel.SetActive(false);
-
-<<<<<<< HEAD
-        UpdateBestScore(score);
-
         playerAnimationController.PlayGameStartAnimation();
-=======
 
        // UpdateBestScore(score);
->>>>>>> 6126162c5d9394495a84c02054989487a51a6e8e
     }
 
 
@@ -165,29 +150,10 @@ public class UIManager : MonoBehaviour
 
     }
 
-
-<<<<<<< HEAD
-=======
-        AnimatorStateInfo stateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
-        float animationDuration = stateInfo.length;
-        yield return new WaitForSeconds(animationDuration);
-
-       
-    }
->>>>>>> 6126162c5d9394495a84c02054989487a51a6e8e
-
-
-    
-
     void OnGameStartButtonClicked()
     {
-<<<<<<< HEAD
-        GameStartButton.interactable = false; // 버튼 중복 입력 방지
+        GameStartButton.interactable = false; // ??? ??? ??? ????
         StartGame();
-=======
-        GameStartButton.interactable = false; 
-        StartCoroutine(PlayTurnAround());
->>>>>>> 6126162c5d9394495a84c02054989487a51a6e8e
     }
 
     void OnSettingButtonClicked()
@@ -225,7 +191,7 @@ public class UIManager : MonoBehaviour
     {
         CautionPanel.SetActive(true);
 
-        //SoundManager(); 사운드 매니저 호출 
+        //SoundManager(); ???? ????? ??? 
     }
 
     void OnPauseContinueButtonClicked()
@@ -333,9 +299,5 @@ public class UIManager : MonoBehaviour
             bestScore = value;
         }
     }*/
-
-<<<<<<< HEAD
-=======
-  
->>>>>>> 6126162c5d9394495a84c02054989487a51a6e8e
+    
 }
