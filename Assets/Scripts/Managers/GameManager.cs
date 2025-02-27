@@ -89,10 +89,5 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.5f);
         Time.timeScale = 0f;
     }
-
-    public void ResultPanel()
-    {
-        Debug.Log("점수 합산 창으로 이동");
-    }
 }
 

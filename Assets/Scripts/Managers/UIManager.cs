@@ -1,7 +1,6 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,7 +21,7 @@ public class UIManager : MonoBehaviour
     public GameObject ResultPanel;
     public GameObject StoryPanel;
     public GameObject SettingPanel;
-    public GameObject CreditsPanel;
+    public GameObject SourcePanel;
 
 
     public TextMeshProUGUI scoreText;
@@ -56,18 +55,29 @@ public class UIManager : MonoBehaviour
     public Button SettingInstagrambutton;
     public Button SettingSourceButton;
     public Button SettingSoundEffectButton;
-    public Button SettingBGMOnButton;
-    public Button SettingBGmOffButton;
-    public Button CreditsReTurnButton;
+    public Button SettingBGMButton;
+    public Button SourceReTurnButton;
 
-    private bool isActive = true;
+   /* PauseSoundEffectButton.onClick.AddListener(PauseSoundEffectImage);
+        PauseBGMButton.onClick.AddListener(PauseBGMImage);
+        SettingBGMButton.onClick.AddListener(SettingBGMImage);
+        SettingSoundEffectButton.onClick.AddListener(SettingSoundEffectImage);*/
 
-    public Image soundImage;
-    private bool isSoundActive = true;
+
+    public Image buttonImage;    // �̹��� ������Ʈ (��ư�� �̹���)
+    public Sprite PauseSoundEffectButtonOnSprite;  // Ȱ��ȭ�� ���� �̹���
+    public Sprite PauseBGMButtonOffSprite; // ��Ȱ��ȭ�� ���� �̹���
+    public Sprite SettingBGMButtonOnSprite;  // Ȱ��ȭ�� ���� �̹���
+    public Sprite SettingSoundEffectButtonOffSprite;
+
+    private bool isActive = true; // �ʱ� ���´� Ȱ��ȭ ����
+
 
     private int score = 0;
     private int bestScore = 0;
 
+    Sprite ButtonOnSprite;
+    Sprite ButtonOffSprite;
 
     public PlayerInputController playerInputController;
     public PlayerAnimationController playerAnimationController;
@@ -85,7 +95,7 @@ public class UIManager : MonoBehaviour
         ResultPanel.SetActive(false);
         StoryPanel.SetActive(false);
         SettingPanel.SetActive(false);
-        CreditsPanel.SetActive(false);
+        SourcePanel.SetActive(false);
 
         GameStartButton.onClick.AddListener(OnGameStartButtonClicked);
         PauseButton.onClick.AddListener(OnPauseButtonClicked);
@@ -112,7 +122,7 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
    
     public void StartGame()
@@ -121,7 +131,7 @@ public class UIManager : MonoBehaviour
 
         isGameOver = false;
 
-        // ???? ????? ????? ?��???? TurnAround ??????? ????
+        // ???? ????? ????? ?��???? TurnAround ??????? ????
         playerAnimationController.PlayGameStartAnimation();
 
         StartPanel.SetActive(false);
@@ -162,22 +172,10 @@ public class UIManager : MonoBehaviour
         StartPanel.SetActive(false);
     }
 
-    public void OnSettingBGMButtonClicked()
-    {
-        soundManager.SettingBGMButtonSoundState();
-    }
-
-    public void OnSettingSoundEffectButtonClicked()
-    {
-        soundManager.SettingSoundEffectButtonSoundState();
-    }
-
-  
-
     public void OnSourceReTurnButtonClicked()
     {
         SettingPanel.SetActive(true);
-        CreditsPanel.SetActive(false);
+        SourcePanel.SetActive(false);
     }
 
     void OnPauseButtonClicked()
@@ -189,31 +187,21 @@ public class UIManager : MonoBehaviour
 
     void OnPauseMainHomeButtonClicked()
     {
-        CautionPanel.SetActive(true);
+       // SceneManager.LoadScene("CautionPanel");
 
         //SoundManager(); ???? ????? ??? 
     }
 
     void OnPauseContinueButtonClicked()
     {
-        
+        // SceneManager.LoadScene("");
+
         PlayingPanel.SetActive(true);
         PausePanel.SetActive(false);
-        
+        // SceneManager.LoadScene(SceneManager.GetActiveScene())
         Time.timeScale = 1f;
-    }
 
-
-    public void OnPauseBGMButtonClicked()
-    {
-        soundManager.PauseBGMButtonSoundState();
     }
-
-    public void OnPauseSoundEffectButtonClicked()
-    {
-        soundManager.PauseBGMButtonSoundState();
-    }
-   
 
     void OnCautionMainHomeButtonClicked()
     {
@@ -222,6 +210,7 @@ public class UIManager : MonoBehaviour
         PausePanel.SetActive(false);
         CautionPanel.SetActive(false);
 
+        //������ ������ �� ���� �ջ� ȭ�� ��ȹ�� Ȯ���غ��� 
     }
 
     void OnCautionContineButtonClicked()
@@ -231,7 +220,7 @@ public class UIManager : MonoBehaviour
         PausePanel.SetActive(true);
     }
 
-    
+    //���ӿ��� �׾��� �� ���� ���� �г� 5�� �̻� ��ġ ���� �� ���â���� ȭ�� ��ȯ ??
     void OnAdsComeBackButtonClicked()
     {
         PlayingPanel.SetActive(true);
@@ -255,10 +244,10 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void OnResultReStartButtonClicked()
+    void OnResultReStartButtonClicked()
     {
-        PlayingPanel.SetActive(false);
-        RestartGame();
+        // ����� �ϳ� �ҽ��ϸ鼭 30�� Ÿ�̸� ���۰� ���ÿ� ���� ���� 
+        PlayingPanel.SetActive(true);
     }
 
     void OnResultMainHomeButtonClicked()
@@ -274,18 +263,98 @@ public class UIManager : MonoBehaviour
 
    void OnStoryButtonClicked()
     {
-        StoryPanel.SetActive(true);
+
     }
 
 
-
+   
     
+       
+        
+
+     /*PauseSoundEffectButton.onClick.AddListener(PauseSoundEffectImage);
+     PauseBGMButton.onClick.AddListener(PauseBGMImage);
+     SettingBGMButton.onClick.AddListener(SettingBGMImage);
+     SettingSoundEffectButton.onClick.AddListener(SettingSoundEffectImage);*/
     
 
+     // ��ư Ŭ�� �� �̹��� ��ȯ
+     private void PauseSoundEffectImage()
+     {
+            // �̹��� ���� ���
+            isActive = !isActive;
+
+            if (isActive)
+            {
+                buttonImage.sprite = ButtonOnSprite;  // Ȱ��ȭ�� �̹����� ����
+            }
+            else
+            {
+                buttonImage.sprite = ButtonOffSprite;  // ��Ȱ��ȭ�� �̹����� ����
+            }
+     }
+
+   
+
+    private void PauseBGMImage()
+    {
+        isActive = !isActive;
+
+        if (isActive)
+        {
+            buttonImage.sprite = ButtonOnSprite; 
+        }
+        else
+        {
+            buttonImage.sprite = ButtonOffSprite;
+        }
+    }
+
+    private void SettingBGMImage()
+    {
+        isActive = !isActive;
+
+        if (isActive)
+        {
+            buttonImage.sprite = ButtonOnSprite;
+        }
+        else
+        {
+            buttonImage.sprite = ButtonOffSprite;
+        }
+    }
+
+    private void SettingSoundEffectImage()
+    {
+        isActive = !isActive;
+
+        if (isActive)
+        {
+            buttonImage.sprite = ButtonOnSprite;
+        }
+        else
+        {
+            buttonImage.sprite = ButtonOffSprite;
+        }
+    }
 
 
+    // �Ҹ� ���¿� ���� �̹����� ������Ʈ�ϴ� �Լ�
+    /* private void UpdateImage()
+     {
+         // �Ҹ� ���¿� ���� �̹��� ����
+         if (isSoundActive)
+         {
+             ButtonImage.sprite = ButtonOnSprite;  // Ȱ��ȭ�� �̹���
+         }
+         else
+         {
+             ButtonImage.sprite = ButtonOffSprite;  // ��Ȱ��ȭ�� �̹���
+         }
+     }*/
 
-    /*public void AddScore(int vlaue)
+    //���� �ջ� �̾ ¥�ߵ�
+    public void AddScore(int vlaue)
     {
         if (isGameOver) return;
 
@@ -298,6 +367,6 @@ public class UIManager : MonoBehaviour
         {
             bestScore = value;
         }
-    }*/
-    
+    }
+
 }
