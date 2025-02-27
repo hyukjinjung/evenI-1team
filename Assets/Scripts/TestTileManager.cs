@@ -3,93 +3,238 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[System.Serializable]
-public struct TileGenerationParam
-{
-    // 0 ~ 100 »çÀÌÀÇ È®·ü°ª
-    public int probability;
-
-    // ±âº» ¹æÇâ: 1Àº ¿À¸¥ÂÊ, -1Àº ¿ÞÂÊ
-    public int defaultDirection;
-}
-
 
 public class TestTileManager : MonoBehaviour
 {
-    [SerializeField] private GameObject testTilePrefab;
+    [SerializeField] private GameObject testTilePrefab;      // ï¿½×½ï¿½Æ® Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    [SerializeField] private GameObject ReverseControlPrefab; // ï¿½ï¿½ï¿½ï¿½Å° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    [SerializeField] private GameObject TransparentPrefab; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    [SerializeField] private GameObject StickyPrefab; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    [SerializeField] private GameObject HideNextPrefab; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    [SerializeField] private GameObject MonsterTilePrefab; // ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    [SerializeField] private GameObject MonsterPrefab; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    [SerializeField] private GameObject ItemTilePrefab; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    [SerializeField] private GameObject ItemPrefab; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 
-    //[SerializeField] public GameObject obstacleStairPrefab;
-
-    // Å¸ÀÏ °£ÀÇ °£°Ý
+    // Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private float xOffset = 1;
     private float yOffset = 1;
 
     private int direction = 1;
 
-    // Inspector¿¡¼­ °¢ Å¸ÀÏ¿¡ ´ëÇÑ ¸Å°³º¯¼ö¸¦ ¼³Á¤ÇÒ ¼ö ÀÖÀ½
-    [SerializeField] private List<TileGenerationParam> tileParams = new List<TileGenerationParam>();
-
-
-    // Å¸ÀÏµéÀ» ÀúÀåÇÏ´Â ¸®½ºÆ®
+    // Å¸ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
     private List<Tile> tiles = new List<Tile>();
+    private List<Tile> monsterTiles = new List<Tile>();
+    private List<Tile> itemTiles = new List<Tile>();
 
-    // x ÁÂÇ¥ÀÇ ÇöÀç °ª
+    // x ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     private int currentX = 0;
 
+    // y ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+    private int currentY = 0;
 
+    // Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    [SerializeField] private float spawnInterval = 0.5f;
 
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ (0 ~ 1)
+    [SerializeField] private float obstacleSpawnChance = 0.2f;
 
-    // Start is called before the first frame update
+    // ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ (0 ~ 1)
+    [SerializeField] private float monsterTileSpawnChance = 0.18f;
+
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ (0 ~ 1)
+    [SerializeField] private float itemTileSpawnChance = 0.15f;
+
+    // ï¿½Ö´ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½
+    [SerializeField] private int maxTiles = 20;
+
     void Start()
     {
-        int tileCount = 20; // »ý¼ºÇÒ Å¸ÀÏ °³¼ö
+        StartCoroutine(GenerateTiles());
+    }
 
-        for (int i = 0; i < tileCount; i++)
+    private IEnumerator GenerateTiles()
+    {
+        while (true)
         {
-            GameObject testTile = Instantiate(testTilePrefab);
-            testTile.transform.SetParent(transform);
-
-            testTile.transform.localPosition = new Vector3(currentX, yOffset * i, 0);
-            testTile.gameObject.SetActive(true);
-
-            tiles.Add(testTile.GetComponent<Tile>());
-
-
-            // Å¸ÀÏ ¸Å°³º¯¼ö°¡ ÁöÁ¤µÇ¾î ÀÖ´Ù¸é ÀÌ¸¦ »ç¿ëÇÏ¿© x ÁÂÇ¥ °»½Å
-            if (i < tileParams.Count)
-            {
-                TileGenerationParam param = tileParams[i];
-
-                // 0~100 »çÀÌÀÇ ·£´ý ¼ýÀÚ »ý¼º
-                int randValue = Random.Range(0, 101);
-
-                int chosenDirection;
-
-                // ·£´ý °ªÀÌ ¸Å°³º¯¼öÀÇ È®·üº¸´Ù ÀÛÀ¸¸é ±âº» ¹æÇâ, ±×·¸Áö ¾ÊÀ¸¸é ¹Ý´ë ¹æÇâ ¼±ÅÃ
-                if (randValue < param.probability)
-                    chosenDirection = param.defaultDirection;
-                else
-                    chosenDirection = -param.defaultDirection;
-
-
-                // ¼±ÅÃµÈ ¹æÇâ¿¡ µû¶ó x ÁÂÇ¥ ¾÷µ¥ÀÌÆ®
-                currentX += chosenDirection;
-            }
-            else
-            {
-                // ¸Å°³º¯¼ö°¡ ¾ø´Ù¸é ±âº» ¿ÀÇÁ¼Â(¿À¸¥ÂÊ ÀÌµ¿) Àû¿ë
-                currentX += 1;
-            }
+            GenerateTile();
+            yield return new WaitForSeconds(spawnInterval);
         }
     }
 
+    private void GenerateTile()
+    {
+        GameObject tilePrefab;
+        float randomValue = Random.value;
 
-    // ÇöÀç Ãþ¿¡ ÇØ´çÇÏ´Â Å¸ÀÏÀ» ¹ÝÈ¯
+        if (randomValue < monsterTileSpawnChance)
+        {
+            tilePrefab = MonsterTilePrefab;
+        }
+        else if (randomValue < monsterTileSpawnChance + itemTileSpawnChance)
+        {
+            tilePrefab = ItemTilePrefab;
+        }
+        else
+        {
+            tilePrefab = testTilePrefab;
+        }
+
+        GameObject tileObject = Instantiate(tilePrefab, transform);
+        Tile tileComponent = tileObject.GetComponent<Tile>();
+
+        tileObject.transform.localPosition = new Vector3(currentX, currentY, 0);
+        tileObject.gameObject.SetActive(true);
+        tiles.Add(tileComponent);
+
+        if (tilePrefab == MonsterTilePrefab)
+        {
+            monsterTiles.Add(tileComponent);
+            CreateMonsterOnTile(tileComponent);
+        }
+        else if (tilePrefab == ItemTilePrefab)
+        {
+            itemTiles.Add(tileComponent);
+            CreateItemOnTile(tileComponent);
+        }
+
+
+
+        if (tilePrefab == MonsterTilePrefab)
+        {
+            monsterTiles.Add(tileComponent);
+            CreateMonsterOnTile(tileComponent);
+        }
+        else if (Random.value < obstacleSpawnChance)
+        {
+            CreateObstacleOnTile(tileComponent);
+        }
+
+        if (tiles.Count > maxTiles)
+        {
+            Tile oldestTile = tiles[0];
+            tiles.RemoveAt(0);
+            if (monsterTiles.Contains(oldestTile))
+            {
+                monsterTiles.Remove(oldestTile);
+            }
+            if (itemTiles.Contains(oldestTile))
+            {
+                itemTiles.Remove(oldestTile);
+            }
+            Destroy(oldestTile.gameObject);
+        }
+
+        UpdateTilePosition();
+    }
+
+
+    private void UpdateTilePosition()
+    {
+        int randomDirection = Random.Range(0, 2) * 2 - 1;
+        currentX += randomDirection;
+        currentY += 1;
+    }
+
+    private void CreateObstacleOnTile(Tile tile)
+    {
+        if (tile == null) return;
+
+        
+        GameObject obstaclePrefab = null;
+        int obstacleType = Random.Range(0, 4);
+
+        switch (obstacleType)
+        {
+            case 0:
+                obstaclePrefab = ReverseControlPrefab;
+                break;
+            case 1:
+                obstaclePrefab = TransparentPrefab;
+                break;
+            case 2:
+                obstaclePrefab = StickyPrefab;
+                break;
+            case 3:
+                obstaclePrefab = HideNextPrefab;
+                break;
+        }
+
+        if (obstaclePrefab != null)
+        {
+            
+            GameObject obstacle = Instantiate(obstaclePrefab, tile.transform);
+
+            
+            obstacle.transform.localPosition = new Vector3(0, 0.1f, -0.2f); 
+            obstacle.gameObject.SetActive(true);
+            tile.SetObstacle(obstacle);
+        }
+    }
+
+    private void CreateMonsterOnTile(Tile tile)
+    {
+        if (tile == null)
+        {
+            return;
+        }
+
+        GameObject monster = Instantiate(MonsterPrefab, tile.transform);
+
+    
+        monster.transform.localPosition = new Vector3(0, 0.1f, -0.2f);
+        monster.gameObject.SetActive(true);
+
+        Monster monsterComponent = monster.GetComponent<Monster>();
+        if (monsterComponent == null)
+            return;
+
+        tile.SetMonster(monsterComponent);
+    }
+
+    public List<Tile> GetMonsterTiles()
+    {
+        return monsterTiles;
+    }
+
+    public Tile GetForwardTile(Vector3 playerPosition)
+    {
+        Tile forwardTile = null;
+        float misDistance = Mathf.Infinity;
+
+        foreach (Tile tile in tiles)
+        {
+            if (tile.transform.position.y > playerPosition.y)
+            {
+                float distance = Vector3.Distance(playerPosition, tile.transform.position);
+                if (distance < misDistance)
+                {
+                    misDistance = distance;
+                    forwardTile = tile;
+                }
+            }
+        }
+
+        return forwardTile;
+    }
+
+
     public Tile GetTile(int currentFloor)
     {
-        if (currentFloor < 0 || currentFloor >= tiles.Count - 1) // ¹üÀ§ È®ÀÎ
+        if (currentFloor < 0 || currentFloor >= tiles.Count - 1)
             return null;
 
         return tiles[currentFloor + 1];
+    }
+
+    private void CreateItemOnTile(Tile tile)
+    {
+        if (tile == null) return;
+
+        GameObject item = Instantiate(ItemPrefab, tile.transform);
+
+        item.transform.localPosition = new Vector3(0, 0.1f, -0.2f); //
+        item.gameObject.SetActive(true);
+        tile.SetItem(item);
     }
 }

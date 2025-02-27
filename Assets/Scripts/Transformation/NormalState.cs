@@ -3,7 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.WSA;
 
-public interface ITransformation    // 변신 시스템을 위한 인터페이스
+/*
+ 
+클래스 설명:
+변신 시스템을 위한 인터페이스
+
+*/
+
+public interface ITransformation
 {
     void Activate();    // 변신 시작
     void UseSpecialAbility();   // 특수 능력 사용

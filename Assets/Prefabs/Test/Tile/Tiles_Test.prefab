@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1434168880723362046}
   m_Layer: 0
   m_Name: Tiles_Test
-  m_TagString: Untagged
+  m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,39 +46,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testTilePrefab: {fileID: 3937353631704208331}
-  tileParams:
-  - probability: 50
-    defaultDirection: -1
-  - probability: 50
-    defaultDirection: -1
-  - probability: 53
-    defaultDirection: 1
-  - probability: 53
-    defaultDirection: 1
-  - probability: 53
-    defaultDirection: -1
-  - probability: 53
-    defaultDirection: -1
-  - probability: 58
-    defaultDirection: 1
-  - probability: 58
-    defaultDirection: 1
-  - probability: 53
-    defaultDirection: -1
-  - probability: 53
-    defaultDirection: 1
-  - probability: 53
-    defaultDirection: 1
-  - probability: 53
-    defaultDirection: 1
-  - probability: 49
-    defaultDirection: 1
-  - probability: 49
-    defaultDirection: 1
-  - probability: 49
-    defaultDirection: -1
-  - probability: 49
-    defaultDirection: -1
+  ReverseControlPrefab: {fileID: 2933800916708524401, guid: 5d274fcc0024ebc4fa326bfe035e9418, type: 3}
+  TransparentPrefab: {fileID: 5234649158223806813, guid: 9f556d6980c56b649811b31c3f28b845, type: 3}
+  StickyPrefab: {fileID: 8466313677258121854, guid: 785a9496b1398f046b3e346be9b22a8e, type: 3}
+  HideNextPrefab: {fileID: 6153712333649976916, guid: b0b23d0d68285434f9b2cd4586ef1745, type: 3}
+  MonsterTilePrefab: {fileID: 8739971171360135241, guid: f58938db14db21848b4a9f0ff5ed86c7, type: 3}
+  MonsterPrefab: {fileID: 4484346038493015994, guid: e12d6f85f99a39b45b2e8e0ca6f8f664, type: 3}
+  ItemTilePrefab: {fileID: 8630953280370161833, guid: 7c2b2224622b83f4f824175669f303cb, type: 3}
+  ItemPrefab: {fileID: 7927195594348371117, guid: 8702ed313f8009e4a8c3f8ad882634bb, type: 3}
+  spawnInterval: 0.5
+  obstacleSpawnChance: 0.3
+  monsterTileSpawnChance: 0.25
+  itemTileSpawnChance: 0.15
+  maxTiles: 100
 --- !u!1001 &3497809741196930303
 PrefabInstance:
   m_ObjectHideFlags: 0

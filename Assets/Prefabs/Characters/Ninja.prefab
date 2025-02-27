@@ -221,6 +221,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testTileManager: {fileID: 0}
   currentFloor: 0
+  specialAbilityData: {fileID: 0}
+  attackEffectPrefab: {fileID: 0}
 --- !u!114 &2442989251377411660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,11 +235,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017301b4acc0cfe4c91f0b4bd3d6fd8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0
-  jumpForce: 0
-  jumpEffectSpawner: {fileID: 7698517093355806083, guid: fd104e76d59c212478094dc47c1a04d1, type: 3}
   testTileManager: {fileID: 0}
   currentFloor: 0
+  jumpEffectSpawner: {fileID: 7698517093355806083, guid: fd104e76d59c212478094dc47c1a04d1, type: 3}
 --- !u!114 &6290698068909583023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,4 +278,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0360b92882b5bad4c9c9468785c352e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInputController: {fileID: 0}
+  transformationDataList: []
