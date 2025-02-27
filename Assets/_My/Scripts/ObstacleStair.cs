@@ -6,6 +6,9 @@ public class ObstacleStair : MonoBehaviour
     public enum ObstacleType { ReverseControl, Transparent, Sticky, HideNext }
     public ObstacleType obstacleType;
 
+    [Header("Obstacle Materials")]
+    public Material[] obstacleMaterials; // 0: ReverseControl, 1: Transparent, 2: Sticky, 3: HideNext
+
     private Renderer rend;
     private Collider col;
     private bool isHidden = false;
@@ -25,31 +28,34 @@ public class ObstacleStair : MonoBehaviour
     {
         obstacleType = (ObstacleType)Random.Range(0, 4);
 
-        if (rend != null && rend.material != null)
+        if (rend != null && obstacleMaterials.Length == 4) // 배열 길이 확인
         {
-            Material newMaterial = new Material(rend.material); // 개별 인스턴스 생성
-            rend.material = newMaterial; // 새롭게 생성한 Material을 적용
+            rend.material = obstacleMaterials[(int)obstacleType]; // 각 타입에 맞는 Material 적용
 
             switch (obstacleType)
             {
                 case ObstacleType.ReverseControl:
-                    rend.material.color = Color.blue; // 방향키 반전
+                    // 방향키 반전
                     break;
 
                 case ObstacleType.Transparent:
-                    rend.material.color = Color.magenta; // 투명 발판
+                    // 투명 발판
                     StartCoroutine(ToggleTransparency());
                     break;
 
                 case ObstacleType.Sticky:
-                    rend.material.color = Color.yellow; // 끈끈이 발판
+                    // 끈끈이 발판
                     break;
 
                 case ObstacleType.HideNext:
-                    rend.material.color = Color.black; // 다음 발판 숨김
+                    // 다음 발판 숨김
                     StartCoroutine(HideNextStair());
                     break;
             }
+        }
+        else
+        {
+            Debug.LogError($"{gameObject.name} - Material 배열이 올바르게 설정되지 않았습니다!");
         }
     }
 

@@ -74,6 +74,8 @@ public class UIManager : MonoBehaviour
 
     public PlayerInputController playerInputController;
     public SoundManager soundManager;
+    public PlayerAnimationController playerAnimationController;
+
 
 
     // Start is called before the first frame update
@@ -108,6 +110,8 @@ public class UIManager : MonoBehaviour
 
         soundManager = GetComponent<SoundManager>();
        
+        playerAnimationController = FindObjectOfType<PlayerAnimationController>();
+
     }
 
 
@@ -119,9 +123,12 @@ public class UIManager : MonoBehaviour
    
     public void StartGame()
     {
+
+
         isGameOver = false;
 
-        PlayTurnAround();
+        // 게임 시작과 동시에 플레이어 TurnAround 애니메이션 실행
+        playerAnimationController.PlayGameStartAnimation();
 
         StartPanel.SetActive(false);
         PlayingPanel.SetActive(true);
@@ -141,6 +148,9 @@ public class UIManager : MonoBehaviour
 
 
        // UpdateBestScore(score);
+        UpdateBestScore(score);
+
+        playerAnimationController.PlayGameStartAnimation();
     }
 
 
@@ -169,6 +179,10 @@ public class UIManager : MonoBehaviour
     {
         GameStartButton.interactable = false; 
         StartCoroutine(PlayTurnAround());
+=======
+        GameStartButton.interactable = false; // 버튼 중복 입력 방지
+        StartGame();
+>>>>>>> 887de84c871e96ae9f0488503288517b1d9f375b
     }
 
     void OnSettingButtonClicked()

@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
                     _instance = go.AddComponent<GameManager>();
                     DontDestroyOnLoad(go);
                 }
+                Debug.Log("GameManager NULL");
             }
 
             return _instance;
@@ -28,6 +29,8 @@ public class GameManager : MonoBehaviour
 
     public UIManager uiManager;
 
+    public UIManager uiManager;
+    public TestTileManager tileManager;
     public PlayerAnimationController playerAnimationController;
 
     public GameObject player;
@@ -47,6 +50,7 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else if (_instance != this)
+        else
         {
             Destroy(gameObject);
         }
@@ -76,6 +80,7 @@ public class GameManager : MonoBehaviour
 
         isGameOver = true;
         Debug.Log("[GameManager] ���� ����");
+
 
         if (player != null)
         {

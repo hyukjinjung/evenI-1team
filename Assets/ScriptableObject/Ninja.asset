@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transformationType: 1
   duration: 7
-  specialAbility: {fileID: 0}
-  abilityUsageLimit: 1
+  specialAbility: {fileID: 11400000, guid: 27a419489d0be8543b1419be8920d68d, type: 2}
   transformationPrefab: {fileID: 4991891743870546362, guid: d717f3b1a415905418d25fd11e042c0c, type: 3}

@@ -1,0 +1,9 @@
+diff a/Assets/Scripts/Managers/UIManager.cs b/Assets/Scripts/Managers/UIManager.cs	(rejected hunks)
+@@ -128,7 +128,6 @@
+ 
+         isGameOver = false;
+ 
+-        PlayTurnAround();
+         // ���� ���۰� ���ÿ� �÷��̾� TurnAround �ִϸ��̼� ����
+         playerAnimationController.PlayGameStartAnimation();
+ 
