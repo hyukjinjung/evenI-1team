@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
         GameOverPanel.SetActive(true);
 
         isGameOver = true;
-        Debug.Log("[GameManager] ���� ����");
+
 
         if (player != null)
         {
@@ -125,16 +125,16 @@ public class GameManager : MonoBehaviour
 
         Debug.Log(score);
 
-        scoreText.text = "Score:" + score.ToString();
+        scoreText.text = score.ToString();
     }
 
     private void UpdateBestScore(int value)
     {
-        if (bestScore < value)
+        if (bestScore <= value)
         {
             bestScore = value;
 
-            bestScoreText.text = " Best Score" + bestScore.ToString();
+            bestScoreText.text = bestScore.ToString();
 
         }
     }
