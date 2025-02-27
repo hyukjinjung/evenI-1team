@@ -249,15 +249,8 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-    private void UpdateTileInfo()
+    public void UpdateTileInfo()
     {
-        // 현재 변신 상태 확인
-        if (!playerTransformationController.IsTransformed())
-        {
-            Debug.Log("NormalFrog 상태. 타일 정보 갱신을 실행하지 않음");
-            return;
-        }
-
 
         Tile newTile = testTileManager.GetTile(currentFloor);
         if (newTile == null)

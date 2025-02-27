@@ -84,6 +84,7 @@ public class PlayerTransformationController : MonoBehaviour
             if (specialAbilityUsesRemaning == 0)
             {
                 Debug.Log("특수 능력 횟수 소진.즉시 변신 해제");
+                ResetTransformationTimer();
                 StartRevertProcess();
             }
         }
@@ -101,6 +102,16 @@ public class PlayerTransformationController : MonoBehaviour
         Debug.Log("변신 해제 애니메이션 실행"); // 애니메이션 호출 확인
 
         playerAnimationController.StartRevertAnimation(); // 변신 해제 애니메이션 실행
+
+        // 변신 해제 직후 타일 정보 갱신
+        FindObjectOfType<PlayerMovement>().UpdateTileInfo();
+
+        // 변신 해제 시 특수 능력 비활성화
+        PlayerAttackController playerAttackController = GetComponent<PlayerAttackController>();
+        if (playerAttackController != null)
+        {
+            playerAttackController.SetTransformedState(false, null);
+        }
 
         StartCoroutine(RevertToNormalAfterDelay());
 

@@ -59,14 +59,14 @@ public class PlayerAttackController : MonoBehaviour
     // 변신 상태인지 확인 후 특수 공격 or 일반 공격을 실행
     void PerformAttack(bool isleft)
     {
-        // 공격 중일 때는 추가 공격을 막음
-        if (isAttacking)
-        {
-            Debug.Log("공격 중일 때 추가 공격 불가능");
-            return;
-        }
+        //// 공격 중일 때는 추가 공격을 막음
+        //if (isAttacking)
+        //{
+        //    Debug.Log("공격 중일 때 추가 공격 불가능");
+        //    return;
+        //}
 
-        Debug.Log($"변신 여부: {isTransformed}, 특수 능력: {(specialAbilityData != null ? "설정됨" : "NULL")}");
+        //Debug.Log($"변신 여부: {isTransformed}, 특수 능력: {(specialAbilityData != null ? "설정됨" : "NULL")}");
 
         // 특수 공격
         // 변신 상태라면 특수 공격 실행
