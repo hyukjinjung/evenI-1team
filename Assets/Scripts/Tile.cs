@@ -14,6 +14,7 @@ public class Tile : MonoBehaviour
     private Monster monsterOnTile;
     private GameObject obstacle;
     private GameObject item; // 아이템 추가
+    private GameObject transparent; // ✅ 추가 (Transparent 발판 변수)
 
     // 몬스터 추가
     public void SetMonster(Monster monster)
@@ -31,6 +32,12 @@ public class Tile : MonoBehaviour
     public void SetItem(GameObject item)
     {
         this.item = item;
+    }
+
+    // Transparent 발판 추가
+    public void SetTransparentTile(GameObject transparentTile)
+    {
+        this.transparent = transparentTile;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -64,7 +71,6 @@ public class Tile : MonoBehaviour
             monsterOnTile = null;
             Debug.Log("몬스터 삭제됨. 타일은 유지됨");
         }
-        
     }
 
     // 해당 타일에 몬스터가 있는지 확인
@@ -72,7 +78,6 @@ public class Tile : MonoBehaviour
     {
         return monsterOnTile != null;
     }
-
 
     // 타일 삭제 시, 위에 플레이어가 있으면 게임 오버 처리
     public void DestroyTile()
@@ -86,12 +91,11 @@ public class Tile : MonoBehaviour
         Destroy(gameObject);
     }
 
-
     // 타일 위에 플레이어가 있는지 확인
     private bool IsPlayerOnTile()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        
+
         if (player != null)
         {
             float distanceX = Mathf.Abs(player.transform.position.x - transform.position.x);
@@ -102,5 +106,4 @@ public class Tile : MonoBehaviour
 
         return false;
     }
-
 }
