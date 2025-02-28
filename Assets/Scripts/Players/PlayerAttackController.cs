@@ -57,7 +57,7 @@ public class PlayerAttackController : MonoBehaviour
 
 
     // 변신 상태인지 확인 후 특수 공격 or 일반 공격을 실행
-    void PerformAttack(bool isleft)
+    void PerformAttack()
     {
         //// 공격 중일 때는 추가 공격을 막음
         //if (isAttacking)
@@ -81,7 +81,7 @@ public class PlayerAttackController : MonoBehaviour
         }
         else
         {
-            NormalAttack(isleft);
+            NormalAttack();
         }
     }
 
@@ -89,7 +89,7 @@ public class PlayerAttackController : MonoBehaviour
 
     // 일반 공격
     // NormalFrog 상태의 일반 공격 실행
-    void NormalAttack(bool isleft)
+    void NormalAttack()
     {
         Tile forwardTile = testTileManager.GetForwardTile(transform.position);
         if (forwardTile == null) return;

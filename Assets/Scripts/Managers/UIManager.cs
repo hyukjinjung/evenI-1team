@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,8 +14,12 @@ public class UIManager : MonoBehaviour
     bool isGameOver = false; 
 
 
-    public GameObject StartPanel;
-    public GameObject PlayingPanel;
+    UIStartPanel uiStartPanel;
+    public UIStartPanel UIStartPanel    { get { return uiStartPanel; } }
+
+    UIPlayingPanel uiPlayingPanel;
+    public UIPlayingPanel UIPlayingPanel { get { return uiPlayingPanel; } }
+    
     public GameObject GameOverPanel;
     public GameObject PausePanel;
     public GameObject CautionPanel;
@@ -30,14 +35,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI ResultBestScoreText;
     public TextMeshProUGUI ResultPileUpScoreText;
     public TextMeshProUGUI ResultCoinScoreText;
-
-
-    public Button GameStartButton;
-    public Button SettingButton;
-    public Button AttackButton;
-    public Button LeftButton;
-    public Button RightButton;
-    public Button PauseButton;
+    
     public Button PauseMainHomeButton;
     public Button PauseContinueButton;
     public Button PauseBGMButton;
@@ -69,14 +67,26 @@ public class UIManager : MonoBehaviour
 
     public PlayerInputController playerInputController;
     public PlayerAnimationController playerAnimationController;
-   
+
+
+    private void Awake()
+    {
+        uiStartPanel = GetComponentInChildren<UIStartPanel>(true);
+        uiStartPanel.Initialize(this);
+        
+        uiPlayingPanel = GetComponentInChildren<UIPlayingPanel>(true);
+        uiPlayingPanel.Initialize(this);
+        
+    }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        StartPanel.SetActive(true);
-        PlayingPanel.SetActive(false);
+        uiStartPanel.SetActive(true);
+        uiPlayingPanel.SetActive(false);
+        
+
         GameOverPanel.SetActive(false);
         PausePanel.SetActive(false);
         CautionPanel.SetActive(false);
@@ -85,8 +95,7 @@ public class UIManager : MonoBehaviour
         SettingPanel.SetActive(false);
         SourcePanel.SetActive(false);
 
-        GameStartButton.onClick.AddListener(OnGameStartButtonClicked);
-        PauseButton.onClick.AddListener(OnPauseButtonClicked);
+        
         PauseMainHomeButton.onClick.AddListener(OnPauseMainHomeButtonClicked);
         PauseContinueButton.onClick.AddListener(OnPauseContinueButtonClicked);
         CautionMainHomeButton.onClick.AddListener(OnCautionMainHomeButtonClicked);
@@ -99,7 +108,7 @@ public class UIManager : MonoBehaviour
         ResultMainHomeButton.onClick.AddListener(OnResultMainHomeButtonClicked);
         StoryReTurnButton.onClick.AddListener(OnStoryReTurnButtonClicked);
         StoryButton.onClick.AddListener(OnStoryButtonClicked);
-        SettingButton.onClick.AddListener(OnSettingButtonClicked);
+
         CreditsReTurnButton.onClick.AddListener(OnSourceReTurnButtonClicked);
         
         playerAnimationController = FindObjectOfType<PlayerAnimationController>();
@@ -115,15 +124,13 @@ public class UIManager : MonoBehaviour
    
     public void StartGame()
     {
-
-
         isGameOver = false;
-
-        
         playerAnimationController.PlayGameStartAnimation();
 
-        StartPanel.SetActive(false);
-        PlayingPanel.SetActive(true);
+        
+        uiStartPanel.SetActive(false);
+        uiPlayingPanel.SetActive(true);
+        
         SettingPanel.SetActive(false);
         GameOverPanel.SetActive(false);
 
@@ -137,32 +144,28 @@ public class UIManager : MonoBehaviour
         PausePanel.SetActive(false);
         CautionPanel.SetActive(false);
         playerAnimationController.PlayGameStartAnimation();
-
-       // UpdateBestScore(score);
     }
 
 
-    public void RestartGame()// 
+    public void RestartGame()
     {
-        //SceneManager.LoadScene(0);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-
-
     }
 
-    void OnGameStartButtonClicked()
-    {
-        GameStartButton.interactable = false; 
-        StartGame();
-    }
 
-    public void OnSettingButtonClicked()
+    public void OnClickedSettingButton()
     {
+        uiStartPanel.SetActive(false);
         SettingPanel.SetActive(true);
-        StartPanel.SetActive(true);
-
         Time.timeScale = 0f;
     }
+    
+     public void OnPauseButtonClicked()
+    {
+        PausePanel.SetActive(true);
+        Time.timeScale = 0f; //Gamepause
+    }
+
 
     public void OnSourceReTurnButtonClicked()
     {
@@ -170,12 +173,6 @@ public class UIManager : MonoBehaviour
         SourcePanel.SetActive(false);
     }
 
-     public void OnPauseButtonClicked()
-    {
-        PausePanel.SetActive(true);
-
-        Time.timeScale = 0f; //Gamepause
-    }
 
     public void OnPauseMainHomeButtonClicked()
     {
@@ -184,19 +181,17 @@ public class UIManager : MonoBehaviour
 
     public void OnPauseContinueButtonClicked()
     {
-        // SceneManager.LoadScene("");
-
-        PlayingPanel.SetActive(true);
+        uiPlayingPanel.SetActive(true);
         PausePanel.SetActive(false);
-        // SceneManager.LoadScene(SceneManager.GetActiveScene())
         Time.timeScale = 1f;
 
     }
 
     public void OnCautionMainHomeButtonClicked()
     {
-        StartPanel.SetActive(true);
-        PlayingPanel.SetActive(false);
+        uiStartPanel.SetActive(true);
+        uiPlayingPanel.SetActive(false);
+        
         PausePanel.SetActive(false);
         CautionPanel.SetActive(false);
 
@@ -205,7 +200,7 @@ public class UIManager : MonoBehaviour
 
     public void OnCautionContineButtonClicked()
     {
-        PlayingPanel.SetActive(false);
+        uiPlayingPanel.SetActive(false);
         CautionPanel.SetActive(false);
         PausePanel.SetActive(true);
     }
@@ -213,15 +208,14 @@ public class UIManager : MonoBehaviour
     
     public void OnAdsComeBackButtonClicked()
     {
-        PlayingPanel.SetActive(true);
-
+        uiPlayingPanel.SetActive(true);
     }
     
 
     public void OnSkipButtonClicked()
     {
+        uiPlayingPanel.SetActive(false);
         ResultPanel.SetActive(true);
-        PlayingPanel.SetActive(false);
     }
 
     void OnResultCoinTwiceButtonClicked()
@@ -236,14 +230,14 @@ public class UIManager : MonoBehaviour
 
     public void OnResultReStartButtonClicked()
     {
-        PlayingPanel.SetActive(true);
+        uiPlayingPanel.SetActive(true);
         ResultPanel.SetActive(false); 
        
     }
 
     public void OnResultMainHomeButtonClicked()
     {
-        StartPanel.SetActive(true);
+        uiStartPanel.SetActive(true);
         ResultPanel.SetActive(false);
 
     }

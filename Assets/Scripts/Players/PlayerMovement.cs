@@ -38,11 +38,6 @@ public class PlayerMovement : MonoBehaviour
         playerInputController.OnJumpEvent -= Jump; // 기존 리스너를 제거한 후 다시 등록(중복 실행 방지)
         playerInputController.OnJumpEvent += Jump;
 
-        if (playerInputController != null)
-        {
-            playerInputController.AssignPlayerMovement(); // PlayerMovement 다시 등록
-        }
-
     }
 
 
