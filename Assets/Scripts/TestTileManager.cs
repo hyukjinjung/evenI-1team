@@ -34,24 +34,40 @@ public class TestTileManager : MonoBehaviour
     
     PlayerInputController playerInputController;
     private GameManager gameManager;
-    
-    
+
+    private void GenerateDefaultTile()
+    {
+        // 첫 번째 타일을 무조건 기본 타일로 생성
+        GameObject tileObject = Instantiate(testTilePrefab, transform);
+        Tile tileComponent = tileObject.GetComponent<Tile>();
+
+        if (tileComponent == null)
+        {
+            tileComponent = tileObject.AddComponent<Tile>(); // 없으면 추가
+        }
+
+        tileObject.transform.localPosition = new Vector3(currentX, currentY, 0);
+        tileObject.gameObject.SetActive(true);
+        tiles.Add(tileComponent);
+    }
+
     void Start()
     {
-        GenerateDefaultTile();
-        for (int i = 0; i < startTileCount - 1; i++)
+        GenerateDefaultTile(); // ✅ 첫 번째 기본 타일 생성
+        for (int i = 0; i < startTileCount ; i++)
         {
             GenerateTile();
         }
-        
-        if(startTileCount > maxTiles)
+
+        if (startTileCount > maxTiles)
             maxTiles = startTileCount;
-        
+
         gameManager = GameManager.Instance;
         gameManager.PlayerInputController.OnJumpEvent += OnJumpEvent;
-        
-        // StartCoroutine(GenerateTiles());
     }
+   
+
+
 
     // 주기적 생성 -> 점프 때 생성
     // private IEnumerator GenerateTiles()
@@ -68,52 +84,81 @@ public class TestTileManager : MonoBehaviour
         GenerateTile();
     }
 
-    void GenerateDefaultTile()
-    {
-        // 플레이어가 위치하는 첫 번째 타일은 무조건 기본 타일 생성
-        GameObject tileObject = GenerateTile(testTilePrefab, out Tile tileComponent);
-    }
-    
     private void GenerateTile()
     {
+        // ✅ 첫 번째 타일은 생성하지 않도록 예외 처리
+        if (tiles.Count == 0)
+        {
+            return; // 첫 번째 타일을 생성하지 않고 종료
+        }
+
+        GameObject tilePrefab;
         float randomValue = Random.value;
-        
-        GameObject tilePrefab = CheckTilePrefab(randomValue);
 
-        // 타일 생성
-        GameObject tileObject = GenerateTile(tilePrefab, out Tile tileComponent);
-
-        // 타일 유형별 추가 설정
-        // TODO:: 타일이 타입을 알고 있게 하기
-        if (tilePrefab == MonsterTilePrefab)
+        // ✅ 두 번째 타일부터 랜덤 타일 생성
+        if (randomValue < monsterTileSpawnChance)
         {
-            monsterTiles.Add(tileComponent);
-            CreateMonsterOnTile(tileComponent);
+            tilePrefab = MonsterTilePrefab;
         }
-        else if (tilePrefab == ItemTilePrefab)
+        else if (randomValue < monsterTileSpawnChance + itemTileSpawnChance)
         {
-            itemTiles.Add(tileComponent);
-            CreateItemOnTile(tileComponent);
+            tilePrefab = ItemTilePrefab;
         }
-        else if (tilePrefab == TransparentTilePrefab)
+        else if (randomValue < monsterTileSpawnChance + itemTileSpawnChance + transparentTileSpawnChance)
         {
-            TogglePlatform togglePlatform = tileObject.AddComponent<TogglePlatform>();
-            togglePlatform.SetToggleInterval(3f);
+            tilePrefab = TransparentTilePrefab;
+        }
+        else
+        {
+            tilePrefab = testTilePrefab;
         }
 
-        if (Random.value < obstacleSpawnChance )
+        GameObject tileObject = Instantiate(tilePrefab, transform);
+        Tile tileComponent = tileObject.GetComponent<Tile>();
+
+        if (tileComponent == null)
         {
-            CreateObstacleOnTile(tileComponent);
+            tileComponent = tileObject.AddComponent<Tile>(); // 없으면 추가
         }
 
-        // 삭제 기준을 좀더 명확히 정하고, 화면 밖으로 이탈로 잡을 것인지 타일 수가 몇 이상 됬을때 삭제 할것인지.
-        // if (tiles.Count > maxTiles)
-        // {
-        //     DestroyOldestTile();
-        // }
+        tileObject.transform.localPosition = new Vector3(currentX, currentY, 0);
+        tileObject.gameObject.SetActive(true);
+        tiles.Add(tileComponent);
+
+        // ✅ 두 번째 타일부터 몬스터, 아이템, 장애물 생성 가능
+        if (tiles.Count > 2)
+        {
+            if (tilePrefab == MonsterTilePrefab)
+            {
+                monsterTiles.Add(tileComponent);
+                CreateMonsterOnTile(tileComponent);
+            }
+            else if (tilePrefab == ItemTilePrefab)
+            {
+                itemTiles.Add(tileComponent);
+                CreateItemOnTile(tileComponent);
+            }
+            else if (tilePrefab == TransparentTilePrefab)
+            {
+                TogglePlatform togglePlatform = tileObject.AddComponent<TogglePlatform>();
+                togglePlatform.SetToggleInterval(3f);
+            }
+
+            if (Random.value < obstacleSpawnChance)
+            {
+                CreateObstacleOnTile(tileComponent);
+            }
+        }
+
+        if (tiles.Count > maxTiles)
+        {
+            DestroyOldestTile();
+        }
 
         UpdateTilePosition();
     }
+
+
 
     private GameObject CheckTilePrefab(float randomValue)
     {
@@ -222,7 +267,7 @@ public class TestTileManager : MonoBehaviour
         if (tile == null) return;
 
         GameObject monster = Instantiate(MonsterPrefab, tile.transform);
-        monster.transform.localPosition = Vector3.zero; // ✅ 타일의 중앙에 배치
+        monster.transform.localPosition = Vector3.zero; // ✅ 타일 중앙에 배치
         monster.gameObject.SetActive(true);
 
         Monster monsterComponent = monster.GetComponent<Monster>();
@@ -232,12 +277,13 @@ public class TestTileManager : MonoBehaviour
         }
     }
 
+
     private void CreateItemOnTile(Tile tile)
     {
         if (tile == null) return;
 
         GameObject item = Instantiate(ItemPrefab, tile.transform);
-        item.transform.localPosition = Vector3.zero; // ✅ 타일의 중앙에 배치
+        item.transform.localPosition = Vector3.zero; // ✅ 타일 중앙에 배치
         item.gameObject.SetActive(true);
 
         tile.SetItem(item);
@@ -269,9 +315,10 @@ public class TestTileManager : MonoBehaviour
         if (obstaclePrefab != null)
         {
             GameObject obstacle = Instantiate(obstaclePrefab, tile.transform);
-            obstacle.transform.localPosition = Vector3.zero; // ✅ 타일의 중앙에 배치
+            obstacle.transform.localPosition = Vector3.zero; // ✅ 타일 중앙에 배치
             obstacle.gameObject.SetActive(true);
             tile.SetObstacle(obstacle);
         }
     }
+
 }
