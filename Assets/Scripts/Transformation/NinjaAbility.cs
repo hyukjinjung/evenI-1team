@@ -16,28 +16,42 @@ public class NinjaAbility : SpecialAbilityData
     public GameObject ninjaAttackEffect; // 타격 이펙트 프리팹
 
 
+    PlayerAnimationController playerAnimationController;
+    PlayerTransformationController playerTransformationController;
+    PlayerCollisionController playerCollisionController;
+    Rigidbody2D rb;
+    private TestTileManager testTileManager;
+
+
+    private void Initialize(Transform playerTransform)
+    {
+        playerAnimationController = playerTransform.GetComponent<PlayerAnimationController>();
+        playerTransformationController = playerTransform.GetComponent<PlayerTransformationController>();
+        playerCollisionController = playerTransform.GetComponent<PlayerCollisionController>();
+        rb = playerTransform.GetComponent<Rigidbody2D>();
+        testTileManager= GameManager.Instance.tileManager;
+    }
 
     public override void ActivateAbility(Transform playerTransform)
     {
+        Initialize(playerTransform);
+
+
         if (GameManager.Instance == null)
         {
             Debug.Log("GameManager NULL");
             return;
         }
 
-        TestTileManager tileManager = GameManager.Instance.tileManager;
-        List<Tile> monsterTiles = tileManager.GetMonsterTiles();
+        List<Tile> monsterTiles = testTileManager.GetMonsterTiles();
 
 
-        // 가장 가까운 몬스터 타일 찾기
         Tile targetTile = FindClosestMonsterTile(playerTransform.position, monsterTiles);
 
         if (targetTile == null)
         {
             return;
         }
-
-        Debug.Log($"가장 가까운 몬스터 타일 위치: {targetTile.transform.position}");
 
         Monster targetMonster = targetTile.GetFirstMonster();
 
@@ -47,18 +61,13 @@ public class NinjaAbility : SpecialAbilityData
             return;
         }
 
-        Debug.Log("몬스터 확인 완료, 사라지는 애니메이션 시작");
 
-        PlayerAnimationController playerAnimationController =
-            playerTransform.GetComponent<PlayerAnimationController>();
 
         if (playerAnimationController != null)
         {
-            // NinjaFrog가 사라지는 애니메이션 실행
-            playerAnimationController.PlayDisappearAnimation();
 
             // 사라지는 애니메이션이 끝나면 이동 및 암살 애니메이션 실행
-            playerTransform.GetComponent<MonoBehaviour>().StartCoroutine(ExecuteAttackAfterDisappear(
+            playerTransformationController.StartCoroutine(ExecuteAttackAfterDisappear(
                 playerTransform, targetTile, targetMonster));
         }
     }
@@ -66,46 +75,28 @@ public class NinjaAbility : SpecialAbilityData
     private IEnumerator ExecuteAttackAfterDisappear(Transform playertransform, Tile targetTile,
         Monster targetMonster)
     {
-        PlayerAnimationController playerAnimationController = playertransform.GetComponent<PlayerAnimationController>();
-        PlayerCollisionController playerCollisionController = playertransform.GetComponent<PlayerCollisionController>();
-        PlayerTransformationController playerTransformationController = playertransform.GetComponent<PlayerTransformationController>();
-        Rigidbody2D rb = playertransform.GetComponent<Rigidbody2D>();
-
-        // 1. 사라지는 애니메이션 실행 (NInjaFrog)
+        
         playerAnimationController.PlayDisappearAnimation();
 
-        // 2. 사라지는 애니메이션 길이만큼 대기
+
         float disappearTime = playerAnimationController.GetDisappearAnimationLength();
         yield return new WaitForSeconds(disappearTime);
 
-
-        // 3. Disappear 애니메이션 트리거 초기화
         playerAnimationController.ResetTrigger("Disappear");
 
-        // 중력 영향을 제거하여 순간 이동 시 낙하 방지
-        if (rb != null)
-        {
-            rb.velocity = Vector3.zero;
-            rb.gravityScale = 0; // 순간 이동 중 중력 제거
-        }
-
-
-        // 4. 플레이어를 몬스터 타일로 순간 이동
-        Vector3 newPosition = targetTile.transform.position + new Vector3(0, 0.7f, 0);
+        Vector3 newPosition = targetTile.transform.position + new Vector3(0, 1, 0);
         playertransform.position = newPosition;
 
-        // NinajaFrog - Assassination 이펙트 생성
         SpawnAttackEffect(newPosition);
 
-        // 5. 이동 후 즉시 암살 애니메이션 실행
         playerAnimationController.PlayAssassinationAnimation();
 
 
-        // 6. 암살 애니메이션이 끝날 때까지 대기
-        yield return new WaitForSeconds(playerAnimationController.GetAssassinationAnimationLength());
+        float assassinationTime = playerAnimationController.GetAssassinationAnimationLength();
 
+        yield return new WaitForSeconds(assassinationTime);
 
-        // 7. 몬스터 처치
+        
         if (targetMonster != null)
         {
 
@@ -117,24 +108,8 @@ public class NinjaAbility : SpecialAbilityData
             }
         }
 
+        playerTransformationController.GetCurrentState().Deactivate();
 
-        // 8. 변신 해제 실행
-        if (playerCollisionController != null)
-        {
-            Debug.Log("변신 해제 시도 중");
-            playerTransformationController.GetCurrentState().Deactivate(); // 변신 해제 애니메이션 실행
-        }
-
-        if (targetTile != null)
-        {
-            targetTile.RemoveMonster(); // 몬스터만 삭제하고 타일은 유지
-        }
-
-        // 중력 다시 활성화
-        if (rb != null)
-        {
-            rb.gravityScale = 3f; // 원래 중력으로 복구
-        }
     }
 
     private void SpawnAttackEffect(Vector3 position)
@@ -143,7 +118,7 @@ public class NinjaAbility : SpecialAbilityData
 
 
         // Y축을 약간 낮춰 이펙트가 플레이어보다 아래에서 생성되도록 설정
-        Vector3 effectPosition = position + new Vector3(0, -1f, 0);
+        Vector3 effectPosition = position + new Vector3(0, -1.5f, 0);
 
         Instantiate(ninjaAttackEffect, effectPosition, Quaternion.identity);
 

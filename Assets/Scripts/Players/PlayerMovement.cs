@@ -54,14 +54,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGameOver) return;
 
-        if (isJumping) return;
-
-        // TODO:: 중력보다는 러프 나 트렌스폼
-        // y축 속도를 기반으로 점프 상태를 감지
-        isJumping = Mathf.Abs(rb.velocity.y) > 0.1f;
-
-        // 점프 후 하강 속도 증가
-        rb.gravityScale = (rb.velocity.y < 0) ? 3f : 1.0f;
+        if(isJumping && rb.velocity.y < 0)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, -9f);
+        }
 
         playerAnimationController.SetJumping(isJumping);
 
@@ -72,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
         if (isGameOver) return;
 
         // 플레이어가 타일이 없어지는 곳에서 아래로 떨어지면 게임 오버
-        if (transform.position.y < -0.2f)
+        if (transform.position.y < -0.3f)
         {
             Debug.Log("플레이어 추락. 게임 오버");
             TriggerGameOver();
@@ -110,11 +106,11 @@ public class PlayerMovement : MonoBehaviour
 
         bool isLeft = tile.TileOnLeft(transform);
         
-        if (isAutoMode)
-        {
-            Tile temp = testTileManager.GetNextTile(currentFloor);
-            jumpLeft =  transform.position.x > temp.transform.position.x;
-        }
+        //if (isAutoMode)
+        //{
+        //    Tile temp = testTileManager.GetNextTile(currentFloor);
+        //    jumpLeft =  transform.position.x > temp.transform.position.x;
+        //}
         
         // 몬스터가 있는 타일이면, NinjaFrog 상태에서는 무시하고 지나감
         if (tile.HasMonster() && collisionController != null && collisionController.CanIgnoreMonster())
@@ -201,8 +197,9 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Tile"))
         {
             isJumping = false;
-            playerAnimationController.SetJumping(!isJumping);
+            //playerAnimationController.SetJumping(!isJumping);
         }
+
 
 
         // 몬스터와 충돌할 경우 (NormalFrog 상태에서 게임 오버)
@@ -221,13 +218,15 @@ public class PlayerMovement : MonoBehaviour
             isGameOver = true;
         }
 
-
-
-
         if (collision.gameObject.CompareTag("TransformationItem"))
         {
             Debug.Log("변신 아이템 획득");
         }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        isJumping = true;
     }
 
 
