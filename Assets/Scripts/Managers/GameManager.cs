@@ -57,6 +57,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+        uiManager = FindObjectOfType<UIManager>();
     }
 
 
