@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1811404066764979441}
   m_Layer: 0
   m_Name: TransformationItem_Ninja
-  m_TagString: Item
+  m_TagString: TransformationItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
