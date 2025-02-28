@@ -26,20 +26,19 @@ public class UIManager : MonoBehaviour
     UIResultPanel uiResultPanel;
     public UIResultPanel UIResultPanel { get { return uiResultPanel; } }
 
-    UISettingPanel uiSettingpanel;
-    public UISettingPanel UISettingPanel { get { return uiSettingpanel; } }
+    UISettingPanel uiSettingPanel;
+    public UISettingPanel UISettingPanel { get { return uiSettingPanel; } }
 
     UIPausePanel uiPausePanel;
     public UIPausePanel UIPausePanel { get { return uiPausePanel; } }
 
     UICautionPanel uiCautionPanel;
-    public UICautionPanel { get { return uiCautionPanel; } }
+    public UICautionPanel UICautionPanel { get { return uiCautionPanel; } }
 
 
     public GameObject StoryPanel;
     public GameObject CreditPanel;
-
-
+    
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI bestScoreText;
     public TextMeshProUGUI ResultScoreText;
@@ -96,7 +95,10 @@ public class UIManager : MonoBehaviour
         uiSettingPanel.Initialize(this);    
 
         uiPausePanel = GetComponentInChildren<UIPausePanel>(true);
-    uiPausePanel.Initialize(this);
+        uiPausePanel.Initialize(this);
+        
+        uiCautionPanel = GetComponentInChildren<UICautionPanel>(true);
+        uiCautionPanel.Initialize(this);
       
     }
 
@@ -110,10 +112,12 @@ public class UIManager : MonoBehaviour
         uiResultPanel.SetActive(false);
         uiSettingPanel.SetActive(false);
         uiPausePanel.SetActive(false);
-
-        CautionPanel.SetActive(false);
+        uiCautionPanel.SetActive(false);
+        
+        
+        
         StoryPanel.SetActive(false);
-        CreditPanel.SetActive(false);
+
 
         
         PauseMainHomeButton.onClick.AddListener(OnPauseMainHomeButtonClicked);
@@ -153,8 +157,8 @@ public class UIManager : MonoBehaviour
 
         uiGameOverPanel.SetActive(true);
         uiPausePanel.SetActive(false);
-
-        CautionPanel.SetActive(false);
+        uiCautionPanel.SetActive(false);
+        
         playerAnimationController.PlayGameStartAnimation();
     }
 
@@ -188,7 +192,7 @@ public class UIManager : MonoBehaviour
 
     public void OnPauseMainHomeButtonClicked()
     {
-        CautionPanel.SetActive(true);
+        uiCautionPanel.SetActive(true);
     }
 
     public void OnPauseContinueButtonClicked()
@@ -205,15 +209,13 @@ public class UIManager : MonoBehaviour
         uiPlayingPanel.SetActive(false);
         
         uiPausePanel.SetActive(false);
-        CautionPanel.SetActive(false);
-
-       
+        uiCautionPanel.SetActive(false);
     }
 
     public void OnCautionContineButtonClicked()
     {
         uiPlayingPanel.SetActive(false);
-        CautionPanel.SetActive(false);
+        uiCautionPanel.SetActive(false);
         uiPausePanel.SetActive(true);
     }
 

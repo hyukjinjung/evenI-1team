@@ -17,7 +17,7 @@ public class UISettingPanel : UIPanel
         SettingBGMButton.onClick.AddListener(OnClickedSettingBGMButton);
         SettingSoundEffectButton.onClick.AddListener(OnClikedSettingSoundEffectButton);
         SettingInstagramButton.onClick.AddListener(OnClikedSettingInstagramButton);
-        SettingCreditButton.onClick.AddListener(OnClickedSettingCreditButton);
+        //SettingCreditButton.onClick.AddListener(OnClickedSettingCreditButton);
     }
 
     void OnClickedSettingBGMButton()

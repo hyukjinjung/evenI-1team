@@ -43,20 +43,25 @@ public class GameManager : MonoBehaviour
     public GameObject PlayingPanel;
     public GameObject GameOverPanel;
 
+    
+    UIPlayingPanel uiPlayingPanel;
+
     private int score = 0;
     private int bestScore = 0;
     private int resultScore = 0;
     private int resultBestScore = 0;
-
+    
+    public int Score {get{return score;}}
+    public int BestScore {get{return resultBestScore;}}
+    public int ResultScore {get{return resultScore;}}
+    public int ResultBestScore {get{return resultBestScore;}}
+    
+    
+    
+    
     private PlayerScoreTracker playerScoreTracker;
 
     private bool isGameOver = false;
-
-    public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI bestScoreText;
-    public TextMeshProUGUI resultScoreText;
-    public TextMeshProUGUI resultBestScoreText;
-
 
     private void Awake()
     {
@@ -69,8 +74,9 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         
+        playerScoreTracker = FindObjectOfType<PlayerScoreTracker>();
         uiManager = FindObjectOfType<UIManager>();
-
+        
         if (player == null)
         {
             Debug.Log("unassigned player");
@@ -84,6 +90,10 @@ public class GameManager : MonoBehaviour
         
     }
 
+    private void Start()
+    {
+        uiPlayingPanel = uiManager.UIPlayingPanel;
+    }
 
     public void StartGame()
     {
@@ -102,10 +112,6 @@ public class GameManager : MonoBehaviour
         UpdateBestScore(0);
     }
 
-    private void Start()
-    {
-        playerScoreTracker = FindObjectOfType<PlayerScoreTracker>();
-    }
 
     public void GameOver()
     {
@@ -154,11 +160,11 @@ public class GameManager : MonoBehaviour
         if (isGameOver) return;
 
         score += value;
-
-        Debug.Log(score);
-
-        scoreText.text = score.ToString();
-        resultScoreText.text = scoreText.text;
+        
+        uiPlayingPanel.UpdateScore(score);
+        
+        // scoreText.text = score.ToString();
+        // resultScoreText.text = scoreText.text;
     }
 
     private void UpdateBestScore(int value)
@@ -167,8 +173,8 @@ public class GameManager : MonoBehaviour
         {
             bestScore = value;
 
-            bestScoreText.text = bestScore.ToString();
-            resultBestScoreText.text = resultScoreText.text;
+            // bestScoreText.text = bestScore.ToString();
+            // resultBestScoreText.text = resultScoreText.text;
 
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class UIPlayingPanel : UIPanel
 {
@@ -11,6 +12,9 @@ public class UIPlayingPanel : UIPanel
      [SerializeField] Button RightButton;
      [SerializeField] Button PauseButton;
     
+     [SerializeField] TextMeshProUGUI scoreText;
+     
+     
     public event Action OnClickedAttackEvent;
     public event Action<bool> OnClickedMoveEvent;   // true -> Left
     
@@ -41,6 +45,11 @@ public class UIPlayingPanel : UIPanel
     void OnClickedRightButton()
     {
         OnClickedMoveEvent?.Invoke(false);
+    }
+
+    public void UpdateScore(int score)
+    {
+        scoreText.text = score.ToString();
     }
     
 }

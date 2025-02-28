@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int currentFloor = 0;
 
     public JumpEffectSpawner jumpEffectSpawner;
-
+    public GameManager gameManager;
 
     private void Awake()
     {
@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-
+        gameManager = GameManager.Instance;
 
     }
 
@@ -109,9 +109,6 @@ public class PlayerMovement : MonoBehaviour
 
         bool isLeft = tile.TileOnLeft(transform);
 
-        PlayerCollisionController collisionController = GetComponent<PlayerCollisionController>();
-
-
         // 몬스터가 있는 타일이면, NinjaFrog 상태에서는 무시하고 지나감
         if (tile.HasMonster() && collisionController != null && collisionController.CanIgnoreMonster())
         {
@@ -124,7 +121,11 @@ public class PlayerMovement : MonoBehaviour
 
         // 기본 점프 처리
         PerformJump(jumpLeft);
-
+        
+        // TODO:: 위치는 맞춰서 수정
+        gameManager.AddScore(1);
+        
+        
         isJumping = true;
         playerAnimationController.SetJumping(true);
 
