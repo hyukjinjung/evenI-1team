@@ -206,10 +206,15 @@ public class TestTileManager : MonoBehaviour
 
     public Tile GetTile(int currentFloor)
     {
-        if (currentFloor < 0 || currentFloor >= tiles.Count)
-            return null; // 유효하지 않은 층이면 null 반환
+        int nextFloor = currentFloor + 1;
 
-        return tiles[currentFloor]; // 해당 층의 타일 반환
+        if (nextFloor < 0 || currentFloor >= tiles.Count)
+        {
+            return null; // 유효하지 않은 층이면 null 반환
+        }
+
+        Debug.Log($"요청된 층: {currentFloor}, 반환된 타일 위치: {tiles[currentFloor].transform.position}");
+        return tiles[nextFloor]; // 다음 층의 타일 반환
     }
 
     private void CreateMonsterOnTile(Tile tile)
