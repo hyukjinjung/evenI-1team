@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,25 +21,29 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInputController playerInputController;
     private PlayerAnimationController playerAnimationController;
     private PlayerTransformationController playerTransformationController;
-
+    private PlayerCollisionController collisionController;
+        
     [SerializeField] TestTileManager testTileManager;
     [SerializeField] private int currentFloor = 0;
 
     public JumpEffectSpawner jumpEffectSpawner;
 
 
-
-
-
-    void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         playerAnimationController = GetComponent<PlayerAnimationController>();
         playerInputController = GetComponent<PlayerInputController>();
         playerTransformationController = GetComponent<PlayerTransformationController>();
-
+        collisionController = GetComponentInParent<PlayerCollisionController>();
+        
         playerInputController.OnJumpEvent -= Jump; // 기존 리스너를 제거한 후 다시 등록(중복 실행 방지)
         playerInputController.OnJumpEvent += Jump;
+    }
+
+    void Start()
+    {
+
 
     }
 
@@ -49,11 +54,8 @@ public class PlayerMovement : MonoBehaviour
         if (isGameOver) return;
 
         if (isJumping) return;
-        
 
-        Debug.Log("현재 층" + currentFloor);
-
-
+        // TODO:: 중력보다는 러프 나 트렌스폼
         // y축 속도를 기반으로 점프 상태를 감지
         isJumping = Mathf.Abs(rb.velocity.y) > 0.1f;
 
@@ -150,7 +152,6 @@ public class PlayerMovement : MonoBehaviour
         Tile targetTile = testTileManager.GetTile(currentFloor);
 
         // 몬스터가 있는  타일이라도 NinjaFrog 상태라면 점프 가능하게 설정
-        PlayerCollisionController collisionController = GetComponentInParent<PlayerCollisionController>();
 
 
         if (targetTile != null && targetTile.HasMonster() && collisionController != null)

@@ -19,8 +19,6 @@ public class PlayerInputController : MonoBehaviour
         
         uiManager = gameManager.uiManager;
         if (uiManager == null) return;
-
-        uiManager.playerInputController = this;
         
         AssignButtons();
     }

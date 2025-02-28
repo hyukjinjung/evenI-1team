@@ -17,7 +17,7 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         // 버튼 클릭 시 ToggleImage 함수 호출
-        toggleButton.onClick.AddListener(ToggleImage);
+        // toggleButton.onClick.AddListener(ToggleImage);
     }
 
     // 버튼 클릭 시 이미지 전환

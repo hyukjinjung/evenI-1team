@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,9 +24,19 @@ public class GameManager : MonoBehaviour
 
     public UIManager uiManager;
     public TestTileManager tileManager;
-    public PlayerAnimationController playerAnimationController;
 
+    
+    // -------------------------- player
     public GameObject player;
+    private PlayerMovement playerMovement;
+    private PlayerInputController playerInputController;
+    private PlayerAttackController playerAttackController;
+    private PlayerAnimationController playerAnimationController;
+    
+    public PlayerMovement PlayerMovement{get{return playerMovement;}}
+    public PlayerAttackController PlayerAttackController { get { return playerAttackController; } }
+    public PlayerInputController PlayerInputController{get{return playerInputController;}}
+    public PlayerAnimationController PlayerAnimationController{get{return playerAnimationController;}}
 
 
     public GameObject StartPanel;
@@ -59,17 +70,26 @@ public class GameManager : MonoBehaviour
         }
         
         uiManager = FindObjectOfType<UIManager>();
+
+        if (player == null)
+        {
+            Debug.Log("unassigned player");
+            return;
+        }
+
+        playerMovement = player.GetComponent<PlayerMovement>();
+        playerAttackController = player.GetComponent<PlayerAttackController>();
+        playerInputController = player.GetComponent<PlayerInputController>();
+        playerAnimationController = player.GetComponent<PlayerAnimationController>();
+        
     }
 
 
     public void StartGame()
     {
         Debug.Log("게임 시작");
-        if (player != null)
-        {
-            player.GetComponent<PlayerMovement>().enabled = true;
-            player.GetComponent<PlayerAttackController>().enabled = true;
-        }
+        playerMovement.enabled = true;
+        playerInputController.enabled = true;
 
         Time.timeScale = 1f;
 
@@ -103,7 +123,7 @@ public class GameManager : MonoBehaviour
             player.GetComponent<PlayerMovement>().enabled = false;
             player.GetComponent<PlayerAttackController>().enabled = false;
 
-            playerAnimationController.PlayGameOverAnimation();
+            PlayerAnimationController.PlayGameOverAnimation();
             player.GetComponentInChildren<Animator>().Play("Die");
 
         }
