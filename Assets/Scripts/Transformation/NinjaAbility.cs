@@ -183,9 +183,6 @@ public class NinjaAbility : SpecialAbilityData
             }
         }
 
-        if (closestTile != null)
-            Debug.Log($"가장 가까운 몬스터 타일: {closestTile.transform.position}");
-
         return closestTile;
     }
 }
