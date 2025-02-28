@@ -175,7 +175,6 @@ public class NinjaAbility : SpecialAbilityData
 
 
             float distance = Vector2.Distance(playerPosition, tile.transform.position);
-            Debug.Log($"타일 위치: {tile.transform.position}");
 
             if (distance < minDistance)
             {
@@ -183,9 +182,6 @@ public class NinjaAbility : SpecialAbilityData
                 closestTile = tile;
             }
         }
-
-        if (closestTile != null)
-            Debug.Log($"가장 가까운 몬스터 타일: {closestTile.transform.position}");
 
         return closestTile;
     }

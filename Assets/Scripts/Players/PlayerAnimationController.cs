@@ -6,10 +6,15 @@ public class PlayerAnimationController : MonoBehaviour
 {
     private Animator animator;
 
+    private void Awake()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
+
 
     void Start()
     {
-        animator = GetComponentInChildren<Animator>();
+       
     }
 
 
