@@ -175,7 +175,6 @@ public class NinjaAbility : SpecialAbilityData
 
 
             float distance = Vector2.Distance(playerPosition, tile.transform.position);
-            Debug.Log($"타일 위치: {tile.transform.position}");
 
             if (distance < minDistance)
             {

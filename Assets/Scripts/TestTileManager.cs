@@ -213,7 +213,6 @@ public class TestTileManager : MonoBehaviour
             return null; // 유효하지 않은 층이면 null 반환
         }
 
-        Debug.Log($"요청된 층: {currentFloor}, 반환된 타일 위치: {tiles[currentFloor].transform.position}");
         return tiles[nextFloor]; // 다음 층의 타일 반환
     }
 
