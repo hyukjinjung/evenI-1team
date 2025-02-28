@@ -11,22 +11,33 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    bool isGameOver = false; 
+    bool isGameOver = false;
 
 
     UIStartPanel uiStartPanel;
-    public UIStartPanel UIStartPanel    { get { return uiStartPanel; } }
+    public UIStartPanel UIStartPanel { get { return uiStartPanel; } }
 
     UIPlayingPanel uiPlayingPanel;
     public UIPlayingPanel UIPlayingPanel { get { return uiPlayingPanel; } }
-    
-    public GameObject GameOverPanel;
-    public GameObject PausePanel;
-    public GameObject CautionPanel;
-    public GameObject ResultPanel;
+
+    UIGameOverPanel uiGameOverPanel;
+    public UIGameOverPanel UIGameOverPanel { get { return uiGameOverPanel; } }
+
+    UIResultPanel uiResultPanel;
+    public UIResultPanel UIResultPanel { get { return uiResultPanel; } }
+
+    UISettingPanel uiSettingpanel;
+    public UISettingPanel UISettingPanel { get { return uiSettingpanel; } }
+
+    UIPausePanel uiPausePanel;
+    public UIPausePanel UIPausePanel { get { return uiPausePanel; } }
+
+    UICautionPanel uiCautionPanel;
+    public UICautionPanel { get { return uiCautionPanel; } }
+
+
     public GameObject StoryPanel;
-    public GameObject SettingPanel;
-    public GameObject SourcePanel;
+    public GameObject CreditPanel;
 
 
     public TextMeshProUGUI scoreText;
@@ -74,7 +85,19 @@ public class UIManager : MonoBehaviour
         
         uiPlayingPanel = GetComponentInChildren<UIPlayingPanel>(true);
         uiPlayingPanel.Initialize(this);
-        
+
+        uiGameOverPanel = GetComponentInChildren<UIGameOverPanel>(true);
+        uiGameOverPanel.Initialize(this);
+
+        uiResultPanel = GetComponentInChildren<UIResultPanel>(true);
+        uiResultPanel.Initialize(this);
+
+        uiSettingPanel = GetComponentInChildren<UISettingPanel>(true);
+        uiSettingPanel.Initialize(this);    
+
+        uiPausePanel = GetComponentInChildren<UIPausePanel>(true);
+    uiPausePanel.Initialize(this);
+      
     }
 
 
@@ -83,15 +106,14 @@ public class UIManager : MonoBehaviour
     {
         uiStartPanel.SetActive(true);
         uiPlayingPanel.SetActive(false);
-        
+        uiGameOverPanel.SetActive(false);
+        uiResultPanel.SetActive(false);
+        uiSettingPanel.SetActive(false);
+        uiPausePanel.SetActive(false);
 
-        GameOverPanel.SetActive(false);
-        PausePanel.SetActive(false);
         CautionPanel.SetActive(false);
-        ResultPanel.SetActive(false);
         StoryPanel.SetActive(false);
-        SettingPanel.SetActive(false);
-        SourcePanel.SetActive(false);
+        CreditPanel.SetActive(false);
 
         
         PauseMainHomeButton.onClick.AddListener(OnPauseMainHomeButtonClicked);
@@ -113,13 +135,6 @@ public class UIManager : MonoBehaviour
         
     }
 
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-   
     public void StartGame()
     {
         isGameOver = false;
@@ -128,18 +143,17 @@ public class UIManager : MonoBehaviour
         
         uiStartPanel.SetActive(false);
         uiPlayingPanel.SetActive(true);
-        
-        SettingPanel.SetActive(false);
-        GameOverPanel.SetActive(false);
-
+        uiGameOverPanel.SetActive(false);
+        uiSettingPanel.SetActive(false);
     }
 
     public void GameOver()
     {
         isGameOver = true;
 
-        GameOverPanel.SetActive(true);
-        PausePanel.SetActive(false);
+        uiGameOverPanel.SetActive(true);
+        uiPausePanel.SetActive(false);
+
         CautionPanel.SetActive(false);
         playerAnimationController.PlayGameStartAnimation();
     }
@@ -154,21 +168,21 @@ public class UIManager : MonoBehaviour
     public void OnClickedSettingButton()
     {
         uiStartPanel.SetActive(false);
-        SettingPanel.SetActive(true);
+        uiSettingPanel.SetActive(true);
         Time.timeScale = 0f;
     }
     
      public void OnPauseButtonClicked()
     {
-        PausePanel.SetActive(true);
+        uiPausePanel.SetActive(true);
         Time.timeScale = 0f; //Gamepause
     }
 
 
     public void OnSourceReTurnButtonClicked()
     {
-        SettingPanel.SetActive(true);
-        SourcePanel.SetActive(false);
+        uiSettingPanel.SetActive(true);
+        CreditPanel.SetActive(false);
     }
 
 
@@ -180,7 +194,7 @@ public class UIManager : MonoBehaviour
     public void OnPauseContinueButtonClicked()
     {
         uiPlayingPanel.SetActive(true);
-        PausePanel.SetActive(false);
+        uiPausePanel.SetActive(false);
         Time.timeScale = 1f;
 
     }
@@ -190,7 +204,7 @@ public class UIManager : MonoBehaviour
         uiStartPanel.SetActive(true);
         uiPlayingPanel.SetActive(false);
         
-        PausePanel.SetActive(false);
+        uiPausePanel.SetActive(false);
         CautionPanel.SetActive(false);
 
        
@@ -200,7 +214,7 @@ public class UIManager : MonoBehaviour
     {
         uiPlayingPanel.SetActive(false);
         CautionPanel.SetActive(false);
-        PausePanel.SetActive(true);
+        uiPausePanel.SetActive(true);
     }
 
     
@@ -213,7 +227,7 @@ public class UIManager : MonoBehaviour
     public void OnSkipButtonClicked()
     {
         uiPlayingPanel.SetActive(false);
-        ResultPanel.SetActive(true);
+        uiResultPanel.SetActive(true);
     }
 
     void OnResultCoinTwiceButtonClicked()
@@ -229,33 +243,44 @@ public class UIManager : MonoBehaviour
     public void OnResultReStartButtonClicked()
     {
         uiPlayingPanel.SetActive(true);
-        ResultPanel.SetActive(false); 
+        uiResultPanel.SetActive(false); 
        
     }
 
     public void OnResultMainHomeButtonClicked()
     {
         uiStartPanel.SetActive(true);
-        ResultPanel.SetActive(false);
-
+        uiResultPanel.SetActive(false);
     }
     
-
     public void OnStoryReTurnButtonClicked()
     {
-        ResultPanel.SetActive(true);
+        uiResultPanel.SetActive(true);
     }
 
    public void OnStoryButtonClicked()
     {
 
     }
-
-
-   
     
+    public void OnClickedSettingInstaGramButton()
+    {
        
+    }
+    
+    public void OnClickedSettingCreditButton()
+    {
         
+    }
+
+    public void OnClickedSettingSoundEffectButton()
+    {
+
+    }
+    public void OnClickedSettingBGMButton()
+    {
+
+    }
 
 
 }

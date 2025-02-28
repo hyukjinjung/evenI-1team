@@ -7,34 +7,8 @@ using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
-    public Button toggleButton;  // 버튼 컴포넌트
-    public Image buttonImage;    // 이미지 컴포넌트 (버튼의 이미지)
-    public Sprite activeSprite;  // 활성화된 상태 이미지
-    public Sprite inactiveSprite; // 비활성화된 상태 이미지
 
-    private bool isActive = true; // 초기 상태는 활성화 상태
-
-    private void Start()
-    {
-        // 버튼 클릭 시 ToggleImage 함수 호출
-        // toggleButton.onClick.AddListener(ToggleImage);
-    }
-
-    // 버튼 클릭 시 이미지 전환
-    private void ToggleImage()
-    {
-        // 이미지 상태 토글
-        isActive = !isActive;
-
-        if (isActive)
-        {
-            buttonImage.sprite = activeSprite;  // 활성화된 이미지로 설정
-        }
-        else
-        {
-            buttonImage.sprite = inactiveSprite;  // 비활성화된 이미지로 설정
-        }
-    }
+}
 
 
     /*using UnityEngine;
@@ -91,7 +65,7 @@ public class ToggleSound : MonoBehaviour
     }
 }
 */
-}
+
 
 
 
