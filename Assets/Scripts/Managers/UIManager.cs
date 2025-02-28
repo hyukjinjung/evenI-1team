@@ -36,8 +36,8 @@ public class UIManager : MonoBehaviour
     public UICautionPanel UICautionPanel { get { return uiCautionPanel; } }
 
 
-    public GameObject StoryPanel;
-    public GameObject CreditPanel;
+   // public GameObject StoryPanel;
+    //public GameObject CreditPanel;
     
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI bestScoreText;
@@ -70,8 +70,8 @@ public class UIManager : MonoBehaviour
     private bool isActive = true; 
 
 
-    private int score = 0;
-    private int bestScore = 0;
+    //private int score = 0;
+    //private int bestScore = 0;
 
 
     public PlayerAnimationController playerAnimationController;
@@ -116,7 +116,7 @@ public class UIManager : MonoBehaviour
         
         
         
-        StoryPanel.SetActive(false);
+        //StoryPanel.SetActive(false);
 
 
         
@@ -186,7 +186,7 @@ public class UIManager : MonoBehaviour
     public void OnSourceReTurnButtonClicked()
     {
         uiSettingPanel.SetActive(true);
-        CreditPanel.SetActive(false);
+        //CreditPanel.SetActive(false);
     }
 
 

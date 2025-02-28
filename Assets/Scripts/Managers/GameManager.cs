@@ -24,9 +24,16 @@ public class GameManager : MonoBehaviour
 
 
     public UIManager uiManager;
+
+    UIPlayingPanel uiPlayingPanel;
+    UIResultPanel uiResultPanel;
+
     public TestTileManager tileManager;
 
-    
+    public GameObject StartPanel;
+    public GameObject PlayingPanel;
+    public GameObject GameOverPanel;
+
     // -------------------------- player
     public GameObject player;
     private PlayerMovement playerMovement;
@@ -38,14 +45,6 @@ public class GameManager : MonoBehaviour
     public PlayerAttackController PlayerAttackController { get { return playerAttackController; } }
     public PlayerInputController PlayerInputController{get{return playerInputController;}}
     public PlayerAnimationController PlayerAnimationController{get{return playerAnimationController;}}
-
-
-    public GameObject StartPanel;
-    public GameObject PlayingPanel;
-    public GameObject GameOverPanel;
-
-    
-    UIPlayingPanel uiPlayingPanel;
 
     private int score = 0;
     private int bestScore = 0;
@@ -138,12 +137,7 @@ public class GameManager : MonoBehaviour
    
         StartCoroutine(FreezeGameAfterDelay());
 
-        UpdateBestScore(score);
-
-        if (playerScoreTracker != null)
-        {
-            playerScoreTracker.CalculateScore();
-        }
+        AddScore(score);
     }    
         
     private IEnumerator FreezeGameAfterDelay()
@@ -164,23 +158,23 @@ public class GameManager : MonoBehaviour
         score += value;
         
         uiPlayingPanel.UpdateScore(score);
-        
+
+        uiResultPanel.UpdateResultScore(score);
         // scoreText.text = score.ToString();
         // resultScoreText.text = scoreText.text;
     }
 
-    private void UpdateBestScore(int value)
+    public void UpdateBestScore(int value)
     {
         if (bestScore <= value)
         {
             bestScore = value;
 
+            uiResultPanel.UpdateResultBestScore(score);
+            
             // bestScoreText.text = bestScore.ToString();
             // resultBestScoreText.text = resultScoreText.text;
 
         }
     }
-
-    
 }
-

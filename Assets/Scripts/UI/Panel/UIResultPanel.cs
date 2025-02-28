@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,10 @@ public class UIResultPanel : UIPanel
     public Button ResultMainHomeButton;
     public Button ResultCoinTwiceButton;
 
+    [SerializeField] TextMeshProUGUI resultScoreText;
+    [SerializeField] TextMeshProUGUI resultBestScoreText;
+    //[SerializeField] TextMashProUGUI resultPileUpScoreText;
+    //[SerializeField] TextMeshProUGUI resultCoinscoreText;
     public override void Initialize(UIManager manager)
     {
         base.Initialize(manager);
@@ -38,4 +43,12 @@ public class UIResultPanel : UIPanel
 
     }
 
+    public void UpdateResultScore(int score)
+    {
+        resultBestScoreText.text = score.ToString();
+    }
+    public void UpdateResultBestScore(int score)
+    { 
+        resultBestScoreText.text =score.ToString();
+    }
 }

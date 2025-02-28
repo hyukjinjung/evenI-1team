@@ -934,7 +934,7 @@ GameObject:
   m_Component:
   - component: {fileID: 320040629}
   m_Layer: 5
-  m_Name: SourcePanel
+  m_Name: CreditPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1467,7 +1467,7 @@ MonoBehaviour:
   testTileManager: {fileID: 768112588}
   currentFloor: 0
   jumpEffectSpawner: {fileID: 7698517093355806083, guid: fd104e76d59c212478094dc47c1a04d1, type: 3}
-  gameManager: {fileID: 0}
+  gameManager: {fileID: 885555219}
 --- !u!114 &417875395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3012,10 +3012,10 @@ MonoBehaviour:
   isGodMode: 0
   uiManager: {fileID: 0}
   tileManager: {fileID: 768112588}
-  player: {fileID: 417875385}
   StartPanel: {fileID: 1496740455}
   PlayingPanel: {fileID: 1655964126}
   GameOverPanel: {fileID: 1435799839}
+  player: {fileID: 417875385}
 --- !u!1 &946761425
 GameObject:
   m_ObjectHideFlags: 0
@@ -4171,8 +4171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43aa6ad876a95834a8cf414c7e68c5e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StoryPanel: {fileID: 622312740}
-  CreditPanel: {fileID: 0}
   scoreText: {fileID: 2068323898}
   bestScoreText: {fileID: 319736886}
   ResultScoreText: {fileID: 1914207352}
@@ -5506,6 +5504,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1557261785}
     m_Modifications:
+    - target: {fileID: 961475974809020052, guid: 421101df349b29043b2a4f63d9d6bf8d, type: 3}
+      propertyPath: SettingCreditButton
+      value: 
+      objectReference: {fileID: 970741479}
     - target: {fileID: 4788293432205300704, guid: 421101df349b29043b2a4f63d9d6bf8d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5593,6 +5595,10 @@ PrefabInstance:
     - target: {fileID: 7572483940710925958, guid: 421101df349b29043b2a4f63d9d6bf8d, type: 3}
       propertyPath: m_Name
       value: SettingPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8877547613101922962, guid: 421101df349b29043b2a4f63d9d6bf8d, type: 3}
+      propertyPath: m_Name
+      value: SettingCreditButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5886,6 +5892,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6647251934891321245, guid: 1d2d7d339d50fcb4ab6ee21655e2a652, type: 3}
+      propertyPath: CautionContinueButton
+      value: 
+      objectReference: {fileID: 1990577462}
+    - target: {fileID: 6647251934891321245, guid: 1d2d7d339d50fcb4ab6ee21655e2a652, type: 3}
+      propertyPath: CautionMainHomeButton
+      value: 
+      objectReference: {fileID: 962102615}
     - target: {fileID: 9177893497365557577, guid: 1d2d7d339d50fcb4ab6ee21655e2a652, type: 3}
       propertyPath: m_Name
       value: CautionPanel
@@ -6025,6 +6039,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ResultPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 2124515819652034687, guid: 7673b0c940ed7994ba4a2546d6932fef, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5301565306275067402, guid: 7673b0c940ed7994ba4a2546d6932fef, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -6105,6 +6123,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7947273974116278478, guid: 7673b0c940ed7994ba4a2546d6932fef, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8389861106856251800, guid: 7673b0c940ed7994ba4a2546d6932fef, type: 3}
+      propertyPath: resultScoreText
+      value: 
+      objectReference: {fileID: 1914207352}
+    - target: {fileID: 8389861106856251800, guid: 7673b0c940ed7994ba4a2546d6932fef, type: 3}
+      propertyPath: resultBestScoreText
+      value: 
+      objectReference: {fileID: 319736886}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
