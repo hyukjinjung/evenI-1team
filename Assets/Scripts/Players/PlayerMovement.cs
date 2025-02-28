@@ -99,8 +99,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGameOver || isJumping) return;
 
-        // 변신 해제 후 타일 정보 다시 업데이트
-        UpdateTileInfo();
+        //// 변신 해제 후 타일 정보 다시 업데이트
+        //UpdateTileInfo();
 
         Tile tile = testTileManager.GetTile(currentFloor);
 
@@ -189,8 +189,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // 충돌 무효화 상태라면 아무 효과도 주지 않음
-        PlayerCollisionController collisionController = GetComponent<PlayerCollisionController>();
+        //// 충돌 무효화 상태라면 아무 효과도 주지 않음
+        //PlayerCollisionController collisionController = GetComponent<PlayerCollisionController>();
 
 
         // 타일과 충돌할 경우
@@ -209,13 +209,6 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("NinjaFrog 상태. 몬스터와 충돌 무시");
                 return;
             }
-
-            //// 변신 해제 직후 일정 시간 동안 충돌 방지
-            //if (playerTransformationController.IsRecentlyTransformed())
-            //{
-            //    Debug.Log("변신 해제 직후 몬스터 충돌 무시"); // 변신 해제 직후 게임 오버 판정 오류
-            //    return;
-            //}
 
 
             // NormalFrog 상태에서는 충돌 시 게임 오버
@@ -237,24 +230,27 @@ public class PlayerMovement : MonoBehaviour
 
     void CheckGameOver(bool isLeft, bool jumpLeft)
     {
-        if ((isLeft && !jumpLeft) || (!isLeft && jumpLeft)) // 플레이어 이동 시 게임 오버 처리
+        if (isLeft == jumpLeft)
         {
-            if (GameManager.Instance != null)
-            {
-                GameManager.Instance.GameOver();
-            }
+            Debug.Log("정상 이동. 게임 오버 아님");
+            return;
         }
+
+        Debug.Log("잘못된 점프 방향. 게임 오버 처리됨");
+        GameManager.Instance.GameOver();
     }
 
 
 
     public void UpdateTileInfo()
     {
-
+        // currentFloor가 증가한 후 올바른 타일을 가져와야 함
+        // 이전 층 타일 확인
         Tile newTile = testTileManager.GetTile(currentFloor);
+
         if (newTile == null)
         {
-            Debug.Log("타일 정보를 찾을 수 없음");
+            Debug.LogError("타일 정보를 찾을 수 없음. currentFloor: " + (currentFloor - 1));
             return;
         }
 
