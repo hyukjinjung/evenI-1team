@@ -43,11 +43,11 @@ public class UIResultPanel : UIPanel
 
     }
 
-    public void UpdateResultScore(int score)
+    public void UpdateScore(int score)
     {
         resultBestScoreText.text = score.ToString();
     }
-    public void UpdateResultBestScore(int score)
+    public void UpdateBestScore(int score)
     { 
         resultBestScoreText.text =score.ToString();
     }

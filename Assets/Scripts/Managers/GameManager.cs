@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     UIPlayingPanel uiPlayingPanel;
     UIResultPanel uiResultPanel;
+    UIGameOverPanel uiGameOverPanel;
 
     public TestTileManager tileManager;
 
@@ -138,6 +139,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(FreezeGameAfterDelay());
 
         AddScore(score);
+        UpdateBestScore(score);
     }    
         
     private IEnumerator FreezeGameAfterDelay()
@@ -159,7 +161,8 @@ public class GameManager : MonoBehaviour
         
         uiPlayingPanel.UpdateScore(score);
 
-        uiResultPanel.UpdateResultScore(score);
+        //uiGameOverPanel.UpdateScore(score);
+        //uiResultPanel.UpdateScore(score);
         // scoreText.text = score.ToString();
         // resultScoreText.text = scoreText.text;
     }
@@ -170,7 +173,7 @@ public class GameManager : MonoBehaviour
         {
             bestScore = value;
 
-            uiResultPanel.UpdateResultBestScore(score);
+            uiResultPanel.UpdateBestScore(score);
             
             // bestScoreText.text = bestScore.ToString();
             // resultBestScoreText.text = resultScoreText.text;
