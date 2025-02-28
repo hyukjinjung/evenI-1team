@@ -10,7 +10,10 @@ public class PlayerTransformationController : MonoBehaviour
     private TransformationType currentTransformation; // 현재 변신 타입
 
     private PlayerAnimationController playerAnimationController;
-
+    private PlayerAttackController attackController;
+    PlayerCollisionController playerCollisionController;
+    PlayerMovement playerMovement;
+    
     private Coroutine transformationTimer; // 변신 타이머 관리
 
     // 변신 데이터 리스트 (ScriptableObject)
@@ -25,14 +28,16 @@ public class PlayerTransformationController : MonoBehaviour
         playerAnimationController = GetComponent<PlayerAnimationController>();
         currentState = new NormalState(this);
         currentTransformation = TransformationType.NormalFrog;
-
+        attackController = GetComponent<PlayerAttackController>();
+        playerCollisionController = GetComponent<PlayerCollisionController>();
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     public bool IsTransformed()
     {
         return currentTransformation != TransformationType.NormalFrog;
     }
-
+    
 
     // 변신 시작 메서드
     public void StartTransformation(TransformationData transformationData)
@@ -51,19 +56,10 @@ public class PlayerTransformationController : MonoBehaviour
 
 
         // 특수 능력 설정
-        PlayerAttackController attackController = GetComponent<PlayerAttackController>();
-        if (attackController != null)
-        {
-            Debug.Log("특수 능력 할당됨");
-            attackController.SetTransformedState(true, transformationData.specialAbility);
-        }
+        attackController.SetTransformedState(true, transformationData.specialAbility);
 
 
-        // NinjaFrog 패시브 효과 적용 (몬스터 충돌 무시)
-        if (currentTransformation == TransformationType.NinjaFrog)
-        {
-            GetComponent<PlayerCollisionController>().EnableMonsterIgnore(transformationData.duration);
-        }
+        ApplyEffect(transformationData);
 
 
         // 변신 지속 시간 타이머 시작
@@ -71,6 +67,15 @@ public class PlayerTransformationController : MonoBehaviour
 
         transformationTimer = StartCoroutine(TransformationTimer());
 
+    }
+
+    private void ApplyEffect(TransformationData transformationData)
+    {
+        // NinjaFrog 패시브 효과 적용 (몬스터 충돌 무시)
+        if (currentTransformation == TransformationType.NinjaFrog)
+        {
+            playerCollisionController.EnableMonsterIgnore(transformationData.duration);
+        }
     }
 
 
@@ -98,20 +103,17 @@ public class PlayerTransformationController : MonoBehaviour
         if (currentTransformation == TransformationType.NormalFrog)
             return;
 
-        ResetTransformationTimer();
+        // ResetTransformationTimer();
         Debug.Log("변신 해제 애니메이션 실행"); // 애니메이션 호출 확인
 
         playerAnimationController.StartRevertAnimation(); // 변신 해제 애니메이션 실행
 
         // 변신 해제 직후 타일 정보 갱신
-        FindObjectOfType<PlayerMovement>().UpdateTileInfo();
+        // playerMovement.UpdateTileInfo();
 
         // 변신 해제 시 특수 능력 비활성화
-        PlayerAttackController playerAttackController = GetComponent<PlayerAttackController>();
-        if (playerAttackController != null)
-        {
-            playerAttackController.SetTransformedState(false, null);
-        }
+        attackController.SetTransformedState(false, null);
+        
 
         StartCoroutine(RevertToNormalAfterDelay());
 

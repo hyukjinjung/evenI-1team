@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private bool isGodMode = false;
     private static GameManager _instance;
     public static GameManager Instance
     {
@@ -117,6 +118,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("게임 오버 발생!");
 
+        if (isGodMode) return;
         if (isGameOver) return;
 
         GameOverPanel.SetActive(true);

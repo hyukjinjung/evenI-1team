@@ -5,33 +5,20 @@ using UnityEngine;
 
 public class BackGroundScroller : MonoBehaviour
 {
-    Transform cameraTransform;
-    SpriteRenderer spriteRenderer;
-    
-    private void Start()
+    private SpriteRenderer spriteRenderer;
+    public float scrollSpeed = 2f;//
+    private float backgroundHeight;//배경화면의 가로 사이즈를 가지고 있어야됨
+
+
+
+    // Start is called before the first frame update
+    void Start()//최초 첫 페이지 마다 가로 사이즈를 불러옴 
     {
-        cameraTransform = transform.parent;
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();//랜더러 안에 있는 값에개 물어볼거야 
+        backgroundHeight = spriteRenderer.bounds.size.y;//엑스 사이즈를 불러옴
     }
 
-    private void Update()
-    {
-        spriteRenderer.material.SetTextureOffset("_MainTex", new Vector2(cameraTransform.position.x, cameraTransform.position.y));
-    }
-
-    // public float scrollSpeed = 2f;//
-    // private float backgroundHeight;//배경화면의 가로 사이즈를 가지고 있어야됨
-    //
-    //
-    //
-    // // Start is called before the first frame update
-    // void Start()//최초 첫 페이지 마다 가로 사이즈를 불러옴 
-    // {
-    //     SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();//랜더러 안에 있는 값에개 물어볼거야 
-    //     backgroundHeight = spriteRenderer.bounds.size.y;//엑스 사이즈를 불러옴
-    // }
-    //
-    // // Update is called once per frame
+    // Update is called once per frame
     // void Update()
     // {
     //     transform.Translate(Vector2.up * scrollSpeed * Time.deltaTime);
@@ -43,12 +30,16 @@ public class BackGroundScroller : MonoBehaviour
     //         RepositionBackground();
     //     }
     // }
-    //
-    // void RepositionBackground()//돌아오는 기능 
-    // {
-    //     Vector2 offset = new Vector2(backgroundHeight * 3f - 0.01f, 0); //프래임 사이 중간 공백 한픽셀정도 겹치게 만들려고 0.01뺴줌 
-    //     transform.position= (Vector2)transform.position + offset;//포지션은 2디지만백터는 2임  백서2로 잡아야된 
-    // }
 
+    void RepositionBackground()//돌아오는 기능 
+    {
+        Vector3 offset = new Vector3(0, backgroundHeight * 3f - 0.01f); //프래임 사이 중간 공백 한픽셀정도 겹치게 만들려고 0.01뺴줌 
+        transform.position += offset;//포지션은 2디지만백터는 2임  백서2로 잡아야된 
+    }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        RepositionBackground();
+    }
+    
 }

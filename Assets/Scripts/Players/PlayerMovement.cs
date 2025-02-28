@@ -9,7 +9,8 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-
+    [SerializeField] private bool isAutoMode = false;
+    
     private bool isJumping = false;
     private bool isGameOver = false; // 게임 오버 중복 방지
     private float deathHeight = -5f; // 캐릭터가 떨어지면 게임 오버되는 높이
@@ -102,13 +103,19 @@ public class PlayerMovement : MonoBehaviour
         //// 변신 해제 후 타일 정보 다시 업데이트
         //UpdateTileInfo();
 
-        Tile tile = testTileManager.GetTile(currentFloor);
+        Tile tile = testTileManager.GetNextTile(currentFloor);
 
         if (tile == null) return;
 
 
         bool isLeft = tile.TileOnLeft(transform);
-
+        
+        if (isAutoMode)
+        {
+            Tile temp = testTileManager.GetNextTile(currentFloor);
+            jumpLeft =  transform.position.x > temp.transform.position.x;
+        }
+        
         // 몬스터가 있는 타일이면, NinjaFrog 상태에서는 무시하고 지나감
         if (tile.HasMonster() && collisionController != null && collisionController.CanIgnoreMonster())
         {
@@ -121,11 +128,7 @@ public class PlayerMovement : MonoBehaviour
 
         // 기본 점프 처리
         PerformJump(jumpLeft);
-        
-        // TODO:: 위치는 맞춰서 수정
-        gameManager.AddScore(1);
-        
-        
+
         isJumping = true;
         playerAnimationController.SetJumping(true);
 
@@ -138,23 +141,24 @@ public class PlayerMovement : MonoBehaviour
     void PerformJump(bool jumpLeft)
     {
         if (isGameOver || isJumping) return; // 점프 중이면 추가 점프를 막음
-
-
+        
+        // TODO:: 위치는 맞춰서 수정
+        gameManager.AddScore(1);
+        
         isJumping = true; // 점프 중
 
-        Vector2 previousPosition = transform.position;  // 이전 위치 저장
-                                                        // 점프 이펙트 생성할 때 사용
+        Vector2 previousPosition = transform.position;  // 이전 위치 저장// 점프 이펙트 생성할 때 사용
 
+        
+                                                        
         Vector2 jumpDirection = jumpLeft ? leftDirection : rightDirection;
 
         Vector2 targetPosition = (Vector2)transform.position + jumpDirection;
         targetPosition.y += 0.5f; // 타일 중앙에 착지하도록 조정 
-
-        Tile targetTile = testTileManager.GetTile(currentFloor);
+        
+        Tile targetTile = testTileManager.GetNextTile(currentFloor);
 
         // 몬스터가 있는  타일이라도 NinjaFrog 상태라면 점프 가능하게 설정
-
-
         if (targetTile != null && targetTile.HasMonster() && collisionController != null)
         {
             if (collisionController.CanIgnoreMonster())
@@ -246,7 +250,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // currentFloor가 증가한 후 올바른 타일을 가져와야 함
         // 이전 층 타일 확인
-        Tile newTile = testTileManager.GetTile(currentFloor);
+        Tile newTile = testTileManager.GetNextTile(currentFloor);
 
         if (newTile == null)
         {
