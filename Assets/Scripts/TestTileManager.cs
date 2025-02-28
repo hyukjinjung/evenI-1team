@@ -37,7 +37,6 @@ public class TestTileManager : MonoBehaviour
 
     private void GenerateDefaultTile()
     {
-        // 첫 번째 타일을 무조건 기본 타일로 생성
         GameObject tileObject = Instantiate(testTilePrefab, transform);
         Tile tileComponent = tileObject.GetComponent<Tile>();
 
@@ -50,6 +49,7 @@ public class TestTileManager : MonoBehaviour
         tileObject.gameObject.SetActive(true);
         tiles.Add(tileComponent);
     }
+
 
     void Start()
     {
@@ -86,10 +86,10 @@ public class TestTileManager : MonoBehaviour
 
     private void GenerateTile()
     {
-        // ✅ 첫 번째 타일은 생성하지 않도록 예외 처리
+        // ✅ 첫 번째 타일은 기본 타일만 생성하고 종료
         if (tiles.Count == 0)
         {
-            return; // 첫 번째 타일을 생성하지 않고 종료
+            return;
         }
 
         GameObject tilePrefab;
@@ -125,23 +125,23 @@ public class TestTileManager : MonoBehaviour
         tileObject.gameObject.SetActive(true);
         tiles.Add(tileComponent);
 
-        // ✅ 두 번째 타일부터 몬스터, 아이템, 장애물 생성 가능
+        // ✅ 두 번째 타일부터 몬스터, 아이템, Transparent 추가 (일반 타일 제외)
         if (tiles.Count > 2)
         {
             if (tilePrefab == MonsterTilePrefab)
             {
                 monsterTiles.Add(tileComponent);
-                CreateMonsterOnTile(tileComponent);
+                CreateMonsterOnTile(tileComponent); // ✅ 몬스터 타일에는 몬스터만 생성
             }
             else if (tilePrefab == ItemTilePrefab)
             {
                 itemTiles.Add(tileComponent);
-                CreateItemOnTile(tileComponent);
+                CreateItemOnTile(tileComponent); // ✅ 아이템 타일에는 아이템만 생성
             }
             else if (tilePrefab == TransparentTilePrefab)
             {
-                TogglePlatform togglePlatform = tileObject.AddComponent<TogglePlatform>();
-                togglePlatform.SetToggleInterval(3f);
+                transparentTiles.Add(tileComponent);
+                CreateTransparentTile(tileComponent); // ✅ Transparent 타일에는 Transparent 기능만 추가
             }
 
             if (Random.value < obstacleSpawnChance)
@@ -157,6 +157,8 @@ public class TestTileManager : MonoBehaviour
 
         UpdateTilePosition();
     }
+
+
 
 
 
@@ -277,6 +279,16 @@ public class TestTileManager : MonoBehaviour
     }
 
 
+    private void CreateTransparentTile(Tile tile)
+    {
+        if (tile == null) return;
+
+        TogglePlatform togglePlatform = tile.gameObject.AddComponent<TogglePlatform>();
+        togglePlatform.SetToggleInterval(3f); // ✅ Transparent 타일의 온오프 기능 추가
+    }
+
+
+
     private void CreateItemOnTile(Tile tile)
     {
         if (tile == null) return;
@@ -287,6 +299,8 @@ public class TestTileManager : MonoBehaviour
 
         tile.SetItem(item);
     }
+
+
 
     private void CreateObstacleOnTile(Tile tile)
     {
@@ -301,12 +315,9 @@ public class TestTileManager : MonoBehaviour
                 obstaclePrefab = ReverseControlPrefab;
                 break;
             case 1:
-                obstaclePrefab = TransparentTilePrefab;
-                break;
-            case 2:
                 obstaclePrefab = StickyPrefab;
                 break;
-            case 3:
+            case 2:
                 obstaclePrefab = HideNextPrefab;
                 break;
         }
@@ -319,5 +330,7 @@ public class TestTileManager : MonoBehaviour
             tile.SetObstacle(obstacle);
         }
     }
+
+
 
 }
