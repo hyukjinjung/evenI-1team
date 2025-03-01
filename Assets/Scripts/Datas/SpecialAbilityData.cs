@@ -29,6 +29,6 @@ public abstract class SpecialAbilityData : ScriptableObject
     // 능력 사용 시 나타나는 이펙트 프리펩
 
 
-    public abstract void ActivateAbility(Transform playerTransform);
+    public abstract void ActivateAbility(Transform playerTransform, TransformationData transformationData);
 
 }

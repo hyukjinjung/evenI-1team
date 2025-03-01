@@ -25,11 +25,11 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void SetAttacking(bool isLeft)
     {
-        animator.SetTrigger(isLeft ? "LeftAttack" : "RightAttack"); // 왼쪽 오른쪽 공격 애니메이션 각각 실행
+        animator.SetTrigger(isLeft ? "LeftAttack" : "RightAttack");
     }
 
 
-    // 게임 시작 시 캐릭터 TrunAround 애니메이션 실행
+
     public void PlayGameStartAnimation()
     {
         animator.SetTrigger("GameStart");
@@ -41,28 +41,22 @@ public class PlayerAnimationController : MonoBehaviour
         animator.SetTrigger("GameOver");
     }
 
-    // NinjaFrog 애니메이션
+
+
     public void PlayDisappearAnimation()
     {
-        ResetAllTriggers();
+        ResetAllAnimation();
         animator.SetTrigger("Disappear");
-        //StartCoroutine(TransitionToAssassination());
     }
 
-    // NinjaFrog 애니메이션
+
+
     public void PlayAssassinationAnimation()
     {
-        ResetAllTriggers();
+        ResetAllAnimation();
         animator.SetTrigger("Assassination");
     }
 
-
-    // 변신 해제 애니메이션 즉시 실행
-    public void PlayRevertToNormalAnimation()
-    {
-        ResetAllTriggers();
-        animator.SetTrigger("ToJumpWait");
-    }
 
 
     public float GetAttackAniamtionLength()
@@ -81,17 +75,10 @@ public class PlayerAnimationController : MonoBehaviour
     public float GetAssassinationAnimationLength() => 0.5f;
 
 
-    // 애니메이션 길이만큼 기다렸다가 변신을 해제
-    public float GetCurrentAnimationLength()
-    {
-        return animator.GetCurrentAnimatorStateInfo(0).length;
-    }
-
-
 
     public void PlayerTransformationAnimation(TransformationType newTransformation)
     {
-        ResetAllTransformation(); // 기존 변신 리셋
+        ResetAllAnimation();
 
         switch (newTransformation)
         {
@@ -108,21 +95,23 @@ public class PlayerAnimationController : MonoBehaviour
             //    animator.SetTrigger("ToMusician");
             //    break;
             default:
-                animator.SetTrigger("Reset"); // 변신 해제 시 기본 상태로 변경
+                animator.SetTrigger("Reset");
                 break;
         }
 
-        animator.SetTrigger("ToJumpWait"); // 변신 해제 후 WaitJump로환 전환
     }
 
 
 
-    public void ResetAllTransformation()
+    public void ResetAllAnimation()
     {
+        animator.ResetTrigger("Disappear");
+        animator.ResetTrigger("Assassination");
+
+
         animator.ResetTrigger("ToNinja");
         animator.ResetTrigger("ToBull");
-        //animator.ResetTrigger("ToLotus");
-        //animator.ResetTrigger("ToMusician");
+        animator.ResetTrigger("ToJumpWait");
     }
 
     
@@ -144,57 +133,28 @@ public class PlayerAnimationController : MonoBehaviour
     {
         Debug.Log("Revert 트리거 실행");
 
-        // 기존 트리거 초기화
-        ResetAllTriggers();
+        ResetAllAnimation();
 
-        // 변신 해제 애니메이션 즉시 실행
         animator.Play("RevertToNormal");
 
         StartCoroutine(RevertToNormalAfterDelay());
     }
 
 
-    // 모든 트리거 초기화
-    private void ResetAllTriggers()
-    {
-        animator.ResetTrigger("Disappear");
-        animator.ResetTrigger("Assassination");
-        animator.ResetTrigger("ToNinja");
-        animator.ResetTrigger("ToBull");
-        animator.ResetTrigger("Revert");
-        animator.ResetTrigger("ToJumpWait");
-    }
 
-
-    private IEnumerator TransitionToAssassination()
-    {
-        // 사라지는 애니메이션 끝날 때까지 대기
-        yield return new WaitForSeconds(GetDisappearAnimationLength());
-        PlayAssassinationAnimation();
-    }
-
-
-
-
-
-    // 변신 해제 애니메이션 끝난 후 NormalFrog로 복귀
     private IEnumerator RevertToNormalAfterDelay()
     {
-        // RevertToNormal 애니메이션 실행될 때까지 대기
         yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).IsName("RevertToNormal"));
 
 
-        // 변신 해제 애니메이션 길이에 맞춰 대기
         yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
 
         Debug.Log("변신 해제 애니메이션 종료");
 
-        // 변신 상태 초기화
-        ResetAllTransformation();
+        ResetAllAnimation();
 
-        // WaitJump 상태로 전환
         animator.SetTrigger("ToJumpWait");
-    }
 
+    }
 
 }
