@@ -95,10 +95,10 @@ public class PlayerMovement : MonoBehaviour
         if (isGameOver || isJumping) return;
 
 
-        Tile tile = testTileManager.GetNextTile(currentFloor);
+        //Tile tile = testTileManager.GetNextTile(currentFloor);
+        Tile tile = testTileManager.GetForwardTile(transform.position);
 
         if (tile == null) return;
-
 
         bool isLeft = tile.TileOnLeft(transform);
         
@@ -112,16 +112,16 @@ public class PlayerMovement : MonoBehaviour
         {
 
             Debug.Log("NinjaFrog 상태. 몬스터 무시하고 점프");
-            PerformJump(jumpLeft); // 점프 강제 실행
+            PerformJump(jumpLeft);
             return;
 
         }
 
-        // 기본 점프 처리
-        PerformJump(jumpLeft);
 
+        PerformJump(jumpLeft);
         isJumping = true;
         playerAnimationController.SetJumping(true);
+
 
         CheckGameOver(isLeft, jumpLeft);
 
@@ -181,9 +181,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        PlayerCollisionController collisionController = GetComponent<PlayerCollisionController>();
-
-
      
         if (collision.gameObject.CompareTag("Tile"))
         {
@@ -191,13 +188,16 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-
         if (collision.gameObject.CompareTag("Monster"))
         {
+            bool isTransformed = playerTransformationController.IsTransformed();
+            bool canIgnoreMonster = collisionController.CanIgnoreMonster();
+
             Debug.Log($"몬스터와 충돌. 변신 상태: {playerTransformationController.IsTransformed()} " +
                 $"/ 충돌 무시 가능 여부 {collisionController.CanIgnoreMonster()}");
 
-            if (collisionController != null && collisionController.CanIgnoreMonster())
+
+            if (canIgnoreMonster)
             {
                 Debug.Log("NinjaFrog 상태. 몬스터와 충돌 무시");
                 return;
@@ -214,6 +214,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("변신 아이템 획득");
         }
     }
+
 
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -235,4 +236,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
+    public void SetCurrentFloor(int floor)
+    {
+        currentFloor = floor;
+    }
 }

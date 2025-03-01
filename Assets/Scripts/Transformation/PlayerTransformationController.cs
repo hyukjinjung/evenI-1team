@@ -12,6 +12,9 @@ public class PlayerTransformationController : MonoBehaviour
     private PlayerAnimationController playerAnimationController;
     private PlayerAttackController attackController;
     private PlayerCollisionController playerCollisionController;
+    private PlayerInputController inputController;
+    private TestTileManager testTileManager;
+    private PlayerMovement playerMovement;
 
     public List<TransformationData> transformationDataList;
 
@@ -25,6 +28,9 @@ public class PlayerTransformationController : MonoBehaviour
         playerAnimationController = GetComponent<PlayerAnimationController>();
         attackController = GetComponent<PlayerAttackController>();
         playerCollisionController = GetComponent<PlayerCollisionController>();
+        inputController = GetComponent<PlayerInputController>();
+        testTileManager = GetComponent<TestTileManager>();
+        playerMovement = GetComponent<PlayerMovement>();
 
         currentTransformation = TransformationType.NormalFrog;
         isTransformed = false;
@@ -52,16 +58,23 @@ public class PlayerTransformationController : MonoBehaviour
     }
 
 
+
     public bool IsTransformed()
     {
+        Debug.Log($"변신 상태 확인 {isTransformed}");
         return isTransformed;
     }
-
+    
+    public TransformationType GetCurrentTransformation()
+    {
+        return currentTransformation;
+    }
 
 
     public void Transform(TransformationData transformationData)
     {
         if (currentTransformation == transformationData.transformationType) return;
+        
 
         playerAnimationController.PlayerTransformationAnimation(transformationData.transformationType);
         currentTransformation = transformationData.transformationType;
@@ -92,7 +105,7 @@ public class PlayerTransformationController : MonoBehaviour
         
         currentTransformation = TransformationType.NormalFrog;
         currentState = null;
-        isTransformed = false;
+        //isTransformed = false;
 
         Debug.Log("변신 해제 완료. NormalFrog 상태");
 
@@ -100,8 +113,10 @@ public class PlayerTransformationController : MonoBehaviour
 
         attackController.SetTransformedState(false, null);
 
-        playerCollisionController.EnableMonsterIgnore(0f);
+        EnablePlayerInput(false);
 
+        playerCollisionController.EnableMonsterIgnore(0f);
+      
         StartCoroutine(RevertToNormalAfterDelay());
 
     }
@@ -120,12 +135,16 @@ public class PlayerTransformationController : MonoBehaviour
 
         Debug.Log("변신 해제 애니메이션 종료");
 
+
         playerAnimationController.ResetAllAnimation();
         currentTransformation = TransformationType.NormalFrog;
 
-        // 변신 해제 후 기본 공격 가능하도록 isAttacking 초기화
-        // attackController.ResetAttackState();
+        yield return new WaitForSeconds(1.5f);
+
+        EnablePlayerInput(true);
+
     }
+
 
 
     public ITransformation GetCurrentState()
@@ -139,6 +158,15 @@ public class PlayerTransformationController : MonoBehaviour
     {
 
         return transformationDataList.Find(data => data.transformationType == currentTransformation);
+    }
+
+
+    private void EnablePlayerInput(bool enable)
+    {
+        if (inputController != null)
+        {
+            inputController.SetInputActive(enable);
+        }
     }
 
 }

@@ -43,11 +43,13 @@ public class NinjaAbility : SpecialAbilityData
             return;
         }
 
+        if (playerCollisionController == null) return;
+
         playerCollisionController.EnableMonsterIgnore(transformationData.duration);
+        Debug.Log("몬스터 충돌 무시 활성화");
 
 
         List<Tile> monsterTiles = testTileManager.GetMonsterTiles();
-
 
         Tile targetTile = FindClosestMonsterTile(playerTransform.position, monsterTiles);
 
@@ -117,7 +119,7 @@ public class NinjaAbility : SpecialAbilityData
         if (ninjaAttackEffect == null) return;
 
 
-        
+
         Vector3 effectPosition = position + new Vector3(0, -1.5f, 0);
 
         Instantiate(ninjaAttackEffect, effectPosition, Quaternion.identity);
@@ -125,24 +127,24 @@ public class NinjaAbility : SpecialAbilityData
     }
 
 
-    
+
     private Tile FindClosestMonsterTile(Vector2 playerPosition, List<Tile> monsterTiles)
     {
         Tile closestTile = null;
         float minDistance = Mathf.Infinity;
 
-        
+
         monsterTiles.RemoveAll(tile => tile == null || tile.gameObject == null);
 
         foreach (Tile tile in monsterTiles)
         {
-            
+
             if (tile == null || tile.gameObject == null)
             {
                 continue;
             }
 
-            
+
             if (tile.transform.position.y < playerPosition.y)
             {
                 continue;

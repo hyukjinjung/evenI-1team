@@ -18,7 +18,7 @@ public class TransformationState : ITransformation
     private TransformationData transformationData;
     private PlayerAttackController attackController;
 
-    private int abilityUsageCount; // 특수 능력 사용 횟수 관리
+    private int abilityUsageCount;
 
     
 
@@ -33,6 +33,7 @@ public class TransformationState : ITransformation
         Initialize();
     }
 
+
     private void Initialize()
     {
         attackController = transformController.GetComponent<PlayerAttackController>();
@@ -45,7 +46,6 @@ public class TransformationState : ITransformation
         Debug.Log($"변신 진입 성공. {transformationData.transformationType}");
 
     }
-
 
 
     public void UseSpecialAbility()
@@ -79,8 +79,6 @@ public class TransformationState : ITransformation
     }
 
 
-
-
     public void Deactivate()
     {
         Debug.Log("변신 해제 성공");
@@ -88,7 +86,6 @@ public class TransformationState : ITransformation
 
 
     }
-
 
 
     public int GetRemainingAbilityUses()

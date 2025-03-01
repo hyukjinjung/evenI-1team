@@ -8,18 +8,23 @@ public class PlayerCollisionController : MonoBehaviour
     private bool isCollisionDiabled = false;
     private bool canIgnoreMonster = false;
 
+    private PlayerTransformationController playerTransformationController;
+
 
     private void Start()
     {
         playerCollider = GetComponent<Collider2D>();
-        
+        playerTransformationController = GetComponent<PlayerTransformationController>();
+
+
     }
 
 
     public void EnableMonsterIgnore(float duration)
     {
         canIgnoreMonster = true;
-        Debug.Log("몬스터와 충돌 무시 활성화");
+        Debug.Log($"몬스터와 충돌 무시 활성화. 지속 시간 {duration}");
+
         StartCoroutine(DisableMonsterIgnoreAfterDelay(duration));
     }
 
@@ -35,6 +40,12 @@ public class PlayerCollisionController : MonoBehaviour
     
     public bool CanIgnoreMonster()
     {
+        if (playerTransformationController.GetCurrentTransformation() ==
+            TransformationType.NinjaFrog)
+        {
+            return true;
+        }
+
         return canIgnoreMonster;
     }
 }
