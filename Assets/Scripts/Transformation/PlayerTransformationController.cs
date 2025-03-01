@@ -11,26 +11,29 @@ public class PlayerTransformationController : MonoBehaviour
 
     private PlayerAnimationController playerAnimationController;
     private PlayerAttackController attackController;
-    PlayerCollisionController playerCollisionController;
-    PlayerMovement playerMovement;
+    //private PlayerCollisionController playerCollisionController;
+
+    //PlayerMovement playerMovement;
     
     private Coroutine transformationTimer; // 변신 타이머 관리
 
     // 변신 데이터 리스트 (ScriptableObject)
     public List<TransformationData> transformationDataList;
 
-    private float remainingTime = 0f; // 변신 남은 시간 추적 변수
-    private int specialAbilityUsesRemaning = 0; // 남은 특수 능력 사용 횟수
+    private float remainingTime; // 변신 남은 시간 추적 변수
+    private int specialAbilityUsesRemaning; // 남은 특수 능력 사용 횟수
 
 
     void Start()
     {
         playerAnimationController = GetComponent<PlayerAnimationController>();
+
+        attackController = GetComponent<PlayerAttackController>();
+        //playerCollisionController = GetComponent<PlayerCollisionController>();
+
         currentState = new NormalState(this);
         currentTransformation = TransformationType.NormalFrog;
-        attackController = GetComponent<PlayerAttackController>();
-        playerCollisionController = GetComponent<PlayerCollisionController>();
-        playerMovement = GetComponent<PlayerMovement>();
+        //playerMovement = GetComponent<PlayerMovement>();
     }
 
     public bool IsTransformed()
@@ -59,7 +62,7 @@ public class PlayerTransformationController : MonoBehaviour
         attackController.SetTransformedState(true, transformationData.specialAbility);
 
 
-        ApplyEffect(transformationData);
+        //ApplyEffect(transformationData);
 
 
         // 변신 지속 시간 타이머 시작
@@ -69,27 +72,25 @@ public class PlayerTransformationController : MonoBehaviour
 
     }
 
-    private void ApplyEffect(TransformationData transformationData)
+    //private void ApplyEffect(TransformationData transformationData)
+    //{
+    //    // NinjaFrog 패시브 효과 적용 (몬스터 충돌 무시)
+    //    if (currentTransformation == TransformationType.NinjaFrog)
+    //    {
+    //        playerCollisionController.EnableMonsterIgnore(transformationData.duration);
+    //    }
+    //}
+
+
+    public void UseSpecialAbilityAndRevert()
     {
-        // NinjaFrog 패시브 효과 적용 (몬스터 충돌 무시)
-        if (currentTransformation == TransformationType.NinjaFrog)
+        if (currentState is TransformationState transformationState)
         {
-            playerCollisionController.EnableMonsterIgnore(transformationData.duration);
-        }
-    }
+            transformationState.UseSpecialAbility();
 
-
-    public void UseSpecialAbility()
-    {
-        if (specialAbilityUsesRemaning > 0)
-        {
-            specialAbilityUsesRemaning--;
-            Debug.Log($"특수 능력 사용. 남은 횟수: {specialAbilityUsesRemaning}");
-
-            if (specialAbilityUsesRemaning == 0)
+            if (transformationState.IsAbilityUsageDepleted())
             {
-                Debug.Log("특수 능력 횟수 소진.즉시 변신 해제");
-                ResetTransformationTimer();
+                Debug.Log("변신 해제 실행");
                 StartRevertProcess();
             }
         }
@@ -99,22 +100,16 @@ public class PlayerTransformationController : MonoBehaviour
     // 변신 해제 시작
     public void StartRevertProcess()
     {
-        // 이미 NormalFrog 상태면실 실행할 필요 없음
-        if (currentTransformation == TransformationType.NormalFrog)
-            return;
+        if (currentTransformation == TransformationType.NormalFrog) return;
 
-        // ResetTransformationTimer();
-        Debug.Log("변신 해제 애니메이션 실행"); // 애니메이션 호출 확인
+        Debug.Log("변신 해제 실행");
 
-        playerAnimationController.StartRevertAnimation(); // 변신 해제 애니메이션 실행
+        ResetTransformationTimer();
 
-        // 변신 해제 직후 타일 정보 갱신
-        // playerMovement.UpdateTileInfo();
+        playerAnimationController.StartRevertAnimation();
 
-        // 변신 해제 시 특수 능력 비활성화
         attackController.SetTransformedState(false, null);
         
-
         StartCoroutine(RevertToNormalAfterDelay());
 
     }
@@ -124,44 +119,28 @@ public class PlayerTransformationController : MonoBehaviour
     {
         if (transformationTimer != null)
         {
+            Debug.Log("변신 타이머 중단");
             StopCoroutine(transformationTimer);
             transformationTimer = null;
         }
     }
 
 
-    private void StopTransformationTimer()
-    {
-        if (transformationTimer != null)
-        {
-            StopCoroutine(transformationTimer);
-            transformationTimer = null;
-        }
-    }
+    //private void StopTransformationTimer()
+    //{
+    //    if (transformationTimer != null)
+    //    {
+    //        StopCoroutine(transformationTimer);
+    //        transformationTimer = null;
+    //    }
+    //}
 
 
-    // 특수 능력 사용 후 즉시 변신 해제 확인
-    public void UseSpecialAbilityAndCheckRevert()
-    {
-        if (currentState is TransformationState transformationState)
-        {
-            transformationState.UseSpecialAbility();
-
-            // 능력 사용 후 즉시 변신 해제 실행
-            if (transformationState.IsAbilityUsageDepleted())
-            {
-                Debug.Log("암살 성공. 즉시 변신 해제 실행");
-                StartRevertProcess();
-            }
-        }
-    }
-
-
-    // 변신 타입에 따라 TransformationData 찾기
-    public TransformationData GetTransformationData(TransformationType type)
-    {
-        return transformationDataList.Find(data => data.transformationType == type);
-    }
+    //// 변신 타입에 따라 TransformationData 찾기
+    //public TransformationData GetTransformationData(TransformationType type)
+    //{
+    //    return transformationDataList.Find(data => data.transformationType == type);
+    //}
 
     //변신 해제 후 NormalFrog 상태로 복귀
     private IEnumerator RevertToNormalAfterDelay()
@@ -177,12 +156,12 @@ public class PlayerTransformationController : MonoBehaviour
 
 
     //변신 타이머 관리
-    public void StartTransformationTimer(ITransformation transformation, float duration)
-    {
-        if (transformationTimer != null)
-            StopCoroutine(transformationTimer);
-        transformationTimer = StartCoroutine(TransformationTimer());
-    }
+    //public void StartTransformationTimer(ITransformation transformation, float duration)
+    //{
+    //    if (transformationTimer != null)
+    //        StopCoroutine(transformationTimer);
+    //    transformationTimer = StartCoroutine(TransformationTimer());
+    //}
 
 
     // 변신 지속 시간이 끝나면 자동 해제
@@ -199,11 +178,11 @@ public class PlayerTransformationController : MonoBehaviour
         StartRevertProcess(); // 변신 지속시간이 끝나면 해제
     }
 
-    public void ChangeState(ITransformation newState)
-    {
-        currentState = newState;
-        currentState.Activate();
-    }
+    //public void ChangeState(ITransformation newState)
+    //{
+    //    currentState = newState;
+    //    currentState.Activate();
+    //}
 
     public ITransformation GetCurrentState()
     {

@@ -27,10 +27,7 @@ public class TransformationState : ITransformation
     {
         this.transformController = transformController;
         this.transformationData = transformationData;
-        this.PlayerAnimationController = transformController.GetComponent<PlayerAnimationController>();
-
-        // 특수 능력 사용 횟수 설정
-        abilityUsageCount = transformationData.specialAbility.maxUsageCount;
+        this.abilityUsageCount = transformationData.specialAbility.maxUsageCount;
 
     }
 
@@ -38,12 +35,7 @@ public class TransformationState : ITransformation
     // 변신 활성화
     public void Activate()
     {
-        //if (gameManager == null)
-        //    return;
-
-        // 변신 지속 시간이 지나면 자동으로 변신이 해제되도록
-        // 변신 지속 시간 타이머 시작
-        //transformController.StartTransformationTimer(this, transformationData.duration);
+        Debug.Log("변신 진입 성공");
 
     }
 
@@ -51,7 +43,7 @@ public class TransformationState : ITransformation
     // 특수 능력 사용(횟수)
     public void UseSpecialAbility()
     {
-        if (gameManager == null && abilityUsageCount <= 0)
+        if (abilityUsageCount <= 0)
             return;
 
         transformationData.specialAbility.ActivateAbility(transformController.transform);
@@ -62,12 +54,7 @@ public class TransformationState : ITransformation
         if (abilityUsageCount <= 0)
         {
 
-            // 변신 해제 애니메이션 즉시 실행
-            PlayerAnimationController.PlayRevertToNormalAnimation();
-
-            Debug.Log("특수 능력 사용 완료. 변신 해제 시작");
-            // 변신 해제 실행
-            Deactivate();
+            transformController.StartRevertProcess();
         }
     }
 
@@ -76,31 +63,9 @@ public class TransformationState : ITransformation
 
     public void Deactivate()
     {
+        Debug.Log("변신 해제 성공");
+        transformController.StartRevertProcess();
 
-        if (transformController != null)
-        {
-            Debug.Log("즉시 RevertToNormal 애니메이션 실행");
-
-            // 변신 해제 애니메이션 즉시 실행
-            PlayerAnimationController.PlayRevertToNormalAnimation();
-
-
-            // 변신 해제 실행
-            transformController.StartRevertProcess();
-        }
-        
-
-        // 변신 해제 후, 일정 시간 동안 몬스터 충돌 무시
-        // 변신 해제 후 게임 오버 되는 오류 발생
-        PlayerCollisionController collisionController = transformController.GetComponent< PlayerCollisionController>();
-        if (collisionController != null)
-        {
-            collisionController.EnableMonsterIgnore(0.2f);
-        }
-
-
-        // NormalFrog 상태로 변경
-        transformController.ChangeState(new NormalState(transformController));
     }
 
 
