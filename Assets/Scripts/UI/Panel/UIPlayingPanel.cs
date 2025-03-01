@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIPlayingPanel : UIPanel
 {
@@ -26,6 +27,8 @@ public class UIPlayingPanel : UIPanel
         LeftButton.onClick.AddListener(OnClickedLeftButton);
         RightButton.onClick.AddListener(OnClickedRightButton);
     }
+
+    
 
     void OnPauseButtonClicked()
     {

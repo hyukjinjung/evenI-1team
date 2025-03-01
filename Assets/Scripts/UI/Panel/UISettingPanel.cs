@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UISettingPanel : UIPanel
 {
+    public Button SettingReturnButton;
     public Button SettingInstagramButton;
     public Button SettingCreditButton;
     public Button SettingSoundEffectButton;
@@ -14,6 +15,7 @@ public class UISettingPanel : UIPanel
     public override void Initialize(UIManager manager)
     {
         base.Initialize(manager);
+        SettingReturnButton.onClick.AddListener(OnClickedSettingReturnButton);
         SettingBGMButton.onClick.AddListener(OnClickedSettingBGMButton);
         SettingSoundEffectButton.onClick.AddListener(OnClikedSettingSoundEffectButton);
         SettingInstagramButton.onClick.AddListener(OnClikedSettingInstagramButton);
@@ -36,5 +38,9 @@ public class UISettingPanel : UIPanel
     {
         uiManager.OnClickedSettingCreditButton();
     } 
+    void OnClickedSettingReturnButton()
+    {
+        uiManager.OnClickedSettingReturnButton();
+    }
 
 }

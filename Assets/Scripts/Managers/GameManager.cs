@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
@@ -53,7 +54,7 @@ public class GameManager : MonoBehaviour
     private int resultBestScore = 0;
     
     public int Score {get{return score;}}
-    public int BestScore {get{return resultBestScore;}}
+    public int BestScore {get{return bestScore;}}
     public int ResultScore {get{return resultScore;}}
     public int ResultBestScore {get{return resultBestScore;}}
     
@@ -93,7 +94,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        uiGameOverPanel = uiManager.UIGameOverPanel;
         uiPlayingPanel = uiManager.UIPlayingPanel;
+        uiResultPanel = uiManager.UIResultPanel;
     }
 
     public void StartGame()
@@ -110,7 +113,9 @@ public class GameManager : MonoBehaviour
         isGameOver = false;
 
         AddScore(0);
-        UpdateBestScore(0);
+       uiResultPanel.UpdateBestScore(0);
+
+       // uiResultPanel.UpdateBestScore(bestScore);
     }
 
 
@@ -139,20 +144,19 @@ public class GameManager : MonoBehaviour
         StartCoroutine(FreezeGameAfterDelay());
 
         AddScore(score);
-        UpdateBestScore(score);
-    }    
-        
+
+        //uiResultPanel.UpdateBestScore(score);
+
+    }
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
     private IEnumerator FreezeGameAfterDelay()
     {
         yield return new WaitForSecondsRealtime(0.5f);
         Time.timeScale = 0f;
     }
-
-    public void ResultPanel()
-    {
-        Debug.Log("점수 합산 창으로 이동");
-    }
-
     public void AddScore(int value)
     {
         if (isGameOver) return;
@@ -160,24 +164,17 @@ public class GameManager : MonoBehaviour
         score += value;
         
         uiPlayingPanel.UpdateScore(score);
+        uiGameOverPanel.UpdateScore(score);
+        uiResultPanel.UpdateScore(score);
 
-        //uiGameOverPanel.UpdateScore(score);
-        //uiResultPanel.UpdateScore(score);
-        // scoreText.text = score.ToString();
-        // resultScoreText.text = scoreText.text;
+        Debug.Log(Score);
     }
-
-    public void UpdateBestScore(int value)
-    {
-        if (bestScore <= value)
-        {
-            bestScore = value;
-
-            uiResultPanel.UpdateBestScore(score);
-            
-            // bestScoreText.text = bestScore.ToString();
-            // resultBestScoreText.text = resultScoreText.text;
-
-        }
-    }
+    
+    //public void UpdateBestScore(int value)
+    //{ 
+    //    if (bestScore < value)
+    //    {
+    //        bestScore = value;
+    //    }
+    //}
 }

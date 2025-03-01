@@ -16,7 +16,6 @@ public class UICautionPanel : UIPanel
     }
 
     void OnClickedCautionMainHomeButton()
-
     {
         uiManager.OnCautionMainHomeButtonClicked();
     }

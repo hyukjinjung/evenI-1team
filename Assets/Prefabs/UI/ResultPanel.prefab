@@ -442,6 +442,9 @@ MonoBehaviour:
   ResultReStartButton: {fileID: 2820537052732783335}
   ResultMainHomeButton: {fileID: 5046567833542990440}
   ResultCoinTwiceButton: {fileID: 1458987857046598349}
+  resultScoreText: {fileID: 0}
+  resultBestScoreText: {fileID: 0}
+  resultCoinscoreText: {fileID: 0}
 --- !u!1 &2304732181921021890
 GameObject:
   m_ObjectHideFlags: 0

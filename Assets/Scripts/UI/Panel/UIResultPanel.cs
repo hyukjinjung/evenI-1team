@@ -6,6 +6,13 @@ using UnityEngine.UI;
 
 public class UIResultPanel : UIPanel
 {
+    private int score = 0;
+    private int bestScore = 0;
+
+    public int Score { get { return score; } }
+    public int BestScore { get { return bestScore; } }
+
+
     public Button ResultScoreTwiceButton;
     public Button ResultReStartButton;
     public Button ResultMainHomeButton;
@@ -14,22 +21,22 @@ public class UIResultPanel : UIPanel
     [SerializeField] TextMeshProUGUI resultScoreText;
     [SerializeField] TextMeshProUGUI resultBestScoreText;
     //[SerializeField] TextMashProUGUI resultPileUpScoreText;
-    //[SerializeField] TextMeshProUGUI resultCoinscoreText;
+    [SerializeField] TextMeshProUGUI resultCoinscoreText;
     public override void Initialize(UIManager manager)
     {
         base.Initialize(manager);
         ResultCoinTwiceButton.onClick.AddListener(OnResultCoinTwiceButtonClicked);
         ResultScoreTwiceButton.onClick.AddListener(OnResultScoreTwiceButtonClicked);
-        ResultReStartButton.onClick.AddListener(OnResultReStartButtonClicked);
-        ResultMainHomeButton.onClick.AddListener(OnResultMainHomeButtonClicked);
+        ResultReStartButton.onClick.AddListener(OnClickedResultReStartButton);
+        ResultMainHomeButton.onClick.AddListener(OnClickedResultMainHomeButton);
     }
     
-    void OnResultReStartButtonClicked()
+    void OnClickedResultReStartButton()
     {
-        uiManager.StartGame();
+        uiManager.OnResultReStartButtonClicked();
     }
 
-    void OnResultMainHomeButtonClicked()
+    void OnClickedResultMainHomeButton()
     {
         uiManager.OnResultMainHomeButtonClicked();
     }
@@ -45,10 +52,17 @@ public class UIResultPanel : UIPanel
 
     public void UpdateScore(int score)
     {
-        resultBestScoreText.text = score.ToString();
+        resultScoreText.text = score.ToString();
     }
+
     public void UpdateBestScore(int score)
-    { 
-        resultBestScoreText.text =score.ToString();
+    {
+        if (bestScore < score)
+        {
+            bestScore = score;
+        }
+        resultBestScoreText.text = score.ToString();
+
     }
+
 }

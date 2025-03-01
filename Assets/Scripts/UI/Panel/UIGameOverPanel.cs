@@ -11,6 +11,8 @@ public class UIGameOverPanel : UIPanel
     public Button SkipButton;
 
     [SerializeField] TextMeshProUGUI continueScoreText;
+
+
         
     public override void Initialize(UIManager manager)
     {
@@ -31,4 +33,6 @@ public class UIGameOverPanel : UIPanel
     {
         continueScoreText.text = score.ToString();
     }
+
+   
 }
