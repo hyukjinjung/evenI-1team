@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
         isGameOver = false;
 
         AddScore(0);
-       uiResultPanel.UpdateBestScore(0);
+       //uiResultPanel.UpdateBestScore(0);
 
        // uiResultPanel.UpdateBestScore(bestScore);
     }

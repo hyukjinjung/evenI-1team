@@ -55,14 +55,14 @@ public class UIResultPanel : UIPanel
         resultScoreText.text = score.ToString();
     }
 
-    public void UpdateBestScore(int score)
-    {
-        if (bestScore < score)
-        {
-            bestScore = score;
-        }
-        resultBestScoreText.text = score.ToString();
+    //public void UpdateBestScore(int score)
+    //{
+    //    if (bestScore < score)
+    //    {
+    //        bestScore = score;
+    //    }
+    //    resultBestScoreText.text = score.ToString();
 
-    }
+    //}
 
 }

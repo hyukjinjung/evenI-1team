@@ -54,5 +54,5 @@ public class UIPlayingPanel : UIPanel
     {
         scoreText.text = score.ToString();
     }
-    
+
 }
