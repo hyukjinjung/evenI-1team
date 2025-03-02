@@ -18,10 +18,10 @@ public class MonsterAnimationController : MonoBehaviour
         
     }
 
-    public void PlayMonsterDieAnimation()
-    {
-        animator.SetTrigger("Death");
-    }
+    //public void PlayMonsterDieAnimation()
+    //{
+    //    animator.SetTrigger("Death");
+    //}
 
 
     public void StartDeath(Monster monster)
@@ -33,7 +33,7 @@ public class MonsterAnimationController : MonoBehaviour
     private IEnumerator DestrotyAfterAnimation(Monster monster)
     {
         // Death 애니메이션 트리거 실행
-        PlayMonsterDieAnimation();
+        //PlayMonsterDieAnimation();
 
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         float deathAnimationLength = stateInfo.length;

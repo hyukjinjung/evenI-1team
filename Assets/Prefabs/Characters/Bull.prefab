@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 589410441500051876}
   - component: {fileID: 5206476534454322280}
   - component: {fileID: 6329197211440015715}
+  - component: {fileID: 6262910206522109291}
   m_Layer: 0
   m_Name: Bull
   m_TagString: Player
@@ -115,6 +116,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testTileManager: {fileID: 0}
   currentFloor: 0
+  specialAbilityData: {fileID: 0}
+  attackEffectPrefab: {fileID: 0}
 --- !u!114 &8024277414940046089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,11 +130,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017301b4acc0cfe4c91f0b4bd3d6fd8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0
-  jumpForce: 0
+  isAutoMode: 0
   testTileManager: {fileID: 0}
   currentFloor: 0
   jumpEffectSpawner: {fileID: 7698517093355806083, guid: fd104e76d59c212478094dc47c1a04d1, type: 3}
+  gameManager: {fileID: 0}
 --- !u!114 &589410441500051876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,10 +147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bad6ae086b55774891dd6785555b6b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LeftButton: {fileID: 0}
-  RightButton: {fileID: 0}
-  AttackButton: {fileID: 0}
-  isLeft: 1
 --- !u!114 &5206476534454322280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,6 +169,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0360b92882b5bad4c9c9468785c352e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformationDataList:
+  - {fileID: 11400000, guid: 3c15fbb2e1ab4754d9f0d317875fe612, type: 2}
+--- !u!114 &6262910206522109291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180637962520515190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea245d094305b52478b97b8e57a81f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5598327928976257421
@@ -267,7 +280,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 99
-  m_Sprite: {fileID: 21300000, guid: 5f57a51eae9fd284c9596848801b0ecf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dd12f5ed736e6174d9dd1f75d0dce245, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

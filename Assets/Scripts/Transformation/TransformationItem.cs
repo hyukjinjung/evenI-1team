@@ -17,7 +17,7 @@ public class TransformationItem : MonoBehaviour
     // 변신 시작
     public void ApplyTransformation(PlayerTransformationController controller)
     {
-        controller.StartTransformation(transformationData);
+        controller.Transform(transformationData);
     }
 
 
@@ -31,7 +31,7 @@ public class TransformationItem : MonoBehaviour
             if (player != null)
             {
                 Debug.Log("변신 시작");
-                player.StartTransformation(transformationData);
+                player.Transform(transformationData);
 
                 Debug.Log("아이템 제거");
                 Destroy(gameObject);

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transformationType: 2
   duration: 9
-  specialAbility: {fileID: 0}
+  specialAbility: {fileID: 11400000, guid: cb194574e3f0ed043ab587009d1444ca, type: 2}
   transformationPrefab: {fileID: 180637962520515190, guid: a3500796ae6202140bf51f214bf4ee86, type: 3}

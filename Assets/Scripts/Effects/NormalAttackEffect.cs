@@ -15,7 +15,6 @@ public class NormalAttackEffect : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log($"일반 공격 충돌 감지.");
         
         if (collision.CompareTag("Monster")) // 몬스터 태그를 가진 오브젝트와 충돌하면
         {
