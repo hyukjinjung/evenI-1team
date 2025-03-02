@@ -179,6 +179,7 @@ MonoBehaviour:
   LeftButton: {fileID: 2889299434729706646}
   RightButton: {fileID: 8268573616820696410}
   PauseButton: {fileID: 6809549689375020402}
+  scoreText: {fileID: 0}
 --- !u!82 &4756316905344751393
 AudioSource:
   m_ObjectHideFlags: 0

@@ -232,6 +232,7 @@ public class UIManager : MonoBehaviour
     public void OnSkipButtonClicked()
     {
         uiPlayingPanel.SetActive(false);
+        uiGameOverPanel.SetActive(false);
         uiResultPanel.SetActive(true);
     }
 

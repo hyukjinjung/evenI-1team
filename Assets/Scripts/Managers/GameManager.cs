@@ -97,6 +97,11 @@ public class GameManager : MonoBehaviour
         uiGameOverPanel = uiManager.UIGameOverPanel;
         uiPlayingPanel = uiManager.UIPlayingPanel;
         uiResultPanel = uiManager.UIResultPanel;
+
+        bestScore = PlayerPrefs.GetInt("BestScore", 0);
+        uiResultPanel.UpdateBestScore(bestScore);
+
+
     }
 
     public void StartGame()
@@ -107,15 +112,19 @@ public class GameManager : MonoBehaviour
 
         Time.timeScale = 1f;
 
+        isGameOver = false;
+
+
+        AddScore(0);
+        UpdateBestScore(0);
+
         StartPanel.SetActive(false);
         PlayingPanel.SetActive(true);
 
-        isGameOver = false;
 
-        AddScore(0);
-       //uiResultPanel.UpdateBestScore(0);
+        //uiResultPanel.UpdateBestScore(0);
 
-       // uiResultPanel.UpdateBestScore(bestScore);
+        //uiResultPanel.UpdateBestScore(bestScore);
     }
 
 
@@ -143,9 +152,12 @@ public class GameManager : MonoBehaviour
    
         StartCoroutine(FreezeGameAfterDelay());
 
-        AddScore(score);
+        //AddScore(score);
 
-        //uiResultPanel.UpdateBestScore(score);
+        UpdateBestScore(score);
+        //uiResultPanel.UpdateBestScore(bestScore);
+        //uiResultPanel.UpdateScore(score);
+
 
     }
     public void RestartGame()
@@ -157,6 +169,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.5f);
         Time.timeScale = 0f;
     }
+
+
     public void AddScore(int value)
     {
         if (isGameOver) return;
@@ -169,12 +183,19 @@ public class GameManager : MonoBehaviour
 
         Debug.Log(Score);
     }
-    
-    //public void UpdateBestScore(int value)
-    //{ 
-    //    if (bestScore < value)
-    //    {
-    //        bestScore = value;
-    //    }
-    //}
+
+
+    public void UpdateBestScore(int value)
+    {
+        if (bestScore < value)
+        {
+            bestScore = value;
+
+            PlayerPrefs.SetInt("BestScore", bestScore);
+            PlayerPrefs.Save();
+
+            uiResultPanel.UpdateBestScore(bestScore);
+
+        }
+    }
 }

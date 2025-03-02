@@ -30,7 +30,7 @@ public class UIResultPanel : UIPanel
         ResultReStartButton.onClick.AddListener(OnClickedResultReStartButton);
         ResultMainHomeButton.onClick.AddListener(OnClickedResultMainHomeButton);
     }
-    
+
     void OnClickedResultReStartButton()
     {
         uiManager.OnResultReStartButtonClicked();
@@ -40,7 +40,7 @@ public class UIResultPanel : UIPanel
     {
         uiManager.OnResultMainHomeButtonClicked();
     }
-    
+
     void OnResultCoinTwiceButtonClicked()
     {
 
@@ -52,17 +52,17 @@ public class UIResultPanel : UIPanel
 
     public void UpdateScore(int score)
     {
+
         resultScoreText.text = score.ToString();
+
+
     }
 
-    //public void UpdateBestScore(int score)
-    //{
-    //    if (bestScore < score)
-    //    {
-    //        bestScore = score;
-    //    }
-    //    resultBestScoreText.text = score.ToString();
+    public void UpdateBestScore(int score)
+    {
 
-    //}
+        resultBestScoreText.text = score.ToString();
+
+    }
 
 }
