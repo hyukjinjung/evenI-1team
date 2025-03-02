@@ -10,14 +10,13 @@ public class PlayerScoreTracker : MonoBehaviour
 
     public int score = 0;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         startY = transform.position.y;
         Debug.Log($"게임 시작 Y  위치: {startY}");
     }
 
-    // Update is called once per frame
    
     private void Update()
     {
@@ -26,6 +25,7 @@ public class PlayerScoreTracker : MonoBehaviour
         // 플레이어의 현재 위치 추적
         endY = transform.position.y;
     }
+
 
     public void CalculateScore()
     {

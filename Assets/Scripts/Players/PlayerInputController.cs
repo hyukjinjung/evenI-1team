@@ -12,9 +12,12 @@ public class PlayerInputController : MonoBehaviour
     private GameManager gameManager;
     private UIManager uiManager;
 
+    private bool isInputActive = true;
+
+
     void Start()
     {
-        gameManager = GameManager.Instance; // GameManager 가져오기
+        gameManager = GameManager.Instance;
         if (gameManager == null) return;
         
         uiManager = gameManager.uiManager;
@@ -32,12 +35,27 @@ public class PlayerInputController : MonoBehaviour
 
     public void CallJumpEvent(bool isLeft)
     {
+        if (!isInputActive) return;
+
         OnJumpEvent?.Invoke(isLeft);
     }
+
     public void CallAttackEvent()
     {
         OnAttackEvent?.Invoke();
     }
-    
+
+    public void SetInputActive(bool active)
+    {
+        isInputActive = active;
+        Debug.Log($"입력 상태 변경 {(active ? "활성화" : "비활성화")}");
+    }
+
+
+    public bool IsInputActive()
+    { 
+        return isInputActive;
+    }
+
 
 }

@@ -13,13 +13,14 @@ using UnityEngine;
 
 public class TransformationState : ITransformation
 {
-    private PlayerAnimationController PlayerAnimationController;
-    private GameManager gameManager;
 
     private PlayerTransformationController transformController;
     private TransformationData transformationData;
+    private PlayerAttackController attackController;
 
-    private int abilityUsageCount; // 특수 능력 사용 횟수 관리
+    private int abilityUsageCount;
+
+    
 
 
     public TransformationState(PlayerTransformationController transformController,
@@ -29,50 +30,67 @@ public class TransformationState : ITransformation
         this.transformationData = transformationData;
         this.abilityUsageCount = transformationData.specialAbility.maxUsageCount;
 
+        Initialize();
     }
 
 
-    // 변신 활성화
+    private void Initialize()
+    {
+        attackController = transformController.GetComponent<PlayerAttackController>();
+    }
+
+
     public void Activate()
     {
-        Debug.Log("변신 진입 성공");
+        transformController.Transform(transformationData);
+        Debug.Log($"변신 진입 성공. {transformationData.transformationType}");
 
     }
 
 
-    // 특수 능력 사용(횟수)
     public void UseSpecialAbility()
     {
-        if (abilityUsageCount <= 0)
-            return;
-
-        transformationData.specialAbility.ActivateAbility(transformController.transform);
-        abilityUsageCount--;
+        Debug.Log($"특수 능력 사용 전. 현재 남은 횟수 {abilityUsageCount} ");
 
 
-        // 특수 능력 사용 횟수를 모두 소진했을 경우 변신 해제 애니메이션 실행
         if (abilityUsageCount <= 0)
         {
+            Debug.Log($"특수 능력 사용 횟수 0. 현재 남은 횟수 {abilityUsageCount}");
+            return;
+        }
 
-            transformController.StartRevertProcess();
+        transformationData.specialAbility.ActivateAbility(transformController.transform, transformationData);
+        abilityUsageCount--;
+
+        Debug.Log($"특수 능력 사용 완료. 현재 남은 횟수 {abilityUsageCount}");
+
+
+        if (abilityUsageCount <= 0)
+        {
+            transformController.ResetTransformationTimer();
+            transformController.DeTransform();
+
+        }
+
+        if (attackController != null)
+        {
+            attackController.ResetAttackState();
         }
     }
-
-
 
 
     public void Deactivate()
     {
         Debug.Log("변신 해제 성공");
-        transformController.StartRevertProcess();
+        transformController.DeTransform();
+
 
     }
 
 
-    // 능력 사용 횟수 소진 여부 확인
-    public bool IsAbilityUsageDepleted()
+    public int GetRemainingAbilityUses()
     {
-        return abilityUsageCount <= 0;
+        return abilityUsageCount;
     }
 
 }

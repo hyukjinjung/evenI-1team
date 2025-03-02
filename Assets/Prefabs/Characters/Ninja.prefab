@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 6290698068909583023}
   - component: {fileID: 8216372491489469413}
   - component: {fileID: 1014383906536817078}
+  - component: {fileID: 3171379907395629669}
   m_Layer: 0
   m_Name: Ninja
   m_TagString: Player
@@ -235,9 +236,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017301b4acc0cfe4c91f0b4bd3d6fd8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAutoMode: 0
   testTileManager: {fileID: 0}
   currentFloor: 0
   jumpEffectSpawner: {fileID: 7698517093355806083, guid: fd104e76d59c212478094dc47c1a04d1, type: 3}
+  gameManager: {fileID: 0}
 --- !u!114 &6290698068909583023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,10 +253,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bad6ae086b55774891dd6785555b6b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LeftButton: {fileID: 0}
-  RightButton: {fileID: 0}
-  AttackButton: {fileID: 0}
-  isLeft: 1
 --- !u!114 &8216372491489469413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,4 +277,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0360b92882b5bad4c9c9468785c352e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transformationDataList: []
+  transformationDataList:
+  - {fileID: 11400000, guid: b2b7571f504acc949894443ebc425bba, type: 2}
+--- !u!114 &3171379907395629669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4991891743870546362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea245d094305b52478b97b8e57a81f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

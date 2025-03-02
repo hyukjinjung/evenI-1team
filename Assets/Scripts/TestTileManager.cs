@@ -149,21 +149,31 @@ public class TestTileManager : MonoBehaviour
         tiles.RemoveAt(0);
         Destroy(oldestTile.gameObject);
     }
+    // 타일 지그재그 생성
+    //private void UpdateTilePosition()
+    //{
+    //    if (currentX <= -2)
+    //    {
+    //        direction = 1;
+    //    }
+    //    else if (currentX >= 2)
+    //    {
+    //        direction = -1;
+    //    }
+    //    currentX += direction;
+    //    currentY += 1;
+    //}
 
+    //타일 랜덤생성
     private void UpdateTilePosition()
     {
-        if (currentX <= -2)
-        {
-            direction = 1;
-        }
-        else if (currentX >= 2)
-        {
-            direction = -1;
-        }
-        currentX += direction;
+        int randomDirection = (Random.Range(0, 2) == 0) ? -1 : 1; // 0 또는 1을 선택한 후 -1 또는 +1로 변환
+        currentX += randomDirection;
         currentY += 1;
     }
-    
+
+
+
     public Tile GetForwardTile(Vector3 playerPosition)
     {
         Tile forwardTile = null;

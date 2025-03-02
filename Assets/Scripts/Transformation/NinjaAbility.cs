@@ -16,10 +16,10 @@ public class NinjaAbility : SpecialAbilityData
     public GameObject ninjaAttackEffect; // 타격 이펙트 프리팹
 
 
-    PlayerAnimationController playerAnimationController;
-    PlayerTransformationController playerTransformationController;
-    PlayerCollisionController playerCollisionController;
-    Rigidbody2D rb;
+    private PlayerAnimationController playerAnimationController;
+    private PlayerTransformationController playerTransformationController;
+    private PlayerCollisionController playerCollisionController;
+    private Rigidbody2D rb;
     private TestTileManager testTileManager;
 
 
@@ -29,10 +29,10 @@ public class NinjaAbility : SpecialAbilityData
         playerTransformationController = playerTransform.GetComponent<PlayerTransformationController>();
         playerCollisionController = playerTransform.GetComponent<PlayerCollisionController>();
         rb = playerTransform.GetComponent<Rigidbody2D>();
-        testTileManager= GameManager.Instance.tileManager;
+        testTileManager = GameManager.Instance.tileManager;
     }
 
-    public override void ActivateAbility(Transform playerTransform)
+    public override void ActivateAbility(Transform playerTransform, TransformationData transformationData)
     {
         Initialize(playerTransform);
 
@@ -43,8 +43,13 @@ public class NinjaAbility : SpecialAbilityData
             return;
         }
 
-        List<Tile> monsterTiles = testTileManager.GetMonsterTiles();
+        if (playerCollisionController == null) return;
 
+        playerCollisionController.EnableMonsterIgnore(transformationData.duration);
+        Debug.Log("몬스터 충돌 무시 활성화");
+
+
+        List<Tile> monsterTiles = testTileManager.GetMonsterTiles();
 
         Tile targetTile = FindClosestMonsterTile(playerTransform.position, monsterTiles);
 
@@ -52,6 +57,7 @@ public class NinjaAbility : SpecialAbilityData
         {
             return;
         }
+
 
         Monster targetMonster = targetTile.GetFirstMonster();
 
@@ -61,23 +67,15 @@ public class NinjaAbility : SpecialAbilityData
             return;
         }
 
+        playerAnimationController.PlayDisappearAnimation();
+        playerTransformationController.StartCoroutine(ExecuteAttackAfterDisappear(
+            playerTransform, targetTile, targetMonster));
 
-
-        if (playerAnimationController != null)
-        {
-
-            // 사라지는 애니메이션이 끝나면 이동 및 암살 애니메이션 실행
-            playerTransformationController.StartCoroutine(ExecuteAttackAfterDisappear(
-                playerTransform, targetTile, targetMonster));
-        }
     }
 
     private IEnumerator ExecuteAttackAfterDisappear(Transform playertransform, Tile targetTile,
         Monster targetMonster)
     {
-        
-        playerAnimationController.PlayDisappearAnimation();
-
 
         float disappearTime = playerAnimationController.GetDisappearAnimationLength();
         yield return new WaitForSeconds(disappearTime);
@@ -96,7 +94,7 @@ public class NinjaAbility : SpecialAbilityData
 
         yield return new WaitForSeconds(assassinationTime);
 
-        
+
         if (targetMonster != null)
         {
 
@@ -108,16 +106,20 @@ public class NinjaAbility : SpecialAbilityData
             }
         }
 
-        playerTransformationController.GetCurrentState().Deactivate();
+        Debug.Log("암살 애니메이션 종료.");
+
+        playerAnimationController.StartRevertAnimation();
 
     }
+
+
 
     private void SpawnAttackEffect(Vector3 position)
     {
         if (ninjaAttackEffect == null) return;
 
 
-        // Y축을 약간 낮춰 이펙트가 플레이어보다 아래에서 생성되도록 설정
+
         Vector3 effectPosition = position + new Vector3(0, -1.5f, 0);
 
         Instantiate(ninjaAttackEffect, effectPosition, Quaternion.identity);
@@ -125,27 +127,27 @@ public class NinjaAbility : SpecialAbilityData
     }
 
 
-    // 가장 가까운 적을 찾는 메서드
+
     private Tile FindClosestMonsterTile(Vector2 playerPosition, List<Tile> monsterTiles)
     {
         Tile closestTile = null;
         float minDistance = Mathf.Infinity;
 
-        // 삭제된 타일을 제거하고 유효한 타일만 남기기
+
         monsterTiles.RemoveAll(tile => tile == null || tile.gameObject == null);
 
-        foreach (Tile tile in monsterTiles) // 이미 삭제된 타일을 참조할 가능성이 있음
+        foreach (Tile tile in monsterTiles)
         {
-            // 삭제된 타일 체크
+
             if (tile == null || tile.gameObject == null)
             {
                 continue;
             }
 
-            // 플레이어보다 아래쪽에 있는 몬스터는 무시
+
             if (tile.transform.position.y < playerPosition.y)
             {
-                continue; // 아래에 있는 몬스터는 건너뜀
+                continue;
             }
 
 
