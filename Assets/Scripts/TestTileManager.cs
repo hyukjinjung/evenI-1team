@@ -154,7 +154,7 @@ public class TestTileManager : MonoBehaviour
     }
 
 
-// private void DestroyOldestTile()
+    // private void DestroyOldestTile()
     // {
     //     if (tiles.Count == 0) return;
     //
@@ -162,7 +162,7 @@ public class TestTileManager : MonoBehaviour
     //     tiles.RemoveAt(0);
     //     Destroy(oldestTile.gameObject);
     // }
-    
+
     // 타일 지그재그 생성
     //private void UpdateTilePosition()
     //{
@@ -181,10 +181,25 @@ public class TestTileManager : MonoBehaviour
     //타일 랜덤생성
     private void UpdateTilePosition()
     {
-        int randomDirection = (Random.Range(0, 2) == 0) ? -1 : 1; // 0 또는 1을 선택한 후 -1 또는 +1로 변환
-        currentX += randomDirection;
-        currentY += 1;
+        int randomDirection = (Random.Range(0, 2) == 0) ? -1 : 1; // -1 또는 1 선택 (왼쪽 or 오른쪽 이동)
+
+        // 새로운 x 좌표 계산
+        float newX = currentX + randomDirection;
+
+        // x 좌표가 -8 ~ 8 범위를 넘지 않도록 제한
+        if (newX < -8f)
+        {
+            newX = -8f + 1; // 왼쪽 경계를 넘으면 오른쪽으로 이동
+        }
+        else if (newX > 8f)
+        {
+            newX = 8f - 1; // 오른쪽 경계를 넘으면 왼쪽으로 이동
+        }
+
+        currentX = Mathf.RoundToInt(newX); // 정수형 좌표 유지
+        currentY += 1; // Y 좌표는 항상 증가 (위로 이동)
     }
+
 
 
 
