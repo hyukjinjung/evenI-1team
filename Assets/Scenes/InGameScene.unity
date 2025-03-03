@@ -1467,7 +1467,7 @@ MonoBehaviour:
   testTileManager: {fileID: 768112588}
   currentFloor: 0
   jumpEffectSpawner: {fileID: 7698517093355806083, guid: fd104e76d59c212478094dc47c1a04d1, type: 3}
-  gameManager: {fileID: 0}
+  gameManager: {fileID: 885555219}
 --- !u!114 &417875395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1482,7 +1482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testTileManager: {fileID: 768112588}
   currentFloor: 0
-  specialAbilityData: {fileID: 11400000, guid: 27a419489d0be8543b1419be8920d68d, type: 2}
+  specialAbilityData: {fileID: 0}
   attackEffectPrefab: {fileID: 2404944003320474627, guid: ffc2d07edf3c55d41aff6205f3dad3c0, type: 3}
 --- !u!114 &417875396
 MonoBehaviour:

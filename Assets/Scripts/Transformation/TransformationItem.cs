@@ -13,27 +13,25 @@ public class TransformationItem : MonoBehaviour
 {
     public TransformationData transformationData;
 
-
-    // 변신 시작
     public void ApplyTransformation(PlayerTransformationController controller)
     {
         controller.Transform(transformationData);
     }
 
 
-    // 플레이어가 아이템과 충돌하면 변신
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("플레이어와 충돌");
-            PlayerTransformationController player = other.GetComponent<PlayerTransformationController>();
-            if (player != null)
-            {
-                Debug.Log("변신 시작");
-                player.Transform(transformationData);
+            PlayerTransformationController controller = other.GetComponent<PlayerTransformationController>();
 
-                Debug.Log("아이템 제거");
+            Debug.Log("플레이어와 충돌");
+            if (controller != null)
+            {
+                ApplyTransformation(controller);
+                //controller.Transform(transformationData);
+
                 Destroy(gameObject);
             }
         }
