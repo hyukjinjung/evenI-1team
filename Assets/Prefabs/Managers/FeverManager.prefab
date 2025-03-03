@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8704386190434555292}
   - component: {fileID: 6362167086084965172}
   - component: {fileID: 3898810070521048688}
+  - component: {fileID: 6148193347531833915}
   m_Layer: 0
   m_Name: FeverManager
   m_TagString: Untagged
@@ -64,3 +65,17 @@ MonoBehaviour:
     _json: '{"nest":{"source":"Macro","macro":0,"embed":null}}'
     _objectReferences:
     - {fileID: 11400000, guid: d4758df4495bdaf4fbfae1c647a3b8ad, type: 2}
+--- !u!114 &6148193347531833915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5285174886468851258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9d96ea7b51a35b4aa9c7815f68ded13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  feverDuration: 5
+  feverScore: 0
