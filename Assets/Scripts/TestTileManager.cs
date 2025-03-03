@@ -15,38 +15,39 @@ public class TestTileManager : MonoBehaviour
     [SerializeField] private GameObject ItemPrefab;
 
     private List<Tile> tiles = new List<Tile>();
-    private List<Tile> monsterTiles = new List<Tile>();
-    private List<Tile> itemTiles = new List<Tile>();
-    private List<Tile> transparentTiles = new List<Tile>();
+    // private List<Tile> monsterTiles = new List<Tile>();
+    // private List<Tile> itemTiles = new List<Tile>();
+    // private List<Tile> transparentTiles = new List<Tile>();
 
     private int currentX = 0;
     private int currentY = 0;
     private int direction = 1;
 
-    [SerializeField] private float spawnInterval = 0.5f;
+    // [SerializeField] private float spawnInterval = 0.5f;
     [SerializeField] private float obstacleSpawnChance = 0.2f;
     [SerializeField] private float monsterTileSpawnChance = 0.18f;
     [SerializeField] private float itemTileSpawnChance = 0.15f;
     [SerializeField] private float transparentTileSpawnChance = 0.15f;
-    
+
     [SerializeField] private int startTileCount = 20;
     [SerializeField] private int maxTiles = 20;
-    
+
     PlayerInputController playerInputController;
     private GameManager gameManager;
-    
+    private int createTileIndex = 0;
+
     private void GenerateDefaultTile()
     {
         GenerateTile(testTilePrefab, out Tile tile);
-        
+
         GenerateTile(ItemTilePrefab, out Tile temptile);
         AfterCreateTile(ItemTilePrefab, temptile);
     }
-    
+
     void Start()
     {
         GenerateDefaultTile(); // ✅ 첫 번째 기본 타일 생성
-        for (int i = 0; i < startTileCount - 1 ; i++)
+        for (int i = 0; i < startTileCount - 1; i++)
         {
             GenerateTile();
         }
@@ -57,7 +58,7 @@ public class TestTileManager : MonoBehaviour
         gameManager = GameManager.Instance;
         gameManager.PlayerInputController.OnJumpEvent += OnJumpEvent;
     }
-    
+
     void OnJumpEvent(bool isLeft)
     {
         GenerateTile();
@@ -68,9 +69,7 @@ public class TestTileManager : MonoBehaviour
         float randomValue = Random.value;
 
         GameObject tilePrefab = CheckTilePrefab(randomValue);
-
         GameObject tileObject = GenerateTile(tilePrefab, out Tile tileComponent);
-        
         AfterCreateTile(tilePrefab, tileComponent);
     }
 
@@ -78,17 +77,17 @@ public class TestTileManager : MonoBehaviour
     {
         if (tilePrefab == MonsterTilePrefab)
         {
-            monsterTiles.Add(tileComponent);
+            //monsterTiles.Add(tileComponent);
             CreateMonsterOnTile(tileComponent); // ✅ 몬스터 타일에는 몬스터만 생성
         }
         else if (tilePrefab == ItemTilePrefab)
         {
-            itemTiles.Add(tileComponent);
+            //itemTiles.Add(tileComponent);
             CreateItemOnTile(tileComponent); // ✅ 아이템 타일에는 아이템만 생성
         }
         else if (tilePrefab == TransparentTilePrefab)
         {
-            transparentTiles.Add(tileComponent);
+            //transparentTiles.Add(tileComponent);
             CreateTransparentTile(tileComponent); // ✅ Transparent 타일에는 Transparent 기능만 추가
         }
 
@@ -134,21 +133,36 @@ public class TestTileManager : MonoBehaviour
 
         tileObject.transform.localPosition = new Vector3(currentX, currentY, 0);
         tileObject.gameObject.SetActive(true);
+
+        tileComponent.Init(createTileIndex);
+        createTileIndex++;
         
         tiles.Add(tileComponent);
         UpdateTilePosition();
         return tileObject;
     }
 
-
-    private void DestroyOldestTile()
+    public Tile GetNextMonsterTile(int currentFloor)
     {
-        if (tiles.Count == 0) return;
-
-        Tile oldestTile = tiles[0];
-        tiles.RemoveAt(0);
-        Destroy(oldestTile.gameObject);
+        for (int i = currentFloor; i < tiles.Count; i++)
+        {
+            if (tiles[i].MonsterOnTile != null)
+                return tiles[i];
+        }
+        
+        return null;
     }
+
+
+    // private void DestroyOldestTile()
+    // {
+    //     if (tiles.Count == 0) return;
+    //
+    //     Tile oldestTile = tiles[0];
+    //     tiles.RemoveAt(0);
+    //     Destroy(oldestTile.gameObject);
+    // }
+
     // 타일 지그재그 생성
     //private void UpdateTilePosition()
     //{
@@ -167,10 +181,25 @@ public class TestTileManager : MonoBehaviour
     //타일 랜덤생성
     private void UpdateTilePosition()
     {
-        int randomDirection = (Random.Range(0, 2) == 0) ? -1 : 1; // 0 또는 1을 선택한 후 -1 또는 +1로 변환
-        currentX += randomDirection;
-        currentY += 1;
+        int randomDirection = (Random.Range(0, 2) == 0) ? -1 : 1; // -1 또는 1 선택 (왼쪽 or 오른쪽 이동)
+
+        // 새로운 x 좌표 계산
+        float newX = currentX + randomDirection;
+
+        // x 좌표가 -8 ~ 8 범위를 넘지 않도록 제한
+        if (newX < -8f)
+        {
+            newX = -8f + 1; // 왼쪽 경계를 넘으면 오른쪽으로 이동
+        }
+        else if (newX > 8f)
+        {
+            newX = 8f - 1; // 오른쪽 경계를 넘으면 왼쪽으로 이동
+        }
+
+        currentX = Mathf.RoundToInt(newX); // 정수형 좌표 유지
+        currentY += 1; // Y 좌표는 항상 증가 (위로 이동)
     }
+
 
 
 
@@ -195,10 +224,10 @@ public class TestTileManager : MonoBehaviour
         return forwardTile;
     }
 
-    public List<Tile> GetMonsterTiles()
-    {
-        return monsterTiles;
-    }
+    // public List<Tile> GetMonsterTiles()
+    // {
+    //     return monsterTiles;
+    // }
 
     public Tile GetNextTile(int currentFloor)
     {
