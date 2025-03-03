@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
         
     [SerializeField] TestTileManager testTileManager;
     [SerializeField] private int currentFloor = 0;
+    public int CurrentFloor { get => currentFloor; }
 
     public JumpEffectSpawner jumpEffectSpawner;
     public GameManager gameManager;

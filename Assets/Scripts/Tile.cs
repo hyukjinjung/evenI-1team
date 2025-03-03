@@ -12,10 +12,20 @@ using UnityEngine.Rendering;
 public class Tile : MonoBehaviour
 {
     private Monster monsterOnTile;
+    public Monster MonsterOnTile {get {return monsterOnTile;}}
+    
     private GameObject obstacle;
     private GameObject item; // 아이템 추가
     private GameObject transparent; // ✅ 추가 (Transparent 발판 변수)
 
+    [SerializeField] private int index;
+    public int Index {get {return index;}}
+    
+    public void Init(int index)
+    {
+        this.index = index;
+    }
+    
     // 몬스터 추가
     public void SetMonster(Monster monster)
     {
@@ -54,12 +64,6 @@ public class Tile : MonoBehaviour
     public bool TileOnLeft(Transform position)
     {
         return transform.position.x < position.position.x;
-    }
-
-    // 몬스터 반환
-    public Monster GetFirstMonster()
-    {
-        return monsterOnTile;
     }
 
     // 몬스터 제거
