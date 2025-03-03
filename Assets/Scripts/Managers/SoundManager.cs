@@ -7,31 +7,37 @@ using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
+    public AudioSource audioSource;
+    public bool isSoundActive = true; // 초기 소리는 활성화
+    //bool pressed = false; // 눌린 상태
 
-}
+    public UIManager uiManager;
 
+    public Button SettingBGMButton;
+    public Button SettingSoundEffectButton;
+    public Button PauseBGMButton;
+    public Button PauseSoundEffectButton;
 
-    /*using UnityEngine;
-using UnityEngine.UI;
+    public Sprite SettingBGMButtonOnSprite;
+    public Sprite SettingBGMButtonOffSprite;
+    public Sprite SettingSoundEffectButtonnOnSprite;
+    public Sprite SettingSoundEffectButtonOffSprite;
+    public Sprite PauseBGMButtonOnSprite;
+    public Sprite PauseBGMButtonOffSprite;
+    public Sprite PauseSoundEffectButtonOnSprite;
+    public Sprite PauseSoundEffectButtonOffSprite;
 
-public class ToggleSound : MonoBehaviour
-{
-    public AudioSource audioSource;  // 소리 제어할 AudioSource
-    public Button toggleButton;      // 버튼 컴포넌트
-    public Image soundImage;         // 이미지 컴포넌트 (소리 아이콘)
-    public Sprite soundOnSprite;     // 소리 활성화된 상태 이미지
-    public Sprite soundOffSprite;    // 소리 비활성화된 상태 이미지
-    private bool isSoundActive = true;  // 초기 상태는 소리 활성화
-
-    private void Start()
+    public void Start()
     {
-        // 버튼 클릭 시 ToggleSoundState 호출
-        toggleButton.onClick.AddListener(ToggleSoundState);
-        UpdateImage();  // 초기 이미지를 설정
+        SettingBGMButton.onClick.AddListener(SettingBGMButtonSoundState);
+        SettingSoundEffectButton.onClick.AddListener(SettingSoundEffectButtonSoundState);
+        PauseBGMButton.onClick.AddListener(PauseBGMButtonSoundState);
+        PauseSoundEffectButton.onClick.AddListener(PauseSoundEffectButtonSoundState);
+
+        uiManager = GetComponent<UIManager>();
     }
 
-    // 버튼 클릭 시 호출되는 함수
-    private void ToggleSoundState()
+    public void SettingBGMButtonSoundState()
     {
         isSoundActive = !isSoundActive;  // 소리 상태를 반전
 
@@ -40,31 +46,92 @@ public class ToggleSound : MonoBehaviour
         {
             audioSource.Play();  // 소리 활성화
             Debug.Log("소리 활성화");
+
+            SettingBGMButton.image.sprite = SettingBGMButtonOnSprite;
+        }
+
+        else
+        {
+            audioSource.Pause();  // 소리 비활성화
+            Debug.Log("소리 비활성화");
+
+            SettingBGMButton.image.sprite = SettingBGMButtonOffSprite;
+
+        }
+
+
+    }
+
+    public void SettingSoundEffectButtonSoundState()
+    {
+        isSoundActive = !isSoundActive;  // 소리 상태를 반전
+
+        // 소리 상태에 맞춰 소리 제어
+        if (isSoundActive)
+        {
+            audioSource.Play();  // 소리 활성화
+            Debug.Log("소리 활성화");
+
+            SettingSoundEffectButton.image.sprite = SettingSoundEffectButtonnOnSprite;
+        }
+
+        else
+        {
+            audioSource.Pause();  // 소리 비활성화
+            Debug.Log("소리 비활성화");
+
+            SettingSoundEffectButton.image.sprite = SettingSoundEffectButtonOffSprite;
+
+        }
+    }
+
+
+    public void PauseBGMButtonSoundState()
+    {
+        isSoundActive = !isSoundActive;  // 소리 상태를 반전
+
+        // 소리 상태에 맞춰 소리 제어
+        if (isSoundActive)
+        {
+            audioSource.Play();  // 소리 활성화
+            Debug.Log("소리 활성화");
+
+            PauseBGMButton.image.sprite = PauseBGMButtonOnSprite;
         }
         else
         {
             audioSource.Pause();  // 소리 비활성화
             Debug.Log("소리 비활성화");
+
+            PauseBGMButton.image.sprite = PauseBGMButtonOffSprite;
         }
 
-        UpdateImage();  // 이미지 업데이트
+
     }
 
-    // 소리 상태에 맞춰 이미지를 업데이트하는 함수
-    private void UpdateImage()
+    public void PauseSoundEffectButtonSoundState()
     {
-        // 소리 상태에 따라 이미지 변경
+        isSoundActive = !isSoundActive;  // 소리 상태를 반전
+
+        // 소리 상태에 맞춰 소리 제어
         if (isSoundActive)
         {
-            soundImage.sprite = soundOnSprite;  // 활성화된 이미지
+            audioSource.Play();  // 소리 활성화
+            Debug.Log("소리 활성화");
+
+            PauseSoundEffectButton.image.sprite = PauseSoundEffectButtonOnSprite;
         }
         else
         {
-            soundImage.sprite = soundOffSprite;  // 비활성화된 이미지
+            audioSource.Pause();  // 소리 비활성화
+            Debug.Log("소리 비활성화");
+
+            PauseSoundEffectButton.image.sprite = PauseSoundEffectButtonOffSprite;
         }
     }
 }
-*/
+
+
 
 
 
