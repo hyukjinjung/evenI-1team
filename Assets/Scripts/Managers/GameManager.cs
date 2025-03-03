@@ -58,10 +58,7 @@ public class GameManager : MonoBehaviour
     public int ResultBestScore {get{return resultBestScore;}}
     
     
-    
-    
-    private PlayerScoreTracker playerScoreTracker;
-
+ 
     private bool isGameOver = false;
 
     private void Awake()
@@ -75,7 +72,6 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         
-        playerScoreTracker = FindObjectOfType<PlayerScoreTracker>();
         uiManager = FindObjectOfType<UIManager>();
         
         if (player == null)
@@ -140,10 +136,7 @@ public class GameManager : MonoBehaviour
 
         UpdateBestScore(score);
 
-        if (playerScoreTracker != null)
-        {
-            playerScoreTracker.CalculateScore();
-        }
+ 
     }    
         
     private IEnumerator FreezeGameAfterDelay()

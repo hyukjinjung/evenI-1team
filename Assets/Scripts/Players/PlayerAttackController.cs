@@ -10,7 +10,6 @@ public class PlayerAttackController : MonoBehaviour
 {
 
     private bool isAttacking = false;
-    private bool isTransformed = false;
 
     private PlayerAnimationController playerAnimationController;
     private PlayerInputController playerInputController;
@@ -65,11 +64,11 @@ public class PlayerAttackController : MonoBehaviour
     }
 
 
+
     void NormalAttack()
     {
         Tile forwardTile = testTileManager.GetForwardTile(transform.position);
         if (forwardTile == null) return;
-
 
         bool attackLeft = forwardTile.TileOnLeft(transform);
 
@@ -80,8 +79,8 @@ public class PlayerAttackController : MonoBehaviour
         StartCoroutine(ResetAttackFlag());
 
         SpawnAttackEffect(forwardTile, attackLeft);
-
     }
+
 
 
     void SpawnAttackEffect(Tile forwardTile, bool attackLeft)

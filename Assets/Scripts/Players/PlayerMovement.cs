@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
     
     private bool isJumping = false;
     private bool isGameOver = false; // 게임 오버 중복 방지
-    private float deathHeight = -5f; // 캐릭터가 떨어지면 게임 오버되는 높이
 
     private Vector2 leftDirection = new Vector2(-1f, 1f); // 좌표는 타일 간격에 따라 변동
     private Vector2 rightDirection = new Vector2(1f, 1f); // 좌표는 타일 간격에 따라 변동
@@ -71,32 +70,30 @@ public class PlayerMovement : MonoBehaviour
         if (transform.position.y < -0.3f)
         {
             Debug.Log("플레이어 추락. 게임 오버");
-            TriggerGameOver();
+            GameManager.Instance.GameOver();
         }
     }
 
 
-    private void TriggerGameOver()
-    {
-        if (isGameOver) return;
+    //private void TriggerGameOver()
+    //{
+    //    if (isGameOver) return;
 
-        isGameOver = true;
+    //    isGameOver = true;
 
-        if (playerAnimationController != null)
-        {
-            playerAnimationController.PlayGameOverAnimation();
-        }
+    //    if (playerAnimationController != null)
+    //    {
+    //        playerAnimationController.PlayGameOverAnimation();
+    //    }
 
-        GameManager.Instance.GameOver();
-    }
+    //    GameManager.Instance.GameOver();
+    //}
 
 
     public void Jump(bool jumpLeft)
     {
         if (isGameOver || isJumping) return;
 
-
-        //Tile tile = testTileManager.GetNextTile(currentFloor);
         Tile tile = testTileManager.GetForwardTile(transform.position);
 
         if (tile == null) return;
@@ -115,17 +112,13 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("NinjaFrog 상태. 몬스터 무시하고 점프");
             PerformJump(jumpLeft);
             return;
-
         }
-
 
         PerformJump(jumpLeft);
         isJumping = true;
         playerAnimationController.SetJumping(true);
 
-
         CheckGameOver(isLeft, jumpLeft);
-
     }
 
 
@@ -134,13 +127,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGameOver || isJumping) return; 
         
-        // TODO:: 위치는 맞춰서 수정
         gameManager.AddScore(1);
         
-        isJumping = true; // 점프 중
+        isJumping = true;
 
         Vector2 previousPosition = transform.position;
-
         
                                                         
         Vector2 jumpDirection = jumpLeft ? leftDirection : rightDirection;
@@ -217,13 +208,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        isJumping = true;
-    }
-
-
-
     void CheckGameOver(bool isLeft, bool jumpLeft)
     {
         if (isLeft == jumpLeft)
@@ -236,9 +220,4 @@ public class PlayerMovement : MonoBehaviour
         GameManager.Instance.GameOver();
     }
 
-
-    public void SetCurrentFloor(int floor)
-    {
-        currentFloor = floor;
-    }
 }

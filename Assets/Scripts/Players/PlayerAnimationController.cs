@@ -12,11 +12,6 @@ public class PlayerAnimationController : MonoBehaviour
     }
 
 
-    void Start()
-    {
-       
-    }
-
 
     public void SetJumping(bool isJumping)
     {
