@@ -6,7 +6,7 @@ public class TestTileManager : MonoBehaviour
 {
     [SerializeField] private GameObject testTilePrefab;
     [SerializeField] private GameObject ReverseControlPrefab;
-    [SerializeField] private GameObject TransparentTilePrefab;
+    [SerializeField] private GameObject InvisibleTilePrefab;
     [SerializeField] private GameObject StickyPrefab;
     [SerializeField] private GameObject HideNextPrefab;
     [SerializeField] private GameObject MonsterTilePrefab;
@@ -27,7 +27,7 @@ public class TestTileManager : MonoBehaviour
     [SerializeField] private float obstacleSpawnChance = 0.2f;
     [SerializeField] private float monsterTileSpawnChance = 0.18f;
     [SerializeField] private float itemTileSpawnChance = 0.15f;
-    [SerializeField] private float transparentTileSpawnChance = 0.15f;
+    [SerializeField] private float InvisibleTileSpawnChance = 0.15f;
 
     [SerializeField] private int startTileCount = 20;
     [SerializeField] private int maxTiles = 20;
@@ -85,10 +85,10 @@ public class TestTileManager : MonoBehaviour
             //itemTiles.Add(tileComponent);
             CreateItemOnTile(tileComponent); // ✅ 아이템 타일에는 아이템만 생성
         }
-        else if (tilePrefab == TransparentTilePrefab)
+        else if (tilePrefab == InvisibleTilePrefab)
         {
             //transparentTiles.Add(tileComponent);
-            CreateTransparentTile(tileComponent); // ✅ Transparent 타일에는 Transparent 기능만 추가
+            CreateInvisibleTile(tileComponent); // ✅ Transparent 타일에는 Transparent 기능만 추가
         }
 
         if (Random.value < obstacleSpawnChance)
@@ -109,9 +109,9 @@ public class TestTileManager : MonoBehaviour
         {
             tilePrefab = ItemTilePrefab;
         }
-        else if (randomValue < monsterTileSpawnChance + itemTileSpawnChance + transparentTileSpawnChance)
+        else if (randomValue < monsterTileSpawnChance + itemTileSpawnChance + InvisibleTileSpawnChance)
         {
-            tilePrefab = TransparentTilePrefab;
+            tilePrefab = InvisibleTilePrefab;
         }
         else
         {
@@ -257,7 +257,7 @@ public class TestTileManager : MonoBehaviour
     }
 
 
-    private void CreateTransparentTile(Tile tile)
+    private void CreateInvisibleTile(Tile tile)
     {
         if (tile == null) return;
 

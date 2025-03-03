@@ -3,10 +3,14 @@ using UnityEngine;
 
 public class TogglePlatform : MonoBehaviour
 {
+    [Header("Toggle Settings")]
+    [SerializeField] private float toggleInterval = 3f;   // 상태 전환 간격
+    [SerializeField] private float fadeTime = 1f;         // 페이드 효과 시간
+
     private SpriteRenderer spriteRenderer;
     private Collider2D platformCollider;
     private bool isVisible = true;
-    private float toggleInterval = 3f;
+    private Color originalColor;
 
     private void Start()
     {
@@ -15,9 +19,11 @@ public class TogglePlatform : MonoBehaviour
 
         if (spriteRenderer == null)
         {
-            Debug.LogError($" {gameObject.name}���� SpriteRenderer�� �����ϴ�! Inspector���� �߰��ϼ���.");
+            Debug.LogError($" {gameObject.name}에는 SpriteRenderer가 없습니다! Inspector에서 추가하세요.");
+            return;
         }
 
+        originalColor = spriteRenderer.color;
         StartCoroutine(TogglePlatformRoutine());
     }
 
@@ -34,22 +40,54 @@ public class TogglePlatform : MonoBehaviour
 
             if (isVisible)
             {
-                SetPlatformState(false);
+                // 페이드 아웃
+                yield return StartCoroutine(FadeRoutine(false));
             }
             else
             {
-                SetPlatformState(true);
+                // 페이드 인
+                yield return StartCoroutine(FadeRoutine(true));
             }
 
             isVisible = !isVisible;
         }
     }
 
-    private void SetPlatformState(bool state)
+    private IEnumerator FadeRoutine(bool fadeIn)
     {
-        if (spriteRenderer == null || platformCollider == null) return;
+        float elapsedTime = 0f;
+        Color startColor = spriteRenderer.color;
+        Color endColor = originalColor;
 
-        spriteRenderer.enabled = state;
-        platformCollider.enabled = state;
+        // 페이드 아웃일 경우
+        if (!fadeIn)
+        {
+            endColor.a = 0f;
+        }
+
+        while (elapsedTime < fadeTime)
+        {
+            elapsedTime += Time.deltaTime;
+            float normalizedTime = elapsedTime / fadeTime;
+
+            // 현재 색상 계산
+            spriteRenderer.color = Color.Lerp(startColor, endColor, normalizedTime);
+
+            // 콜라이더 상태 설정 (투명도 50% 기준)
+            if (fadeIn && normalizedTime > 0.5f)
+            {
+                platformCollider.enabled = true;
+            }
+            else if (!fadeIn && normalizedTime > 0.5f)
+            {
+                platformCollider.enabled = false;
+            }
+
+            yield return null;
+        }
+
+        // 최종 상태 설정
+        spriteRenderer.color = endColor;
+        platformCollider.enabled = fadeIn;
     }
 }
