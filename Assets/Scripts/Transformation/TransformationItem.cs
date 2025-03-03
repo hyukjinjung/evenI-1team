@@ -11,29 +11,20 @@ using UnityEngine;
 
 public class TransformationItem : MonoBehaviour
 {
-    public TransformationData transformationData;
+    public TransformationType type;
 
     public void ApplyTransformation(PlayerTransformationController controller)
     {
-        controller.Transform(transformationData);
+        controller.Transform(type);
     }
-
-
-
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        PlayerTransformationController controller = other.GetComponent<PlayerTransformationController>();
+        if (controller != null)
         {
-            PlayerTransformationController controller = other.GetComponent<PlayerTransformationController>();
-
-            Debug.Log("플레이어와 충돌");
-            if (controller != null)
-            {
-                ApplyTransformation(controller);
-                //controller.Transform(transformationData);
-
-                Destroy(gameObject);
-            }
+            ApplyTransformation(controller);
+            Destroy(gameObject);
         }
     }
 }

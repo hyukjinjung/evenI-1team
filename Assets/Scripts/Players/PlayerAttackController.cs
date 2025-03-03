@@ -15,7 +15,7 @@ public class PlayerAttackController : MonoBehaviour
     private PlayerAnimationController playerAnimationController;
     private PlayerInputController playerInputController;
     [SerializeField] TestTileManager testTileManager;
-    private PlayerTransformationController playerTransformationController;
+    private PlayerTransformationController transformController;
 
     [SerializeField] private int currentFloor = 0;
 
@@ -36,24 +36,12 @@ public class PlayerAttackController : MonoBehaviour
 
         playerAnimationController = GetComponent<PlayerAnimationController>();
         playerInputController = GetComponent<PlayerInputController>();
-        playerTransformationController = GetComponent<PlayerTransformationController>();
+        transformController = GetComponent<PlayerTransformationController>();
 
         playerInputController.OnAttackEvent -= PerformAttack;
         playerInputController.OnAttackEvent += PerformAttack;
 
     }
-
-
-    public void SetTransformedState(bool transformed, SpecialAbilityData ability)
-    {
-
-        isTransformed = transformed;
-        specialAbilityData = ability;
-        Debug.Log($"변신 상태 변경 - 변신 여부: {transformed}, 특수 능력: {(ability != null ? "설정됨" : "NULL")}");
-
-
-    }
-
 
     void PerformAttack()
     {
@@ -62,47 +50,17 @@ public class PlayerAttackController : MonoBehaviour
             Debug.Log("공격 중일 때 추가 공격 불가능");
             return;
         }
-
-
-        if (isTransformed && specialAbilityData != null)
+        
+        if (transformController.IsTransformed())
         {
-            TransformationData currentTransformationData =
-            playerTransformationController.GetCurrentTransformationData();
-
-            if (currentTransformationData == null)
-            {
-                NormalAttack();
-                return;
-            }
-
-            TransformationState currentState = 
-                playerTransformationController.GetCurrentState() as TransformationState;
-
-            if (currentState != null)
-            {
-                if (currentState.GetRemainingAbilityUses() > 0)
-                {
-                    currentState.UseSpecialAbility();
-                    Debug.Log($"능력 사용 후 남은 횟수 {currentState.GetRemainingAbilityUses()}");
-                }
-                else
-                {
-                    Debug.Log("특수 능력 횟수 0. 기본 공격 실행");
-                    NormalAttack();
-                }
-            }
-
-            else
-            {
-                Debug.Log("특수 능력 상태 없음. 기본 공격 실행");
-                NormalAttack();
-            }
+            TransformationData currentTransformationData = transformController.currentTransformationData;
+            specialAbilityData = currentTransformationData.specialAbility;
+            
+            transformController.UseSpecialAbility();
         }
         else
         {
-            Debug.Log("변신 상태 아님. 기본 공격 실행");
             NormalAttack();
-
         }
     }
 

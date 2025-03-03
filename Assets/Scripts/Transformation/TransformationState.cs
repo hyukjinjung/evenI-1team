@@ -42,7 +42,7 @@ public class TransformationState : ITransformation
 
     public void Activate()
     {
-        transformController.Transform(transformationData);
+        // transformController.Transform(transformationData);
         Debug.Log($"변신 진입 성공. {transformationData.transformationType}");
 
     }
@@ -67,7 +67,7 @@ public class TransformationState : ITransformation
 
         if (abilityUsageCount <= 0)
         {
-            transformController.ResetTransformationTimer();
+            transformController.ResetTransformation();
             transformController.DeTransform();
 
         }
