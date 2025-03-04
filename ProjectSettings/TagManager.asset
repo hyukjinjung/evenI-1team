@@ -10,6 +10,7 @@ TagManager:
   - TransformationItem
   - Item
   - Obstacle
+  - HideNext
   layers:
   - Default
   - TransparentFX

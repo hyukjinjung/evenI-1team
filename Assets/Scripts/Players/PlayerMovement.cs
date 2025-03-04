@@ -10,7 +10,9 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private bool isAutoMode = false;
-    
+    [SerializeField] private CanvasGroup DarkOverlay; // 검은색 오버레이 UI
+
+
     private bool isJumping = false;
     private bool isGameOver = false; // 게임 오버 중복 방지
     private float deathHeight = -5f; // 캐릭터가 떨어지면 게임 오버되는 높이
@@ -182,28 +184,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-     
         if (collision.gameObject.CompareTag("Tile"))
         {
             isJumping = false;
         }
-
 
         if (collision.gameObject.CompareTag("Monster"))
         {
             bool isTransformed = playerTransformationController.IsTransformed();
             bool canIgnoreMonster = collisionController.CanIgnoreMonster();
 
-            Debug.Log($"몬스터와 충돌. 변신 상태: {playerTransformationController.IsTransformed()} " +
-                $"/ 충돌 무시 가능 여부 {collisionController.CanIgnoreMonster()}");
-
-
             if (canIgnoreMonster)
             {
                 Debug.Log("NinjaFrog 상태. 몬스터와 충돌 무시");
                 return;
             }
-
 
             Debug.Log("NormalFrog 상태. 몬스터와 충돌. 게임 오버");
             GameManager.Instance.GameOver();
@@ -214,6 +209,31 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("변신 아이템 획득");
         }
+
+        // ? HideNext 아이템 충돌 감지
+        if (collision.gameObject.CompareTag("HideNext"))
+        {
+            Debug.Log("HideNext 아이템 획득! 어두운 효과 적용");
+            StartCoroutine(ApplyDarkEffect(5f)); // 5초 동안 효과 유지
+            Destroy(collision.gameObject); // 아이템 제거
+        }
+    }
+
+    private IEnumerator ApplyDarkEffect(float duration)
+    {
+        if (DarkOverlay == null)
+        {
+            Debug.LogError("DarkOverlay가 설정되지 않았습니다! Unity에서 연결하세요.");
+            yield break;
+        }
+
+        // ? 어두운 효과 적용
+        DarkOverlay.alpha = 1f;
+
+        yield return new WaitForSeconds(duration);
+
+        // ? 효과 해제
+        DarkOverlay.alpha = 0f;
     }
 
 

@@ -88,7 +88,7 @@ public class TestTileManager : MonoBehaviour
         else if (tilePrefab == InvisibleTilePrefab)
         {
             //transparentTiles.Add(tileComponent);
-            CreateInvisibleTile(tileComponent); // ✅ Transparent 타일에는 Transparent 기능만 추가
+            CreateInvisibleTile(tileComponent); // ✅ Invisible 타일에는 Invisible 기능만 추가
         }
 
         if (Random.value < obstacleSpawnChance)
@@ -262,7 +262,7 @@ public class TestTileManager : MonoBehaviour
         if (tile == null) return;
 
         TogglePlatform togglePlatform = tile.gameObject.AddComponent<TogglePlatform>();
-        togglePlatform.SetToggleInterval(3f); // ✅ Transparent 타일의 온오프 기능 추가
+        togglePlatform.SetToggleInterval(3f); // ✅ Invisible 타일의 온오프 기능 추가
     }
 
 
