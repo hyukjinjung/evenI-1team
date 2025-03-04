@@ -15,6 +15,7 @@ public class PlayerAttackController : MonoBehaviour
     private PlayerInputController playerInputController;
     [SerializeField] TestTileManager testTileManager;
     private PlayerTransformationController transformController;
+    private PlayerMovement playerMovement;
 
     [SerializeField] private int currentFloor = 0;
 
@@ -36,25 +37,31 @@ public class PlayerAttackController : MonoBehaviour
         playerAnimationController = GetComponent<PlayerAnimationController>();
         playerInputController = GetComponent<PlayerInputController>();
         transformController = GetComponent<PlayerTransformationController>();
+        playerMovement = GetComponent<PlayerMovement>();
 
         playerInputController.OnAttackEvent -= PerformAttack;
         playerInputController.OnAttackEvent += PerformAttack;
 
     }
 
-    void PerformAttack()
+    public void PerformAttack()
     {
         if (isAttacking)
         {
             Debug.Log("공격 중일 때 추가 공격 불가능");
             return;
         }
-        
+
+        if (playerMovement.isJumping)
+        {
+            return;
+        }
+
         if (transformController.IsTransformed())
         {
             TransformationData currentTransformationData = transformController.currentTransformationData;
             specialAbilityData = currentTransformationData.specialAbility;
-            
+
             transformController.UseSpecialAbility();
         }
         else
@@ -74,9 +81,10 @@ public class PlayerAttackController : MonoBehaviour
 
         playerAnimationController.SetAttacking(attackLeft);
 
+        StartCoroutine(ResetAttackFlag());
+
         isAttacking = true;
         Debug.Log("공격 시작");
-        StartCoroutine(ResetAttackFlag());
 
         SpawnAttackEffect(forwardTile, attackLeft);
     }
@@ -85,17 +93,14 @@ public class PlayerAttackController : MonoBehaviour
 
     void SpawnAttackEffect(Tile forwardTile, bool attackLeft)
     {
-        if (attackEffectPrefab == null || forwardTile == null)
-        {
-            Debug.LogError("타격 이펙트 프리팹 생성 위치가 설정되지 않음");
+        if (attackEffectPrefab == null)
             return;
-        }
 
         Vector3 spawnPosition = forwardTile.transform.position;
 
         Quaternion rotation = attackLeft ? Quaternion.Euler(0f, 180f, 0f) : Quaternion.identity;
 
-        GameObject effect = Instantiate(attackEffectPrefab, spawnPosition, rotation);
+        Instantiate(attackEffectPrefab, spawnPosition, rotation);
     }
 
 
@@ -111,7 +116,7 @@ public class PlayerAttackController : MonoBehaviour
 
     public void ResetAttackState()
     {
-        isAttacking = false ;
+        isAttacking = false;
         Debug.Log("공격 상태 초기화 완료. 기본 공격 가능");
     }
 }

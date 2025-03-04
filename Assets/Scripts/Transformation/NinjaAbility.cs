@@ -13,14 +13,14 @@ SpecialAbilityData를 상속하여 구현
 
 public class NinjaAbility : SpecialAbilityData
 {
-    public GameObject ninjaAttackEffect; // 타격 이펙트 프리팹
-
+    public GameObject ninjaAttackEffect;
 
     private PlayerAnimationController playerAnimationController;
     private PlayerTransformationController playerTransformationController;
     private PlayerCollisionController playerCollisionController;
     private TestTileManager testTileManager;
     private PlayerMovement playerMovement;
+
 
 
     private void Initialize(Transform playerTransform)
@@ -32,6 +32,8 @@ public class NinjaAbility : SpecialAbilityData
         
         testTileManager = GameManager.Instance.tileManager;
     }
+
+
 
     public override void ActivateAbility(Transform playerTransform, TransformationData transformationData)
     {
@@ -67,8 +69,9 @@ public class NinjaAbility : SpecialAbilityData
         
         playerTransformationController.StartCoroutine(ExecuteAttackAfterDisappear(
             playerTransform, monsterTile, targetMonster));
-
     }
+
+
 
     private IEnumerator ExecuteAttackAfterDisappear(Transform playertransform, Tile targetTile,
         Monster targetMonster)
@@ -77,7 +80,7 @@ public class NinjaAbility : SpecialAbilityData
         float disappearTime = playerAnimationController.GetDisappearAnimationLength();
         yield return new WaitForSeconds(disappearTime);
 
-        playerAnimationController.ResetTrigger("Disappear");
+        //playerAnimationController.ResetTrigger("Disappear");
 
         Vector3 newPosition = targetTile.transform.position + new Vector3(0, 1, 0);
         playertransform.position = newPosition;
@@ -86,7 +89,6 @@ public class NinjaAbility : SpecialAbilityData
 
         playerAnimationController.PlayAssassinationAnimation();
         float assassinationTime = playerAnimationController.GetAssassinationAnimationLength();
-
         yield return new WaitForSeconds(assassinationTime);
         
         // targetMonster.TakeDamage((int)effectValue);

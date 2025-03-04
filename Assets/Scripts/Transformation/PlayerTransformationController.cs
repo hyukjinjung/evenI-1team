@@ -65,10 +65,12 @@ public class PlayerTransformationController : MonoBehaviour
         return isTransformed;
     }
     
+
     public TransformationType GetCurrentTransformation()
     {
         return currentTransformationType;
     }
+
 
     public void Transform(TransformationType transformationType)
     {
@@ -94,9 +96,6 @@ public class PlayerTransformationController : MonoBehaviour
     public void DeTransform()
     {
         if (!isTransformed) return;
-
-        Debug.Log("변신 강제 해제 실행");
-
         
         currentTransformationType = TransformationType.NormalFrog;
 

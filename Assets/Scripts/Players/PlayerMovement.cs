@@ -11,24 +11,26 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private bool isAutoMode = false;
     
-    private bool isJumping = false;
-    private bool isGameOver = false; // 게임 오버 중복 방지
+    public bool isJumping { get; private set; } = false;
+    public bool isGameOver { get; private set; } = false; // 게임 오버 중복 방지
 
-    private Vector2 leftDirection = new Vector2(-1f, 1f); // 좌표는 타일 간격에 따라 변동
-    private Vector2 rightDirection = new Vector2(1f, 1f); // 좌표는 타일 간격에 따라 변동
+    private readonly Vector2 leftDirection = new Vector2(-1f, 1f); // 좌표는 타일 간격에 따라 변동
+    private readonly Vector2 rightDirection = new Vector2(1f, 1f); // 좌표는 타일 간격에 따라 변동
 
     private Rigidbody2D rb;
     private PlayerInputController playerInputController;
     private PlayerAnimationController playerAnimationController;
     private PlayerTransformationController playerTransformationController;
     private PlayerCollisionController collisionController;
+    private PlayerAttackController attackController;
         
     [SerializeField] TestTileManager testTileManager;
     [SerializeField] private int currentFloor = 0;
+
     public int CurrentFloor { get => currentFloor; }
 
-    public JumpEffectSpawner jumpEffectSpawner;
-    public GameManager gameManager;
+    [SerializeField] private JumpEffectSpawner jumpEffectSpawner;
+    private GameManager gameManager;
 
     private void Awake()
     {
@@ -37,15 +39,16 @@ public class PlayerMovement : MonoBehaviour
         playerInputController = GetComponent<PlayerInputController>();
         playerTransformationController = GetComponent<PlayerTransformationController>();
         collisionController = GetComponentInParent<PlayerCollisionController>();
-        
-        playerInputController.OnJumpEvent -= Jump; // 기존 리스너를 제거한 후 다시 등록(중복 실행 방지)
+        attackController = GetComponentInParent<PlayerAttackController>();
+
+
+        playerInputController.OnJumpEvent -= Jump; 
         playerInputController.OnJumpEvent += Jump;
     }
 
     void Start()
     {
         gameManager = GameManager.Instance;
-
     }
 
 
@@ -54,40 +57,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGameOver) return;
 
-        if(isJumping && rb.velocity.y < 0)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, -12f);
-        }
-
-        playerAnimationController.SetJumping(isJumping);
-
-    }
-
-    private void FixedUpdate()
-    {
-        if (isGameOver) return;
-
-        if (transform.position.y < -0.3f)
+        if (transform.position.y < -0.5f)
         {
             Debug.Log("플레이어 추락. 게임 오버");
             GameManager.Instance.GameOver();
         }
     }
 
-
-    //private void TriggerGameOver()
-    //{
-    //    if (isGameOver) return;
-
-    //    isGameOver = true;
-
-    //    if (playerAnimationController != null)
-    //    {
-    //        playerAnimationController.PlayGameOverAnimation();
-    //    }
-
-    //    GameManager.Instance.GameOver();
-    //}
 
 
     public void Jump(bool jumpLeft)
@@ -99,13 +75,13 @@ public class PlayerMovement : MonoBehaviour
         if (tile == null) return;
 
         bool isLeft = tile.TileOnLeft(transform);
-        
+
         //if (isAutoMode)
         //{
         //    Tile temp = testTileManager.GetNextTile(currentFloor);
         //    jumpLeft =  transform.position.x > temp.transform.position.x;
         //}
-        
+
         if (tile.HasMonster() && collisionController != null && collisionController.CanIgnoreMonster())
         {
 
@@ -132,23 +108,20 @@ public class PlayerMovement : MonoBehaviour
         isJumping = true;
 
         Vector2 previousPosition = transform.position;
-        
-                                                        
+                                                               
         Vector2 jumpDirection = jumpLeft ? leftDirection : rightDirection;
 
         Vector2 targetPosition = (Vector2)transform.position + jumpDirection;
         targetPosition.y += 0.5f;
         
         Tile targetTile = testTileManager.GetNextTile(currentFloor);
+  
 
-     
         if (targetTile != null && targetTile.HasMonster() && collisionController != null)
         {
             if (collisionController.CanIgnoreMonster())
             {
                 Debug.Log("NinjaFrog 상태. 몬스터 타일 위로 착지");
-
-               
                 targetPosition = targetTile.transform.position;
             }
             else
@@ -160,7 +133,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         transform.position = targetPosition;
-
 
         jumpEffectSpawner.SpawnJumpEffect(previousPosition);
 
@@ -179,7 +151,6 @@ public class PlayerMovement : MonoBehaviour
             isJumping = false;
         }
 
-
         if (collision.gameObject.CompareTag("Monster"))
         {
             bool isTransformed = playerTransformationController.IsTransformed();
@@ -188,13 +159,11 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log($"몬스터와 충돌. 변신 상태: {playerTransformationController.IsTransformed()} " +
                 $"/ 충돌 무시 가능 여부 {collisionController.CanIgnoreMonster()}");
 
-
             if (canIgnoreMonster)
             {
                 Debug.Log("NinjaFrog 상태. 몬스터와 충돌 무시");
                 return;
             }
-
 
             Debug.Log("NormalFrog 상태. 몬스터와 충돌. 게임 오버");
             GameManager.Instance.GameOver();
@@ -219,5 +188,4 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("잘못된 점프 방향. 게임 오버 처리됨");
         GameManager.Instance.GameOver();
     }
-
 }

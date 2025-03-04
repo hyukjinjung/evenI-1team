@@ -112,10 +112,10 @@ public class PlayerAnimationController : MonoBehaviour
     
 
 
-    public void ResetTrigger(string triggerName)
-    {
-        animator.ResetTrigger(triggerName);
-    }
+    //public void ResetTrigger(string triggerName)
+    //{
+    //    animator.ResetTrigger(triggerName);
+    //}
 
     public bool IsAnimationPlaying(string animationName)
     {
@@ -132,24 +132,23 @@ public class PlayerAnimationController : MonoBehaviour
 
         animator.Play("RevertToNormal");
 
-        StartCoroutine(RevertToNormalAfterDelay());
+        //StartCoroutine(RevertToNormalAfterDelay());
     }
 
 
 
-    private IEnumerator RevertToNormalAfterDelay()
-    {
-        yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).IsName("RevertToNormal"));
+    //private IEnumerator RevertToNormalAfterDelay()
+    //{
+    //    yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).IsName("RevertToNormal"));
 
+    //    yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
 
-        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+    //    Debug.Log("변신 해제 애니메이션 종료");
 
-        Debug.Log("변신 해제 애니메이션 종료");
+    //    //ResetAllAnimation();
 
-        ResetAllAnimation();
+    //    animator.SetTrigger("ToJumpWait");
 
-        animator.SetTrigger("ToJumpWait");
-
-    }
+    //}
 
 }
