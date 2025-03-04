@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -114777853146255643}
   - component: {fileID: 2186358164723554448}
   m_Layer: 0
-  m_Name: Transparent
+  m_Name: Invisible
   m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
