@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 
 /*
@@ -64,7 +65,7 @@ public class NinjaAbility : SpecialAbilityData
             Debug.Log("타일에 몬스터가 존재하지 않음");
             return;
         }
-        
+
         playerTransformationController.StartCoroutine(ExecuteAttackAfterDisappear(
             playerTransform, monsterTile, targetMonster));
     }
@@ -78,19 +79,22 @@ public class NinjaAbility : SpecialAbilityData
         float disappearTime = playerAnimationController.GetDisappearAnimationLength();
         yield return new WaitForSeconds(disappearTime);
 
-        //playerAnimationController.ResetTrigger("Disappear");
-
-        Vector3 newPosition = targetTile.transform.position + new Vector3(0, 1, 0);
+        Vector3 newPosition = new Vector3(Mathf.Round(targetTile.transform.position.x), 
+            targetTile.transform.position.y + 0.7f,
+            playertransform.position.z);
         playertransform.position = newPosition;
+
+        //Vector3 newPosition = targetTile.transform.position + new Vector3(0, 1, 0);
+        //playertransform.position = newPosition;
+
 
         SpawnAttackEffect(newPosition);
 
         playerAnimationController.PlayAssassinationAnimation();
         float assassinationTime = playerAnimationController.GetAssassinationAnimationLength();
         yield return new WaitForSeconds(assassinationTime);
-        
-        // targetMonster.TakeDamage((int)effectValue);
-        
+
+
         playerAnimationController.StartRevertAnimation();
     }
 
@@ -100,7 +104,7 @@ public class NinjaAbility : SpecialAbilityData
     {
         if (ninjaAttackEffect == null) return;
 
-        Vector3 effectPosition = position + new Vector3(0, -1.5f, 0);
+        Vector3 effectPosition = position + new Vector3(0, -1f, 0);
         Instantiate(ninjaAttackEffect, effectPosition, Quaternion.identity);
     }
 }

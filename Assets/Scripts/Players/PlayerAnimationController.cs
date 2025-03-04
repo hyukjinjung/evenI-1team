@@ -25,7 +25,7 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void SetJumpWait()
     {
-        animator.SetTrigger("JumpWait");
+        animator.SetTrigger("ToJumpWait");
     }
 
 
@@ -72,7 +72,7 @@ public class PlayerAnimationController : MonoBehaviour
     }
 
     public float GetDisappearAnimationLength() => 0.5f;
-    public float GetAssassinationAnimationLength() => 0.5f;
+    public float GetAssassinationAnimationLength() => 1;
 
 
 
@@ -133,7 +133,7 @@ public class PlayerAnimationController : MonoBehaviour
     {
         Debug.Log("Revert 트리거 실행");
 
-        ResetAllAnimation();
+        //ResetAllAnimation();
 
         animator.Play("RevertToNormal");
 

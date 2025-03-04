@@ -52,11 +52,6 @@ public class PlayerAttackController : MonoBehaviour
             return;
         }
 
-        if (playerMovement.isJumping)
-        {
-            return;
-        }
-
         if (transformController.IsTransformed())
         {
             TransformationData currentTransformationData = transformController.currentTransformationData;
@@ -86,15 +81,19 @@ public class PlayerAttackController : MonoBehaviour
         isAttacking = true;
         Debug.Log("공격 시작");
 
-        SpawnAttackEffect(forwardTile, attackLeft);
+        SpawnAttackEffect();
     }
 
 
 
-    void SpawnAttackEffect(Tile forwardTile, bool attackLeft)
+    public void SpawnAttackEffect()
     {
         if (attackEffectPrefab == null)
             return;
+
+        Tile forwardTile = testTileManager.GetForwardTile(transform.position);
+
+        bool attackLeft = forwardTile.TileOnLeft(transform);
 
         Vector3 spawnPosition = forwardTile.transform.position;
 

@@ -29,9 +29,10 @@ public class PlayerMovement : MonoBehaviour
     public int CurrentFloor { get => currentFloor; }
 
     [SerializeField] private JumpEffectSpawner jumpEffectSpawner;
-    private GameManager gameManager;
+
 
     private bool canIgnoreMonster = false;
+
 
 
     private void Awake()
@@ -45,11 +46,6 @@ public class PlayerMovement : MonoBehaviour
 
         playerInputController.OnJumpEvent -= Jump; 
         playerInputController.OnJumpEvent += Jump;
-    }
-
-    void Start()
-    {
-        gameManager = GameManager.Instance;
     }
 
 
@@ -99,13 +95,11 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-
     void PerformJump(bool jumpLeft)
     {
         if (isGameOver || isJumping) return; 
         
-        gameManager.AddScore(1);
-        
+        GameManager.Instance.AddScore(1);        
         isJumping = true;
 
         Vector2 previousPosition = transform.position;                                                              
@@ -131,15 +125,35 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        transform.position = targetPosition;
+        //transform.position = targetPosition;
+        StartCoroutine(JumpSmoothly(previousPosition, targetPosition));
+
         jumpEffectSpawner.SpawnJumpEffect(previousPosition);
         currentFloor++;
 
+    }
+
+
+    private IEnumerator JumpSmoothly(Vector3 start, Vector3 end, float speed = 10f)
+    {
+        float duration = 0.3f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            float t = elapsedTime / duration;
+            transform.position = Vector3.Lerp(start, end, t);
+            elapsedTime += Time.deltaTime * speed;
+            yield return null;
+        }
+
+        transform.position = end;
         isJumping = false;
 
-        playerAnimationController.SetJumping(false);
-        playerAnimationController.SetJumpWait();
+        //playerAnimationController.SetJumping(false);
+        //playerAnimationController.SetJumpWait();
     }
+
 
 
 

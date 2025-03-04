@@ -163,10 +163,20 @@ public class PlayerTransformationController : MonoBehaviour
         
         if (abilityUsageCount <= 0)
         {
-            DeTransform();
+            StartCoroutine(WaitAssassination());
         }
         
         attackController.ResetAttackState();
     }
+
+    private IEnumerator WaitAssassination()
+    { 
+        yield return new WaitForSeconds(playerAnimationController.GetAssassinationAnimationLength());
+
+        DeTransform();
+    }
+
+
     
+
 }
