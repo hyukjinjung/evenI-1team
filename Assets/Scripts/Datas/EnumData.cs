@@ -68,7 +68,78 @@ public enum TileType
 }
 
 
+public enum BGM
+{
+    LobbyBGM,               // Lobby background music
 
+    // StageSetupBGM
+    // Stage setup background music
+    PreGameCutscene,        // Pre-game cutscene
+    GameProgress,           // In-game progress 게임 진행 
+    FeverMap,               // Fever map event
+}
+public enum SoundEffect
+{
+    LobbyButtonTouch,       // Lobby button touch effect
+
+    // Game Start
+    GameStart,              // Game start event
+    
+    // Chasing Monster
+    ChasingMonster,         // Chasing monster appears 추적몬스터 등장 
+    ChaseDistanceWarning,   // Chase distance warning 추적거리 가까움 경고 
+
+    // Platform 발판 
+    ItemAcquisition,        // Item acquisition 
+    CurrencyItemAcquisition,// Currency item acquisition 재화 아이템 획득
+    MonsterHit,             // Monster hit 몬스터 타격 
+    MonsterDefeat,          // Monster defeat 몬스터 퇴치 
+    DisruptiveItemAcquisition, // Disruptive item acquisition 방해 아이템 
+
+    // Pattern 방해 패턴 
+    PatternAppearanceWarning, // Pattern appearance warning 패턴 등장 경고 
+    PatternAttack,            // Pattern attack 패턴 공격 
+
+    // Default Character 기본 캐릭터
+    CharacterJump,          // Character jump 점프 
+    CharacterAttack,        // Character attack 공격 
+    GameOverDefenseRelease, // Game over defense transformation release 변신 해제 
+    GameOver,               // Game over event 게임 오버 
+    Resurrection,           // Resurrection event 부활
+
+    // Transformation Effects
+    Transformation,          // Transformation event 변신 
+    TransformationReleaseWarning, // Transformation release warning 변신 해재 시간 경고 
+    TransformationTimeOut,  // Transformation release due to time/usage limits
+    NinjaJump,              // Ninja jump 닌자 점프 
+    NinjaAttack,            // Ninja attack 닌자 공격 
+    BullJump,               // Bull jump 황소 개구리 점프 
+    BullMonsterSwallowAttack,  // Bull monster swallowing attack 황소 개구리 몬스터 삼키는 공격 
+    BullMonsterSpitAttack,     // Bull monster spit attack 황소 개구리 몬스터 뱉는 공격 
+    LotusMovement,          // Lotus movement 연곷이동 
+    LotusMagic,             // Lotus magic 연꽃 마법 
+    GoldenResurrection,     // Golden resurrection 황금 부활 
+
+    // Fever
+    FeverMapMovement,       // Fever map movement 피버맵 이동 
+
+    // Result Screen
+    CoutnueGame,             // Resume game 이어하기 
+    ScoreResult,            // Score result 점수 결과 
+    HighScoreAchievement,   // High score / Achievement / Ranking increase 최고기록 업적 랭킹 상승 
+}
+
+
+public enum BackGroundMusic
+{
+    LobbyBGM,               // Lobby background music
+
+    // StageSetupBGM
+    // Stage setup background music
+    PreGameCutscene,        // Pre-game cutscene
+    GameProgress,           // In-game progress 게임 진행 
+    FeverMap,               // Fever map event
+}
 
 
 public class EnumData : MonoBehaviour

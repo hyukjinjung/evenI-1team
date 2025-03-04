@@ -12,6 +12,7 @@ public class SoundManager : MonoBehaviour
     //bool pressed = false; // 눌린 상태
 
     public UIManager uiManager;
+    public Image soundImage;
 
     public Button SettingBGMButton;
     public Button SettingSoundEffectButton;
@@ -34,7 +35,7 @@ public class SoundManager : MonoBehaviour
         PauseBGMButton.onClick.AddListener(PauseBGMButtonSoundState);
         PauseSoundEffectButton.onClick.AddListener(PauseSoundEffectButtonSoundState);
 
-        uiManager = GetComponent<UIManager>();
+        
     }
 
     public void SettingBGMButtonSoundState()
@@ -56,9 +57,8 @@ public class SoundManager : MonoBehaviour
             Debug.Log("소리 비활성화");
 
             SettingBGMButton.image.sprite = SettingBGMButtonOffSprite;
-
         }
-
+        
 
     }
 
