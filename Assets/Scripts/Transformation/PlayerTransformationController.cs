@@ -10,7 +10,6 @@ public class PlayerTransformationController : MonoBehaviour
 
     private PlayerAnimationController playerAnimationController;
     private PlayerAttackController attackController;
-    private PlayerCollisionController playerCollisionController;
     private PlayerInputController inputController;
     private TestTileManager testTileManager;
     private PlayerMovement playerMovement;
@@ -30,7 +29,6 @@ public class PlayerTransformationController : MonoBehaviour
     {
         playerAnimationController = GetComponent<PlayerAnimationController>();
         attackController = GetComponent<PlayerAttackController>();
-        playerCollisionController = GetComponent<PlayerCollisionController>();
         inputController = GetComponent<PlayerInputController>();
         testTileManager = GetComponent<TestTileManager>();
         playerMovement = GetComponent<PlayerMovement>();
@@ -107,7 +105,7 @@ public class PlayerTransformationController : MonoBehaviour
         
         EnablePlayerInput(false);
 
-        playerCollisionController.EnableMonsterIgnore(0f);
+        playerMovement.EnableMonsterIgnore(0f);
       
         ResetTransformation();
         StartCoroutine(RevertToNormalAfterDelay());

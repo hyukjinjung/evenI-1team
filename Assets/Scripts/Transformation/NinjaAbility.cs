@@ -17,7 +17,6 @@ public class NinjaAbility : SpecialAbilityData
 
     private PlayerAnimationController playerAnimationController;
     private PlayerTransformationController playerTransformationController;
-    private PlayerCollisionController playerCollisionController;
     private TestTileManager testTileManager;
     private PlayerMovement playerMovement;
 
@@ -27,7 +26,6 @@ public class NinjaAbility : SpecialAbilityData
     {
         playerAnimationController = playerTransform.GetComponent<PlayerAnimationController>();
         playerTransformationController = playerTransform.GetComponent<PlayerTransformationController>();
-        playerCollisionController = playerTransform.GetComponent<PlayerCollisionController>();
         playerMovement = playerTransform.GetComponent<PlayerMovement>();
         
         testTileManager = GameManager.Instance.tileManager;
@@ -46,9 +44,9 @@ public class NinjaAbility : SpecialAbilityData
             return;
         }
 
-        if (playerCollisionController == null) return;
+        if (playerMovement == null) return;
 
-        playerCollisionController.EnableMonsterIgnore(transformationData.duration);
+        playerMovement.EnableMonsterIgnore(transformationData.duration);
         Debug.Log("몬스터 충돌 무시 활성화");
         
         Tile monsterTile = testTileManager.GetNextMonsterTile(playerMovement.CurrentFloor);

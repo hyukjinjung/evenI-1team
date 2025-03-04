@@ -21,7 +21,6 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInputController playerInputController;
     private PlayerAnimationController playerAnimationController;
     private PlayerTransformationController playerTransformationController;
-    private PlayerCollisionController collisionController;
     private PlayerAttackController attackController;
         
     [SerializeField] TestTileManager testTileManager;
@@ -32,13 +31,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private JumpEffectSpawner jumpEffectSpawner;
     private GameManager gameManager;
 
+    private bool canIgnoreMonster = false;
+
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         playerAnimationController = GetComponent<PlayerAnimationController>();
         playerInputController = GetComponent<PlayerInputController>();
         playerTransformationController = GetComponent<PlayerTransformationController>();
-        collisionController = GetComponentInParent<PlayerCollisionController>();
         attackController = GetComponentInParent<PlayerAttackController>();
 
 
@@ -82,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
         //    jumpLeft =  transform.position.x > temp.transform.position.x;
         //}
 
-        if (tile.HasMonster() && collisionController != null && collisionController.CanIgnoreMonster())
+        if (tile.HasMonster() && CanIgnoreMonster())
         {
 
             Debug.Log("NinjaFrog 상태. 몬스터 무시하고 점프");
@@ -107,19 +108,17 @@ public class PlayerMovement : MonoBehaviour
         
         isJumping = true;
 
-        Vector2 previousPosition = transform.position;
-                                                               
+        Vector2 previousPosition = transform.position;                                                              
         Vector2 jumpDirection = jumpLeft ? leftDirection : rightDirection;
-
         Vector2 targetPosition = (Vector2)transform.position + jumpDirection;
         targetPosition.y += 0.5f;
         
         Tile targetTile = testTileManager.GetNextTile(currentFloor);
   
 
-        if (targetTile != null && targetTile.HasMonster() && collisionController != null)
+        if (targetTile != null && targetTile.HasMonster())
         {
-            if (collisionController.CanIgnoreMonster())
+            if (CanIgnoreMonster())
             {
                 Debug.Log("NinjaFrog 상태. 몬스터 타일 위로 착지");
                 targetPosition = targetTile.transform.position;
@@ -133,12 +132,13 @@ public class PlayerMovement : MonoBehaviour
         }
 
         transform.position = targetPosition;
-
         jumpEffectSpawner.SpawnJumpEffect(previousPosition);
-
         currentFloor++;
 
         isJumping = false;
+
+        playerAnimationController.SetJumping(false);
+        playerAnimationController.SetJumpWait();
     }
 
 
@@ -149,15 +149,17 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Tile"))
         {
             isJumping = false;
+            playerAnimationController.SetJumping(false);
+            playerAnimationController.SetJumpWait();
         }
 
         if (collision.gameObject.CompareTag("Monster"))
         {
             bool isTransformed = playerTransformationController.IsTransformed();
-            bool canIgnoreMonster = collisionController.CanIgnoreMonster();
+            bool canIgnoreMonster = CanIgnoreMonster();
 
             Debug.Log($"몬스터와 충돌. 변신 상태: {playerTransformationController.IsTransformed()} " +
-                $"/ 충돌 무시 가능 여부 {collisionController.CanIgnoreMonster()}");
+                $"/ 충돌 무시 가능 여부 {CanIgnoreMonster()}");
 
             if (canIgnoreMonster)
             {
@@ -187,5 +189,35 @@ public class PlayerMovement : MonoBehaviour
 
         Debug.Log("잘못된 점프 방향. 게임 오버 처리됨");
         GameManager.Instance.GameOver();
+    }
+
+
+    public void EnableMonsterIgnore(float duration)
+    {
+        canIgnoreMonster = true;
+        Debug.Log($"몬스터와 충돌 무시 활성화. 지속 시간 {duration}");
+
+        StartCoroutine(DisableMonsterIgnoreAfterDelay(duration));
+    }
+
+
+    private IEnumerator DisableMonsterIgnoreAfterDelay(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        canIgnoreMonster = false;
+        Debug.Log("몬스터 충돌 비활성화");
+
+    }
+
+
+    public bool CanIgnoreMonster()
+    {
+        if (playerTransformationController.GetCurrentTransformation() ==
+            TransformationType.NinjaFrog)
+        {
+            return true;
+        }
+
+        return canIgnoreMonster;
     }
 }
