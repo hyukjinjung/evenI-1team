@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     public UIManager uiManager;
     public TestTileManager tileManager;
+    private FeverSystem feverSystem;
 
     
     // -------------------------- player
@@ -51,11 +52,13 @@ public class GameManager : MonoBehaviour
     private int bestScore = 0;
     private int resultScore = 0;
     private int resultBestScore = 0;
+    private int feverScore = 0;
     
     public int Score {get{return score;}}
     public int BestScore {get{return resultBestScore;}}
     public int ResultScore {get{return resultScore;}}
     public int ResultBestScore {get{return resultBestScore;}}
+    public int FeverScore { get{return feverScore;}}
     
     
  
@@ -73,7 +76,14 @@ public class GameManager : MonoBehaviour
         }
         
         uiManager = FindObjectOfType<UIManager>();
+        feverSystem = FindAnyObjectByType<FeverSystem>();
         
+
+        feverSystem.OnFeverStart += HandleFeverStart;
+        feverSystem.OnFeverEnd += HandleFeverEnd;
+        
+
+
         if (player == null)
         {
             Debug.Log("unassigned player");
@@ -85,6 +95,11 @@ public class GameManager : MonoBehaviour
         playerInputController = player.GetComponent<PlayerInputController>();
         playerAnimationController = player.GetComponent<PlayerAnimationController>();
         
+    }
+
+    private void FeverSystem_OnFeverEnd()
+    {
+        throw new System.NotImplementedException();
     }
 
     private void Start()
@@ -174,6 +189,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
+    public void HandleFeverStart()
+    {
+
+    }
+
+    public void HandleFeverEnd()
+    {
+
+    }
 }
 

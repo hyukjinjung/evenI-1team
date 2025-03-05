@@ -108,19 +108,12 @@ public class PlayerAnimationController : MonoBehaviour
         animator.ResetTrigger("Disappear");
         animator.ResetTrigger("Assassination");
 
-
         animator.ResetTrigger("ToNinja");
         animator.ResetTrigger("ToBull");
         animator.ResetTrigger("ToJumpWait");
     }
 
-    
-
-
-    //public void ResetTrigger(string triggerName)
-    //{
-    //    animator.ResetTrigger(triggerName);
-    //}
+ 
 
     public bool IsAnimationPlaying(string animationName)
     {
