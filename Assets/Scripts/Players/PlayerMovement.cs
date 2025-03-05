@@ -134,7 +134,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private IEnumerator JumpSmoothly(Vector3 start, Vector3 end, float speed = 10f)
+    private IEnumerator JumpSmoothly(Vector3 start, Vector3 end, float speed = 20f)
     {
         float duration = 0.3f;
         float elapsedTime = 0f;
@@ -150,8 +150,6 @@ public class PlayerMovement : MonoBehaviour
         transform.position = end;
         isJumping = false;
 
-        //playerAnimationController.SetJumping(false);
-        //playerAnimationController.SetJumpWait();
     }
 
 
@@ -233,5 +231,15 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return canIgnoreMonster;
+    }
+
+
+    public void UpdateCurrentFloor()
+    {
+        int floor = testTileManager.GetFloorByPosition(transform.position);
+        if (floor != -1)
+        {
+            currentFloor = floor;
+        }
     }
 }

@@ -22,7 +22,7 @@ public class PlayerTransformationController : MonoBehaviour
     
     private float remainingTime;
     private int abilityUsageCount;
-    
+    private int previousFloor;
 
 
     void Start()
@@ -148,13 +148,21 @@ public class PlayerTransformationController : MonoBehaviour
             inputController.SetInputActive(enable);
         }
     }
+
     
+
     public void UseSpecialAbility()
     {
         if (abilityUsageCount <= 0)
         {
             return;
         }
+
+        if (currentTransformationType ==TransformationType.NinjaFrog )
+        {
+            previousFloor = playerMovement.CurrentFloor;
+        }
+
 
         currentTransformationData.specialAbility.ActivateAbility(transform, currentTransformationData);
         abilityUsageCount--;
@@ -177,6 +185,9 @@ public class PlayerTransformationController : MonoBehaviour
     }
 
 
-    
+    public int GetNinjaPreviousFloor()
+    {
+        return previousFloor;
+    }
 
 }

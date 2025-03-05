@@ -79,20 +79,26 @@ public class NinjaAbility : SpecialAbilityData
         float disappearTime = playerAnimationController.GetDisappearAnimationLength();
         yield return new WaitForSeconds(disappearTime);
 
-        Vector3 newPosition = new Vector3(Mathf.Round(targetTile.transform.position.x), 
-            targetTile.transform.position.y + 0.7f,
-            playertransform.position.z);
+        Vector3 newPosition = targetTile.transform.position + new Vector3(0, 1, 0);
         playertransform.position = newPosition;
-
-        //Vector3 newPosition = targetTile.transform.position + new Vector3(0, 1, 0);
-        //playertransform.position = newPosition;
-
 
         SpawnAttackEffect(newPosition);
 
         playerAnimationController.PlayAssassinationAnimation();
         float assassinationTime = playerAnimationController.GetAssassinationAnimationLength();
         yield return new WaitForSeconds(assassinationTime);
+
+
+        int previousFloor = playerTransformationController.GetNinjaPreviousFloor();
+        playerMovement.UpdateCurrentFloor();
+
+        int skippedTiles = Mathf.Max(0, playerMovement.CurrentFloor - previousFloor);
+
+        if (skippedTiles > 0)
+        {
+            GameManager.Instance.AddScore(skippedTiles);
+            Debug.Log($"닌자 암살 종료. {skippedTiles} 점 추가");
+        }
 
 
         playerAnimationController.StartRevertAnimation();
