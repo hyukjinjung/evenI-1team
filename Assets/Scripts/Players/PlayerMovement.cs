@@ -19,8 +19,8 @@ public class PlayerMovement : MonoBehaviour
     private float deathHeight = -5f; // 캐릭터가 떨어지면 게임 오버되는 높이
 
     
-    public bool isJumping { get; private set; } = false;
-    public bool isGameOver { get; private set; } = false; // 게임 오버 중복 방지
+    //public bool isJumping { get; private set; } = false;
+    //public bool isGameOver { get; private set; } = false; // 게임 오버 중복 방지
 
 
     private readonly Vector2 leftDirection = new Vector2(-1f, 1f); // 좌표는 타일 간격에 따라 변동
@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
     public int CurrentFloor { get => currentFloor; }
 
     [SerializeField] private JumpEffectSpawner jumpEffectSpawner;
-
+    private GameManager gameManager;
 
     private bool canIgnoreMonster = false;
 
@@ -55,6 +55,11 @@ public class PlayerMovement : MonoBehaviour
 
         playerInputController.OnJumpEvent -= Jump; 
         playerInputController.OnJumpEvent += Jump;
+    }
+
+    void Start()
+    {
+        gameManager = GameManager.Instance;
     }
 
 
@@ -75,6 +80,8 @@ public class PlayerMovement : MonoBehaviour
     public void Jump(bool jumpLeft)
     {
         if (isGameOver || isJumping) return;
+
+        gameManager.AddScore(1);
 
         Tile tile = testTileManager.GetForwardTile(transform.position);
 
@@ -134,7 +141,7 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        //transform.position = targetPosition;
+        transform.position = targetPosition;
         StartCoroutine(JumpSmoothly(previousPosition, targetPosition));
 
         jumpEffectSpawner.SpawnJumpEffect(previousPosition);
@@ -158,6 +165,8 @@ public class PlayerMovement : MonoBehaviour
 
         transform.position = end;
         isJumping = false;
+        playerAnimationController.SetJumping(false);
+        playerAnimationController.SetJumpWait();
 
     }
 
