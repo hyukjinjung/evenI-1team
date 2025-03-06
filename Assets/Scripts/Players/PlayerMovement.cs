@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGameOver) return;
 
-        if (transform.position.y < -0.5f)
+        if (transform.position.y < -0.3f)
         {
             if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
             {
@@ -114,6 +114,10 @@ public class PlayerMovement : MonoBehaviour
 
         Tile targetTile = testTileManager.GetNextTile(currentFloor);
 
+        if (targetTile !=  null && targetTile.GetComponent<TogglePlatform>() != null)
+        {
+            StartCoroutine(GameOverDueToInvisible(targetTile));
+        }
 
         if (targetTile != null && targetTile.HasMonster())
         {
@@ -131,9 +135,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         transform.position = targetPosition;
+        isJumping = false;
         //StartCoroutine(JumpSmoothly(previousPosition, targetPosition));
 
-        isJumping = false;
         jumpEffectSpawner.SpawnJumpEffect(previousPosition);
         currentFloor++;
 
@@ -163,17 +167,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
-        {
-            Vector2 bounceDirection = new Vector2(UnityEngine.Random.Range(-1f, 1f), 1f).normalized;
+        //if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+        //{
+        //    if (rb != null)
+        //    {
+        //        Vector2 bounceDirection = new Vector2(UnityEngine.Random.Range(-1f, 1f), 1f).normalized;
 
-            float force = 5f;
-            rb.AddForce(bounceDirection * force, ForceMode2D.Impulse);
+        //        float force = 5f;
+        //        rb.AddForce(bounceDirection * force, ForceMode2D.Impulse);
 
-            float randomTorque = UnityEngine.Random.Range(-200f, 200f);
-            rb.AddTorque(randomTorque);
+        //        float randomTorque = UnityEngine.Random.Range(-200f, 200f);
+        //        rb.AddTorque(randomTorque);
+        //    }
 
-        }
+        //}
 
         if (collision.gameObject.CompareTag("Tile"))
         {
@@ -223,6 +230,21 @@ public class PlayerMovement : MonoBehaviour
 
         Debug.Log("잘못된 점프 방향. 게임 오버 처리됨");
         GameManager.Instance.GameOver();
+    }
+
+
+    private IEnumerator GameOverDueToInvisible(Tile targetTile)
+    {
+        if (targetTile == null && targetTile.GetComponent<TogglePlatform>() == null)
+            yield break;
+
+        float PlayerY = transform.position.y;
+        float TileY = targetTile.transform.position.y;
+
+        if (PlayerY < TileY - 0.3f)
+        {
+            GameManager.Instance.GameOver();
+        }
     }
 
 

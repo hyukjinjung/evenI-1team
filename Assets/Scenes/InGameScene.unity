@@ -1463,11 +1463,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017301b4acc0cfe4c91f0b4bd3d6fd8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAutoMode: 1
+  isAutoMode: 0
   testTileManager: {fileID: 768112588}
   currentFloor: 0
   jumpEffectSpawner: {fileID: 7698517093355806083, guid: fd104e76d59c212478094dc47c1a04d1, type: 3}
-  gameManager: {fileID: 885555219}
 --- !u!114 &417875395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1537,7 +1536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6759b30dd14c99c43adf54a4fb10db1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
 --- !u!114 &417875400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5179,7 +5177,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6759b30dd14c99c43adf54a4fb10db1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
 --- !u!4 &2110626868
 Transform:
   m_ObjectHideFlags: 0
@@ -5825,7 +5822,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.2}
+  m_Size: {x: 0.5, y: 0.2}
   m_EdgeRadius: 0
 --- !u!114 &5492203768508028967
 MonoBehaviour:
