@@ -46,6 +46,10 @@ public class PlayerAttackController : MonoBehaviour
 
     public void PerformAttack()
     {
+        if (FeverSystem.Instance !=null && FeverSystem.Instance.isFeverActive) 
+            return;
+
+
         if (isAttacking)
         {
             Debug.Log("공격 중일 때 추가 공격 불가능");

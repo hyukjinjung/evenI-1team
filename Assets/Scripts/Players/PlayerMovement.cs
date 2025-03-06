@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private bool isAutoMode = false;
-    
+
     public bool isJumping { get; private set; } = false;
     public bool isGameOver { get; private set; } = false; // 게임 오버 중복 방지
 
@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerAnimationController playerAnimationController;
     private PlayerTransformationController playerTransformationController;
     private PlayerAttackController attackController;
-        
+
     [SerializeField] TestTileManager testTileManager;
     [SerializeField] private int currentFloor = 0;
 
@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
         attackController = GetComponentInParent<PlayerAttackController>();
 
 
-        playerInputController.OnJumpEvent -= Jump; 
+        playerInputController.OnJumpEvent -= Jump;
         playerInputController.OnJumpEvent += Jump;
     }
 
@@ -56,6 +56,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (transform.position.y < -0.5f)
         {
+            if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+            {
+                return;
+            }
+
             Debug.Log("플레이어 추락. 게임 오버");
             GameManager.Instance.GameOver();
         }
@@ -76,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
         //if (isAutoMode)
         //{
         //    Tile temp = testTileManager.GetNextTile(currentFloor);
-        //    jumpLeft =  transform.position.x > temp.transform.position.x;
+        //    jumpLeft = transform.position.x > temp.transform.position.x;
         //}
 
         if (tile.HasMonster() && CanIgnoreMonster())
@@ -97,18 +102,18 @@ public class PlayerMovement : MonoBehaviour
 
     void PerformJump(bool jumpLeft)
     {
-        if (isGameOver || isJumping) return; 
-        
-        GameManager.Instance.AddScore(1);        
+        if (isGameOver || isJumping) return;
+
+        GameManager.Instance.AddScore(1);
         isJumping = true;
 
-        Vector2 previousPosition = transform.position;                                                              
+        Vector2 previousPosition = transform.position;
         Vector2 jumpDirection = jumpLeft ? leftDirection : rightDirection;
         Vector2 targetPosition = (Vector2)transform.position + jumpDirection;
         targetPosition.y += 0.5f;
-        
+
         Tile targetTile = testTileManager.GetNextTile(currentFloor);
-  
+
 
         if (targetTile != null && targetTile.HasMonster())
         {
@@ -125,39 +130,51 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        //transform.position = targetPosition;
-        StartCoroutine(JumpSmoothly(previousPosition, targetPosition));
+        transform.position = targetPosition;
+        //StartCoroutine(JumpSmoothly(previousPosition, targetPosition));
 
+        isJumping = false;
         jumpEffectSpawner.SpawnJumpEffect(previousPosition);
         currentFloor++;
 
     }
 
 
-    private IEnumerator JumpSmoothly(Vector3 start, Vector3 end, float speed = 20f)
-    {
-        float duration = 0.3f;
-        float elapsedTime = 0f;
+    //private IEnumerator JumpSmoothly(Vector3 start, Vector3 end, float speed = 20f)
+    //{
+    //    float duration = 0.3f;
+    //    float elapsedTime = 0f;
 
-        while (elapsedTime < duration)
-        {
-            float t = elapsedTime / duration;
-            transform.position = Vector3.Lerp(start, end, t);
-            elapsedTime += Time.deltaTime * speed;
-            yield return null;
-        }
+    //    while (elapsedTime < duration)
+    //    {
+    //        float t = elapsedTime / duration;
+    //        transform.position = Vector3.Lerp(start, end, t);
+    //        elapsedTime += Time.deltaTime * speed;
+    //        yield return null;
+    //    }
 
-        transform.position = end;
-        isJumping = false;
+    //    transform.position = end;
+    //    isJumping = false;
 
-    }
+    //}
 
 
 
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-     
+        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+        {
+            Vector2 bounceDirection = new Vector2(UnityEngine.Random.Range(-1f, 1f), 1f).normalized;
+
+            float force = 5f;
+            rb.AddForce(bounceDirection * force, ForceMode2D.Impulse);
+
+            float randomTorque = UnityEngine.Random.Range(-200f, 200f);
+            rb.AddTorque(randomTorque);
+
+        }
+
         if (collision.gameObject.CompareTag("Tile"))
         {
             isJumping = false;
@@ -188,11 +205,16 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("변신 아이템 획득");
         }
+
+
     }
 
 
     void CheckGameOver(bool isLeft, bool jumpLeft)
     {
+        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+            return;
+
         if (isLeft == jumpLeft)
         {
             Debug.Log("정상 이동. 게임 오버 아님");

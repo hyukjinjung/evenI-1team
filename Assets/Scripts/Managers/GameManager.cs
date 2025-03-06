@@ -126,9 +126,13 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         Debug.Log("게임 오버 발생!");
+        if (isGameOver) return;
 
         if (isGodMode) return;
-        if (isGameOver) return;
+
+        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+            return;
+
 
         GameOverPanel.SetActive(true);
 
@@ -149,7 +153,6 @@ public class GameManager : MonoBehaviour
 
         UpdateBestScore(score);
 
- 
     }    
         
     private IEnumerator FreezeGameAfterDelay()
