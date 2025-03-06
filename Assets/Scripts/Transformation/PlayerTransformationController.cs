@@ -10,7 +10,6 @@ public class PlayerTransformationController : MonoBehaviour
 
     private PlayerAnimationController playerAnimationController;
     private PlayerAttackController attackController;
-    private PlayerCollisionController playerCollisionController;
     private PlayerInputController inputController;
     private TestTileManager testTileManager;
     private PlayerMovement playerMovement;
@@ -23,14 +22,13 @@ public class PlayerTransformationController : MonoBehaviour
     
     private float remainingTime;
     private int abilityUsageCount;
-    
+    private int previousFloor;
 
 
     void Start()
     {
         playerAnimationController = GetComponent<PlayerAnimationController>();
         attackController = GetComponent<PlayerAttackController>();
-        playerCollisionController = GetComponent<PlayerCollisionController>();
         inputController = GetComponent<PlayerInputController>();
         testTileManager = GetComponent<TestTileManager>();
         playerMovement = GetComponent<PlayerMovement>();
@@ -65,10 +63,12 @@ public class PlayerTransformationController : MonoBehaviour
         return isTransformed;
     }
     
+
     public TransformationType GetCurrentTransformation()
     {
         return currentTransformationType;
     }
+
 
     public void Transform(TransformationType transformationType)
     {
@@ -94,9 +94,6 @@ public class PlayerTransformationController : MonoBehaviour
     public void DeTransform()
     {
         if (!isTransformed) return;
-
-        Debug.Log("변신 강제 해제 실행");
-
         
         currentTransformationType = TransformationType.NormalFrog;
 
@@ -108,7 +105,7 @@ public class PlayerTransformationController : MonoBehaviour
         
         EnablePlayerInput(false);
 
-        playerCollisionController.EnableMonsterIgnore(0f);
+        playerMovement.EnableMonsterIgnore(0f);
       
         ResetTransformation();
         StartCoroutine(RevertToNormalAfterDelay());
@@ -151,13 +148,21 @@ public class PlayerTransformationController : MonoBehaviour
             inputController.SetInputActive(enable);
         }
     }
+
     
+
     public void UseSpecialAbility()
     {
         if (abilityUsageCount <= 0)
         {
             return;
         }
+
+        if (currentTransformationType ==TransformationType.NinjaFrog )
+        {
+            previousFloor = playerMovement.CurrentFloor;
+        }
+
 
         currentTransformationData.specialAbility.ActivateAbility(transform, currentTransformationData);
         abilityUsageCount--;
@@ -166,10 +171,23 @@ public class PlayerTransformationController : MonoBehaviour
         
         if (abilityUsageCount <= 0)
         {
-            DeTransform();
+            StartCoroutine(WaitAssassination());
         }
         
         attackController.ResetAttackState();
     }
-    
+
+    private IEnumerator WaitAssassination()
+    { 
+        yield return new WaitForSeconds(playerAnimationController.GetAssassinationAnimationLength());
+
+        DeTransform();
+    }
+
+
+    public int GetNinjaPreviousFloor()
+    {
+        return previousFloor;
+    }
+
 }

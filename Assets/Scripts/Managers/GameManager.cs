@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     public UIManager uiManager;
     public TestTileManager tileManager;
+    private FeverSystem feverSystem;
 
     
     // -------------------------- player
@@ -58,10 +59,7 @@ public class GameManager : MonoBehaviour
     public int ResultBestScore {get{return resultBestScore;}}
     
     
-    
-    
-    private PlayerScoreTracker playerScoreTracker;
-
+ 
     private bool isGameOver = false;
 
     private void Awake()
@@ -75,9 +73,15 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         
-        playerScoreTracker = FindObjectOfType<PlayerScoreTracker>();
         uiManager = FindObjectOfType<UIManager>();
+        feverSystem = FindAnyObjectByType<FeverSystem>();
         
+
+        feverSystem.OnFeverStart += HandleFeverStart;
+        feverSystem.OnFeverEnd += HandleFeverEnd;
+        
+
+
         if (player == null)
         {
             Debug.Log("unassigned player");
@@ -90,6 +94,11 @@ public class GameManager : MonoBehaviour
         playerAnimationController = player.GetComponent<PlayerAnimationController>();
         
     }
+
+    //private void FeverSystem_OnFeverEnd()
+    //{
+    //    throw new System.NotImplementedException();
+    //}
 
     private void Start()
     {
@@ -140,10 +149,7 @@ public class GameManager : MonoBehaviour
 
         UpdateBestScore(score);
 
-        if (playerScoreTracker != null)
-        {
-            playerScoreTracker.CalculateScore();
-        }
+ 
     }    
         
     private IEnumerator FreezeGameAfterDelay()
@@ -181,6 +187,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
+    public void HandleFeverStart()
+    {
+        Debug.Log("피버 모드 시작");
+    }
+
+    public void HandleFeverEnd()
+    {
+        Debug.Log("피버 모드 종료");
+    }
 }
 

@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private bool isAutoMode = false;
+
     [SerializeField] private CanvasGroup DarkOverlay; // 검은색 오버레이 UI
 
 
@@ -17,21 +18,31 @@ public class PlayerMovement : MonoBehaviour
     private bool isGameOver = false; // 게임 오버 중복 방지
     private float deathHeight = -5f; // 캐릭터가 떨어지면 게임 오버되는 높이
 
-    private Vector2 leftDirection = new Vector2(-1f, 1f); // 좌표는 타일 간격에 따라 변동
-    private Vector2 rightDirection = new Vector2(1f, 1f); // 좌표는 타일 간격에 따라 변동
+    
+    public bool isJumping { get; private set; } = false;
+    public bool isGameOver { get; private set; } = false; // 게임 오버 중복 방지
+
+
+    private readonly Vector2 leftDirection = new Vector2(-1f, 1f); // 좌표는 타일 간격에 따라 변동
+    private readonly Vector2 rightDirection = new Vector2(1f, 1f); // 좌표는 타일 간격에 따라 변동
 
     private Rigidbody2D rb;
     private PlayerInputController playerInputController;
     private PlayerAnimationController playerAnimationController;
     private PlayerTransformationController playerTransformationController;
-    private PlayerCollisionController collisionController;
+    private PlayerAttackController attackController;
         
     [SerializeField] TestTileManager testTileManager;
     [SerializeField] private int currentFloor = 0;
+
     public int CurrentFloor { get => currentFloor; }
 
-    public JumpEffectSpawner jumpEffectSpawner;
-    public GameManager gameManager;
+    [SerializeField] private JumpEffectSpawner jumpEffectSpawner;
+
+
+    private bool canIgnoreMonster = false;
+
+
 
     private void Awake()
     {
@@ -39,16 +50,11 @@ public class PlayerMovement : MonoBehaviour
         playerAnimationController = GetComponent<PlayerAnimationController>();
         playerInputController = GetComponent<PlayerInputController>();
         playerTransformationController = GetComponent<PlayerTransformationController>();
-        collisionController = GetComponentInParent<PlayerCollisionController>();
-        
-        playerInputController.OnJumpEvent -= Jump; // 기존 리스너를 제거한 후 다시 등록(중복 실행 방지)
+        attackController = GetComponentInParent<PlayerAttackController>();
+
+
+        playerInputController.OnJumpEvent -= Jump; 
         playerInputController.OnJumpEvent += Jump;
-    }
-
-    void Start()
-    {
-        gameManager = GameManager.Instance;
-
     }
 
 
@@ -57,109 +63,67 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGameOver) return;
 
-        if(isJumping && rb.velocity.y < 0)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, -12f);
-        }
-
-        playerAnimationController.SetJumping(isJumping);
-
-    }
-
-    private void FixedUpdate()
-    {
-        if (isGameOver) return;
-
-        if (transform.position.y < -0.3f)
+        if (transform.position.y < -0.5f)
         {
             Debug.Log("플레이어 추락. 게임 오버");
-            TriggerGameOver();
+            GameManager.Instance.GameOver();
         }
     }
 
-
-    private void TriggerGameOver()
-    {
-        if (isGameOver) return;
-
-        isGameOver = true;
-
-        if (playerAnimationController != null)
-        {
-            playerAnimationController.PlayGameOverAnimation();
-        }
-
-        GameManager.Instance.GameOver();
-    }
 
 
     public void Jump(bool jumpLeft)
     {
         if (isGameOver || isJumping) return;
 
-
-        //Tile tile = testTileManager.GetNextTile(currentFloor);
         Tile tile = testTileManager.GetForwardTile(transform.position);
 
         if (tile == null) return;
 
         bool isLeft = tile.TileOnLeft(transform);
-        
+
         //if (isAutoMode)
         //{
         //    Tile temp = testTileManager.GetNextTile(currentFloor);
         //    jumpLeft =  transform.position.x > temp.transform.position.x;
         //}
-        
-        if (tile.HasMonster() && collisionController != null && collisionController.CanIgnoreMonster())
+
+        if (tile.HasMonster() && CanIgnoreMonster())
         {
 
             Debug.Log("NinjaFrog 상태. 몬스터 무시하고 점프");
             PerformJump(jumpLeft);
             return;
-
         }
-
 
         PerformJump(jumpLeft);
         isJumping = true;
         playerAnimationController.SetJumping(true);
 
-
         CheckGameOver(isLeft, jumpLeft);
-
     }
-
 
 
     void PerformJump(bool jumpLeft)
     {
         if (isGameOver || isJumping) return; 
         
-        // TODO:: 위치는 맞춰서 수정
-        gameManager.AddScore(1);
-        
-        isJumping = true; // 점프 중
+        GameManager.Instance.AddScore(1);        
+        isJumping = true;
 
-        Vector2 previousPosition = transform.position;
-
-        
-                                                        
+        Vector2 previousPosition = transform.position;                                                              
         Vector2 jumpDirection = jumpLeft ? leftDirection : rightDirection;
-
         Vector2 targetPosition = (Vector2)transform.position + jumpDirection;
         targetPosition.y += 0.5f;
         
         Tile targetTile = testTileManager.GetNextTile(currentFloor);
+  
 
-     
-        if (targetTile != null && targetTile.HasMonster() && collisionController != null)
+        if (targetTile != null && targetTile.HasMonster())
         {
-            if (collisionController.CanIgnoreMonster())
+            if (CanIgnoreMonster())
             {
                 Debug.Log("NinjaFrog 상태. 몬스터 타일 위로 착지");
-
-               
                 targetPosition = targetTile.transform.position;
             }
             else
@@ -170,15 +134,33 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        transform.position = targetPosition;
-
+        //transform.position = targetPosition;
+        StartCoroutine(JumpSmoothly(previousPosition, targetPosition));
 
         jumpEffectSpawner.SpawnJumpEffect(previousPosition);
-
         currentFloor++;
 
-        isJumping = false;
     }
+
+
+    private IEnumerator JumpSmoothly(Vector3 start, Vector3 end, float speed = 20f)
+    {
+        float duration = 0.3f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            float t = elapsedTime / duration;
+            transform.position = Vector3.Lerp(start, end, t);
+            elapsedTime += Time.deltaTime * speed;
+            yield return null;
+        }
+
+        transform.position = end;
+        isJumping = false;
+
+    }
+
 
 
 
@@ -187,12 +169,17 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Tile"))
         {
             isJumping = false;
+            playerAnimationController.SetJumping(false);
+            playerAnimationController.SetJumpWait();
         }
 
         if (collision.gameObject.CompareTag("Monster"))
         {
             bool isTransformed = playerTransformationController.IsTransformed();
-            bool canIgnoreMonster = collisionController.CanIgnoreMonster();
+            bool canIgnoreMonster = CanIgnoreMonster();
+
+            Debug.Log($"몬스터와 충돌. 변신 상태: {playerTransformationController.IsTransformed()} " +
+                $"/ 충돌 무시 가능 여부 {CanIgnoreMonster()}");
 
             if (canIgnoreMonster)
             {
@@ -237,13 +224,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        isJumping = true;
-    }
-
-
-
     void CheckGameOver(bool isLeft, bool jumpLeft)
     {
         if (isLeft == jumpLeft)
@@ -257,8 +237,42 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    public void SetCurrentFloor(int floor)
+    public void EnableMonsterIgnore(float duration)
     {
-        currentFloor = floor;
+        canIgnoreMonster = true;
+        Debug.Log($"몬스터와 충돌 무시 활성화. 지속 시간 {duration}");
+
+        StartCoroutine(DisableMonsterIgnoreAfterDelay(duration));
+    }
+
+
+    private IEnumerator DisableMonsterIgnoreAfterDelay(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        canIgnoreMonster = false;
+        Debug.Log("몬스터 충돌 비활성화");
+
+    }
+
+
+    public bool CanIgnoreMonster()
+    {
+        if (playerTransformationController.GetCurrentTransformation() ==
+            TransformationType.NinjaFrog)
+        {
+            return true;
+        }
+
+        return canIgnoreMonster;
+    }
+
+
+    public void UpdateCurrentFloor()
+    {
+        int floor = testTileManager.GetFloorByPosition(transform.position);
+        if (floor != -1)
+        {
+            currentFloor = floor;
+        }
     }
 }

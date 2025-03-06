@@ -5,7 +5,7 @@ using UnityEngine;
 /*
  
 클래스 설명:
-변신 캐릭터 특수 기술 Test 용
+
 
 */
 
@@ -17,16 +17,13 @@ public class Monster : MonoBehaviour
 
     MonsterAnimationController animationController;
 
+
     private void Awake()
     {
         animationController = GetComponent<MonsterAnimationController>();
 
     }
 
-    private void Start()
-    {
-        
-    }
 
 
     public void TakeDamage(int damage)

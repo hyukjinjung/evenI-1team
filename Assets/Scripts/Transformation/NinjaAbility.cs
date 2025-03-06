@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 
 /*
@@ -13,25 +14,25 @@ SpecialAbilityData를 상속하여 구현
 
 public class NinjaAbility : SpecialAbilityData
 {
-    public GameObject ninjaAttackEffect; // 타격 이펙트 프리팹
-
+    public GameObject ninjaAttackEffect;
 
     private PlayerAnimationController playerAnimationController;
     private PlayerTransformationController playerTransformationController;
-    private PlayerCollisionController playerCollisionController;
     private TestTileManager testTileManager;
     private PlayerMovement playerMovement;
+
 
 
     private void Initialize(Transform playerTransform)
     {
         playerAnimationController = playerTransform.GetComponent<PlayerAnimationController>();
         playerTransformationController = playerTransform.GetComponent<PlayerTransformationController>();
-        playerCollisionController = playerTransform.GetComponent<PlayerCollisionController>();
         playerMovement = playerTransform.GetComponent<PlayerMovement>();
         
         testTileManager = GameManager.Instance.tileManager;
     }
+
+
 
     public override void ActivateAbility(Transform playerTransform, TransformationData transformationData)
     {
@@ -44,9 +45,9 @@ public class NinjaAbility : SpecialAbilityData
             return;
         }
 
-        if (playerCollisionController == null) return;
+        if (playerMovement == null) return;
 
-        playerCollisionController.EnableMonsterIgnore(transformationData.duration);
+        playerMovement.EnableMonsterIgnore(transformationData.duration);
         Debug.Log("몬스터 충돌 무시 활성화");
         
         Tile monsterTile = testTileManager.GetNextMonsterTile(playerMovement.CurrentFloor);
@@ -64,11 +65,12 @@ public class NinjaAbility : SpecialAbilityData
             Debug.Log("타일에 몬스터가 존재하지 않음");
             return;
         }
-        
+
         playerTransformationController.StartCoroutine(ExecuteAttackAfterDisappear(
             playerTransform, monsterTile, targetMonster));
-
     }
+
+
 
     private IEnumerator ExecuteAttackAfterDisappear(Transform playertransform, Tile targetTile,
         Monster targetMonster)
@@ -77,8 +79,6 @@ public class NinjaAbility : SpecialAbilityData
         float disappearTime = playerAnimationController.GetDisappearAnimationLength();
         yield return new WaitForSeconds(disappearTime);
 
-        playerAnimationController.ResetTrigger("Disappear");
-
         Vector3 newPosition = targetTile.transform.position + new Vector3(0, 1, 0);
         playertransform.position = newPosition;
 
@@ -86,11 +86,21 @@ public class NinjaAbility : SpecialAbilityData
 
         playerAnimationController.PlayAssassinationAnimation();
         float assassinationTime = playerAnimationController.GetAssassinationAnimationLength();
-
         yield return new WaitForSeconds(assassinationTime);
-        
-        // targetMonster.TakeDamage((int)effectValue);
-        
+
+
+        int previousFloor = playerTransformationController.GetNinjaPreviousFloor();
+        playerMovement.UpdateCurrentFloor();
+
+        int skippedTiles = Mathf.Max(0, playerMovement.CurrentFloor - previousFloor);
+
+        if (skippedTiles > 0)
+        {
+            GameManager.Instance.AddScore(skippedTiles);
+            Debug.Log($"닌자 암살 종료. {skippedTiles} 점 추가");
+        }
+
+
         playerAnimationController.StartRevertAnimation();
     }
 
@@ -100,7 +110,7 @@ public class NinjaAbility : SpecialAbilityData
     {
         if (ninjaAttackEffect == null) return;
 
-        Vector3 effectPosition = position + new Vector3(0, -1.5f, 0);
+        Vector3 effectPosition = position + new Vector3(0, -1f, 0);
         Instantiate(ninjaAttackEffect, effectPosition, Quaternion.identity);
     }
 }

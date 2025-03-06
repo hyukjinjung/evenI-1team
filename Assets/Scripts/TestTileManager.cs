@@ -310,5 +310,17 @@ public class TestTileManager : MonoBehaviour
     }
 
 
+    // 동수
+    public int GetFloorByPosition(Vector3 playerPosition)
+    {
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            if (Mathf.Abs(tiles[i].transform.position.y - playerPosition.y) < 0.1f)
+            {
+                return i;
+            }
+        }
 
+        return -1;
+    }
 }

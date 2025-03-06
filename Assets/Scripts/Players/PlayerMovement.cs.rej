@@ -1,0 +1,9 @@
+diff a/Assets/Scripts/Players/PlayerMovement.cs b/Assets/Scripts/Players/PlayerMovement.cs	(rejected hunks)
+@@ -10,6 +10,7 @@
+ public class PlayerMovement : MonoBehaviour
+ {
+     [SerializeField] private bool isAutoMode = false;
++<<<<<<< HEAD
+     [SerializeField] private CanvasGroup DarkOverlay; // ������ �������� UI
+ 
+ 
