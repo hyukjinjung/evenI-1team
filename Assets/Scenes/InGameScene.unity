@@ -1525,7 +1525,6 @@ MonoBehaviour:
   testTileManager: {fileID: 768112588}
   currentFloor: 0
   jumpEffectSpawner: {fileID: 7698517093355806083, guid: fd104e76d59c212478094dc47c1a04d1, type: 3}
-  gameManager: {fileID: 885555219}
 --- !u!114 &417875395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1595,7 +1594,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6759b30dd14c99c43adf54a4fb10db1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
 --- !u!114 &417875400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2644,11 +2642,11 @@ MonoBehaviour:
   MonsterPrefab: {fileID: 4484346038493015994, guid: e12d6f85f99a39b45b2e8e0ca6f8f664, type: 3}
   ItemTilePrefab: {fileID: 8630953280370161833, guid: 7c2b2224622b83f4f824175669f303cb, type: 3}
   ItemPrefab: {fileID: 1248678462}
-  obstacleSpawnChance: 0.5
+  obstacleSpawnChance: 0.2
   monsterTileSpawnChance: 0.2
   itemTileSpawnChance: 0.1
   InvisibleTileSpawnChance: 0.15
-  startTileCount: 20
+  startTileCount: 30
   maxTiles: 100
 --- !u!114 &775552310 stripped
 MonoBehaviour:
@@ -5368,7 +5366,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6759b30dd14c99c43adf54a4fb10db1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
 --- !u!4 &2110626868
 Transform:
   m_ObjectHideFlags: 0

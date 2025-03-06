@@ -289,12 +289,12 @@ public class TestTileManager : MonoBehaviour
 
         switch (obstacleType)
         {
-            case 0:
-                obstaclePrefab = ReverseControlPrefab;
-                break;
-            case 1:
-                obstaclePrefab = StickyPrefab;
-                break;
+            //case 0:               
+            //    obstaclePrefab = ReverseControlPrefab;
+            //    break;
+            //case 1:
+            //    obstaclePrefab = StickyPrefab;
+            //    break;
             case 2:
                 obstaclePrefab = HideNextPrefab;
                 break;

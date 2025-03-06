@@ -143,5 +143,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 541667bfa2d14ca4a8a089121192f333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toggleInterval: 3
-  fadeTime: 1
+  toggleInterval: 1
+  fadeTime: 0.1

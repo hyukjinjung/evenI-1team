@@ -4,8 +4,8 @@ using UnityEngine;
 public class TogglePlatform : MonoBehaviour
 {
     [Header("Toggle Settings")]
-    [SerializeField] private float toggleInterval = 3f;   // 상태 전환 간격
-    [SerializeField] private float fadeTime = 1f;         // 페이드 효과 시간
+    [SerializeField] private float toggleInterval = 0.1f;   // 상태 전환 간격
+    [SerializeField] private float fadeTime = 0.11f;         // 페이드 효과 시간
 
     private SpriteRenderer spriteRenderer;
     private Collider2D platformCollider;
