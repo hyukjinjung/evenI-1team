@@ -90,4 +90,10 @@ public class TogglePlatform : MonoBehaviour
         spriteRenderer.color = endColor;
         platformCollider.enabled = fadeIn;
     }
+
+
+    public bool IsVisible()
+    {
+        return isVisible;
+    }
 }

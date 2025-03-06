@@ -125,10 +125,14 @@ public class PlayerMovement : MonoBehaviour
 
         Tile targetTile = testTileManager.GetNextTile(currentFloor);
 
-        if (targetTile !=  null && targetTile.GetComponent<TogglePlatform>() != null)
+
+        TogglePlatform invisibleTile = targetTile != null ? targetTile.GetComponent<TogglePlatform>() : null;
+
+        if (invisibleTile != null && !invisibleTile.IsVisible())
         {
             StartCoroutine(GameOverDueToInvisible(targetTile));
         }
+
 
         if (targetTile != null && targetTile.HasMonster())
         {
@@ -254,8 +258,15 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator GameOverDueToInvisible(Tile targetTile)
     {
-        if (targetTile == null && targetTile.GetComponent<TogglePlatform>() == null)
-            yield break;
+        if (targetTile == null) yield break;
+
+        TogglePlatform invisibleTile = targetTile.GetComponent<TogglePlatform>();
+        if (invisibleTile == null) yield break;
+
+        while (invisibleTile.IsVisible())
+        {
+            yield return null;
+        }
 
         float PlayerY = transform.position.y;
         float TileY = targetTile.transform.position.y;
