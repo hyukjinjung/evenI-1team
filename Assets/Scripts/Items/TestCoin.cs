@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
+    [SerializeField] public int feverScore = 300;
 
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -15,7 +16,7 @@ public class Coin : MonoBehaviour
             if (feverSystem != null)
             {
                 feverSystem.AddFeverScore(FeverScoreType.TestCoin);
-                Debug.Log("테스트 코인 획득. 피버 점수 +300");
+                Debug.Log($"테스트 코인 획득. 피버 점수 +{feverScore}");
             }
 
             Destroy(gameObject);

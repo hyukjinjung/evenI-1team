@@ -10,7 +10,7 @@ public class FeverSystem : MonoBehaviour
     public bool isFeverActive = false;
     public float feverDuration = 10;
     private float feverTimer = 0;
-    private int feverScore = 0;
+    public int feverScore = 0;
 
     public event Action OnFeverStart;
     public event Action OnFeverEnd;
@@ -46,7 +46,7 @@ public class FeverSystem : MonoBehaviour
             {FeverScoreType.MonsterKill, 1 },
             {FeverScoreType.ItemUse, 5 },
             {FeverScoreType.FeverReductionCoin, -10 },
-            { FeverScoreType.TestCoin, 300 }
+            { FeverScoreType.TestCoin, 150 }
 
         };
     }
@@ -86,6 +86,9 @@ public class FeverSystem : MonoBehaviour
         if (!isFeverActive) return;
 
         isFeverActive = false;
+
+        feverScore = 0;
+        Debug.Log($"피버 지속시간 종료. 피버 점수 {feverScore}");
 
         GameManager.Instance.PlayerAnimationController.SetFeverMode(false);
 

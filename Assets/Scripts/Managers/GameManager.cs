@@ -125,14 +125,21 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        Debug.Log("게임 오버 발생!");
+        Debug.Log("게임 오버 발생");
         if (isGameOver) return;
 
-        if (isGodMode) return;
+        //if (isGodMode) return;
 
         if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
-            return;
+        {
+            FeverSystem.Instance.EndFever();
+        }
 
+        if (FeverSystem.Instance != null)
+        {
+            FeverSystem.Instance.feverScore = 0;
+            Debug.Log($"피버 점수 초기화. {feverSystem.feverScore}");
+        }
 
         GameOverPanel.SetActive(true);
 
