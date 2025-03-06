@@ -11,27 +11,22 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private bool isAutoMode = false;
 
-    [SerializeField] private CanvasGroup DarkOverlay; // °ËÀº»ö ¿À¹ö·¹ÀÌ UI
+    [SerializeField] private CanvasGroup DarkOverlay; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ UI
 
+    private float deathHeight = -5f; // Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    private bool isJumping = false;
-    private bool isGameOver = false; // °ÔÀÓ ¿À¹ö Áßº¹ ¹æÁö
-    private float deathHeight = -5f; // Ä³¸¯ÅÍ°¡ ¶³¾îÁö¸é °ÔÀÓ ¿À¹öµÇ´Â ³ôÀÌ
+    public bool isJumping { get; private set; } = false;
+    public bool isGameOver { get; private set; } = false; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    
-    //public bool isJumping { get; private set; } = false;
-    //public bool isGameOver { get; private set; } = false; // °ÔÀÓ ¿À¹ö Áßº¹ ¹æÁö
-
-
-    private readonly Vector2 leftDirection = new Vector2(-1f, 1f); // ÁÂÇ¥´Â Å¸ÀÏ °£°Ý¿¡ µû¶ó º¯µ¿
-    private readonly Vector2 rightDirection = new Vector2(1f, 1f); // ÁÂÇ¥´Â Å¸ÀÏ °£°Ý¿¡ µû¶ó º¯µ¿
+    private readonly Vector2 leftDirection = new Vector2(-1f, 1f); // ï¿½ï¿½Ç¥ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½Ý¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private readonly Vector2 rightDirection = new Vector2(1f, 1f); // ï¿½ï¿½Ç¥ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½Ý¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     private Rigidbody2D rb;
     private PlayerInputController playerInputController;
     private PlayerAnimationController playerAnimationController;
     private PlayerTransformationController playerTransformationController;
     private PlayerAttackController attackController;
-        
+
     [SerializeField] TestTileManager testTileManager;
     [SerializeField] private int currentFloor = 0;
 
@@ -53,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
         attackController = GetComponentInParent<PlayerAttackController>();
 
 
-        playerInputController.OnJumpEvent -= Jump; 
+        playerInputController.OnJumpEvent -= Jump;
         playerInputController.OnJumpEvent += Jump;
     }
 
@@ -68,9 +63,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGameOver) return;
 
-        if (transform.position.y < -0.5f)
+        if (transform.position.y < -0.3f)
         {
-            Debug.Log("ÇÃ·¹ÀÌ¾î Ãß¶ô. °ÔÀÓ ¿À¹ö");
+            if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+            {
+                return;
+            }
+
+            Debug.Log("ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ß¶ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
             GameManager.Instance.GameOver();
         }
     }
@@ -92,13 +92,13 @@ public class PlayerMovement : MonoBehaviour
         //if (isAutoMode)
         //{
         //    Tile temp = testTileManager.GetNextTile(currentFloor);
-        //    jumpLeft =  transform.position.x > temp.transform.position.x;
+        //    jumpLeft = transform.position.x > temp.transform.position.x;
         //}
 
         if (tile.HasMonster() && CanIgnoreMonster())
         {
 
-            Debug.Log("NinjaFrog »óÅÂ. ¸ó½ºÅÍ ¹«½ÃÇÏ°í Á¡ÇÁ");
+            Debug.Log("NinjaFrog ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½");
             PerformJump(jumpLeft);
             return;
         }
@@ -113,36 +113,41 @@ public class PlayerMovement : MonoBehaviour
 
     void PerformJump(bool jumpLeft)
     {
-        if (isGameOver || isJumping) return; 
-        
-        GameManager.Instance.AddScore(1);        
+        if (isGameOver || isJumping) return;
+
+        GameManager.Instance.AddScore(1);
         isJumping = true;
 
-        Vector2 previousPosition = transform.position;                                                              
+        Vector2 previousPosition = transform.position;
         Vector2 jumpDirection = jumpLeft ? leftDirection : rightDirection;
         Vector2 targetPosition = (Vector2)transform.position + jumpDirection;
         targetPosition.y += 0.5f;
-        
+
         Tile targetTile = testTileManager.GetNextTile(currentFloor);
-  
+
+        if (targetTile !=  null && targetTile.GetComponent<TogglePlatform>() != null)
+        {
+            StartCoroutine(GameOverDueToInvisible(targetTile));
+        }
 
         if (targetTile != null && targetTile.HasMonster())
         {
             if (CanIgnoreMonster())
             {
-                Debug.Log("NinjaFrog »óÅÂ. ¸ó½ºÅÍ Å¸ÀÏ À§·Î ÂøÁö");
+                Debug.Log("NinjaFrog ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
                 targetPosition = targetTile.transform.position;
             }
             else
             {
-                Debug.Log("NormalFrog »óÅÂ. ¸ó½ºÅÍ Å¸ÀÏÀ» ¹âÀ» ¼ö ¾øÀ½");
+                Debug.Log("NormalFrog ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
                 GameManager.Instance.GameOver();
             }
 
         }
 
         transform.position = targetPosition;
-        StartCoroutine(JumpSmoothly(previousPosition, targetPosition));
+        isJumping = false;
+        //StartCoroutine(JumpSmoothly(previousPosition, targetPosition));
 
         jumpEffectSpawner.SpawnJumpEffect(previousPosition);
         currentFloor++;
@@ -150,25 +155,23 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private IEnumerator JumpSmoothly(Vector3 start, Vector3 end, float speed = 20f)
-    {
-        float duration = 0.3f;
-        float elapsedTime = 0f;
+    //private IEnumerator JumpSmoothly(Vector3 start, Vector3 end, float speed = 20f)
+    //{
+    //    float duration = 0.3f;
+    //    float elapsedTime = 0f;
 
-        while (elapsedTime < duration)
-        {
-            float t = elapsedTime / duration;
-            transform.position = Vector3.Lerp(start, end, t);
-            elapsedTime += Time.deltaTime * speed;
-            yield return null;
-        }
+    //    while (elapsedTime < duration)
+    //    {
+    //        float t = elapsedTime / duration;
+    //        transform.position = Vector3.Lerp(start, end, t);
+    //        elapsedTime += Time.deltaTime * speed;
+    //        yield return null;
+    //    }
 
-        transform.position = end;
-        isJumping = false;
-        playerAnimationController.SetJumping(false);
-        playerAnimationController.SetJumpWait();
+    //    transform.position = end;
+    //    isJumping = false;
 
-    }
+    //}
 
 
 
@@ -187,31 +190,31 @@ public class PlayerMovement : MonoBehaviour
             bool isTransformed = playerTransformationController.IsTransformed();
             bool canIgnoreMonster = CanIgnoreMonster();
 
-            Debug.Log($"¸ó½ºÅÍ¿Í Ãæµ¹. º¯½Å »óÅÂ: {playerTransformationController.IsTransformed()} " +
-                $"/ Ãæµ¹ ¹«½Ã °¡´É ¿©ºÎ {CanIgnoreMonster()}");
+            Debug.Log($"ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½æµ¹. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: {playerTransformationController.IsTransformed()} " +
+                $"/ ï¿½æµ¹ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ {CanIgnoreMonster()}");
 
             if (canIgnoreMonster)
             {
-                Debug.Log("NinjaFrog »óÅÂ. ¸ó½ºÅÍ¿Í Ãæµ¹ ¹«½Ã");
+                Debug.Log("NinjaFrog ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½æµ¹ ï¿½ï¿½ï¿½ï¿½");
                 return;
             }
 
-            Debug.Log("NormalFrog »óÅÂ. ¸ó½ºÅÍ¿Í Ãæµ¹. °ÔÀÓ ¿À¹ö");
+            Debug.Log("NormalFrog ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½æµ¹. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
             GameManager.Instance.GameOver();
             isGameOver = true;
         }
 
         if (collision.gameObject.CompareTag("TransformationItem"))
         {
-            Debug.Log("º¯½Å ¾ÆÀÌÅÛ È¹µæ");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¹ï¿½ï¿½");
         }
 
-        // ? HideNext ¾ÆÀÌÅÛ Ãæµ¹ °¨Áö
+        // ? HideNext ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹ ï¿½ï¿½ï¿½ï¿½
         if (collision.gameObject.CompareTag("HideNext"))
         {
-            Debug.Log("HideNext ¾ÆÀÌÅÛ È¹µæ! ¾îµÎ¿î È¿°ú Àû¿ë");
-            StartCoroutine(ApplyDarkEffect(5f)); // 5ÃÊ µ¿¾È È¿°ú À¯Áö
-            Destroy(collision.gameObject); // ¾ÆÀÌÅÛ Á¦°Å
+            Debug.Log("HideNext ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¹ï¿½ï¿½! ï¿½ï¿½Î¿ï¿½ È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+            StartCoroutine(ApplyDarkEffect(5f)); // 5ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            Destroy(collision.gameObject); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 
@@ -219,37 +222,55 @@ public class PlayerMovement : MonoBehaviour
     {
         if (DarkOverlay == null)
         {
-            Debug.LogError("DarkOverlay°¡ ¼³Á¤µÇÁö ¾Ê¾Ò½À´Ï´Ù! Unity¿¡¼­ ¿¬°áÇÏ¼¼¿ä.");
+            Debug.LogError("DarkOverlayï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò½ï¿½ï¿½Ï´ï¿½! Unityï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
             yield break;
         }
 
-        // ? ¾îµÎ¿î È¿°ú Àû¿ë
+        // ? ï¿½ï¿½Î¿ï¿½ È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         DarkOverlay.alpha = 1f;
 
         yield return new WaitForSeconds(duration);
 
-        // ? È¿°ú ÇØÁ¦
+        // ? È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         DarkOverlay.alpha = 0f;
     }
 
 
     void CheckGameOver(bool isLeft, bool jumpLeft)
     {
+        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+            return;
+
         if (isLeft == jumpLeft)
         {
-            Debug.Log("Á¤»ó ÀÌµ¿. °ÔÀÓ ¿À¹ö ¾Æ´Ô");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½");
             return;
         }
 
-        Debug.Log("Àß¸øµÈ Á¡ÇÁ ¹æÇâ. °ÔÀÓ ¿À¹ö Ã³¸®µÊ");
+        Debug.Log("ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½");
         GameManager.Instance.GameOver();
+    }
+
+
+    private IEnumerator GameOverDueToInvisible(Tile targetTile)
+    {
+        if (targetTile == null && targetTile.GetComponent<TogglePlatform>() == null)
+            yield break;
+
+        float PlayerY = transform.position.y;
+        float TileY = targetTile.transform.position.y;
+
+        if (PlayerY < TileY - 0.3f)
+        {
+            GameManager.Instance.GameOver();
+        }
     }
 
 
     public void EnableMonsterIgnore(float duration)
     {
         canIgnoreMonster = true;
-        Debug.Log($"¸ó½ºÅÍ¿Í Ãæµ¹ ¹«½Ã È°¼ºÈ­. Áö¼Ó ½Ã°£ {duration}");
+        Debug.Log($"ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½æµ¹ ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­. ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ {duration}");
 
         StartCoroutine(DisableMonsterIgnoreAfterDelay(duration));
     }
@@ -259,7 +280,7 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         canIgnoreMonster = false;
-        Debug.Log("¸ó½ºÅÍ Ãæµ¹ ºñÈ°¼ºÈ­");
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹ ï¿½ï¿½È°ï¿½ï¿½È­");
 
     }
 

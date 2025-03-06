@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class FeverSystem : MonoBehaviour
 {
+    public static FeverSystem Instance { get; private set; }
+
     public bool isFeverActive = false;
     public float feverDuration = 10;
     private float feverTimer = 0;
@@ -18,6 +20,15 @@ public class FeverSystem : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         InitializeFeverScoreValues();
     }
 

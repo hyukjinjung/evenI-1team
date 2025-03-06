@@ -73,6 +73,7 @@ public class TestTileManager : MonoBehaviour
         AfterCreateTile(tilePrefab, tileComponent);
     }
 
+
     private void AfterCreateTile(GameObject tilePrefab, Tile tileComponent)
     {
         if (tilePrefab == MonsterTilePrefab)
@@ -96,6 +97,7 @@ public class TestTileManager : MonoBehaviour
             CreateObstacleOnTile(tileComponent);
         }
     }
+
 
     private GameObject CheckTilePrefab(float randomValue)
     {
@@ -235,10 +237,10 @@ public class TestTileManager : MonoBehaviour
 
         if (nextFloor < 0 || currentFloor >= tiles.Count)
         {
-            return null; // 유효하지 않은 층이면 null 반환
+            return null;
         }
 
-        return tiles[nextFloor]; // 다음 층의 타일 반환
+        return tiles[nextFloor];
     }
 
     private void CreateMonsterOnTile(Tile tile)
@@ -310,7 +312,7 @@ public class TestTileManager : MonoBehaviour
     }
 
 
-    // 동수
+ 
     public int GetFloorByPosition(Vector3 playerPosition)
     {
         for (int i = 0; i < tiles.Count; i++)
