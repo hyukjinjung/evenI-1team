@@ -97,10 +97,13 @@ public class NinjaAbility : SpecialAbilityData
         if (skippedTiles > 0)
         {
             GameManager.Instance.AddScore(skippedTiles);
-            Debug.Log($"닌자 암살 종료. {skippedTiles} 점 추가");
+            Debug.Log($"닌자 암살 종료. 점수 +{skippedTiles}");
+
+            for (int i = 0; i < skippedTiles; i++)
+            {
+                FeverSystem.Instance.AddFeverScore(FeverScoreType.Movement);
+            }
         }
-
-
         playerAnimationController.StartRevertAnimation();
     }
 

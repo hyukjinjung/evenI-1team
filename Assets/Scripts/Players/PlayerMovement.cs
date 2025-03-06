@@ -125,6 +125,10 @@ public class PlayerMovement : MonoBehaviour
 
         Tile targetTile = testTileManager.GetNextTile(currentFloor);
 
+        if (targetTile != null)
+        {
+            FeverSystem.Instance.AddFeverScore(FeverScoreType.Movement);
+        }
 
         TogglePlatform invisibleTile = targetTile != null ? targetTile.GetComponent<TogglePlatform>() : null;
 
