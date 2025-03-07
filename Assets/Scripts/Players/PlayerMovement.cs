@@ -134,7 +134,6 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(GameOverDueToInvisible(targetTile));
         }
 
-        //lastStandTile = testTileManager.GetForwardTile(transform.position);
     
         if (!HandleMonsterOnTile(targetTile, ref targetPosition))
             return;
@@ -300,7 +299,6 @@ public class PlayerMovement : MonoBehaviour
     public void EnableMonsterIgnore(float duration)
     {
         canIgnoreMonster = true;
-        Debug.Log($"���Ϳ� �浹 ���� Ȱ��ȭ. ���� �ð� {duration}");
 
         StartCoroutine(DisableMonsterIgnoreAfterDelay(duration));
     }
@@ -310,8 +308,6 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         canIgnoreMonster = false;
-        Debug.Log("���� �浹 ��Ȱ��ȭ");
-
     }
 
 
