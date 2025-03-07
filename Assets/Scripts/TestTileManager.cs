@@ -38,10 +38,11 @@ public class TestTileManager : MonoBehaviour
 
     private void GenerateDefaultTile()
     {
+        // 첫 번째 타일은 기본 타일로 생성
         GenerateTile(testTilePrefab, out Tile tile);
-
-        GenerateTile(ItemTilePrefab, out Tile temptile);
-        AfterCreateTile(ItemTilePrefab, temptile);
+        
+        // 두 번째 타일에 무조건 아이템 생성하는 코드 제거
+        // 이제 두 번째 타일부터는 Start() 메서드의 for 루프에서 GenerateTile()을 호출하여 랜덤하게 생성됨
     }
 
     void Start()
@@ -49,7 +50,7 @@ public class TestTileManager : MonoBehaviour
         GenerateDefaultTile(); // ✅ 첫 번째 기본 타일 생성
         for (int i = 0; i < startTileCount - 1; i++)
         {
-            GenerateTile();
+            GenerateTile(); // 나머지 타일은 랜덤하게 생성
         }
 
         if (startTileCount > maxTiles)
@@ -92,7 +93,8 @@ public class TestTileManager : MonoBehaviour
             CreateInvisibleTile(tileComponent); // ✅ Invisible 타일에는 Invisible 기능만 추가
         }
 
-        if (Random.value < obstacleSpawnChance)
+        // 일반 타일에는 장애물만 생성하도록 수정
+        if (tilePrefab == testTilePrefab && Random.value < obstacleSpawnChance)
         {
             CreateObstacleOnTile(tileComponent);
         }

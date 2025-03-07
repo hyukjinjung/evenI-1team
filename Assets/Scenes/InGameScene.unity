@@ -1520,7 +1520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017301b4acc0cfe4c91f0b4bd3d6fd8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAutoMode: 1
+  isAutoMode: 0
   DarkOverlay: {fileID: 6463252571661790790, guid: fa2455923b44bec4ab075f77413977c0, type: 3}
   testTileManager: {fileID: 768112588}
   currentFloor: 0
@@ -3032,7 +3032,7 @@ GameObject:
   m_Component:
   - component: {fileID: 885555218}
   - component: {fileID: 885555219}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3069,6 +3069,8 @@ MonoBehaviour:
   isGodMode: 0
   uiManager: {fileID: 0}
   tileManager: {fileID: 768112588}
+  feverSystem: {fileID: 0}
+  feverBackGroundManager: {fileID: 0}
   player: {fileID: 417875385}
   StartPanel: {fileID: 1496740455}
   PlayingPanel: {fileID: 1655964126}
@@ -4107,11 +4109,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1317368366582009315, guid: fa2455923b44bec4ab075f77413977c0, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1241.179
+      value: 1200
       objectReference: {fileID: 0}
     - target: {fileID: 1317368366582009315, guid: fa2455923b44bec4ab075f77413977c0, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 2101.803
+      value: 1496.143
       objectReference: {fileID: 0}
     - target: {fileID: 1317368366582009315, guid: fa2455923b44bec4ab075f77413977c0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4143,11 +4145,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1317368366582009315, guid: fa2455923b44bec4ab075f77413977c0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 14.624
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1317368366582009315, guid: fa2455923b44bec4ab075f77413977c0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 29.602
+      value: 259.64874
       objectReference: {fileID: 0}
     - target: {fileID: 1317368366582009315, guid: fa2455923b44bec4ab075f77413977c0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4162,19 +4164,27 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2021687361079108998, guid: fa2455923b44bec4ab075f77413977c0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 460bf6912d6df8a469c75723c3124685, type: 3}
+    - target: {fileID: 2021687361079108998, guid: fa2455923b44bec4ab075f77413977c0, type: 3}
       propertyPath: m_Color.a
-      value: 0.5882353
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2021687361079108998, guid: fa2455923b44bec4ab075f77413977c0, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2021687361079108998, guid: fa2455923b44bec4ab075f77413977c0, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2021687361079108998, guid: fa2455923b44bec4ab075f77413977c0, type: 3}
       propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2021687361079108998, guid: fa2455923b44bec4ab075f77413977c0, type: 3}
+      propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3794798589397352048, guid: fa2455923b44bec4ab075f77413977c0, type: 3}
@@ -4192,6 +4202,10 @@ PrefabInstance:
     - target: {fileID: 8283108188507383690, guid: fa2455923b44bec4ab075f77413977c0, type: 3}
       propertyPath: m_Name
       value: DarkOverlay
+      objectReference: {fileID: 0}
+    - target: {fileID: 8283108188507383690, guid: fa2455923b44bec4ab075f77413977c0, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
