@@ -75,6 +75,7 @@ public class FeverSystem : MonoBehaviour
         feverScore = 0;
 
         GameManager.Instance.PlayerAnimationController.SetFeverMode(true);
+        GameManager.Instance.feverBackGroundManager.SetFeverMode(true);
 
         Debug.Log("피버 시작");
         OnFeverStart?.Invoke();
@@ -91,7 +92,7 @@ public class FeverSystem : MonoBehaviour
         Debug.Log($"피버 지속시간 종료. 피버 점수 {feverScore}");
 
         GameManager.Instance.PlayerAnimationController.SetFeverMode(false);
-
+        GameManager.Instance.feverBackGroundManager.SetFeverMode(false);
 
         Debug.Log("피버 종료");
         OnFeverEnd?.Invoke();

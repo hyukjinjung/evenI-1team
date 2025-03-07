@@ -25,7 +25,8 @@ public class GameManager : MonoBehaviour
 
     public UIManager uiManager;
     public TestTileManager tileManager;
-    private FeverSystem feverSystem;
+    public FeverSystem feverSystem;
+    public FeverBackGroundManager feverBackGroundManager;
 
     
     // -------------------------- player
@@ -75,6 +76,7 @@ public class GameManager : MonoBehaviour
         
         uiManager = FindObjectOfType<UIManager>();
         feverSystem = FindAnyObjectByType<FeverSystem>();
+        feverBackGroundManager = FindObjectOfType<FeverBackGroundManager>();
         
 
         feverSystem.OnFeverStart += HandleFeverStart;
@@ -92,7 +94,6 @@ public class GameManager : MonoBehaviour
         playerAttackController = player.GetComponent<PlayerAttackController>();
         playerInputController = player.GetComponent<PlayerInputController>();
         playerAnimationController = player.GetComponent<PlayerAnimationController>();
-        
     }
 
     //private void FeverSystem_OnFeverEnd()

@@ -37,6 +37,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool canIgnoreMonster = false;
 
+    private Vector3 lastJumpPosition;
+    private bool isRecoveringFromFall = false;
 
 
     private void Awake()
@@ -61,12 +63,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (isGameOver) return;
+        if (isGameOver || isRecoveringFromFall) return;
 
         if (transform.position.y < -0.3f)
         {
             if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
             {
+                StartCoroutine(RecoverFromFall());
                 return;
             }
 
@@ -95,13 +98,7 @@ public class PlayerMovement : MonoBehaviour
         //    jumpLeft = transform.position.x > temp.transform.position.x;
         //}
 
-        //if (tile.HasMonster() && CanIgnoreMonster())
-        //{
-
-        //    Debug.Log("NinjaFrog ����. ���� �����ϰ� ����");
-        //    PerformJump(jumpLeft);
-        //    return;
-        //}
+        lastJumpPosition = transform.position;
 
         PerformJump(jumpLeft);
         isJumping = true;
@@ -139,20 +136,6 @@ public class PlayerMovement : MonoBehaviour
         if (!HandleMonsterOnTile(targetTile, ref targetPosition))
             return;
 
-
-        //if (targetTile != null && targetTile.HasMonster())
-        //{
-        //    if (CanIgnoreMonster())
-        //    {
-        //        Debug.Log("NinjaFrog ����. ���� Ÿ�� ���� ����");
-        //        targetPosition = targetTile.transform.position;
-        //    }
-        //    else
-        //    {
-        //        Debug.Log("NormalFrog ����. ���� Ÿ���� ���� �� ����");
-        //        gameManager.GameOver();
-        //    }
-        //}
 
         transform.position = targetPosition;
         isJumping = false;
@@ -201,6 +184,28 @@ public class PlayerMovement : MonoBehaviour
         return false;
     }
 
+    private IEnumerator RecoverFromFall()
+    {
+        if (isRecoveringFromFall) yield break;
+        isRecoveringFromFall = true;
+
+        float fallTime = 0.5f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < fallTime)
+        {
+            transform.position += Vector3.down * Time.deltaTime * 2f;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = lastJumpPosition;
+
+        gameManager.PlayerAnimationController.SetFeverMode(true);
+
+        isRecoveringFromFall = false;
+    }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -211,27 +216,6 @@ public class PlayerMovement : MonoBehaviour
             playerAnimationController.SetJumpWait();
         }
 
-        //if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
-        //    return;
-
-        //if (collision.gameObject.CompareTag("Monster"))
-        //{
-        //    bool isTransformed = playerTransformationController.IsTransformed();
-        //    bool canIgnoreMonster = CanIgnoreMonster();
-
-        //    Debug.Log($"���Ϳ� �浹. ���� ����: {playerTransformationController.IsTransformed()} " +
-        //        $"/ �浹 ���� ���� ���� {CanIgnoreMonster()}");
-
-        //    if (canIgnoreMonster)
-        //    {
-        //        Debug.Log("NinjaFrog ����. ���Ϳ� �浹 ����");
-        //        return;
-        //    }
-
-        //    Debug.Log("NormalFrog ����. ���Ϳ� �浹. ���� ����");
-        //    gameManager.GameOver();
-        //    isGameOver = true;
-        //}
 
         if (collision.gameObject.CompareTag("TransformationItem"))
         {

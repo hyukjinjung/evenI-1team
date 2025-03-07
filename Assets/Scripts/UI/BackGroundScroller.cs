@@ -16,6 +16,7 @@ public class BackGroundScroller : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();//랜더러 안에 있는 값에개 물어볼거야 
         backgroundHeight = spriteRenderer.bounds.size.y;//엑스 사이즈를 불러옴
+
     }
 
     // Update is called once per frame
@@ -41,5 +42,4 @@ public class BackGroundScroller : MonoBehaviour
     {
         RepositionBackground();
     }
-    
 }
