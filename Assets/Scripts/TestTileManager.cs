@@ -327,4 +327,16 @@ public class TestTileManager : MonoBehaviour
 
         return -1;
     }
+
+    // 닌자 효과로 건너뛴 타일 수만큼 새 타일 생성하는 메서드
+    public void GenerateTilesAfterNinjaEffect(int skippedTiles)
+    {
+        // 건너뛴 타일 수만큼 새 타일 생성
+        for (int i = 0; i < skippedTiles; i++)
+        {
+            GenerateTile();
+        }
+        
+        Debug.Log($"닌자 효과: {skippedTiles}개의 새 타일이 생성되었습니다.");
+    }
 }
