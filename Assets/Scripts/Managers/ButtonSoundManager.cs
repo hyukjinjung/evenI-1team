@@ -30,7 +30,11 @@ public class ButtonSoundManager : MonoBehaviour
 
     void OnClickStartGameButton()
     {
-        TestSoundManager.Instance.PlayButtonClickGameStart();  
+        if (TestSoundManager.Instance != null)
+        {
+            TestSoundManager.Instance.PlayButtonClickGameStart();
+        }
+        GameManager.Instance.StartGame();
     }
 }
 
