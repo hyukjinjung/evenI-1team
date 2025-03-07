@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 7044641173810114440}
   - component: {fileID: 6846465978656670112}
   m_Layer: 5
-  m_Name: SettingReTurnButton
+  m_Name: SettingReturnButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -386,9 +386,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 11500000, guid: 43aa6ad876a95834a8cf414c7e68c5e5, type: 3}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: StartGame
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -793,8 +793,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c60269e41a4a61442a388e8089ba9324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SettingReturnButton: {fileID: 0}
   SettingInstagramButton: {fileID: 6892283217131403853}
-  SettingCreditButton: {fileID: 0}
+  SettingCreditButton: {fileID: 4063917151033590390}
   SettingSoundEffectButton: {fileID: 3183297634934330919}
   SettingBGMButton: {fileID: 1140165615185788398}
 --- !u!1 &7684900087784000273
@@ -943,7 +944,7 @@ GameObject:
   - component: {fileID: 7195162384982394321}
   - component: {fileID: 4063917151033590390}
   m_Layer: 5
-  m_Name: SettingSourceButton
+  m_Name: SettingCreditButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

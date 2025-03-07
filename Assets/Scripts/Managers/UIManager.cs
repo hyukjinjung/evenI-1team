@@ -36,8 +36,13 @@ public class UIManager : MonoBehaviour
     public UICautionPanel UICautionPanel { get { return uiCautionPanel; } }
 
 
-    public GameObject StoryPanel;
-    public GameObject CreditPanel;
+    //public GameObject StoryPanel;
+    //public GameObject CreditPanel;
+
+    SoundUI soundUI;
+    public SoundUI SoundUI { get { return SoundUI; } }
+
+
     
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI bestScoreText;
@@ -64,14 +69,14 @@ public class UIManager : MonoBehaviour
     public Button SettingSourceButton;
     public Button SettingSoundEffectButton;
     public Button SettingBGMButton;
+    public Button SettingReturnButton;
     public Button CreditsReTurnButton;
 
  
     private bool isActive = true; 
 
 
-    private int score = 0;
-    private int bestScore = 0;
+ 
 
 
     public PlayerAnimationController playerAnimationController;
@@ -99,6 +104,9 @@ public class UIManager : MonoBehaviour
         
         uiCautionPanel = GetComponentInChildren<UICautionPanel>(true);
         uiCautionPanel.Initialize(this);
+
+        //soundUI = GetComponentInChildren<SoundUI>(true);
+        //soundUI.Initialize(this);
       
     }
 
@@ -114,9 +122,7 @@ public class UIManager : MonoBehaviour
         uiPausePanel.SetActive(false);
         uiCautionPanel.SetActive(false);
         
-        
-        
-        StoryPanel.SetActive(false);
+        //StoryPanel.SetActive(false);
 
 
         
@@ -144,13 +150,11 @@ public class UIManager : MonoBehaviour
         isGameOver = false;
         playerAnimationController.PlayGameStartAnimation();
 
-        
         uiStartPanel.SetActive(false);
         uiPlayingPanel.SetActive(true);
         uiGameOverPanel.SetActive(false);
         uiSettingPanel.SetActive(false);
     }
-
     public void GameOver()
     {
         isGameOver = true;
@@ -161,55 +165,68 @@ public class UIManager : MonoBehaviour
         
         playerAnimationController.PlayGameStartAnimation();
     }
-
-
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
-
     public void OnClickedSettingButton()
     {
         uiStartPanel.SetActive(false);
         uiSettingPanel.SetActive(true);
         Time.timeScale = 0f;
     }
-    
-     public void OnPauseButtonClicked()
+    public void OnClickedSettingInstaGramButton()
+    {
+
+    }
+    public void OnClickedSettingCreditButton()
+    {
+
+    }
+    public void OnClickedSettingSoundEffectButton()
+    {
+        //soundUI.SettingSoundEffectButtonSoundState();
+    }
+    public void OnClickedSettingBGMButton()
+    {
+        //soundUI.SettingBGMButtonSoundState();
+    }
+    public void OnClickedSettingReturnButton()
+    {
+        uiStartPanel.SetActive(true);
+        uiSettingPanel.SetActive(false);
+    }
+    public void OnPauseButtonClicked()
     {
         uiPausePanel.SetActive(true);
         Time.timeScale = 0f; //Gamepause
     }
-
-
     public void OnSourceReTurnButtonClicked()
     {
         uiSettingPanel.SetActive(true);
-        CreditPanel.SetActive(false);
+        //CreditPanel.SetActive(false);
     }
-
-
     public void OnPauseMainHomeButtonClicked()
     {
         uiCautionPanel.SetActive(true);
     }
-
     public void OnPauseContinueButtonClicked()
     {
         uiPlayingPanel.SetActive(true);
         uiPausePanel.SetActive(false);
         Time.timeScale = 1f;
-
     }
-
+    public void OnClickedPauseBGMButton()
+    {
+        //soundUI.PauseBGMButtonSoundState();
+    }
+    public void OnClickedPauseSoundEffectButtonSoundState()
+    {
+        //soundUI.PauseSoundEffectButtonSoundState();
+    }
     public void OnCautionMainHomeButtonClicked()
     {
-        uiStartPanel.SetActive(true);
-        uiPlayingPanel.SetActive(false);
-        
-        uiPausePanel.SetActive(false);
-        uiCautionPanel.SetActive(false);
+        RestartGame();
     }
 
     public void OnCautionContineButtonClicked()
@@ -217,6 +234,8 @@ public class UIManager : MonoBehaviour
         uiPlayingPanel.SetActive(false);
         uiCautionPanel.SetActive(false);
         uiPausePanel.SetActive(true);
+
+        StartGame();
     }
 
     
@@ -229,6 +248,7 @@ public class UIManager : MonoBehaviour
     public void OnSkipButtonClicked()
     {
         uiPlayingPanel.SetActive(false);
+        uiGameOverPanel.SetActive(false);
         uiResultPanel.SetActive(true);
     }
 
@@ -245,44 +265,26 @@ public class UIManager : MonoBehaviour
     public void OnResultReStartButtonClicked()
     {
         uiPlayingPanel.SetActive(true);
-        uiResultPanel.SetActive(false); 
-       
+        uiGameOverPanel.SetActive(false);
+        uiResultPanel.SetActive(false);
+
+        RestartGame();
     }
 
     public void OnResultMainHomeButtonClicked()
     {
-        uiStartPanel.SetActive(true);
         uiResultPanel.SetActive(false);
+
+        RestartGame();
     }
-    
+
+   
+    public void OnStoryButtonClicked()
+    {
+
+    }
     public void OnStoryReTurnButtonClicked()
     {
         uiResultPanel.SetActive(true);
     }
-
-   public void OnStoryButtonClicked()
-    {
-
-    }
-    
-    public void OnClickedSettingInstaGramButton()
-    {
-       
-    }
-    
-    public void OnClickedSettingCreditButton()
-    {
-        
-    }
-
-    public void OnClickedSettingSoundEffectButton()
-    {
-
-    }
-    public void OnClickedSettingBGMButton()
-    {
-
-    }
-
-
 }

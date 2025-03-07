@@ -10,7 +10,10 @@ public class UIGameOverPanel : UIPanel
     public Button AdscomebackButton;
     public Button SkipButton;
 
-    public TextMeshProUGUI textMeshProUGUI;
+    [SerializeField] TextMeshProUGUI continueScoreText;
+
+
+        
     public override void Initialize(UIManager manager)
     {
         base.Initialize(manager);
@@ -25,4 +28,11 @@ public class UIGameOverPanel : UIPanel
     {
         uiManager.OnSkipButtonClicked();
     }
+
+    public void UpdateScore(int score)
+    {
+        continueScoreText.text = score.ToString();
+    }
+
+   
 }

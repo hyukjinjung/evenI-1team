@@ -15,6 +15,11 @@ public class UIStartPanel : UIPanel
         SettingButton.onClick.AddListener(OnSettingButtonClicked);
     }
     
+    public void ReStartGame()
+    {
+        uiManager.StartGame();
+    }
+
     void OnGameStartButtonClicked()
     {
         GameStartButton.interactable = false; 

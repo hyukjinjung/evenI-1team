@@ -1,18 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UICautionPanel : UIPanel
 {
-    // Start is called before the first frame update
-    void Start()
+    public Button CautionMainHomeButton;
+    public Button CautionContinueButton;
+
+    public override void Initialize(UIManager manager)
     {
-        
+        base.Initialize(manager);
+        CautionMainHomeButton.onClick.AddListener(OnClickedCautionMainHomeButton);
+        CautionContinueButton.onClick.AddListener(OnClickedCautionContinueButon);
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnClickedCautionMainHomeButton()
     {
-        
+        uiManager.OnCautionMainHomeButtonClicked();
+    }
+    void OnClickedCautionContinueButon()
+    {
+        uiManager.OnAdsComeBackButtonClicked();
     }
 }

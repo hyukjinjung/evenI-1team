@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
@@ -24,11 +25,19 @@ public class GameManager : MonoBehaviour
 
 
     public UIManager uiManager;
+
+    UIPlayingPanel uiPlayingPanel;
+    UIResultPanel uiResultPanel;
+    UIGameOverPanel uiGameOverPanel;
+
     public TestTileManager tileManager;
     public FeverSystem feverSystem;
     public FeverBackGroundManager feverBackGroundManager;
 
-    
+    public GameObject StartPanel;
+    public GameObject PlayingPanel;
+    public GameObject GameOverPanel;
+
     // -------------------------- player
     public GameObject player;
     private PlayerMovement playerMovement;
@@ -41,21 +50,13 @@ public class GameManager : MonoBehaviour
     public PlayerInputController PlayerInputController{get{return playerInputController;}}
     public PlayerAnimationController PlayerAnimationController{get{return playerAnimationController;}}
 
-
-    public GameObject StartPanel;
-    public GameObject PlayingPanel;
-    public GameObject GameOverPanel;
-
-    
-    UIPlayingPanel uiPlayingPanel;
-
     private int score = 0;
     private int bestScore = 0;
     private int resultScore = 0;
     private int resultBestScore = 0;
     
     public int Score {get{return score;}}
-    public int BestScore {get{return resultBestScore;}}
+    public int BestScore {get{return bestScore;}}
     public int ResultScore {get{return resultScore;}}
     public int ResultBestScore {get{return resultBestScore;}}
     
@@ -103,7 +104,14 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        uiGameOverPanel = uiManager.UIGameOverPanel;
         uiPlayingPanel = uiManager.UIPlayingPanel;
+        uiResultPanel = uiManager.UIResultPanel;
+
+        bestScore = PlayerPrefs.GetInt("BestScore", 0);
+        uiResultPanel.UpdateBestScore(bestScore);
+
+
     }
 
     public void StartGame()
@@ -114,13 +122,19 @@ public class GameManager : MonoBehaviour
 
         Time.timeScale = 1f;
 
-        StartPanel.SetActive(false);
-        PlayingPanel.SetActive(true);
-
         isGameOver = false;
+
 
         AddScore(0);
         UpdateBestScore(0);
+
+        StartPanel.SetActive(false);
+        PlayingPanel.SetActive(true);
+
+
+        //uiResultPanel.UpdateBestScore(0);
+
+        //uiResultPanel.UpdateBestScore(bestScore);
     }
 
 
@@ -159,20 +173,24 @@ public class GameManager : MonoBehaviour
    
         StartCoroutine(FreezeGameAfterDelay());
 
-        UpdateBestScore(score);
+        //AddScore(score);
 
-    }    
-        
+        UpdateBestScore(score);
+        //uiResultPanel.UpdateBestScore(bestScore);
+        //uiResultPanel.UpdateScore(score);
+
+
+    }
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
     private IEnumerator FreezeGameAfterDelay()
     {
         yield return new WaitForSecondsRealtime(0.5f);
         Time.timeScale = 0f;
     }
 
-    public void ResultPanel()
-    {
-        Debug.Log("점수 합산 창으로 이동");
-    }
 
     public void AddScore(int value)
     {
@@ -181,19 +199,23 @@ public class GameManager : MonoBehaviour
         score += value;
         
         uiPlayingPanel.UpdateScore(score);
-        
-        // scoreText.text = score.ToString();
-        // resultScoreText.text = scoreText.text;
+        uiGameOverPanel.UpdateScore(score);
+        uiResultPanel.UpdateScore(score);
+
+        Debug.Log(Score);
     }
 
-    private void UpdateBestScore(int value)
+
+    public void UpdateBestScore(int value)
     {
-        if (bestScore <= value)
+        if (bestScore < value)
         {
             bestScore = value;
 
-            // bestScoreText.text = bestScore.ToString();
-            // resultBestScoreText.text = resultScoreText.text;
+            PlayerPrefs.SetInt("BestScore", bestScore);
+            PlayerPrefs.Save();
+
+            uiResultPanel.UpdateBestScore(bestScore);
 
         }
     }

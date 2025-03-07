@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 93313343266408922}
+  - component: {fileID: 1518193452233416109}
   - component: {fileID: 4332910317673787672}
   - component: {fileID: 8438351094223433980}
-  - component: {fileID: 1518193452233416109}
+  - component: {fileID: 8935010839269120578}
   m_Layer: 5
   m_Name: GameOverPanel
   m_TagString: Untagged
@@ -45,6 +46,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1518193452233416109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 80905125011922929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf000ca76c3bc4a4e83f5a6a6b9adc6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AdscomebackButton: {fileID: 4254336084348307738}
+  SkipButton: {fileID: 5098315010344382802}
+  continueScoreText: {fileID: 724568182073299055}
 --- !u!114 &4332910317673787672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,7 +170,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1518193452233416109
+--- !u!114 &8935010839269120578
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -163,12 +179,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 80905125011922929}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf000ca76c3bc4a4e83f5a6a6b9adc6c, type: 3}
+  m_Script: {fileID: 11500000, guid: ec50eeb59a7e3a14ab56bb1ba2ada124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AdscomebackButton: {fileID: 4254336084348307738}
-  SkipButton: {fileID: 5098315010344382802}
-  textMeshProUGUI: {fileID: 0}
+  buttonClickSound: {fileID: 8300000, guid: d49ecdc994e048544b1d64f7812eb7bf, type: 3}
+  startGameButton: {fileID: 0}
 --- !u!1 &133107206751441947
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,7 +249,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 634eb0527936057458543bde76f3defd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -609,7 +624,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 90.000046}
+  m_AnchoredPosition: {x: -0.000000045286, y: 30}
   m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3382861701204279004
@@ -801,7 +816,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6283737562338150618
 RectTransform:
   m_ObjectHideFlags: 0
@@ -818,7 +833,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0000038345, y: 267}
+  m_AnchoredPosition: {x: -0.0018272, y: 346}
   m_SizeDelta: {x: 655.0156, y: 139.8926}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9006998868744728424
