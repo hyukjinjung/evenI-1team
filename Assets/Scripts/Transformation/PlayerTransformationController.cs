@@ -45,6 +45,9 @@ public class PlayerTransformationController : MonoBehaviour
     {
         if (!isTransformed) return;
 
+        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+            return;
+
         if (remainingTime > 0)
         {
             remainingTime -= Time.deltaTime;
@@ -72,6 +75,8 @@ public class PlayerTransformationController : MonoBehaviour
 
     public void Transform(TransformationType transformationType)
     {
+        if (IsFeverBlockingTransform()) return;
+
         if (currentTransformationType == transformationType) return;
 
         TransformationData transformationData = GetCurrentTransformationData(transformationType);
@@ -190,4 +195,16 @@ public class PlayerTransformationController : MonoBehaviour
         return previousFloor;
     }
 
+    public bool IsFeverBlockingTransform()
+    {
+        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+            return true;
+
+        if (currentTransformationType == TransformationType.GoldenFrog)
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

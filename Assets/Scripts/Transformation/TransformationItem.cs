@@ -23,6 +23,8 @@ public class TransformationItem : MonoBehaviour
         PlayerTransformationController controller = other.GetComponent<PlayerTransformationController>();
         if (controller != null)
         {
+            controller.IsFeverBlockingTransform();
+
             ApplyTransformation(controller);
             Destroy(gameObject);
         }
