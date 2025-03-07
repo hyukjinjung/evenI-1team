@@ -18,7 +18,9 @@ public class UIPlayingPanel : UIPanel
      
     public event Action OnClickedAttackEvent;
     public event Action<bool> OnClickedMoveEvent;   // true -> Left
-    
+
+    SoundMnager soundMnager;
+
     public override void Initialize(UIManager manager)
     {
         base.Initialize(manager);
@@ -26,6 +28,7 @@ public class UIPlayingPanel : UIPanel
         AttackButton.onClick.AddListener(OnClickedAttackButton);
         LeftButton.onClick.AddListener(OnClickedLeftButton);
         RightButton.onClick.AddListener(OnClickedRightButton);
+        soundMnager = SoundMnager.Instance;
     }
 
     
@@ -33,21 +36,25 @@ public class UIPlayingPanel : UIPanel
     void OnPauseButtonClicked()
     {
         uiManager.OnPauseButtonClicked();
+        soundMnager.PlayClip(1);
     }
     
     void OnClickedAttackButton()
     {
         OnClickedAttackEvent?.Invoke();
+        soundMnager.PlayClip(2);
     }
     
     void OnClickedLeftButton()
     {
         OnClickedMoveEvent?.Invoke(true);
+        soundMnager.PlayClip(3);
     }
     
     void OnClickedRightButton()
     {
         OnClickedMoveEvent?.Invoke(false);
+        soundMnager.PlayClip(4);
     }
 
     public void UpdateScore(int score)
