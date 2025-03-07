@@ -11,31 +11,22 @@ using UnityEngine;
 
 public class TransformationItem : MonoBehaviour
 {
-    public TransformationData transformationData;
+    public TransformationType type;
 
-
-    // 변신 시작
     public void ApplyTransformation(PlayerTransformationController controller)
     {
-        controller.Transform(transformationData);
+        controller.Transform(type);
     }
-
-
-    // 플레이어가 아이템과 충돌하면 변신
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        PlayerTransformationController controller = other.GetComponent<PlayerTransformationController>();
+        if (controller != null)
         {
-            Debug.Log("플레이어와 충돌");
-            PlayerTransformationController player = other.GetComponent<PlayerTransformationController>();
-            if (player != null)
-            {
-                Debug.Log("변신 시작");
-                player.Transform(transformationData);
+            controller.IsFeverBlockingTransform();
 
-                Debug.Log("아이템 제거");
-                Destroy(gameObject);
-            }
+            ApplyTransformation(controller);
+            Destroy(gameObject);
         }
     }
 }

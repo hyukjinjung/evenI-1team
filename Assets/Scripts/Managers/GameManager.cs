@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
     UIGameOverPanel uiGameOverPanel;
 
     public TestTileManager tileManager;
+    public FeverSystem feverSystem;
+    public FeverBackGroundManager feverBackGroundManager;
 
     public GameObject StartPanel;
     public GameObject PlayingPanel;
@@ -59,10 +61,7 @@ public class GameManager : MonoBehaviour
     public int ResultBestScore {get{return resultBestScore;}}
     
     
-    
-    
-    private PlayerScoreTracker playerScoreTracker;
-
+ 
     private bool isGameOver = false;
 
     private void Awake()
@@ -76,9 +75,16 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         
-        playerScoreTracker = FindObjectOfType<PlayerScoreTracker>();
         uiManager = FindObjectOfType<UIManager>();
+        feverSystem = FindAnyObjectByType<FeverSystem>();
+        feverBackGroundManager = FindObjectOfType<FeverBackGroundManager>();
         
+
+        feverSystem.OnFeverStart += HandleFeverStart;
+        feverSystem.OnFeverEnd += HandleFeverEnd;
+        
+
+
         if (player == null)
         {
             Debug.Log("unassigned player");
@@ -89,8 +95,12 @@ public class GameManager : MonoBehaviour
         playerAttackController = player.GetComponent<PlayerAttackController>();
         playerInputController = player.GetComponent<PlayerInputController>();
         playerAnimationController = player.GetComponent<PlayerAnimationController>();
-        
     }
+
+    //private void FeverSystem_OnFeverEnd()
+    //{
+    //    throw new System.NotImplementedException();
+    //}
 
     private void Start()
     {
@@ -130,10 +140,21 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        Debug.Log("게임 오버 발생!");
-
-        if (isGodMode) return;
+        Debug.Log("게임 오버 발생");
         if (isGameOver) return;
+
+        //if (isGodMode) return;
+
+        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+        {
+            FeverSystem.Instance.EndFever();
+        }
+
+        if (FeverSystem.Instance != null)
+        {
+            FeverSystem.Instance.feverScore = 0;
+            Debug.Log($"피버 점수 초기화. {feverSystem.feverScore}");
+        }
 
         GameOverPanel.SetActive(true);
 
@@ -198,4 +219,15 @@ public class GameManager : MonoBehaviour
 
         }
     }
+
+    public void HandleFeverStart()
+    {
+        Debug.Log("피버 모드 시작");
+    }
+
+    public void HandleFeverEnd()
+    {
+        Debug.Log("피버 모드 종료");
+    }
 }
+

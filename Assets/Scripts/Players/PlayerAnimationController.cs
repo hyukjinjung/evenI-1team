@@ -12,11 +12,6 @@ public class PlayerAnimationController : MonoBehaviour
     }
 
 
-    void Start()
-    {
-       
-    }
-
 
     public void SetJumping(bool isJumping)
     {
@@ -26,6 +21,16 @@ public class PlayerAnimationController : MonoBehaviour
     public void SetAttacking(bool isLeft)
     {
         animator.SetTrigger(isLeft ? "LeftAttack" : "RightAttack");
+    }
+
+    public void SetJumpWait()
+    {
+        animator.SetTrigger("ToJumpWait");
+    }
+
+     public void SetFeverMode(bool isActive)
+    {
+        animator.SetBool("isFever", isActive);
     }
 
 
@@ -72,7 +77,7 @@ public class PlayerAnimationController : MonoBehaviour
     }
 
     public float GetDisappearAnimationLength() => 0.5f;
-    public float GetAssassinationAnimationLength() => 0.5f;
+    public float GetAssassinationAnimationLength() => 1;
 
 
 
@@ -108,19 +113,12 @@ public class PlayerAnimationController : MonoBehaviour
         animator.ResetTrigger("Disappear");
         animator.ResetTrigger("Assassination");
 
-
         animator.ResetTrigger("ToNinja");
         animator.ResetTrigger("ToBull");
         animator.ResetTrigger("ToJumpWait");
     }
 
-    
-
-
-    public void ResetTrigger(string triggerName)
-    {
-        animator.ResetTrigger(triggerName);
-    }
+ 
 
     public bool IsAnimationPlaying(string animationName)
     {
@@ -133,7 +131,7 @@ public class PlayerAnimationController : MonoBehaviour
     {
         Debug.Log("Revert 트리거 실행");
 
-        ResetAllAnimation();
+        //ResetAllAnimation();
 
         animator.Play("RevertToNormal");
 
@@ -145,7 +143,6 @@ public class PlayerAnimationController : MonoBehaviour
     private IEnumerator RevertToNormalAfterDelay()
     {
         yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).IsName("RevertToNormal"));
-
 
         yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
 

@@ -10,11 +10,12 @@ TagManager:
   - TransformationItem
   - Item
   - Obstacle
+  - HideNext
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - HideNext
   - Water
   - UI
   - 

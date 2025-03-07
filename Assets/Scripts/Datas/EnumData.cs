@@ -67,6 +67,15 @@ public enum TileType
     ItemTile,
 }
 
+public enum FeverScoreType
+{
+    Movement,
+    FeverCoin,
+    MonsterKill,
+    ItemUse,
+    FeverReductionCoin,
+    TestCoin
+}
 
 public enum BGM
 {   

@@ -6,33 +6,34 @@ using UnityEngine.Rendering;
 
 public class PlayerTransformationController : MonoBehaviour
 {
-    private ITransformation currentState;
-    private TransformationType currentTransformation;
+    private TransformationType currentTransformationType;
 
     private PlayerAnimationController playerAnimationController;
     private PlayerAttackController attackController;
-    private PlayerCollisionController playerCollisionController;
     private PlayerInputController inputController;
     private TestTileManager testTileManager;
     private PlayerMovement playerMovement;
 
     public List<TransformationData> transformationDataList;
 
-    private float remainingTime;
+    public TransformationData currentTransformationData;
+    
     private bool isTransformed;
     
+    private float remainingTime;
+    private int abilityUsageCount;
+    private int previousFloor;
 
 
     void Start()
     {
         playerAnimationController = GetComponent<PlayerAnimationController>();
         attackController = GetComponent<PlayerAttackController>();
-        playerCollisionController = GetComponent<PlayerCollisionController>();
         inputController = GetComponent<PlayerInputController>();
         testTileManager = GetComponent<TestTileManager>();
         playerMovement = GetComponent<PlayerMovement>();
 
-        currentTransformation = TransformationType.NormalFrog;
+        currentTransformationType = TransformationType.NormalFrog;
         isTransformed = false;
         remainingTime = 0f;
 
@@ -43,6 +44,9 @@ public class PlayerTransformationController : MonoBehaviour
     void Update()
     {
         if (!isTransformed) return;
+
+        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+            return;
 
         if (remainingTime > 0)
         {
@@ -56,41 +60,38 @@ public class PlayerTransformationController : MonoBehaviour
             }
         }
     }
-
-
-
+    
     public bool IsTransformed()
     {
-        Debug.Log($"변신 상태 확인 {isTransformed}");
         return isTransformed;
     }
     
+
     public TransformationType GetCurrentTransformation()
     {
-        return currentTransformation;
+        return currentTransformationType;
     }
 
 
-    public void Transform(TransformationData transformationData)
+    public void Transform(TransformationType transformationType)
     {
-        if (currentTransformation == transformationData.transformationType) return;
+        if (IsFeverBlockingTransform()) return;
+
+        if (currentTransformationType == transformationType) return;
+
+        TransformationData transformationData = GetCurrentTransformationData(transformationType);
         
-
-        playerAnimationController.PlayerTransformationAnimation(transformationData.transformationType);
-        currentTransformation = transformationData.transformationType;
-
-        remainingTime = transformationData.duration;
+        if (transformationData == null) return;
+        
+        currentTransformationType = transformationType;
+        currentTransformationData = transformationData;
+        
         isTransformed = true;
-
-        attackController.SetTransformedState(true, transformationData.specialAbility);
-
-        currentState = new TransformationState(this, transformationData);
-
-        if (currentState != null)
-        {
-            currentState.Activate();
-            Debug.Log($"현재 특수 능력 횟수 {transformationData.specialAbility.maxUsageCount}");
-        }
+        
+        remainingTime = transformationData.duration;
+        abilityUsageCount = transformationData.specialAbility.maxUsageCount;
+        
+        playerAnimationController.PlayerTransformationAnimation(transformationType);
     }
 
 
@@ -98,34 +99,31 @@ public class PlayerTransformationController : MonoBehaviour
     public void DeTransform()
     {
         if (!isTransformed) return;
-
-        Debug.Log("변신 강제 해제 실행");
-
-        ResetTransformationTimer();
         
-        currentTransformation = TransformationType.NormalFrog;
-        currentState = null;
-        //isTransformed = false;
+        currentTransformationType = TransformationType.NormalFrog;
 
         Debug.Log("변신 해제 완료. NormalFrog 상태");
 
         playerAnimationController.StartRevertAnimation();
-
-        attackController.SetTransformedState(false, null);
-
+        
+        currentTransformationData = null;
+        
         EnablePlayerInput(false);
 
-        playerCollisionController.EnableMonsterIgnore(0f);
+        playerMovement.EnableMonsterIgnore(0f);
       
+        ResetTransformation();
         StartCoroutine(RevertToNormalAfterDelay());
 
     }
 
 
-    public void ResetTransformationTimer()
+    public void ResetTransformation()
     {
         remainingTime = 0f;
         isTransformed = false;
+        currentTransformationData = null;
+        abilityUsageCount = 0;
     }
 
 
@@ -134,10 +132,7 @@ public class PlayerTransformationController : MonoBehaviour
         yield return new WaitUntil(() => playerAnimationController.IsAnimationPlaying("RevertToNormal"));
 
         Debug.Log("변신 해제 애니메이션 종료");
-
-
         playerAnimationController.ResetAllAnimation();
-        currentTransformation = TransformationType.NormalFrog;
 
         yield return new WaitForSeconds(1.5f);
 
@@ -145,19 +140,9 @@ public class PlayerTransformationController : MonoBehaviour
 
     }
 
-
-
-    public ITransformation GetCurrentState()
+    public TransformationData GetCurrentTransformationData(TransformationType transformationType)
     {
-        return currentState;
-    }
-
-
-
-    public TransformationData GetCurrentTransformationData()
-    {
-
-        return transformationDataList.Find(data => data.transformationType == currentTransformation);
+        return transformationDataList.Find(data => data.transformationType ==transformationType);
     }
 
 
@@ -169,4 +154,57 @@ public class PlayerTransformationController : MonoBehaviour
         }
     }
 
+    
+
+    public void UseSpecialAbility()
+    {
+        if (abilityUsageCount <= 0)
+        {
+            return;
+        }
+
+        if (currentTransformationType ==TransformationType.NinjaFrog )
+        {
+            previousFloor = playerMovement.CurrentFloor;
+        }
+
+
+        currentTransformationData.specialAbility.ActivateAbility(transform, currentTransformationData);
+        abilityUsageCount--;
+
+        Debug.Log($"특수 능력 사용 완료. 현재 남은 횟수 {abilityUsageCount}");
+        
+        if (abilityUsageCount <= 0)
+        {
+            StartCoroutine(WaitAssassination());
+        }
+        
+        attackController.ResetAttackState();
+    }
+
+    private IEnumerator WaitAssassination()
+    { 
+        yield return new WaitForSeconds(playerAnimationController.GetAssassinationAnimationLength());
+
+        DeTransform();
+    }
+
+
+    public int GetNinjaPreviousFloor()
+    {
+        return previousFloor;
+    }
+
+    public bool IsFeverBlockingTransform()
+    {
+        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+            return true;
+
+        if (currentTransformationType == TransformationType.GoldenFrog)
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -10,12 +10,12 @@ public class PlayerAttackController : MonoBehaviour
 {
 
     private bool isAttacking = false;
-    private bool isTransformed = false;
 
     private PlayerAnimationController playerAnimationController;
     private PlayerInputController playerInputController;
     [SerializeField] TestTileManager testTileManager;
-    private PlayerTransformationController playerTransformationController;
+    private PlayerTransformationController transformController;
+    private PlayerMovement playerMovement;
 
     [SerializeField] private int currentFloor = 0;
 
@@ -36,75 +36,39 @@ public class PlayerAttackController : MonoBehaviour
 
         playerAnimationController = GetComponent<PlayerAnimationController>();
         playerInputController = GetComponent<PlayerInputController>();
-        playerTransformationController = GetComponent<PlayerTransformationController>();
+        transformController = GetComponent<PlayerTransformationController>();
+        playerMovement = GetComponent<PlayerMovement>();
 
         playerInputController.OnAttackEvent -= PerformAttack;
         playerInputController.OnAttackEvent += PerformAttack;
 
     }
 
-
-    public void SetTransformedState(bool transformed, SpecialAbilityData ability)
+    public void PerformAttack()
     {
-
-        isTransformed = transformed;
-        specialAbilityData = ability;
-        Debug.Log($"변신 상태 변경 - 변신 여부: {transformed}, 특수 능력: {(ability != null ? "설정됨" : "NULL")}");
+        if (FeverSystem.Instance !=null && FeverSystem.Instance.isFeverActive) 
+            return;
 
 
-    }
-
-
-    void PerformAttack()
-    {
         if (isAttacking)
         {
             Debug.Log("공격 중일 때 추가 공격 불가능");
             return;
         }
 
-
-        if (isTransformed && specialAbilityData != null)
+        if (transformController.IsTransformed())
         {
-            TransformationData currentTransformationData =
-            playerTransformationController.GetCurrentTransformationData();
+            TransformationData currentTransformationData = transformController.currentTransformationData;
+            specialAbilityData = currentTransformationData.specialAbility;
 
-            if (currentTransformationData == null)
-            {
-                NormalAttack();
-                return;
-            }
-
-            TransformationState currentState = 
-                playerTransformationController.GetCurrentState() as TransformationState;
-
-            if (currentState != null)
-            {
-                if (currentState.GetRemainingAbilityUses() > 0)
-                {
-                    currentState.UseSpecialAbility();
-                    Debug.Log($"능력 사용 후 남은 횟수 {currentState.GetRemainingAbilityUses()}");
-                }
-                else
-                {
-                    Debug.Log("특수 능력 횟수 0. 기본 공격 실행");
-                    NormalAttack();
-                }
-            }
-
-            else
-            {
-                Debug.Log("특수 능력 상태 없음. 기본 공격 실행");
-                NormalAttack();
-            }
+            transformController.UseSpecialAbility();
         }
         else
         {
-            Debug.Log("변신 상태 아님. 기본 공격 실행");
             NormalAttack();
-
         }
     }
+
 
 
     void NormalAttack()
@@ -112,33 +76,34 @@ public class PlayerAttackController : MonoBehaviour
         Tile forwardTile = testTileManager.GetForwardTile(transform.position);
         if (forwardTile == null) return;
 
-
         bool attackLeft = forwardTile.TileOnLeft(transform);
 
         playerAnimationController.SetAttacking(attackLeft);
 
-        isAttacking = true;
-        Debug.Log("공격 시작");
         StartCoroutine(ResetAttackFlag());
 
-        SpawnAttackEffect(forwardTile, attackLeft);
+        isAttacking = true;
+        Debug.Log("공격 시작");
 
+        SpawnAttackEffect();
     }
 
 
-    void SpawnAttackEffect(Tile forwardTile, bool attackLeft)
+
+    public void SpawnAttackEffect()
     {
-        if (attackEffectPrefab == null || forwardTile == null)
-        {
-            Debug.LogError("타격 이펙트 프리팹 생성 위치가 설정되지 않음");
+        if (attackEffectPrefab == null)
             return;
-        }
+
+        Tile forwardTile = testTileManager.GetForwardTile(transform.position);
+
+        bool attackLeft = forwardTile.TileOnLeft(transform);
 
         Vector3 spawnPosition = forwardTile.transform.position;
 
         Quaternion rotation = attackLeft ? Quaternion.Euler(0f, 180f, 0f) : Quaternion.identity;
 
-        GameObject effect = Instantiate(attackEffectPrefab, spawnPosition, rotation);
+        Instantiate(attackEffectPrefab, spawnPosition, rotation);
     }
 
 
@@ -154,7 +119,7 @@ public class PlayerAttackController : MonoBehaviour
 
     public void ResetAttackState()
     {
-        isAttacking = false ;
+        isAttacking = false;
         Debug.Log("공격 상태 초기화 완료. 기본 공격 가능");
     }
 }

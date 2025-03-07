@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class NinjaAttackEffect : MonoBehaviour
 {
-    public int damage = 999; // 기본 공격력
-    public float lifetime = 0.35f; // 타격 이펙트 지속 시간
+    public int damage = 999; 
+    public float lifetime = 0.35f;
 
     private void Start()
     {
-        Destroy(gameObject, lifetime); // 일정 시간 후 자동 삭제
+        Destroy(gameObject, lifetime);
     }
 
 

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -5054200074387192924}
   m_Layer: 0
   m_Name: HideNext
-  m_TagString: Tile
+  m_TagString: HideNext
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -128,5 +128,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.2}
+  m_Size: {x: 0.5, y: 0.2}
   m_EdgeRadius: 0

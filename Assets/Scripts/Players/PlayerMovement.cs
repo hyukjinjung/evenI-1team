@@ -10,25 +10,36 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private bool isAutoMode = false;
-    
-    private bool isJumping = false;
-    private bool isGameOver = false; // °ÔÀÓ ¿À¹ö Áßº¹ ¹æÁö
-    private float deathHeight = -5f; // Ä³¸¯ÅÍ°¡ ¶³¾îÁö¸é °ÔÀÓ ¿À¹öµÇ´Â ³ôÀÌ
 
-    private Vector2 leftDirection = new Vector2(-1f, 1f); // ÁÂÇ¥´Â Å¸ÀÏ °£°Ý¿¡ µû¶ó º¯µ¿
-    private Vector2 rightDirection = new Vector2(1f, 1f); // ÁÂÇ¥´Â Å¸ÀÏ °£°Ý¿¡ µû¶ó º¯µ¿
+    [SerializeField] private CanvasGroup DarkOverlay; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ UI
+
+    private float deathHeight = -5f; // Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½
+
+    public bool isJumping { get; private set; } = false;
+    public bool isGameOver { get; private set; } = false; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ ï¿½ï¿½ï¿½ï¿½
+
+    private readonly Vector2 leftDirection = new Vector2(-1f, 1f); // ï¿½ï¿½Ç¥ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½Ý¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private readonly Vector2 rightDirection = new Vector2(1f, 1f); // ï¿½ï¿½Ç¥ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½Ý¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     private Rigidbody2D rb;
     private PlayerInputController playerInputController;
     private PlayerAnimationController playerAnimationController;
     private PlayerTransformationController playerTransformationController;
-    private PlayerCollisionController collisionController;
-        
+    private PlayerAttackController attackController;
+
     [SerializeField] TestTileManager testTileManager;
     [SerializeField] private int currentFloor = 0;
 
-    public JumpEffectSpawner jumpEffectSpawner;
-    public GameManager gameManager;
+    public int CurrentFloor { get => currentFloor; }
+
+    [SerializeField] private JumpEffectSpawner jumpEffectSpawner;
+    private GameManager gameManager;
+
+    private bool canIgnoreMonster = false;
+
+    private Vector3 lastJumpPosition;
+    private bool isRecoveringFromFall = false;
+
 
     private void Awake()
     {
@@ -36,208 +47,282 @@ public class PlayerMovement : MonoBehaviour
         playerAnimationController = GetComponent<PlayerAnimationController>();
         playerInputController = GetComponent<PlayerInputController>();
         playerTransformationController = GetComponent<PlayerTransformationController>();
-        collisionController = GetComponentInParent<PlayerCollisionController>();
-        
-        playerInputController.OnJumpEvent -= Jump; // ±âÁ¸ ¸®½º³Ê¸¦ Á¦°ÅÇÑ ÈÄ ´Ù½Ã µî·Ï(Áßº¹ ½ÇÇà ¹æÁö)
+        attackController = GetComponentInParent<PlayerAttackController>();
+
+
+        playerInputController.OnJumpEvent -= Jump;
         playerInputController.OnJumpEvent += Jump;
     }
 
     void Start()
     {
         gameManager = GameManager.Instance;
-
     }
 
 
 
     void Update()
     {
-        if (isGameOver) return;
-
-        if(isJumping && rb.velocity.y < 0)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, -12f);
-        }
-
-        playerAnimationController.SetJumping(isJumping);
-
-    }
-
-    private void FixedUpdate()
-    {
-        if (isGameOver) return;
+        if (isGameOver || isRecoveringFromFall) return;
 
         if (transform.position.y < -0.3f)
         {
-            Debug.Log("ÇÃ·¹ÀÌ¾î Ãß¶ô. °ÔÀÓ ¿À¹ö");
-            TriggerGameOver();
+            if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+            {
+                StartCoroutine(RecoverFromFall());
+                return;
+            }
+
+            Debug.Log("ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ß¶ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+            gameManager.GameOver();
         }
     }
 
-
-    private void TriggerGameOver()
-    {
-        if (isGameOver) return;
-
-        isGameOver = true;
-
-        if (playerAnimationController != null)
-        {
-            playerAnimationController.PlayGameOverAnimation();
-        }
-
-        GameManager.Instance.GameOver();
-    }
 
 
     public void Jump(bool jumpLeft)
     {
         if (isGameOver || isJumping) return;
 
+        gameManager.AddScore(1);
 
-        //Tile tile = testTileManager.GetNextTile(currentFloor);
         Tile tile = testTileManager.GetForwardTile(transform.position);
 
         if (tile == null) return;
 
         bool isLeft = tile.TileOnLeft(transform);
-        
+
         //if (isAutoMode)
         //{
         //    Tile temp = testTileManager.GetNextTile(currentFloor);
-        //    jumpLeft =  transform.position.x > temp.transform.position.x;
+        //    jumpLeft = transform.position.x > temp.transform.position.x;
         //}
-        
-        if (tile.HasMonster() && collisionController != null && collisionController.CanIgnoreMonster())
-        {
 
-            Debug.Log("NinjaFrog »óÅÂ. ¸ó½ºÅÍ ¹«½ÃÇÏ°í Á¡ÇÁ");
-            PerformJump(jumpLeft);
-            return;
-
-        }
-
+        lastJumpPosition = transform.position;
 
         PerformJump(jumpLeft);
         isJumping = true;
         playerAnimationController.SetJumping(true);
 
-
         CheckGameOver(isLeft, jumpLeft);
-
     }
-
 
 
     void PerformJump(bool jumpLeft)
     {
-        if (isGameOver || isJumping) return; 
-        
-        // TODO:: À§Ä¡´Â ¸ÂÃç¼­ ¼öÁ¤
-        gameManager.AddScore(1);
-        
-        isJumping = true; // Á¡ÇÁ Áß
+        if (isGameOver || isJumping) return;
+
+        isJumping = true;
 
         Vector2 previousPosition = transform.position;
-
-        
-                                                        
         Vector2 jumpDirection = jumpLeft ? leftDirection : rightDirection;
-
         Vector2 targetPosition = (Vector2)transform.position + jumpDirection;
         targetPosition.y += 0.5f;
-        
+
         Tile targetTile = testTileManager.GetNextTile(currentFloor);
 
-     
-        if (targetTile != null && targetTile.HasMonster() && collisionController != null)
+        if (targetTile != null)
         {
-            if (collisionController.CanIgnoreMonster())
-            {
-                Debug.Log("NinjaFrog »óÅÂ. ¸ó½ºÅÍ Å¸ÀÏ À§·Î ÂøÁö");
-
-               
-                targetPosition = targetTile.transform.position;
-            }
-            else
-            {
-                Debug.Log("NormalFrog »óÅÂ. ¸ó½ºÅÍ Å¸ÀÏÀ» ¹âÀ» ¼ö ¾øÀ½");
-                GameManager.Instance.GameOver();
-            }
-
+            FeverSystem.Instance.AddFeverScore(FeverScoreType.Movement);
         }
 
-        transform.position = targetPosition;
+        TogglePlatform invisibleTile = targetTile != null ? targetTile.GetComponent<TogglePlatform>() : null;
 
+        if (invisibleTile != null && !invisibleTile.IsVisible())
+        {
+            StartCoroutine(GameOverDueToInvisible(targetTile));
+        }
+
+        if (!HandleMonsterOnTile(targetTile, ref targetPosition))
+            return;
+
+
+        transform.position = targetPosition;
+        isJumping = false;
+        //StartCoroutine(JumpSmoothly(previousPosition, targetPosition));
 
         jumpEffectSpawner.SpawnJumpEffect(previousPosition);
-
         currentFloor++;
 
-        isJumping = false;
     }
 
+
+    //private IEnumerator JumpSmoothly(Vector3 start, Vector3 end, float speed = 20f)
+    //{
+    //    float duration = 0.3f;
+    //    float elapsedTime = 0f;
+
+    //    while (elapsedTime < duration)
+    //    {
+    //        float t = elapsedTime / duration;
+    //        transform.position = Vector3.Lerp(start, end, t);
+    //        elapsedTime += Time.deltaTime * speed;
+    //        yield return null;
+    //    }
+
+    //    transform.position = end;
+    //    isJumping = false;
+
+    //}
+
+
+    private bool HandleMonsterOnTile(Tile targetTile, ref Vector2 targetPosition)
+    {
+        if (targetTile == null) return false;
+
+        if (!targetTile.HasMonster()) return true;
+
+        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+            return true;
+
+        if (CanIgnoreMonster())
+            return true;
+
+        gameManager.GameOver();
+        isGameOver = true;
+
+        return false;
+    }
+
+    private IEnumerator RecoverFromFall()
+    {
+        if (isRecoveringFromFall) yield break;
+        isRecoveringFromFall = true;
+
+        float fallTime = 0.5f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < fallTime)
+        {
+            transform.position += Vector3.down * Time.deltaTime * 2f;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = lastJumpPosition;
+
+        gameManager.PlayerAnimationController.SetFeverMode(true);
+
+        isRecoveringFromFall = false;
+    }
 
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-     
         if (collision.gameObject.CompareTag("Tile"))
         {
             isJumping = false;
+            playerAnimationController.SetJumping(false);
+            playerAnimationController.SetJumpWait();
         }
 
-
-        if (collision.gameObject.CompareTag("Monster"))
-        {
-            bool isTransformed = playerTransformationController.IsTransformed();
-            bool canIgnoreMonster = collisionController.CanIgnoreMonster();
-
-            Debug.Log($"¸ó½ºÅÍ¿Í Ãæµ¹. º¯½Å »óÅÂ: {playerTransformationController.IsTransformed()} " +
-                $"/ Ãæµ¹ ¹«½Ã °¡´É ¿©ºÎ {collisionController.CanIgnoreMonster()}");
-
-
-            if (canIgnoreMonster)
-            {
-                Debug.Log("NinjaFrog »óÅÂ. ¸ó½ºÅÍ¿Í Ãæµ¹ ¹«½Ã");
-                return;
-            }
-
-
-            Debug.Log("NormalFrog »óÅÂ. ¸ó½ºÅÍ¿Í Ãæµ¹. °ÔÀÓ ¿À¹ö");
-            GameManager.Instance.GameOver();
-            isGameOver = true;
-        }
 
         if (collision.gameObject.CompareTag("TransformationItem"))
         {
-            Debug.Log("º¯½Å ¾ÆÀÌÅÛ È¹µæ");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¹ï¿½ï¿½");
+        }
+
+        // ? HideNext ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹ ï¿½ï¿½ï¿½ï¿½
+        if (collision.gameObject.CompareTag("HideNext"))
+        {
+            Debug.Log("HideNext ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¹ï¿½ï¿½! ï¿½ï¿½Î¿ï¿½ È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+            StartCoroutine(ApplyDarkEffect(5f)); // 5ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            Destroy(collision.gameObject); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 
-
-    private void OnCollisionExit2D(Collision2D collision)
+    private IEnumerator ApplyDarkEffect(float duration)
     {
-        isJumping = true;
-    }
+        if (DarkOverlay == null)
+        {
+            Debug.LogError("DarkOverlayï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò½ï¿½ï¿½Ï´ï¿½! Unityï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
+            yield break;
+        }
 
+        // ? ï¿½ï¿½Î¿ï¿½ È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        DarkOverlay.alpha = 1f;
+
+        yield return new WaitForSeconds(duration);
+
+        // ? È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        DarkOverlay.alpha = 0f;
+    }
 
 
     void CheckGameOver(bool isLeft, bool jumpLeft)
     {
+        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+            return;
+
         if (isLeft == jumpLeft)
         {
-            Debug.Log("Á¤»ó ÀÌµ¿. °ÔÀÓ ¿À¹ö ¾Æ´Ô");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½");
             return;
         }
 
-        Debug.Log("Àß¸øµÈ Á¡ÇÁ ¹æÇâ. °ÔÀÓ ¿À¹ö Ã³¸®µÊ");
-        GameManager.Instance.GameOver();
+        Debug.Log("ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½");
+        gameManager.GameOver();
     }
 
 
-    public void SetCurrentFloor(int floor)
+    private IEnumerator GameOverDueToInvisible(Tile targetTile)
     {
-        currentFloor = floor;
+        if (targetTile == null) yield break;
+
+        TogglePlatform invisibleTile = targetTile.GetComponent<TogglePlatform>();
+        if (invisibleTile == null) yield break;
+
+        while (invisibleTile.IsVisible())
+        {
+            yield return null;
+        }
+
+        float PlayerY = transform.position.y;
+        float TileY = targetTile.transform.position.y;
+
+        if (PlayerY < TileY - 0.3f)
+        {
+            gameManager.GameOver();
+        }
+    }
+
+
+    public void EnableMonsterIgnore(float duration)
+    {
+        canIgnoreMonster = true;
+        Debug.Log($"ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½æµ¹ ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­. ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ {duration}");
+
+        StartCoroutine(DisableMonsterIgnoreAfterDelay(duration));
+    }
+
+
+    private IEnumerator DisableMonsterIgnoreAfterDelay(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        canIgnoreMonster = false;
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹ ï¿½ï¿½È°ï¿½ï¿½È­");
+
+    }
+
+
+    public bool CanIgnoreMonster()
+    {
+        if (playerTransformationController.GetCurrentTransformation() ==
+            TransformationType.NinjaFrog)
+        {
+            return true;
+        }
+
+        return canIgnoreMonster;
+    }
+
+
+    public void UpdateCurrentFloor()
+    {
+        int floor = testTileManager.GetFloorByPosition(transform.position);
+        if (floor != -1)
+        {
+            currentFloor = floor;
+        }
     }
 }
