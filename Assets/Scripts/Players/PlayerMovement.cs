@@ -95,13 +95,13 @@ public class PlayerMovement : MonoBehaviour
         //    jumpLeft = transform.position.x > temp.transform.position.x;
         //}
 
-        if (tile.HasMonster() && CanIgnoreMonster())
-        {
+        //if (tile.HasMonster() && CanIgnoreMonster())
+        //{
 
-            Debug.Log("NinjaFrog ����. ���� �����ϰ� ����");
-            PerformJump(jumpLeft);
-            return;
-        }
+        //    Debug.Log("NinjaFrog ����. ���� �����ϰ� ����");
+        //    PerformJump(jumpLeft);
+        //    return;
+        //}
 
         PerformJump(jumpLeft);
         isJumping = true;
@@ -136,21 +136,23 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(GameOverDueToInvisible(targetTile));
         }
 
+        if (!HandleMonsterOnTile(targetTile, ref targetPosition))
+            return;
 
-        if (targetTile != null && targetTile.HasMonster())
-        {
-            if (CanIgnoreMonster())
-            {
-                Debug.Log("NinjaFrog ����. ���� Ÿ�� ���� ����");
-                targetPosition = targetTile.transform.position;
-            }
-            else
-            {
-                Debug.Log("NormalFrog ����. ���� Ÿ���� ���� �� ����");
-                gameManager.GameOver();
-            }
 
-        }
+        //if (targetTile != null && targetTile.HasMonster())
+        //{
+        //    if (CanIgnoreMonster())
+        //    {
+        //        Debug.Log("NinjaFrog ����. ���� Ÿ�� ���� ����");
+        //        targetPosition = targetTile.transform.position;
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("NormalFrog ����. ���� Ÿ���� ���� �� ����");
+        //        gameManager.GameOver();
+        //    }
+        //}
 
         transform.position = targetPosition;
         isJumping = false;
@@ -181,6 +183,23 @@ public class PlayerMovement : MonoBehaviour
     //}
 
 
+    private bool HandleMonsterOnTile(Tile targetTile, ref Vector2 targetPosition)
+    {
+        if (targetTile == null) return false;
+
+        if (!targetTile.HasMonster()) return true;
+
+        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+            return true;
+
+        if (CanIgnoreMonster())
+            return true;
+
+        gameManager.GameOver();
+        isGameOver = true;
+
+        return false;
+    }
 
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -192,24 +211,27 @@ public class PlayerMovement : MonoBehaviour
             playerAnimationController.SetJumpWait();
         }
 
-        if (collision.gameObject.CompareTag("Monster"))
-        {
-            bool isTransformed = playerTransformationController.IsTransformed();
-            bool canIgnoreMonster = CanIgnoreMonster();
+        //if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+        //    return;
 
-            Debug.Log($"���Ϳ� �浹. ���� ����: {playerTransformationController.IsTransformed()} " +
-                $"/ �浹 ���� ���� ���� {CanIgnoreMonster()}");
+        //if (collision.gameObject.CompareTag("Monster"))
+        //{
+        //    bool isTransformed = playerTransformationController.IsTransformed();
+        //    bool canIgnoreMonster = CanIgnoreMonster();
 
-            if (canIgnoreMonster)
-            {
-                Debug.Log("NinjaFrog ����. ���Ϳ� �浹 ����");
-                return;
-            }
+        //    Debug.Log($"���Ϳ� �浹. ���� ����: {playerTransformationController.IsTransformed()} " +
+        //        $"/ �浹 ���� ���� ���� {CanIgnoreMonster()}");
 
-            Debug.Log("NormalFrog ����. ���Ϳ� �浹. ���� ����");
-            gameManager.GameOver();
-            isGameOver = true;
-        }
+        //    if (canIgnoreMonster)
+        //    {
+        //        Debug.Log("NinjaFrog ����. ���Ϳ� �浹 ����");
+        //        return;
+        //    }
+
+        //    Debug.Log("NormalFrog ����. ���Ϳ� �浹. ���� ����");
+        //    gameManager.GameOver();
+        //    isGameOver = true;
+        //}
 
         if (collision.gameObject.CompareTag("TransformationItem"))
         {
