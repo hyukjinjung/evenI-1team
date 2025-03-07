@@ -69,7 +69,8 @@ public enum TileType
 
 
 public enum BGM
-{
+{   
+   
     LobbyBGM,               // Lobby background music
 
     // StageSetupBGM
@@ -78,7 +79,7 @@ public enum BGM
     GameProgress,           // In-game progress 게임 진행 
     FeverMap,               // Fever map event
 }
-public enum SoundEffect
+public enum SoundEffectType
 {
     LobbyButtonTouch,       // Lobby button touch effect
 
@@ -130,16 +131,42 @@ public enum SoundEffect
 }
 
 
-public enum BackGroundMusic
+public enum BGMType
 {
+    None,
     LobbyBGM,               // Lobby background music
-
-    // StageSetupBGM
-    // Stage setup background music
     PreGameCutscene,        // Pre-game cutscene
     GameProgress,           // In-game progress 게임 진행 
     FeverMap,               // Fever map event
 }
+
+
+public enum BtnType
+{
+  SettingInstagrambutton,
+  SettingSourceButton,
+  SettingSoundEffectButton,
+  SettingBGMButton,
+  SettingReturnButton,
+  PauseMainHomeButton,
+  PauseContinueButton,
+  PauseBGMButton,
+  PauseSoundEffectButton,
+  CautionMainHomeButton,
+  CautionContinueButton,
+  AdsComeBackButton,
+  SkipButton,
+  ResultScoreTwiceButton,
+  ResultReStartButton,
+  ResultMainHomeButton,
+  ResultCoinTwiceButton,
+  StoryReTurnButton,
+  StoryButton,
+  CreditsReTurnButton,
+
+}
+   
+
 
 
 public class EnumData : MonoBehaviour

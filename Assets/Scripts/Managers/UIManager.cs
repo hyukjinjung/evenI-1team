@@ -38,6 +38,11 @@ public class UIManager : MonoBehaviour
 
     //public GameObject StoryPanel;
     //public GameObject CreditPanel;
+
+    SoundUI soundUI;
+    public SoundUI SoundUI { get { return SoundUI; } }
+
+
     
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI bestScoreText;
@@ -99,6 +104,9 @@ public class UIManager : MonoBehaviour
         
         uiCautionPanel = GetComponentInChildren<UICautionPanel>(true);
         uiCautionPanel.Initialize(this);
+
+        //soundUI = GetComponentInChildren<SoundUI>(true);
+        //soundUI.Initialize(this);
       
     }
 
@@ -175,14 +183,13 @@ public class UIManager : MonoBehaviour
     {
 
     }
-
     public void OnClickedSettingSoundEffectButton()
     {
-
+        //soundUI.SettingSoundEffectButtonSoundState();
     }
     public void OnClickedSettingBGMButton()
     {
-
+        //soundUI.SettingBGMButtonSoundState();
     }
     public void OnClickedSettingReturnButton()
     {
@@ -209,7 +216,14 @@ public class UIManager : MonoBehaviour
         uiPausePanel.SetActive(false);
         Time.timeScale = 1f;
     }
-
+    public void OnClickedPauseBGMButton()
+    {
+        //soundUI.PauseBGMButtonSoundState();
+    }
+    public void OnClickedPauseSoundEffectButtonSoundState()
+    {
+        //soundUI.PauseSoundEffectButtonSoundState();
+    }
     public void OnCautionMainHomeButtonClicked()
     {
         RestartGame();
@@ -220,6 +234,8 @@ public class UIManager : MonoBehaviour
         uiPlayingPanel.SetActive(false);
         uiCautionPanel.SetActive(false);
         uiPausePanel.SetActive(true);
+
+        StartGame();
     }
 
     
