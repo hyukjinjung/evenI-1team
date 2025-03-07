@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private bool isAutoMode = false;
+    //[SerializeField] private bool isAutoMode = false;
 
     [SerializeField] private CanvasGroup DarkOverlay; // ������ �������� UI
 
@@ -39,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 lastJumpPosition;
     private bool isRecoveringFromFall = false;
+    private Tile lastStandTile;
 
 
     private void Awake()
@@ -133,6 +134,8 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(GameOverDueToInvisible(targetTile));
         }
 
+        //lastStandTile = testTileManager.GetForwardTile(transform.position);
+    
         if (!HandleMonsterOnTile(targetTile, ref targetPosition))
             return;
 
@@ -271,6 +274,13 @@ public class PlayerMovement : MonoBehaviour
 
         TogglePlatform invisibleTile = targetTile.GetComponent<TogglePlatform>();
         if (invisibleTile == null) yield break;
+
+        //yield return new WaitUntil(() => invisibleTile.IsVisible());
+
+        //if (transform.position.y < targetTile.transform.position.y)
+        //{
+        //    gameManager.GameOver();
+        //}
 
         while (invisibleTile.IsVisible())
         {
