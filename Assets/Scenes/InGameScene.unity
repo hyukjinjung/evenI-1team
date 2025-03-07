@@ -4365,11 +4365,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4756316905344751393, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
       propertyPath: m_Pitch
-      value: 0.28
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4756316905344751393, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
       propertyPath: m_Volume
-      value: 0.534
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4756316905344751393, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
       propertyPath: m_Enabled
