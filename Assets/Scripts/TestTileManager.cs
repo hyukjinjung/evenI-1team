@@ -266,7 +266,8 @@ public class TestTileManager : MonoBehaviour
         if (tile == null) return;
 
         TogglePlatform togglePlatform = tile.gameObject.AddComponent<TogglePlatform>();
-        togglePlatform.SetToggleInterval(3f); // ✅ Invisible 타일의 온오프 기능 추가
+        // 개별 간격 설정은 더 이상 필요 없음 (매니저가 모든 발판을 동기화)
+        // togglePlatform.SetToggleInterval(3f);
     }
 
 
