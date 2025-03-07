@@ -108,7 +108,7 @@ public class FeverSystem : MonoBehaviour
 
         Debug.Log($"현재 피버 점수 {feverScore}");
 
-        if (feverScore >= 300 && !isFeverActive)
+        if (feverScore >= 150 && !isFeverActive)
         {
             StartFever();
         }
