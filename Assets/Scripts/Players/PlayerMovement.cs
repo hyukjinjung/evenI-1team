@@ -71,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             Debug.Log("�÷��̾� �߶�. ���� ����");
-            GameManager.Instance.GameOver();
+            gameManager.GameOver();
         }
     }
 
@@ -115,7 +115,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGameOver || isJumping) return;
 
-        GameManager.Instance.AddScore(1);
         isJumping = true;
 
         Vector2 previousPosition = transform.position;
@@ -148,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 Debug.Log("NormalFrog ����. ���� Ÿ���� ���� �� ����");
-                GameManager.Instance.GameOver();
+                gameManager.GameOver();
             }
 
         }
@@ -208,7 +207,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             Debug.Log("NormalFrog ����. ���Ϳ� �浹. ���� ����");
-            GameManager.Instance.GameOver();
+            gameManager.GameOver();
             isGameOver = true;
         }
 
@@ -256,7 +255,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Debug.Log("�߸��� ���� ����. ���� ���� ó����");
-        GameManager.Instance.GameOver();
+        gameManager.GameOver();
     }
 
 
@@ -277,7 +276,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (PlayerY < TileY - 0.3f)
         {
-            GameManager.Instance.GameOver();
+            gameManager.GameOver();
         }
     }
 
