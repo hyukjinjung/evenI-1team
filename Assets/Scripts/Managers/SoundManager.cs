@@ -39,8 +39,6 @@ public class SoundMnager : MonoBehaviour
 
     public void ChangeBackGroundMusic(int index)
     {
-        //
-
         musicAudioSource.Stop();
         musicAudioSource.clip = musicClip[index];
         musicAudioSource.Play();
