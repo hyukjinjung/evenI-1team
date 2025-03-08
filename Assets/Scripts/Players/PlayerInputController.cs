@@ -14,7 +14,7 @@ public class PlayerInputController : MonoBehaviour
 
     private bool isInputActive = true;
 
-    //[SerializeField] private bool isPlayKeyboard;
+    [SerializeField] private bool isPlayKeyboard;
 
     void Start()
     {
@@ -29,11 +29,11 @@ public class PlayerInputController : MonoBehaviour
 
     public void Update()
     {
-        //if (isPlayKeyboard)
-        //{
-        //    if(Input.GetKeyDown(KeyCode.A)) CallJumpEvent(true);
-        //    if(Input.GetKeyDown(KeyCode.D)) CallJumpEvent(false);
-        //}
+        if (isPlayKeyboard)
+        {
+            if (Input.GetKeyDown(KeyCode.A)) CallJumpEvent(true);
+            if (Input.GetKeyDown(KeyCode.D)) CallJumpEvent(false);
+        }
     }
 
 
