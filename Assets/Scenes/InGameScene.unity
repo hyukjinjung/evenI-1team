@@ -1443,6 +1443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bad6ae086b55774891dd6785555b6b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayKeyboard: 1
 --- !u!114 &417875398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2600,6 +2601,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3166963492818578464, guid: 6d6848ab3156ec744bc70901896c0048, type: 3}
+      propertyPath: backGroundSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c5a76564b995b314087a4aa660a389d5, type: 3}
+    - target: {fileID: 3166963492818578464, guid: 6d6848ab3156ec744bc70901896c0048, type: 3}
+      propertyPath: feverGroundSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f284b76ff5993b24b8bdebad242c6f12, type: 3}
     - target: {fileID: 6838752668016757721, guid: 6d6848ab3156ec744bc70901896c0048, type: 3}
       propertyPath: m_Name
       value: BackGroundManager
@@ -2645,7 +2654,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1088897079553799165, guid: 6d6848ab3156ec744bc70901896c0048, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d6848ab3156ec744bc70901896c0048, type: 3}
