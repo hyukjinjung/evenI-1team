@@ -44,11 +44,13 @@ public class GameManager : MonoBehaviour
     private PlayerInputController playerInputController;
     private PlayerAttackController playerAttackController;
     private PlayerAnimationController playerAnimationController;
+    private PlayerTransformationController playerTransformationController;
     
     public PlayerMovement PlayerMovement{get{return playerMovement;}}
     public PlayerAttackController PlayerAttackController { get { return playerAttackController; } }
     public PlayerInputController PlayerInputController{get{return playerInputController;}}
     public PlayerAnimationController PlayerAnimationController{get{return playerAnimationController;}}
+    public PlayerTransformationController PlayerTransformationController{get{return playerTransformationController;}}
 
     private int score = 0;
     private int bestScore = 0;
@@ -95,6 +97,7 @@ public class GameManager : MonoBehaviour
         playerAttackController = player.GetComponent<PlayerAttackController>();
         playerInputController = player.GetComponent<PlayerInputController>();
         playerAnimationController = player.GetComponent<PlayerAnimationController>();
+        playerTransformationController = player.GetComponent<PlayerTransformationController>();
     }
 
     //private void FeverSystem_OnFeverEnd()

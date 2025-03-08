@@ -23,6 +23,7 @@ public class PlayerTransformationController : MonoBehaviour
     private float remainingTime;
     private int abilityUsageCount;
     private int previousFloor;
+    private bool isInvinsible = false;
 
 
     void Start()
@@ -64,6 +65,11 @@ public class PlayerTransformationController : MonoBehaviour
     public bool IsTransformed()
     {
         return isTransformed;
+    }
+
+    public bool IsInvinsible()
+    {
+        return isInvinsible;
     }
     
 
@@ -132,10 +138,11 @@ public class PlayerTransformationController : MonoBehaviour
         yield return new WaitUntil(() => playerAnimationController.IsAnimationPlaying("RevertToNormal"));
 
         Debug.Log("변신 해제 애니메이션 종료");
-        playerAnimationController.ResetAllAnimation();
+        //playerAnimationController.ResetAllAnimation();
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(playerAnimationController.GetAssassinationAnimationLength());
 
+        isInvinsible = false;
         EnablePlayerInput(true);
 
     }
@@ -146,7 +153,7 @@ public class PlayerTransformationController : MonoBehaviour
     }
 
 
-    private void EnablePlayerInput(bool enable)
+    public void EnablePlayerInput(bool enable)
     {
         if (inputController != null)
         {
@@ -168,6 +175,8 @@ public class PlayerTransformationController : MonoBehaviour
             previousFloor = playerMovement.CurrentFloor;
         }
 
+        isInvinsible = true;
+        EnablePlayerInput(false);
 
         currentTransformationData.specialAbility.ActivateAbility(transform, currentTransformationData);
         abilityUsageCount--;
@@ -206,5 +215,11 @@ public class PlayerTransformationController : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void SetInvincible(bool value)
+    {
+        isInvinsible = value;
+
     }
 }

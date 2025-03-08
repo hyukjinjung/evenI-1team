@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerInputController playerInputController;
     private PlayerAnimationController playerAnimationController;
-    private PlayerTransformationController playerTransformationController;
+    //private PlayerTransformationController playerTransformationController;
     private PlayerAttackController attackController;
 
     [SerializeField] TestTileManager testTileManager;
@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private JumpEffectSpawner jumpEffectSpawner;
     private GameManager gameManager;
+    private FeverSystem feverSystem;
 
     private bool canIgnoreMonster = false;
 
@@ -47,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerAnimationController = GetComponent<PlayerAnimationController>();
         playerInputController = GetComponent<PlayerInputController>();
-        playerTransformationController = GetComponent<PlayerTransformationController>();
+        //playerTransformationController = GetComponent<PlayerTransformationController>();
         attackController = GetComponentInParent<PlayerAttackController>();
 
 
@@ -58,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         gameManager = GameManager.Instance;
+        feverSystem = GameManager.Instance.feverSystem;
     }
 
 
@@ -68,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (transform.position.y < -0.3f)
         {
-            if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+            if (feverSystem != null && feverSystem.isFeverActive)
             {
                 StartCoroutine(RecoverFromFall());
                 return;
@@ -115,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 targetPosition = (Vector2)transform.position + jumpDirection;
         targetPosition.y += 0.5f;
         
-        FeverSystem.Instance.AddFeverScore(FeverScoreType.Movement);
+        feverSystem.AddFeverScore(FeverScoreType.Movement);
 
         TogglePlatform invisibleTile = targetTile != null ? targetTile.GetComponent<TogglePlatform>() : null;
 
@@ -142,11 +144,15 @@ public class PlayerMovement : MonoBehaviour
     private bool HandleMonsterOnTile(Tile targetTile, ref Vector2 targetPosition)
     {
         if (targetTile == null) return false;
+        
+        if (feverSystem != null && feverSystem.isFeverActive)
+            return true;
+
+        if (gameManager.PlayerTransformationController != null && gameManager.PlayerTransformationController.IsInvinsible())
+            return true;
 
         if (!targetTile.HasMonster()) return true;
 
-        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
-            return true;
 
         if (CanIgnoreMonster())
             return true;
@@ -162,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
         if (isRecoveringFromFall) yield break;
         isRecoveringFromFall = true;
 
-        float fallTime = 0.5f;
+        float fallTime = 0.4f;
         float elapsedTime = 0f;
 
         while (elapsedTime < fallTime)
@@ -182,6 +188,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
         if (collision.gameObject.CompareTag("Tile"))
         {
             isJumping = false;
@@ -189,13 +196,10 @@ public class PlayerMovement : MonoBehaviour
             playerAnimationController.SetJumpWait();
         }
 
+        if (feverSystem != null && feverSystem.isFeverActive)
+            return;
 
-        //if (collision.gameObject.CompareTag("TransformationItem"))
-        //{
-        //    Debug.Log("���� ������ ȹ��");
-        //}
 
-        // ? HideNext ������ �浹 ����
         if (collision.gameObject.CompareTag("HideNext"))
         {
             Debug.Log("HideNext ������ ȹ��! ��ο� ȿ�� ����");
@@ -224,7 +228,7 @@ public class PlayerMovement : MonoBehaviour
 
     bool CheckGameOver(bool isLeft, bool jumpLeft)
     {
-        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+        if (feverSystem != null && feverSystem.isFeverActive)
             return false;
 
         if (isLeft == jumpLeft)
@@ -238,15 +242,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (targetTile == null) yield break;
 
+        if (feverSystem != null && feverSystem.isFeverActive)
+        {
+            yield break;
+        }
+
         TogglePlatform invisibleTile = targetTile.GetComponent<TogglePlatform>();
         if (invisibleTile == null) yield break;
-
-        //yield return new WaitUntil(() => invisibleTile.IsVisible());
-
-        //if (transform.position.y < targetTile.transform.position.y)
-        //{
-        //    gameManager.GameOver();
-        //}
 
         while (invisibleTile.IsVisible())
         {
@@ -256,7 +258,7 @@ public class PlayerMovement : MonoBehaviour
         float PlayerY = transform.position.y;
         float TileY = targetTile.transform.position.y;
 
-        if (PlayerY < TileY - 0.3f)
+        if (PlayerY < TileY - 0.2f)
         {
             gameManager.GameOver();
         }
@@ -280,7 +282,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool CanIgnoreMonster()
     {
-        if (playerTransformationController.GetCurrentTransformation() ==
+        if (gameManager.PlayerTransformationController.GetCurrentTransformation() ==
             TransformationType.NinjaFrog)
         {
             return true;

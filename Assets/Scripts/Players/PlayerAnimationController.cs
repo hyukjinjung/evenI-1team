@@ -130,7 +130,6 @@ public class PlayerAnimationController : MonoBehaviour
     public void StartRevertAnimation()
     {
         if (IsAnimationPlaying("RevertToNormal")) return;
-        //ResetAllAnimation();
 
         animator.Play("RevertToNormal");
 
@@ -150,5 +149,7 @@ public class PlayerAnimationController : MonoBehaviour
         ResetAllAnimation();
 
         animator.SetTrigger("ToJumpWait");
+        //GameManager.Instance.PlayerTransformationController.SetInvincible(false);
+        //GameManager.Instance.PlayerTransformationController.EnablePlayerInput(true);
     }
 }
