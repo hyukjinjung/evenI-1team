@@ -103,6 +103,13 @@ public class NinjaAbility : SpecialAbilityData
             {
                 FeverSystem.Instance.AddFeverScore(FeverScoreType.Movement);
             }
+
+            // 타일 매니저 찾아서 새 타일 생성 메서드 호출
+            TestTileManager tileManager = FindObjectOfType<TestTileManager>();
+            if (tileManager != null)
+            {
+                tileManager.GenerateTilesAfterNinjaEffect(skippedTiles);
+            }
         }
         playerAnimationController.StartRevertAnimation();
     }

@@ -266,7 +266,8 @@ public class TestTileManager : MonoBehaviour
         if (tile == null) return;
 
         TogglePlatform togglePlatform = tile.gameObject.AddComponent<TogglePlatform>();
-        togglePlatform.SetToggleInterval(3f); // ✅ Invisible 타일의 온오프 기능 추가
+        // 개별 간격 설정은 더 이상 필요 없음 (매니저가 모든 발판을 동기화)
+        // togglePlatform.SetToggleInterval(3f);
     }
 
 
@@ -326,5 +327,17 @@ public class TestTileManager : MonoBehaviour
         }
 
         return -1;
+    }
+
+    // 닌자 효과로 건너뛴 타일 수만큼 새 타일 생성하는 메서드
+    public void GenerateTilesAfterNinjaEffect(int skippedTiles)
+    {
+        // 건너뛴 타일 수만큼 새 타일 생성
+        for (int i = 0; i < skippedTiles; i++)
+        {
+            GenerateTile();
+        }
+        
+        Debug.Log($"닌자 효과: {skippedTiles}개의 새 타일이 생성되었습니다.");
     }
 }

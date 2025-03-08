@@ -129,12 +129,17 @@ public class PlayerTransformationController : MonoBehaviour
 
     private IEnumerator RevertToNormalAfterDelay()
     {
+        if(playerAnimationController.IsAnimationPlaying("RevertToNormal"))
+        {
+            yield break;
+        }
+
         yield return new WaitUntil(() => playerAnimationController.IsAnimationPlaying("RevertToNormal"));
 
         Debug.Log("변신 해제 애니메이션 종료");
         playerAnimationController.ResetAllAnimation();
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.0f);
 
         EnablePlayerInput(true);
 

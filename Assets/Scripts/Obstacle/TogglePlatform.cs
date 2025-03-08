@@ -1,16 +1,31 @@
 using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class TogglePlatform : MonoBehaviour
 {
+    // 싱글톤 인스턴스 - 모든 발판의 타이밍 동기화를 위함
+    public static TogglePlatformManager Manager { get; private set; }
+
     [Header("Toggle Settings")]
-    [SerializeField] private float toggleInterval = 1f;   // 상태 전환 간격
-    [SerializeField] private float fadeTime = 0.1f;         // 페이드 효과 시간
+    [SerializeField] private float fadeTime = 0.1f;       // 페이드 효과 시간
 
     private SpriteRenderer spriteRenderer;
     private Collider2D platformCollider;
     private bool isVisible = true;
     private Color originalColor;
+    private Coroutine fadeCoroutine;
+
+    private void Awake()
+    {
+        // 매니저가 없으면 생성
+        if (Manager == null)
+        {
+            GameObject managerObj = new GameObject("TogglePlatformManager");
+            Manager = managerObj.AddComponent<TogglePlatformManager>();
+            DontDestroyOnLoad(managerObj);
+        }
+    }
 
     private void Start()
     {
@@ -24,33 +39,86 @@ public class TogglePlatform : MonoBehaviour
         }
 
         originalColor = spriteRenderer.color;
-        StartCoroutine(TogglePlatformRoutine());
+        
+        // 매니저에 이 발판 등록 및 현재 상태 동기화
+        Manager.RegisterPlatform(this);
+        
+        // 현재 매니저의 상태에 맞게 초기 상태 설정
+        SyncWithManager();
     }
 
-    public void SetToggleInterval(float interval)
+    // 매니저의 현재 상태와 동기화
+    public void SyncWithManager()
     {
-        toggleInterval = interval;
-    }
-
-    private IEnumerator TogglePlatformRoutine()
-    {
-        while (true)
+        if (Manager == null) return;
+        
+        // 매니저의 현재 상태 확인
+        bool shouldBeVisible = Manager.GetCurrentVisibilityState();
+        
+        // 현재 상태와 다르면 즉시 상태 변경 (페이드 없이)
+        if (isVisible != shouldBeVisible)
         {
-            yield return new WaitForSeconds(toggleInterval);
-
+            isVisible = shouldBeVisible;
+            
             if (isVisible)
             {
-                // 페이드 아웃
-                yield return StartCoroutine(FadeRoutine(false));
+                // 보이는 상태로 설정
+                spriteRenderer.color = originalColor;
+                platformCollider.enabled = true;
             }
             else
             {
-                // 페이드 인
-                yield return StartCoroutine(FadeRoutine(true));
+                // 안 보이는 상태로 설정
+                Color invisibleColor = originalColor;
+                invisibleColor.a = 0f;
+                spriteRenderer.color = invisibleColor;
+                platformCollider.enabled = false;
             }
-
-            isVisible = !isVisible;
         }
+    }
+
+    private void OnDestroy()
+    {
+        // 매니저에서 이 발판 제거
+        if (Manager != null)
+        {
+            Manager.UnregisterPlatform(this);
+        }
+        
+        // 실행 중인 코루틴 중지
+        if (fadeCoroutine != null)
+        {
+            StopCoroutine(fadeCoroutine);
+        }
+    }
+
+    // 매니저에 의해 호출되는 토글 메서드
+    public void Toggle()
+    {
+        // 이미 실행 중인 코루틴이 있으면 중지
+        if (fadeCoroutine != null)
+        {
+            StopCoroutine(fadeCoroutine);
+        }
+        
+        fadeCoroutine = StartCoroutine(ToggleRoutine());
+    }
+
+    private IEnumerator ToggleRoutine()
+    {
+        if (isVisible)
+        {
+            // 페이드 아웃
+            yield return StartCoroutine(FadeRoutine(false));
+        }
+        else
+        {
+            // 페이드 인
+            yield return StartCoroutine(FadeRoutine(true));
+        }
+
+        isVisible = !isVisible;
+        fadeCoroutine = null;
     }
 
     private IEnumerator FadeRoutine(bool fadeIn)
@@ -91,9 +159,72 @@ public class TogglePlatform : MonoBehaviour
         platformCollider.enabled = fadeIn;
     }
 
-
     public bool IsVisible()
     {
         return isVisible;
+    }
+}
+
+// 모든 TogglePlatform을 관리하는 매니저 클래스
+public class TogglePlatformManager : MonoBehaviour
+{
+    [Header("Toggle Settings")]
+    [SerializeField] private float toggleInterval = 3f;  // 기본값 3초
+    
+    private List<TogglePlatform> platforms = new List<TogglePlatform>();
+    private float nextToggleTime = 0f;
+    private bool currentVisibilityState = true;  // 현재 발판들이 보이는 상태인지 여부
+    private float cycleStartTime;  // 토글 사이클 시작 시간
+
+    private void Start()
+    {
+        // 게임 시작 시 첫 번째 토글 시간 설정
+        cycleStartTime = Time.time;
+        nextToggleTime = cycleStartTime + toggleInterval;
+    }
+
+    private void Update()
+    {
+        // 토글 시간이 되면 모든 플랫폼 토글
+        if (Time.time >= nextToggleTime)
+        {
+            ToggleAllPlatforms();
+            nextToggleTime = Time.time + toggleInterval;
+            currentVisibilityState = !currentVisibilityState;
+        }
+    }
+
+    public void RegisterPlatform(TogglePlatform platform)
+    {
+        if (!platforms.Contains(platform))
+        {
+            platforms.Add(platform);
+        }
+    }
+
+    public void UnregisterPlatform(TogglePlatform platform)
+    {
+        platforms.Remove(platform);
+    }
+
+    private void ToggleAllPlatforms()
+    {
+        foreach (var platform in platforms)
+        {
+            platform.Toggle();
+        }
+    }
+
+    public void SetToggleInterval(float interval)
+    {
+        toggleInterval = interval;
+        // 간격 변경 시 다음 토글 시간도 업데이트
+        nextToggleTime = Time.time + toggleInterval;
+    }
+    
+    // 현재 발판들이 보이는 상태인지 여부 반환
+    public bool GetCurrentVisibilityState()
+    {
+        return currentVisibilityState;
     }
 }

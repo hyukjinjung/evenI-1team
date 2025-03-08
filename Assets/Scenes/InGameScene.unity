@@ -1399,7 +1399,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017301b4acc0cfe4c91f0b4bd3d6fd8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAutoMode: 0
   DarkOverlay: {fileID: 6463252571661790790, guid: fa2455923b44bec4ab075f77413977c0, type: 3}
   testTileManager: {fileID: 768112588}
   currentFloor: 0
@@ -2725,6 +2724,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1088897079553799165, guid: 6d6848ab3156ec744bc70901896c0048, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6838752668016757721, guid: 6d6848ab3156ec744bc70901896c0048, type: 3}
       propertyPath: m_Name
       value: BackGroundManager

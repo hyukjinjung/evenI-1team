@@ -129,8 +129,7 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void StartRevertAnimation()
     {
-        Debug.Log("Revert 트리거 실행");
-
+        if (IsAnimationPlaying("RevertToNormal")) return;
         //ResetAllAnimation();
 
         animator.Play("RevertToNormal");
@@ -151,7 +150,5 @@ public class PlayerAnimationController : MonoBehaviour
         ResetAllAnimation();
 
         animator.SetTrigger("ToJumpWait");
-
     }
-
 }
