@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     public GameObject PlayingPanel;
     public GameObject GameOverPanel;
 
+    
     // -------------------------- player
     public GameObject player;
     private PlayerMovement playerMovement;
@@ -123,6 +124,8 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
 
         isGameOver = false;
+
+        
 
 
         AddScore(0);

@@ -8,6 +8,10 @@ public class UIStartPanel : UIPanel
     public Button GameStartButton;
     public Button SettingButton;
 
+    public BackGroundScroller backgroundScroller;
+
+
+
     public override void Initialize(UIManager manager)
     {
         base.Initialize(manager);
@@ -20,10 +24,12 @@ public class UIStartPanel : UIPanel
         uiManager.StartGame();
     }
 
-    void OnGameStartButtonClicked()
+    public void OnGameStartButtonClicked()
     {
         GameStartButton.interactable = false; 
         uiManager.StartGame();
+        backgroundScroller.isGameStarted = true;
+
     }
     
     public void OnSettingButtonClicked()
