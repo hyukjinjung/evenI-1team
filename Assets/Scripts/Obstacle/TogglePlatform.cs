@@ -131,6 +131,7 @@ public class TogglePlatform : MonoBehaviour
         if (!fadeIn)
         {
             endColor.a = 0f;
+            CheckPlayerOnPlatform();
         }
 
         while (elapsedTime < fadeTime)
@@ -157,11 +158,29 @@ public class TogglePlatform : MonoBehaviour
         // 최종 상태 설정
         spriteRenderer.color = endColor;
         platformCollider.enabled = fadeIn;
+
+        
     }
 
     public bool IsVisible()
     {
         return isVisible;
+    }
+
+    private void CheckPlayerOnPlatform()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player != null)
+        {
+            float distanceX = Mathf.Abs(player.transform.position.x - transform.position.x);
+            float distanceY = Mathf.Abs(player.transform.position.y - transform.position.y);
+
+            if (distanceX < 0.5f && distanceY < 0.5f)
+            {
+                GameManager.Instance.GameOver();
+            }
+        }
     }
 }
 

@@ -1443,7 +1443,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bad6ae086b55774891dd6785555b6b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayKeyboard: 0
 --- !u!114 &417875398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2726,7 +2725,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1088897079553799165, guid: 6d6848ab3156ec744bc70901896c0048, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6838752668016757721, guid: 6d6848ab3156ec744bc70901896c0048, type: 3}
       propertyPath: m_Name

@@ -93,6 +93,7 @@ public class PlayerMovement : MonoBehaviour
 
         bool isLeft = tile.TileOnLeft(transform);
 
+
         //if (isAutoMode)
         //{
         //    Tile temp = testTileManager.GetNextTile(currentFloor);
@@ -105,7 +106,10 @@ public class PlayerMovement : MonoBehaviour
         isJumping = true;
         playerAnimationController.SetJumping(true);
 
+
+
         CheckGameOver(isLeft, jumpLeft);
+
     }
 
 
@@ -134,38 +138,19 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(GameOverDueToInvisible(targetTile));
         }
 
-    
+
         if (!HandleMonsterOnTile(targetTile, ref targetPosition))
             return;
 
 
         transform.position = targetPosition;
-        isJumping = false;
-        //StartCoroutine(JumpSmoothly(previousPosition, targetPosition));
 
         jumpEffectSpawner.SpawnJumpEffect(previousPosition);
         currentFloor++;
 
+        isJumping = false;
     }
 
-
-    //private IEnumerator JumpSmoothly(Vector3 start, Vector3 end, float speed = 20f)
-    //{
-    //    float duration = 0.3f;
-    //    float elapsedTime = 0f;
-
-    //    while (elapsedTime < duration)
-    //    {
-    //        float t = elapsedTime / duration;
-    //        transform.position = Vector3.Lerp(start, end, t);
-    //        elapsedTime += Time.deltaTime * speed;
-    //        yield return null;
-    //    }
-
-    //    transform.position = end;
-    //    isJumping = false;
-
-    //}
 
 
     private bool HandleMonsterOnTile(Tile targetTile, ref Vector2 targetPosition)
@@ -219,10 +204,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        if (collision.gameObject.CompareTag("TransformationItem"))
-        {
-            Debug.Log("���� ������ ȹ��");
-        }
+        //if (collision.gameObject.CompareTag("TransformationItem"))
+        //{
+        //    Debug.Log("���� ������ ȹ��");
+        //}
 
         // ? HideNext ������ �浹 ����
         if (collision.gameObject.CompareTag("HideNext"))
@@ -257,13 +242,10 @@ public class PlayerMovement : MonoBehaviour
             return;
 
         if (isLeft == jumpLeft)
-        {
-            Debug.Log("���� �̵�. ���� ���� �ƴ�");
             return;
-        }
 
-        Debug.Log("�߸��� ���� ����. ���� ���� ó����");
         gameManager.GameOver();
+
     }
 
 
