@@ -85,50 +85,37 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGameOver || isJumping) return;
 
+        isJumping = true;
+        
         gameManager.AddScore(1);
 
-        Tile tile = testTileManager.GetForwardTile(transform.position);
-
-        if (tile == null) return;
-
-        bool isLeft = tile.TileOnLeft(transform);
-
-
-        //if (isAutoMode)
-        //{
-        //    Tile temp = testTileManager.GetNextTile(currentFloor);
-        //    jumpLeft = transform.position.x > temp.transform.position.x;
-        //}
+        // Tile tile = testTileManager.GetForwardTile(transform.position);
+        // if (tile == null) return;
+        // bool isLeft = tile.TileOnLeft(transform);
 
         lastJumpPosition = transform.position;
 
-        PerformJump(jumpLeft);
-        playerAnimationController.SetJumping(true);
-
-
-
-        CheckGameOver(isLeft, jumpLeft);
-
+        Tile targetTile = testTileManager.GetNextTile(currentFloor);
+        bool isLeft = targetTile.TileOnLeft(transform);
+        
+        if (CheckGameOver(isLeft, jumpLeft))
+        {
+            gameManager.GameOver();
+            return;
+        }
+        
+        PerformJump(jumpLeft, targetTile);
     }
 
 
-    void PerformJump(bool jumpLeft)
+    void PerformJump(bool jumpLeft, Tile targetTile)
     {
-        if (isGameOver || isJumping) return;
-
-        isJumping = true;
-
         Vector2 previousPosition = transform.position;
         Vector2 jumpDirection = jumpLeft ? leftDirection : rightDirection;
         Vector2 targetPosition = (Vector2)transform.position + jumpDirection;
         targetPosition.y += 0.5f;
-
-        Tile targetTile = testTileManager.GetNextTile(currentFloor);
-
-        if (targetTile != null)
-        {
-            FeverSystem.Instance.AddFeverScore(FeverScoreType.Movement);
-        }
+        
+        FeverSystem.Instance.AddFeverScore(FeverScoreType.Movement);
 
         TogglePlatform invisibleTile = targetTile != null ? targetTile.GetComponent<TogglePlatform>() : null;
 
@@ -146,6 +133,8 @@ public class PlayerMovement : MonoBehaviour
 
         jumpEffectSpawner.SpawnJumpEffect(previousPosition);
         currentFloor++;
+        
+        playerAnimationController.SetJumping(true);
     }
 
 
@@ -233,16 +222,15 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    void CheckGameOver(bool isLeft, bool jumpLeft)
+    bool CheckGameOver(bool isLeft, bool jumpLeft)
     {
         if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
-            return;
+            return false;
 
         if (isLeft == jumpLeft)
-            return;
+            return false;
 
-        gameManager.GameOver();
-
+        return true;
     }
 
 
