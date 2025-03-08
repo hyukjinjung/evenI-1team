@@ -117,6 +117,8 @@ public class PlayerTransformationController : MonoBehaviour
         EnablePlayerInput(false);
 
         playerMovement.EnableMonsterIgnore(0f);
+
+        //playerMovement.feverFallCount = 0;
       
         ResetTransformation();
         StartCoroutine(RevertToNormalAfterDelay());

@@ -94,6 +94,8 @@ public class FeverSystem : MonoBehaviour
         GameManager.Instance.PlayerAnimationController.SetFeverMode(false);
         GameManager.Instance.feverBackGroundManager.SetFeverMode(false);
 
+        GameManager.Instance.PlayerMovement.feverFallCount = 0;
+
         Debug.Log("피버 종료");
         OnFeverEnd?.Invoke();
     }

@@ -37,10 +37,10 @@ public class PlayerMovement : MonoBehaviour
     private FeverSystem feverSystem;
 
     private bool canIgnoreMonster = false;
-
     private Vector3 lastJumpPosition;
     private bool isRecoveringFromFall = false;
     private Tile lastStandTile;
+    public int feverFallCount = 0;
 
 
     private void Awake()
@@ -72,11 +72,14 @@ public class PlayerMovement : MonoBehaviour
         {
             if (feverSystem != null && feverSystem.isFeverActive)
             {
-                StartCoroutine(RecoverFromFall());
-                return;
+                if (feverFallCount < 1)
+                {
+                    feverFallCount++;
+                    StartCoroutine(RecoverFromFall(true));
+                    return;
+                }
             }
 
-            Debug.Log("�÷��̾� �߶�. ���� ����");
             gameManager.GameOver();
         }
     }
@@ -163,11 +166,13 @@ public class PlayerMovement : MonoBehaviour
         return false;
     }
 
-    private IEnumerator RecoverFromFall()
+    private IEnumerator RecoverFromFall(bool shouldEndFever)
     {
         if (isRecoveringFromFall) yield break;
+
         isRecoveringFromFall = true;
 
+        //1
         float fallTime = 0.4f;
         float elapsedTime = 0f;
 
@@ -179,10 +184,45 @@ public class PlayerMovement : MonoBehaviour
         }
 
         transform.position = lastJumpPosition;
+        // 1
 
-        gameManager.PlayerAnimationController.SetFeverMode(true);
+        //// 2
+        //float fallTime = 0.4f;
+        //float elapsedTime = 0f;
+
+        //Vector3 startPos = transform.position;
+        //Vector3 endPos = lastJumpPosition;
+
+        //while (elapsedTime < fallTime)
+        //{
+        //    transform.position = Vector3.Lerp(startPos, endPos, elapsedTime / fallTime);
+        //    elapsedTime += Time.deltaTime;
+        //    yield return null;
+        //}
+
+        //transform.position = endPos;
+        //// 2
+
+        // 3
+        //float velocity = 0f;
+        //while (elapsedTime <fallTime)
+        //{
+        //    transform.position = Vector3.SmoothDamp(transform.position, endPos, ref velocity, 
+        //        fallTime);
+        //    elapsedTime += Time.deltaTime;
+        //    yield return null;
+        //}
+        // 3
+
+
+        //gameManager.PlayerAnimationController.SetFeverMode(true);
 
         isRecoveringFromFall = false;
+
+        if (shouldEndFever)
+        {
+            feverSystem.EndFever();
+        }
     }
 
 
