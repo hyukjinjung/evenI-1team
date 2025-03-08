@@ -87,11 +87,16 @@ public class PlayerMovement : MonoBehaviour
 
         gameManager.AddScore(1);
 
-        Tile tile = testTileManager.GetForwardTile(transform.position);
+        Tile forwardTile = testTileManager.GetForwardTile(transform.position);
 
-        if (tile == null) return;
+        if (forwardTile == null)
+        {
+            gameManager.GameOver();
+            return;
+        }
 
-        bool isLeft = tile.TileOnLeft(transform);
+
+        //bool isLeft = tile.TileOnLeft(transform);
 
         //if (isAutoMode)
         //{
@@ -105,7 +110,10 @@ public class PlayerMovement : MonoBehaviour
         isJumping = true;
         playerAnimationController.SetJumping(true);
 
-        CheckGameOver(isLeft, jumpLeft);
+
+
+        CheckGameOver(forwardTile, jumpLeft);
+
     }
 
 
@@ -134,38 +142,19 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(GameOverDueToInvisible(targetTile));
         }
 
-    
+
         if (!HandleMonsterOnTile(targetTile, ref targetPosition))
             return;
 
 
         transform.position = targetPosition;
         isJumping = false;
-        //StartCoroutine(JumpSmoothly(previousPosition, targetPosition));
 
         jumpEffectSpawner.SpawnJumpEffect(previousPosition);
         currentFloor++;
 
     }
 
-
-    //private IEnumerator JumpSmoothly(Vector3 start, Vector3 end, float speed = 20f)
-    //{
-    //    float duration = 0.3f;
-    //    float elapsedTime = 0f;
-
-    //    while (elapsedTime < duration)
-    //    {
-    //        float t = elapsedTime / duration;
-    //        transform.position = Vector3.Lerp(start, end, t);
-    //        elapsedTime += Time.deltaTime * speed;
-    //        yield return null;
-    //    }
-
-    //    transform.position = end;
-    //    isJumping = false;
-
-    //}
 
 
     private bool HandleMonsterOnTile(Tile targetTile, ref Vector2 targetPosition)
@@ -219,10 +208,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        if (collision.gameObject.CompareTag("TransformationItem"))
-        {
-            Debug.Log("���� ������ ȹ��");
-        }
+        //if (collision.gameObject.CompareTag("TransformationItem"))
+        //{
+        //    Debug.Log("���� ������ ȹ��");
+        //}
 
         // ? HideNext ������ �浹 ����
         if (collision.gameObject.CompareTag("HideNext"))
@@ -251,19 +240,26 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    void CheckGameOver(bool isLeft, bool jumpLeft)
+    void CheckGameOver(Tile forwardTile, bool jumpLeft)
     {
         if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
             return;
 
-        if (isLeft == jumpLeft)
-        {
-            Debug.Log("���� �̵�. ���� ���� �ƴ�");
-            return;
-        }
+        //if (forwardTile.transform.position.y < transform.position.y)
+        //{
+        //    gameManager.GameOver();
+        //    return;
+        //}
 
-        Debug.Log("�߸��� ���� ����. ���� ���� ó����");
-        gameManager.GameOver();
+        //bool actualTileLeft = forwardTile.transform.position.x < transform.position.x;
+
+        //if (actualTileLeft == jumpLeft)
+        //{
+        //    return;
+        //}
+
+        //Debug.Log($"게임 오버 발생: actualTileLeft({actualTileLeft}) != jumpLeft({jumpLeft})");
+        //gameManager.GameOver();
     }
 
 
