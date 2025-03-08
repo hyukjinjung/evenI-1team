@@ -24,10 +24,12 @@ public class UIStartPanel : UIPanel
     {
         GameStartButton.interactable = false; 
         uiManager.StartGame();
+        SoundMnager.Instance.PlayClip(1);
     }
     
     public void OnSettingButtonClicked()
     {
         uiManager.OnClickedSettingButton();
+        SoundMnager.Instance.PlayClip(1);
     }
 }

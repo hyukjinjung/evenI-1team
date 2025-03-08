@@ -103,7 +103,6 @@ public class PlayerMovement : MonoBehaviour
         lastJumpPosition = transform.position;
 
         PerformJump(jumpLeft);
-        isJumping = true;
         playerAnimationController.SetJumping(true);
 
 
@@ -147,8 +146,6 @@ public class PlayerMovement : MonoBehaviour
 
         jumpEffectSpawner.SpawnJumpEffect(previousPosition);
         currentFloor++;
-
-        isJumping = false;
     }
 
 
