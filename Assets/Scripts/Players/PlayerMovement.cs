@@ -87,16 +87,12 @@ public class PlayerMovement : MonoBehaviour
 
         gameManager.AddScore(1);
 
-        Tile forwardTile = testTileManager.GetForwardTile(transform.position);
+        Tile tile = testTileManager.GetForwardTile(transform.position);
 
-        if (forwardTile == null)
-        {
-            gameManager.GameOver();
-            return;
-        }
+        if (tile == null) return;
 
+        bool isLeft = tile.TileOnLeft(transform);
 
-        //bool isLeft = tile.TileOnLeft(transform);
 
         //if (isAutoMode)
         //{
@@ -112,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        CheckGameOver(forwardTile, jumpLeft);
+        CheckGameOver(isLeft, jumpLeft);
 
     }
 
@@ -148,11 +144,11 @@ public class PlayerMovement : MonoBehaviour
 
 
         transform.position = targetPosition;
-        isJumping = false;
 
         jumpEffectSpawner.SpawnJumpEffect(previousPosition);
         currentFloor++;
 
+        isJumping = false;
     }
 
 
@@ -240,26 +236,16 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    void CheckGameOver(Tile forwardTile, bool jumpLeft)
+    void CheckGameOver(bool isLeft, bool jumpLeft)
     {
         if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
             return;
 
-        //if (forwardTile.transform.position.y < transform.position.y)
-        //{
-        //    gameManager.GameOver();
-        //    return;
-        //}
+        if (isLeft == jumpLeft)
+            return;
 
-        //bool actualTileLeft = forwardTile.transform.position.x < transform.position.x;
+        gameManager.GameOver();
 
-        //if (actualTileLeft == jumpLeft)
-        //{
-        //    return;
-        //}
-
-        //Debug.Log($"게임 오버 발생: actualTileLeft({actualTileLeft}) != jumpLeft({jumpLeft})");
-        //gameManager.GameOver();
     }
 
 

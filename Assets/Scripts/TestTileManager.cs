@@ -225,11 +225,6 @@ public class TestTileManager : MonoBehaviour
             }
         }
 
-        if (forwardTile == null)
-        {
-            Debug.Log("다음 점프할 타일 없음");
-        }
-
         return forwardTile;
     }
 
