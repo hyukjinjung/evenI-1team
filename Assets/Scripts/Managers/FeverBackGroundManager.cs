@@ -4,18 +4,14 @@ using UnityEngine;
 
 public class FeverBackGroundManager : MonoBehaviour
 {
-    private BackGroundScroller backGroundScroller;
-
-    [SerializeField] private GameObject normalBackground;
-    [SerializeField] private GameObject feverBackground;
-
+    private SpriteRenderer[] backGroundSprites;
+    
+    [SerializeField] private Sprite backGroundSprite;
+    [SerializeField] private Sprite feverGroundSprite;
 
     void Start()
     {
-        backGroundScroller = FindObjectOfType<BackGroundScroller>();
-
-        normalBackground.SetActive(true);
-        feverBackground.SetActive(false);
+        backGroundSprites = GetComponentsInChildren<SpriteRenderer>();
     }
 
 
@@ -23,13 +19,17 @@ public class FeverBackGroundManager : MonoBehaviour
     {
         if (isFeverActive)
         {
-            normalBackground.SetActive(false);
-            feverBackground.SetActive(true);
+            foreach (var spriteRenderer in backGroundSprites)
+            {
+                spriteRenderer.sprite = feverGroundSprite;
+            }
         }
         else
         {
-            normalBackground.SetActive(true);
-            feverBackground.SetActive(false);
+            foreach (var spriteRenderer in backGroundSprites)
+            {
+                spriteRenderer.sprite = backGroundSprite;
+            }
         }
     }
 }
