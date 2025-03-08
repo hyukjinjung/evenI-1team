@@ -43,6 +43,8 @@ public class UIManager : MonoBehaviour
     public SoundUI SoundUI { get { return SoundUI; } }
 
 
+
+
     
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI bestScoreText;
