@@ -19,7 +19,7 @@ public class UISettingPanel : UIPanel
         SettingBGMButton.onClick.AddListener(OnClickedSettingBGMButton);
         SettingSoundEffectButton.onClick.AddListener(OnClikedSettingSoundEffectButton);
         SettingInstagramButton.onClick.AddListener(OnClikedSettingInstagramButton);
-        //SettingCreditButton.onClick.AddListener(OnClickedSettingCreditButton);
+        SettingCreditButton.onClick.AddListener(OnClickedSettingCreditButton);
     }
 
     void OnClickedSettingBGMButton()
@@ -33,14 +33,21 @@ public class UISettingPanel : UIPanel
     void OnClikedSettingInstagramButton()
     { 
         uiManager.OnClickedSettingInstaGramButton();
+        SoundMnager.Instance.PlayClip(1);
     }
     void OnClickedSettingCreditButton()
     {
         uiManager.OnClickedSettingCreditButton();
+        SoundMnager.Instance.PlayClip(1);
     } 
     void OnClickedSettingReturnButton()
     {
         uiManager.OnClickedSettingReturnButton();
+        SoundMnager.Instance.PlayClip(1);
     }
+    //void OnClickedSettingCreditButton()
+    //{
+
+    //}
 
 }
