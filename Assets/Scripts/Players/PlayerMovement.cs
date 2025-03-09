@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
 {
     //[SerializeField] private bool isAutoMode = false;
 
-    [SerializeField] private CanvasGroup DarkOverlay; // ������ �������� UI
+    
 
     private float deathHeight = -5f; // ĳ���Ͱ� �������� ���� �����Ǵ� ����
 
@@ -200,30 +200,9 @@ public class PlayerMovement : MonoBehaviour
             return;
 
 
-        if (collision.gameObject.CompareTag("HideNext"))
-        {
-            Debug.Log("HideNext ������ ȹ��! ��ο� ȿ�� ����");
-            StartCoroutine(ApplyDarkEffect(5f)); // 5�� ���� ȿ�� ����
-            Destroy(collision.gameObject); // ������ ����
-        }
+
     }
 
-    private IEnumerator ApplyDarkEffect(float duration)
-    {
-        if (DarkOverlay == null)
-        {
-            Debug.LogError("DarkOverlay�� �������� �ʾҽ��ϴ�! Unity���� �����ϼ���.");
-            yield break;
-        }
-
-        // ? ��ο� ȿ�� ����
-        DarkOverlay.alpha = 1f;
-
-        yield return new WaitForSeconds(duration);
-
-        // ? ȿ�� ����
-        DarkOverlay.alpha = 0f;
-    }
 
 
     bool CheckGameOver(bool isLeft, bool jumpLeft)

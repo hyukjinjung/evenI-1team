@@ -123,6 +123,7 @@ public class DarkOverlayController : MonoBehaviour
         }
     }
 
+
     private void OnDestroy()
     {
         if (Instance == this) Instance = null;
