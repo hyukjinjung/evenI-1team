@@ -40,9 +40,9 @@ public class PlayerCollisionController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("HideNext"))
         {
-            Debug.Log("HideNext ������ ȹ��! ��ο� ȿ�� ����");
-            StartCoroutine(ApplyDarkEffect(5f)); // 5�� ���� ȿ�� ����
-            Destroy(collision.gameObject); // ������ ����
+            Debug.Log("HideNext 아이템 획득");
+            StartCoroutine(ApplyDarkEffect(5f)); // 5초동안 활성화
+            Destroy(collision.gameObject); // 먹으면 삭제
         }
     }
 
@@ -50,7 +50,7 @@ public class PlayerCollisionController : MonoBehaviour
     {
         if (DarkOverlay == null)
         {
-            Debug.LogError("DarkOverlay�� �������� �ʾҽ��ϴ�! Unity���� �����ϼ���.");
+            Debug.LogError("화면이 어두워집니다.");
             yield break;
         }
 
