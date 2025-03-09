@@ -46,7 +46,7 @@ public class PlayerTransformationController : MonoBehaviour
     {
         if (!isTransformed) return;
 
-        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+        if (FeverSystem.Instance != null && FeverSystem.Instance.IsFeverActive)
             return;
 
         if (remainingTime > 0)
@@ -112,15 +112,17 @@ public class PlayerTransformationController : MonoBehaviour
 
         playerAnimationController.StartRevertAnimation();
         
-        currentTransformationData = null;
-        
+        currentTransformationData = null;       
         EnablePlayerInput(false);
-
         playerMovement.EnableMonsterIgnore(0f);
       
         ResetTransformation();
         StartCoroutine(RevertToNormalAfterDelay());
 
+        if (playerMovement.IsOnMonsterTile())
+        {
+            GameManager.Instance.GameOver();
+        }
     }
 
 
@@ -206,7 +208,7 @@ public class PlayerTransformationController : MonoBehaviour
 
     public bool IsFeverBlockingTransform()
     {
-        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+        if (FeverSystem.Instance != null && FeverSystem.Instance.IsFeverActive)
             return true;
 
         if (currentTransformationType == TransformationType.GoldenFrog)

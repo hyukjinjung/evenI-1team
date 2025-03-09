@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerInputController playerInputController;
     private PlayerAnimationController playerAnimationController;
-    //private PlayerTransformationController playerTransformationController;
+    private PlayerTransformationController playerTransformationController;
     private PlayerAttackController attackController;
 
     [SerializeField] TestTileManager testTileManager;
@@ -37,10 +37,10 @@ public class PlayerMovement : MonoBehaviour
     private FeverSystem feverSystem;
 
     private bool canIgnoreMonster = false;
-
     private Vector3 lastJumpPosition;
     private bool isRecoveringFromFall = false;
     private Tile lastStandTile;
+    public int feverFallCount = 0;
 
 
     private void Awake()
@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerAnimationController = GetComponent<PlayerAnimationController>();
         playerInputController = GetComponent<PlayerInputController>();
-        //playerTransformationController = GetComponent<PlayerTransformationController>();
+        playerTransformationController = GetComponent<PlayerTransformationController>();
         attackController = GetComponentInParent<PlayerAttackController>();
 
 
@@ -59,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         gameManager = GameManager.Instance;
-        feverSystem = GameManager.Instance.feverSystem;
+        feverSystem = FeverSystem.Instance;
     }
 
 
@@ -70,13 +70,16 @@ public class PlayerMovement : MonoBehaviour
 
         if (transform.position.y < -0.3f)
         {
-            if (feverSystem != null && feverSystem.isFeverActive)
+            if (feverSystem != null && feverSystem.IsFeverActive)
             {
-                StartCoroutine(RecoverFromFall());
-                return;
+                if (feverFallCount < 1)
+                {
+                    feverFallCount++;
+                    StartCoroutine(RecoverFromFall(true));
+                    return;
+                }
             }
 
-            Debug.Log("�÷��̾� �߶�. ���� ����");
             gameManager.GameOver();
         }
     }
@@ -100,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
         Tile targetTile = testTileManager.GetNextTile(currentFloor);
         bool isLeft = targetTile.TileOnLeft(transform);
         
-        if (CheckGameOver(isLeft, jumpLeft))
+        if (IsWrongJumpDirection(isLeft, jumpLeft))
         {
             gameManager.GameOver();
             return;
@@ -145,10 +148,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (targetTile == null) return false;
         
-        if (feverSystem != null && feverSystem.isFeverActive)
+        if (feverSystem != null && feverSystem.IsFeverActive)
             return true;
 
-        if (gameManager.PlayerTransformationController != null && gameManager.PlayerTransformationController.IsInvinsible())
+        if (playerTransformationController != null && playerTransformationController.IsInvinsible())
             return true;
 
         if (!targetTile.HasMonster()) return true;
@@ -163,11 +166,13 @@ public class PlayerMovement : MonoBehaviour
         return false;
     }
 
-    private IEnumerator RecoverFromFall()
+    private IEnumerator RecoverFromFall(bool shouldEndFever)
     {
         if (isRecoveringFromFall) yield break;
+
         isRecoveringFromFall = true;
 
+        //1
         float fallTime = 0.4f;
         float elapsedTime = 0f;
 
@@ -179,10 +184,45 @@ public class PlayerMovement : MonoBehaviour
         }
 
         transform.position = lastJumpPosition;
+        // 1
 
-        gameManager.PlayerAnimationController.SetFeverMode(true);
+        //// 2
+        //float fallTime = 0.4f;
+        //float elapsedTime = 0f;
+
+        //Vector3 startPos = transform.position;
+        //Vector3 endPos = lastJumpPosition;
+
+        //while (elapsedTime < fallTime)
+        //{
+        //    transform.position = Vector3.Lerp(startPos, endPos, elapsedTime / fallTime);
+        //    elapsedTime += Time.deltaTime;
+        //    yield return null;
+        //}
+
+        //transform.position = endPos;
+        // 2
+
+        // 3
+        //float velocity = 0f;
+        //while (elapsedTime <fallTime)
+        //{
+        //    transform.position = Vector3.SmoothDamp(transform.position, endPos, ref velocity, 
+        //        fallTime);
+        //    elapsedTime += Time.deltaTime;
+        //    yield return null;
+        //}
+        // 3
+
+
+        //gameManager.PlayerAnimationController.SetFeverMode(true);
 
         isRecoveringFromFall = false;
+
+        if (shouldEndFever)
+        {
+            feverSystem.EndFever();
+        }
     }
 
 
@@ -196,7 +236,7 @@ public class PlayerMovement : MonoBehaviour
             playerAnimationController.SetJumpWait();
         }
 
-        if (feverSystem != null && feverSystem.isFeverActive)
+        if (feverSystem != null && feverSystem.IsFeverActive)
             return;
 
 
@@ -205,9 +245,9 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-    bool CheckGameOver(bool isLeft, bool jumpLeft)
+    bool IsWrongJumpDirection(bool isLeft, bool jumpLeft)
     {
-        if (feverSystem != null && feverSystem.isFeverActive)
+        if (feverSystem != null && feverSystem.IsFeverActive)
             return false;
 
         if (isLeft == jumpLeft)
@@ -221,7 +261,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (targetTile == null) yield break;
 
-        if (feverSystem != null && feverSystem.isFeverActive)
+        if (feverSystem != null && feverSystem.IsFeverActive)
         {
             yield break;
         }
@@ -268,6 +308,17 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return canIgnoreMonster;
+    }
+
+    public bool IsOnMonsterTile()
+    {
+        Tile currentTile = testTileManager.GetTileByPosition(transform.position);
+        if (currentTile != null && currentTile.HasMonster())
+        {
+            return true;
+        }
+
+        return false;
     }
 
 

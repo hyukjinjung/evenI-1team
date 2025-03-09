@@ -329,6 +329,19 @@ public class TestTileManager : MonoBehaviour
         return -1;
     }
 
+    public Tile GetTileByPosition(Vector2 playerPosition)
+    {
+        int floorIndex = GetFloorByPosition(playerPosition);
+
+        if (floorIndex > 0 && floorIndex < tiles.Count)
+        {
+            return tiles[floorIndex];
+        }
+
+        return null;
+    }
+
+
     // 닌자 효과로 건너뛴 타일 수만큼 새 타일 생성하는 메서드
     public void GenerateTilesAfterNinjaEffect(int skippedTiles)
     {
