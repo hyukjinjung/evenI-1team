@@ -186,30 +186,34 @@ MonoBehaviour:
   musicClip:
   - {fileID: 8300000, guid: a17007bfa22b45940942d78e48cd70d6, type: 3}
   - {fileID: 8300000, guid: a58afed5c4dedc8469c16c53754c6602, type: 3}
-  - {fileID: 8300000, guid: 66d5b61ae0e4b954ca3c134c789ce594, type: 3}
   - {fileID: 8300000, guid: 60b7c3f321cd63647a81471d78099367, type: 3}
+  - {fileID: 8300000, guid: 66d5b61ae0e4b954ca3c134c789ce594, type: 3}
   sfxSounds:
   - {fileID: 8300000, guid: 82c598defcec3944d9a187083cfe2c80, type: 3}
   - {fileID: 8300000, guid: bb8b5c28eaaed16429059a8c2fe14cba, type: 3}
-  - {fileID: 8300000, guid: 25c9d176fa559c445be31d79d611a347, type: 3}
-  - {fileID: 8300000, guid: 33b947d91a89bd64abdc8b2d3a4fb977, type: 3}
-  - {fileID: 8300000, guid: 843a86e17e73136479b4fd4fa2f5295e, type: 3}
-  - {fileID: 8300000, guid: 6209b57258221b142a4618387055d47a, type: 3}
-  - {fileID: 8300000, guid: 424157efed8afc745ac1e942195d5979, type: 3}
-  - {fileID: 8300000, guid: 41d01fa6bf0cf314fa2e376cbe1e0d24, type: 3}
-  - {fileID: 8300000, guid: 2671b0e12119a4f43b3c74faa5d974de, type: 3}
-  - {fileID: 8300000, guid: 42574d80c4928974a81c2a54156aa118, type: 3}
-  - {fileID: 8300000, guid: 2b69a8375a3f3cc4e913a285e981ca00, type: 3}
-  - {fileID: 8300000, guid: ef7acadc27cb5cd4881e2248c877df4c, type: 3}
-  - {fileID: 8300000, guid: 63601e0f57906e0479dbc0257533f0b7, type: 3}
-  - {fileID: 8300000, guid: d22f32382816ae5448ab5be62bcfe08f, type: 3}
-  - {fileID: 8300000, guid: 2bb1e9f1bd9e7244782eff17211ec4d8, type: 3}
-  - {fileID: 8300000, guid: 476e6bdd8745ec44c9c6894580835f02, type: 3}
   - {fileID: 8300000, guid: 53c0d9705e065204c8cdf4e58f28c810, type: 3}
   - {fileID: 8300000, guid: 015c077fc62370e47b0f5a3f715b3346, type: 3}
+  - {fileID: 8300000, guid: 2671b0e12119a4f43b3c74faa5d974de, type: 3}
+  - {fileID: 8300000, guid: 33b947d91a89bd64abdc8b2d3a4fb977, type: 3}
+  - {fileID: 8300000, guid: 25c9d176fa559c445be31d79d611a347, type: 3}
+  - {fileID: 8300000, guid: ef7acadc27cb5cd4881e2248c877df4c, type: 3}
+  - {fileID: 8300000, guid: 6209b57258221b142a4618387055d47a, type: 3}
+  - {fileID: 8300000, guid: d22f32382816ae5448ab5be62bcfe08f, type: 3}
+  - {fileID: 8300000, guid: 63601e0f57906e0479dbc0257533f0b7, type: 3}
+  - {fileID: 8300000, guid: 424157efed8afc745ac1e942195d5979, type: 3}
+  - {fileID: 8300000, guid: 2bb1e9f1bd9e7244782eff17211ec4d8, type: 3}
+  - {fileID: 8300000, guid: 476e6bdd8745ec44c9c6894580835f02, type: 3}
+  - {fileID: 8300000, guid: 42574d80c4928974a81c2a54156aa118, type: 3}
+  - {fileID: 8300000, guid: 53c0d9705e065204c8cdf4e58f28c810, type: 3}
   - {fileID: 8300000, guid: 0d5c7c77f9feb0e46b5861b3c0fd520b, type: 3}
   - {fileID: 8300000, guid: 637fcb8013382c44bae7bf78ba60cf9b, type: 3}
   - {fileID: 8300000, guid: 482007a693e267641bb16658c2b1531b, type: 3}
+  - {fileID: 8300000, guid: 41d01fa6bf0cf314fa2e376cbe1e0d24, type: 3}
+  - {fileID: 8300000, guid: 843a86e17e73136479b4fd4fa2f5295e, type: 3}
+  - {fileID: 0}
+  - {fileID: 8300000, guid: d49ecdc994e048544b1d64f7812eb7bf, type: 3}
+  - {fileID: 8300000, guid: 2b69a8375a3f3cc4e913a285e981ca00, type: 3}
+  - {fileID: 0}
 --- !u!4 &49241922
 Transform:
   m_ObjectHideFlags: 0
@@ -3312,6 +3316,7 @@ MonoBehaviour:
   SettingSoundEffectButton: {fileID: 1710194287}
   SettingBGMButton: {fileID: 1936533214}
   SettingReturnButton: {fileID: 350643606}
+  SettingCreditButton: {fileID: 0}
   CreditsReTurnButton: {fileID: 363454251}
   playerAnimationController: {fileID: 417875396}
 --- !u!1 &1636488042
@@ -4112,7 +4117,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3691085612881245442, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4421210833698687298, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
       propertyPath: m_SizeDelta.x
@@ -5549,6 +5554,10 @@ PrefabInstance:
     - target: {fileID: 80905125011922929, guid: 6a87cbb124db4d04893b504c803cc91d, type: 3}
       propertyPath: m_Name
       value: GameOverPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 80905125011922929, guid: 6a87cbb124db4d04893b504c803cc91d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 93313343266408922, guid: 6a87cbb124db4d04893b504c803cc91d, type: 3}
       propertyPath: m_Pivot.x

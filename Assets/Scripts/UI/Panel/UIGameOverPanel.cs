@@ -22,16 +22,19 @@ public class UIGameOverPanel : UIPanel
     }
     void OnAdscomebackButtonClicked()
     {
-        
+        SoundMnager.Instance.PlayClip(2);
     }
     void OnSkipButtonClicked()
     {
         uiManager.OnSkipButtonClicked();
+        SoundMnager.Instance.PlayClip(22);
     }
 
     public void UpdateScore(int score)
     {
         continueScoreText.text = score.ToString();
+
+        //` SoundMnager.Instance.PlayClip(4);
     }
 
    

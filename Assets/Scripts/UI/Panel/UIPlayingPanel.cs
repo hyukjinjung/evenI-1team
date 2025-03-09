@@ -36,25 +36,25 @@ public class UIPlayingPanel : UIPanel
     void OnPauseButtonClicked()
     {
         uiManager.OnPauseButtonClicked();
-        soundMnager.PlayClip(1);
+        soundMnager.PlayClip(22);
     }
     
     void OnClickedAttackButton()
     {
         OnClickedAttackEvent?.Invoke();
-        soundMnager.PlayClip(2);
+        soundMnager.PlayClip(0);
     }
     
     void OnClickedLeftButton()
     {
         OnClickedMoveEvent?.Invoke(true);
-        soundMnager.PlayClip(3);
+        soundMnager.PlayClip(1);
     }
     
     void OnClickedRightButton()
     {
         OnClickedMoveEvent?.Invoke(false);
-        soundMnager.PlayClip(4);
+        soundMnager.PlayClip(1);
     }
 
     public void UpdateScore(int score)

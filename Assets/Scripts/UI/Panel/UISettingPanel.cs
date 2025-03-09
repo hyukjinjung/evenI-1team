@@ -33,21 +33,21 @@ public class UISettingPanel : UIPanel
     void OnClikedSettingInstagramButton()
     { 
         uiManager.OnClickedSettingInstaGramButton();
-        SoundMnager.Instance.PlayClip(1);
+        SoundMnager.Instance.PlayClip(22);
     }
     void OnClickedSettingCreditButton()
     {
         uiManager.OnClickedSettingCreditButton();
-        SoundMnager.Instance.PlayClip(1);
+        SoundMnager.Instance.PlayClip(22);
     } 
     void OnClickedSettingReturnButton()
     {
         uiManager.OnClickedSettingReturnButton();
-        SoundMnager.Instance.PlayClip(1);
+        SoundMnager.Instance.PlayClip(22);
     }
-    //void OnClickedSettingCreditButton()
-    //{
-
-    //}
-
+   
 }
+
+    
+
+

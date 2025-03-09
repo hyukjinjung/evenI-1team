@@ -79,6 +79,8 @@ public class FeverSystem : MonoBehaviour
 
         Debug.Log("피버 시작");
         OnFeverStart?.Invoke();
+
+        SoundMnager.Instance.ChangeBackGroundMusic(2);
     }
 
 

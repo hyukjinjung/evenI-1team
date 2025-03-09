@@ -23,10 +23,12 @@ public class UIPausePanel : UIPanel
     void OnClickedPauseMainHomeButton()
     {
         uiManager.OnPauseMainHomeButtonClicked();
+        SoundMnager.Instance.PlayClip(22);
     }
     void OnClickedPauseContinueButton()
     {
         uiManager.OnPauseContinueButtonClicked();
+        SoundMnager.Instance.PlayClip(22);
     }
     void OnClickedPauseBGMButton()
     {
