@@ -9,6 +9,7 @@ public class HideNextItem : MonoBehaviour
     private bool canIgnoreMonster = false;
 
     private PlayerTransformationController playerTransformationController;
+    [SerializeField] private CanvasGroup DarkOverlay; // ������ �������� UI
 
 
     private void Start()
@@ -36,8 +37,31 @@ public class HideNextItem : MonoBehaviour
 
             Destroy(collision.gameObject); // 아이템 삭제
         }
+
+        if (collision.gameObject.CompareTag("HideNext"))
+        {
+            Debug.Log("HideNext ������ ȹ��! ��ο� ȿ�� ����");
+            StartCoroutine(ApplyDarkEffect(5f)); // 5�� ���� ȿ�� ����
+            Destroy(collision.gameObject); // ������ ����
+        }
     }
 
+    private IEnumerator ApplyDarkEffect(float duration)
+    {
+        if (DarkOverlay == null)
+        {
+            Debug.LogError("DarkOverlay�� �������� �ʾҽ��ϴ�! Unity���� �����ϼ���.");
+            yield break;
+        }
+
+        // ? ��ο� ȿ�� ����
+        DarkOverlay.alpha = 1f;
+
+        yield return new WaitForSeconds(duration);
+
+        // ? ȿ�� ����
+        DarkOverlay.alpha = 0f;
+    }
 
 
 
