@@ -112,17 +112,17 @@ public class PlayerTransformationController : MonoBehaviour
 
         playerAnimationController.StartRevertAnimation();
         
-        currentTransformationData = null;
-        
+        currentTransformationData = null;       
         EnablePlayerInput(false);
-
         playerMovement.EnableMonsterIgnore(0f);
-
-        //playerMovement.feverFallCount = 0;
       
         ResetTransformation();
         StartCoroutine(RevertToNormalAfterDelay());
 
+        if (playerMovement.IsOnMonsterTile())
+        {
+            GameManager.Instance.GameOver();
+        }
     }
 
 

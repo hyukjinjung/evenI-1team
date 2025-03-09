@@ -103,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
         Tile targetTile = testTileManager.GetNextTile(currentFloor);
         bool isLeft = targetTile.TileOnLeft(transform);
         
-        if (CheckGameOver(isLeft, jumpLeft))
+        if (IsWrongJumpDirection(isLeft, jumpLeft))
         {
             gameManager.GameOver();
             return;
@@ -201,7 +201,7 @@ public class PlayerMovement : MonoBehaviour
         //}
 
         //transform.position = endPos;
-        //// 2
+        // 2
 
         // 3
         //float velocity = 0f;
@@ -266,7 +266,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    bool CheckGameOver(bool isLeft, bool jumpLeft)
+    bool IsWrongJumpDirection(bool isLeft, bool jumpLeft)
     {
         if (feverSystem != null && feverSystem.IsFeverActive)
             return false;
@@ -329,6 +329,17 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return canIgnoreMonster;
+    }
+
+    public bool IsOnMonsterTile()
+    {
+        Tile currentTile = testTileManager.GetTileByPosition(transform.position);
+        if (currentTile != null && currentTile.HasMonster())
+        {
+            return true;
+        }
+
+        return false;
     }
 
 
