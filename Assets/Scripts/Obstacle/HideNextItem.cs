@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCollisionController : MonoBehaviour
+public class HideNextItem : MonoBehaviour
 {
     private Collider2D playerCollider;
     private bool isCollisionDiabled = false;

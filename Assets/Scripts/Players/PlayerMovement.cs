@@ -236,7 +236,7 @@ public class PlayerMovement : MonoBehaviour
             playerAnimationController.SetJumpWait();
         }
 
-        if (feverSystem != null && feverSystem.IsFeverActive)
+        if (feverSystem != null && feverSystem.IsFeverActive && IsOnObstacleTile())
             return;
 
 
@@ -331,10 +331,23 @@ public class PlayerMovement : MonoBehaviour
         return canIgnoreMonster;
     }
 
+
     public bool IsOnMonsterTile()
     {
         Tile currentTile = testTileManager.GetTileByPosition(transform.position);
         if (currentTile != null && currentTile.HasMonster())
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    public bool IsOnObstacleTile()
+    {
+        Tile currentTile = testTileManager.GetTileByPosition(transform.position);
+        if (currentTile != null && currentTile.HasObstacle())
         {
             return true;
         }
