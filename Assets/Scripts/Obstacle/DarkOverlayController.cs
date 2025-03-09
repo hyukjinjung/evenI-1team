@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
 public class DarkOverlayController : MonoBehaviour
 {
-    // 싱글톤 인스턴스
     public static DarkOverlayController Instance { get; private set; }
+
+    [SerializeField] private CanvasGroup darkOverlay;  // ✅ Unity에서 수동으로 할당할 CanvasGroup
 
     [Header("Darkness Settings")]
     [SerializeField] private float darknessDuration = 5f;
@@ -13,14 +13,13 @@ public class DarkOverlayController : MonoBehaviour
     [SerializeField] private float fadeOutTime = 0.5f;
     [SerializeField] private float maxAlpha = 0.8f;
 
-    private CanvasGroup canvasGroup;
     private float remainingTime;
     private bool isActive = false;
     private Coroutine fadeCoroutine;
 
     private void Awake()
     {
-        // 싱글톤 설정
+        // ✅ 싱글톤 설정
         if (Instance == null)
         {
             Instance = this;
@@ -31,39 +30,38 @@ public class DarkOverlayController : MonoBehaviour
             return;
         }
 
-        // CanvasGroup 컴포넌트 가져오기
-        canvasGroup = GetComponent<CanvasGroup>();
-        if (canvasGroup == null)
+        // ✅ CanvasGroup이 연결되지 않았다면 자동으로 찾기
+        if (darkOverlay == null)
         {
-            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+            darkOverlay = GetComponent<CanvasGroup>();
+
+            if (darkOverlay == null)
+            {
+                Debug.LogError("❌ DarkOverlay가 설정되지 않았습니다! Unity에서 연결하세요.");
+                return;
+            }
         }
 
-        // 초기 설정 - 시작 시 완전 투명
-        canvasGroup.alpha = 0;
-        canvasGroup.blocksRaycasts = false;
-        isActive = false;
+        // ✅ 초기 설정 - 시작 시 완전 투명
+        darkOverlay.alpha = 0;
+        darkOverlay.blocksRaycasts = false; // 어두워지더라도 UI 입력 가능하도록 설정
     }
 
-    // 플레이어가 HideNext 아이템을 먹었을 때만 호출되는 메서드
+    // ✅ HideNext 아이템을 먹었을 때 호출
     public void ActivateDarkness()
     {
-        // 이미 활성화된 상태라면 시간만 리셋
         if (isActive)
         {
             remainingTime = darknessDuration;
             return;
         }
 
-        // 이미 실행 중인 페이드 코루틴 중지
         if (fadeCoroutine != null)
         {
             StopCoroutine(fadeCoroutine);
-            fadeCoroutine = null;
         }
 
-        // 페이드 인 시작
         fadeCoroutine = StartCoroutine(FadeIn());
-        
         isActive = true;
         remainingTime = darknessDuration;
     }
@@ -71,58 +69,52 @@ public class DarkOverlayController : MonoBehaviour
     private IEnumerator FadeIn()
     {
         float elapsedTime = 0;
-        canvasGroup.alpha = 0;
+        darkOverlay.alpha = 0;
+        darkOverlay.blocksRaycasts = true; // UI 차단 설정
 
         while (elapsedTime < fadeInTime)
         {
             elapsedTime += Time.deltaTime;
-            float normalizedTime = Mathf.Clamp01(elapsedTime / fadeInTime);
-            canvasGroup.alpha = Mathf.Lerp(0, maxAlpha, normalizedTime);
+            darkOverlay.alpha = Mathf.Lerp(0, maxAlpha, elapsedTime / fadeInTime);
             yield return null;
         }
 
-        canvasGroup.alpha = maxAlpha;
-        fadeCoroutine = null;
+        darkOverlay.alpha = maxAlpha;
     }
 
     private IEnumerator FadeOut()
     {
         float elapsedTime = 0;
-        float startAlpha = canvasGroup.alpha;
+        float startAlpha = darkOverlay.alpha;
 
         while (elapsedTime < fadeOutTime)
         {
             elapsedTime += Time.deltaTime;
-            float normalizedTime = Mathf.Clamp01(elapsedTime / fadeOutTime);
-            canvasGroup.alpha = Mathf.Lerp(startAlpha, 0, normalizedTime);
+            darkOverlay.alpha = Mathf.Lerp(startAlpha, 0, elapsedTime / fadeOutTime);
             yield return null;
         }
 
-        canvasGroup.alpha = 0;
+        darkOverlay.alpha = 0;
+        darkOverlay.blocksRaycasts = false; // UI 다시 활성화
         isActive = false;
-        fadeCoroutine = null;
     }
 
     private void Update()
     {
-        // 활성화 상태가 아니면 아무것도 하지 않음
         if (!isActive) return;
 
-        // 남은 시간 감소
         remainingTime -= Time.deltaTime;
-        
-        // 시간이 다 되면 페이드 아웃
+
         if (remainingTime <= 0)
         {
             if (fadeCoroutine != null)
             {
                 StopCoroutine(fadeCoroutine);
             }
-            
+
             fadeCoroutine = StartCoroutine(FadeOut());
         }
     }
-
 
     private void OnDestroy()
     {

@@ -9,7 +9,7 @@ public class HideNextItem : MonoBehaviour
     private bool canIgnoreMonster = false;
 
     private PlayerTransformationController playerTransformationController;
-    [SerializeField] private CanvasGroup DarkOverlay; // ������ �������� UI
+    [SerializeField] private CanvasGroup DarkOverlay; 
 
 
     private void Start()
@@ -24,27 +24,23 @@ public class HideNextItem : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("HideNext"))
         {
-            Debug.Log("✅ HideNext 아이템 획득! 주변이 어두워집니다.");
+            Debug.Log("✅ HideNext 아이템 획득! 화면이 어두워집니다.");
 
+            // ✅ DarkOverlayController를 찾아서 실행
             if (DarkOverlayController.Instance != null)
             {
-                DarkOverlayController.Instance.ActivateDarkness(); // 어두운 효과 적용
+                DarkOverlayController.Instance.ActivateDarkness();
             }
             else
             {
-                Debug.LogError("❌ DarkOverlayController가 씬에서 찾을 수 없습니다! 씬에 추가하세요.");
+                Debug.LogError("❌ DarkOverlayController가 씬에서 찾을 수 없습니다!");
             }
 
-            Destroy(collision.gameObject); // 아이템 삭제
-        }
-
-        if (collision.gameObject.CompareTag("HideNext"))
-        {
-            Debug.Log("HideNext 아이템 획득");
-            StartCoroutine(ApplyDarkEffect(5f)); // 5초동안 활성화
-            Destroy(collision.gameObject); // 먹으면 삭제
+            // ✅ 아이템 제거
+            Destroy(collision.gameObject);
         }
     }
+
 
     private IEnumerator ApplyDarkEffect(float duration)
     {
