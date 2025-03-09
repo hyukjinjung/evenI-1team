@@ -119,7 +119,7 @@ public class NinjaAbility : SpecialAbilityData
     {
         if (ninjaAttackEffect == null) return;
 
-        Vector3 effectPosition = position + new Vector3(0, -1f, 0);
+        Vector3 effectPosition = position + new Vector3(0, -0.7f, 0);
         Instantiate(ninjaAttackEffect, effectPosition, Quaternion.identity);
     }
 }

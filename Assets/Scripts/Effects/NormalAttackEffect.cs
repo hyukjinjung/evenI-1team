@@ -5,7 +5,7 @@ using UnityEngine;
 public class NormalAttackEffect : MonoBehaviour
 {
     public int damage = 1; // 기본 공격력
-    public float lifetime = 0.2f; // 타격 이펙트 지속 시간
+    public float lifetime = 0.15f; // 타격 이펙트 지속 시간
 
     private void Start()
     {

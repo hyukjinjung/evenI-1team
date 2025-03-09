@@ -158,7 +158,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4388768184818540872}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01805e4e670b5b54a8ef4b0daa47ad27, type: 3}
   m_Name: 
@@ -174,15 +174,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4388768184818540872}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 017301b4acc0cfe4c91f0b4bd3d6fd8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAutoMode: 0
   testTileManager: {fileID: 0}
   currentFloor: 0
   jumpEffectSpawner: {fileID: 7698517093355806083, guid: fd104e76d59c212478094dc47c1a04d1, type: 3}
+  feverFallCount: 0
 --- !u!114 &8007366340084450098
 MonoBehaviour:
   m_ObjectHideFlags: 0
