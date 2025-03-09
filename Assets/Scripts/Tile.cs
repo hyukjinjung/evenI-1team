@@ -83,6 +83,10 @@ public class Tile : MonoBehaviour
         return monsterOnTile != null;
     }
 
+    public bool HasObstacle()
+    {
+        return obstacle != null;
+    }
 
     //// 타일 삭제 시, 위에 플레이어가 있으면 게임 오버 처리
     //public void DestroyTile()
