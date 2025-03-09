@@ -46,7 +46,7 @@ public class PlayerAttackController : MonoBehaviour
 
     public void PerformAttack()
     {
-        if (FeverSystem.Instance !=null && FeverSystem.Instance.isFeverActive) 
+        if (FeverSystem.Instance !=null && FeverSystem.Instance.IsFeverActive) 
             return;
 
 

@@ -46,7 +46,7 @@ public class PlayerTransformationController : MonoBehaviour
     {
         if (!isTransformed) return;
 
-        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+        if (FeverSystem.Instance != null && FeverSystem.Instance.IsFeverActive)
             return;
 
         if (remainingTime > 0)
@@ -208,7 +208,7 @@ public class PlayerTransformationController : MonoBehaviour
 
     public bool IsFeverBlockingTransform()
     {
-        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+        if (FeverSystem.Instance != null && FeverSystem.Instance.IsFeverActive)
             return true;
 
         if (currentTransformationType == TransformationType.GoldenFrog)

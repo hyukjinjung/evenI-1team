@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerInputController playerInputController;
     private PlayerAnimationController playerAnimationController;
-    //private PlayerTransformationController playerTransformationController;
+    private PlayerTransformationController playerTransformationController;
     private PlayerAttackController attackController;
 
     [SerializeField] TestTileManager testTileManager;
@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerAnimationController = GetComponent<PlayerAnimationController>();
         playerInputController = GetComponent<PlayerInputController>();
-        //playerTransformationController = GetComponent<PlayerTransformationController>();
+        playerTransformationController = GetComponent<PlayerTransformationController>();
         attackController = GetComponentInParent<PlayerAttackController>();
 
 
@@ -59,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         gameManager = GameManager.Instance;
-        feverSystem = GameManager.Instance.feverSystem;
+        feverSystem = FeverSystem.Instance;
     }
 
 
@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (transform.position.y < -0.3f)
         {
-            if (feverSystem != null && feverSystem.isFeverActive)
+            if (feverSystem != null && feverSystem.IsFeverActive)
             {
                 if (feverFallCount < 1)
                 {
@@ -148,10 +148,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (targetTile == null) return false;
         
-        if (feverSystem != null && feverSystem.isFeverActive)
+        if (feverSystem != null && feverSystem.IsFeverActive)
             return true;
 
-        if (gameManager.PlayerTransformationController != null && gameManager.PlayerTransformationController.IsInvinsible())
+        if (playerTransformationController != null && playerTransformationController.IsInvinsible())
             return true;
 
         if (!targetTile.HasMonster()) return true;
@@ -236,7 +236,7 @@ public class PlayerMovement : MonoBehaviour
             playerAnimationController.SetJumpWait();
         }
 
-        if (feverSystem != null && feverSystem.isFeverActive)
+        if (feverSystem != null && feverSystem.IsFeverActive)
             return;
 
 
@@ -268,7 +268,7 @@ public class PlayerMovement : MonoBehaviour
 
     bool CheckGameOver(bool isLeft, bool jumpLeft)
     {
-        if (feverSystem != null && feverSystem.isFeverActive)
+        if (feverSystem != null && feverSystem.IsFeverActive)
             return false;
 
         if (isLeft == jumpLeft)
@@ -282,7 +282,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (targetTile == null) yield break;
 
-        if (feverSystem != null && feverSystem.isFeverActive)
+        if (feverSystem != null && feverSystem.IsFeverActive)
         {
             yield break;
         }

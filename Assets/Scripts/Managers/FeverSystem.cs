@@ -7,15 +7,24 @@ public class FeverSystem : MonoBehaviour
 {
     public static FeverSystem Instance { get; private set; }
 
-    public bool isFeverActive = false;
-    public float feverDuration = 10;
-    private float feverTimer = 0;
-    public int feverScore = 0;
+    [SerializeField] private bool isFeverActive = false;
+    public bool IsFeverActive => isFeverActive;
+
+    [SerializeField] private float feverDuration = 10;
+    [SerializeField] private float feverTimer = 0;
+    [SerializeField] private int feverScore = 0;
+    public int FeverScore
+    {
+        get => feverScore;
+        set => feverScore = Mathf.Max(0, value);
+    }
 
     public event Action OnFeverStart;
     public event Action OnFeverEnd;
 
     private Dictionary<FeverScoreType, int> feverScoresValues;
+
+    GameManager gameManager;
 
 
     private void Awake()
@@ -34,7 +43,7 @@ public class FeverSystem : MonoBehaviour
 
     void Start()
     {
-
+        gameManager = GameManager.Instance;
     }
 
     private void InitializeFeverScoreValues()
@@ -74,8 +83,8 @@ public class FeverSystem : MonoBehaviour
         feverTimer = feverDuration;
         feverScore = 0;
 
-        GameManager.Instance.PlayerAnimationController.SetFeverMode(true);
-        GameManager.Instance.feverBackGroundManager.SetFeverMode(true);
+        gameManager.PlayerAnimationController.SetFeverMode(true);
+        gameManager.feverBackGroundManager.SetFeverMode(true);
 
         Debug.Log("피버 시작");
         OnFeverStart?.Invoke();
@@ -87,14 +96,12 @@ public class FeverSystem : MonoBehaviour
         if (!isFeverActive) return;
 
         isFeverActive = false;
+        //feverScore = 0;
 
-        feverScore = 0;
-        Debug.Log($"피버 지속시간 종료. 피버 점수 {feverScore}");
+        gameManager.PlayerAnimationController.SetFeverMode(false);
+        gameManager.feverBackGroundManager.SetFeverMode(false);
 
-        GameManager.Instance.PlayerAnimationController.SetFeverMode(false);
-        GameManager.Instance.feverBackGroundManager.SetFeverMode(false);
-
-        GameManager.Instance.PlayerMovement.feverFallCount = 0;
+        gameManager.PlayerMovement.feverFallCount = 0;
 
         Debug.Log("피버 종료");
         OnFeverEnd?.Invoke();
