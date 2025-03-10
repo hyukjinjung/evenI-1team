@@ -56,7 +56,6 @@ public class FeverSystem : MonoBehaviour
             {FeverScoreType.ItemUse, 5 },
             {FeverScoreType.FeverReductionCoin, -10 },
             { FeverScoreType.TestCoin, 150 }
-
         };
     }
 
@@ -107,6 +106,8 @@ public class FeverSystem : MonoBehaviour
 
         Debug.Log("피버 종료");
         OnFeverEnd?.Invoke();
+
+        SoundManager.Instance.ChangeBackGroundMusic(1);
     }
 
 
@@ -119,7 +120,7 @@ public class FeverSystem : MonoBehaviour
 
         Debug.Log($"현재 피버 점수 {feverScore}");
 
-        if (feverScore >= 150 && !isFeverActive)
+        if (feverScore >= 50 && !isFeverActive)
         {
             StartFever();
         }

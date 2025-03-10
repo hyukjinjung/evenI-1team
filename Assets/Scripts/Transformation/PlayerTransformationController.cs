@@ -98,6 +98,7 @@ public class PlayerTransformationController : MonoBehaviour
         abilityUsageCount = transformationData.specialAbility.maxUsageCount;
         
         playerAnimationController.PlayerTransformationAnimation(transformationType);
+        SoundManager.Instance.PlayClip(16);
     }
 
 
@@ -111,6 +112,7 @@ public class PlayerTransformationController : MonoBehaviour
         Debug.Log("변신 해제 완료. NormalFrog 상태");
 
         playerAnimationController.StartRevertAnimation();
+        SoundManager.Instance.PlayClip(14);
         
         currentTransformationData = null;       
         EnablePlayerInput(false);

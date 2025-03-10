@@ -137,12 +137,8 @@ public class GameManager : MonoBehaviour
 
         if (ChasingMonsterManager.Instance != null)
         {
-            Debug.Log("ChasingMonsterManager 존재함.");
             ChasingMonsterManager.Instance.Initialize(player.transform);
-        }
-        else
-        {
-            Debug.Log("ChasingMonsterManager NULL");
+            SoundManager.Instance.PlayClip(5);
         }
 
         //uiResultPanel.UpdateBestScore(0);
