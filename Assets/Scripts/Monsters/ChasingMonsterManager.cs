@@ -24,6 +24,7 @@ public class ChasingMonsterManager : MonoBehaviour
         }
 
         Instance = this;
+        Debug.Log("ChasingMonsterManager 생성됨.");
     }
 
 
@@ -47,7 +48,11 @@ public class ChasingMonsterManager : MonoBehaviour
 
     public void SpawnMonster()
     {
-        if (monsterPrefab == null || player == null) return;
+        if (monsterPrefab == null || player == null)
+        {
+            Debug.Log("몬스터, 플레이어가 할당되지 않음");
+                return;
+        }
 
         if (currentMonster != null)
         {
@@ -64,6 +69,7 @@ public class ChasingMonsterManager : MonoBehaviour
         currentMonster = monsterObj.GetComponent<ChasingMonster>();
         if (currentMonster != null)
         {
+            Debug.Log($"몬스터가 생성됨. {spawnPosition}");
             currentMonster.Initialize(player);
         }
     }

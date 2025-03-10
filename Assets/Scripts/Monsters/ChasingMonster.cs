@@ -29,16 +29,30 @@ public class ChasingMonster : MonoBehaviour
         if (Time.time >= nextMoveTime)
         {
             nextMoveTime = Time.time + 1f;
-            MoveTowardsPlayer();
+            StartCoroutine(MoveTowardsPlayer());
         }
 
     }
 
 
 
-    private void MoveTowardsPlayer()
+    private IEnumerator MoveTowardsPlayer()
     {
-        transform.position += new Vector3(0, movespeed, 0);
+        Vector3 startPos = transform.position;
+        Vector3 direction = (player.position - startPos).normalized;
+        Vector3 targetPos = startPos + direction * movespeed;
+
+        float elapsedTime = 0f;
+        float duration = 1f;
+
+        while (elapsedTime < duration)
+        {
+            transform.position = Vector3.Lerp(startPos, targetPos, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = targetPos;
     }
 
 

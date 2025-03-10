@@ -83,7 +83,6 @@ public class PlayerAttackController : MonoBehaviour
         StartCoroutine(ResetAttackFlag());
 
         isAttacking = true;
-        Debug.Log("공격 시작");
 
         SpawnAttackEffect();
     }

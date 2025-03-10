@@ -134,9 +134,15 @@ public class GameManager : MonoBehaviour
         StartPanel.SetActive(false);
         PlayingPanel.SetActive(true);
 
+
         if (ChasingMonsterManager.Instance != null)
         {
+            Debug.Log("ChasingMonsterManager 존재함.");
             ChasingMonsterManager.Instance.Initialize(player.transform);
+        }
+        else
+        {
+            Debug.Log("ChasingMonsterManager NULL");
         }
 
         //uiResultPanel.UpdateBestScore(0);
