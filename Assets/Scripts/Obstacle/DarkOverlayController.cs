@@ -16,6 +16,7 @@ public class DarkOverlayController : MonoBehaviour
     private float remainingTime;
     private bool isActive = false;
     private Coroutine fadeCoroutine;
+    private bool isFading = false;
 
     private void Awake()
     {
@@ -50,40 +51,52 @@ public class DarkOverlayController : MonoBehaviour
     // ✅ HideNext 아이템을 먹었을 때 호출
     public void ActivateDarkness()
     {
-        if (isActive)
+        Debug.Log("DarkOverlayController: 화면 어둡게 효과 활성화 요청됨");
+
+        // 항상 타이머 리셋
+        remainingTime = darknessDuration;
+
+        // 이미 활성화 상태라면 타이머만 리셋하고 리턴
+        if (isActive && !isFading)
         {
-            remainingTime = darknessDuration;
+            Debug.Log("DarkOverlayController: 이미 어둡게 효과가 활성화되어 있음. 타이머만 리셋");
             return;
         }
 
+        // 페이드 중이거나 비활성화 상태라면 새로운 페이드 인 시작
         if (fadeCoroutine != null)
         {
             StopCoroutine(fadeCoroutine);
+            fadeCoroutine = null;
         }
 
+        Debug.Log("DarkOverlayController: 새로운 페이드 인 시작");
         fadeCoroutine = StartCoroutine(FadeIn());
-        isActive = true;
-        remainingTime = darknessDuration;
     }
 
     private IEnumerator FadeIn()
     {
+        isFading = true;
         float elapsedTime = 0;
-        darkOverlay.alpha = 0;
+        float startAlpha = darkOverlay.alpha;
         darkOverlay.blocksRaycasts = true; // UI 차단 설정
 
         while (elapsedTime < fadeInTime)
         {
             elapsedTime += Time.deltaTime;
-            darkOverlay.alpha = Mathf.Lerp(0, maxAlpha, elapsedTime / fadeInTime);
+            darkOverlay.alpha = Mathf.Lerp(startAlpha, maxAlpha, elapsedTime / fadeInTime);
             yield return null;
         }
 
         darkOverlay.alpha = maxAlpha;
+        isActive = true;
+        isFading = false;
+        Debug.Log("DarkOverlayController: 페이드 인 완료");
     }
 
     private IEnumerator FadeOut()
     {
+        isFading = true;
         float elapsedTime = 0;
         float startAlpha = darkOverlay.alpha;
 
@@ -97,16 +110,19 @@ public class DarkOverlayController : MonoBehaviour
         darkOverlay.alpha = 0;
         darkOverlay.blocksRaycasts = false; // UI 다시 활성화
         isActive = false;
+        isFading = false;
+        Debug.Log("DarkOverlayController: 페이드 아웃 완료");
     }
 
     private void Update()
     {
-        if (!isActive) return;
+        if (!isActive || isFading) return;
 
         remainingTime -= Time.deltaTime;
 
         if (remainingTime <= 0)
         {
+            Debug.Log("DarkOverlayController: 타이머 종료, 페이드 아웃 시작");
             if (fadeCoroutine != null)
             {
                 StopCoroutine(fadeCoroutine);
@@ -114,6 +130,29 @@ public class DarkOverlayController : MonoBehaviour
 
             fadeCoroutine = StartCoroutine(FadeOut());
         }
+    }
+
+    // 현재 어둡게 효과가 활성화되어 있는지 확인
+    public bool IsDarknessActive()
+    {
+        return isActive;
+    }
+
+    // 게임 오버 시 호출할 메서드 추가
+    public void DeactivateDarkness()
+    {
+        Debug.Log("DarkOverlayController: 화면 어둡게 효과 강제 비활성화");
+        
+        if (fadeCoroutine != null)
+        {
+            StopCoroutine(fadeCoroutine);
+            fadeCoroutine = null;
+        }
+        
+        // 즉시 투명하게 설정
+        darkOverlay.alpha = 0;
+        darkOverlay.blocksRaycasts = false;
+        isActive = false;
     }
 
     private void OnDestroy()
