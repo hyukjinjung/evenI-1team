@@ -12,7 +12,7 @@ public class ChasingMonsterManager : MonoBehaviour
     private ChasingMonster currentMonster;
 
     public float followDistance = 100f;
-    
+
     public CameraController cameraController;
 
 
@@ -30,19 +30,11 @@ public class ChasingMonsterManager : MonoBehaviour
 
 
 
-    public void Initialize(Transform playerTransform)
+    public void Initialize(Transform playerTransform, CameraController cameraController)
     {
         player = playerTransform;
-        Debug.Log("플레이어 트랜스폼 초기화 완료");
-
+        this.cameraController = cameraController;
         SpawnMonster();
-    }
-
-
-
-    void Update()
-    {
-     
     }
 
 
@@ -50,21 +42,15 @@ public class ChasingMonsterManager : MonoBehaviour
     public void SpawnMonster()
     {
         if (monsterPrefab == null || player == null)
-        {
-            Debug.Log("몬스터, 플레이어가 할당되지 않음");
-                return;
-        }
+            return;
+
 
         if (currentMonster != null)
-        {
-            Debug.Log("현재 몬스터가 이미 존재함");
             return;
-        }
 
 
         GameObject monsterObj = Instantiate(monsterPrefab);
-
-        Vector3 spawnPosition = player.position - new Vector3(0,followDistance,0);
+        Vector3 spawnPosition = player.position - new Vector3(0, followDistance, 0);
         monsterObj.transform.position = spawnPosition;
 
         currentMonster = monsterObj.GetComponent<ChasingMonster>();

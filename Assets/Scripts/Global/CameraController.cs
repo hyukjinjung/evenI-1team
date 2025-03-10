@@ -1,46 +1,52 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public CinemachineVirtualCamera virtualCamera;
     public Transform player;
     public Transform chasingMonster;
 
     public float transitionDuration = 5f;
-    public float waitBeforetransition = 1.5f;
+    public float holdTime = 3f;
+    private bool isDone = false;
 
-    private bool transitioning = false;
 
 
     void Start()
     {
+        if (virtualCamera == null) return;
+
         if (player == null || chasingMonster == null)
             return;
+       
     }
 
-    IEnumerator StartCameraSequece()
+    public void StartCameraSequnece()
     {
-        transitioning = true;
+        StartCoroutine(CameraSequence());
+    }
 
-        transform.position = new Vector3(chasingMonster.position.x, chasingMonster.position.y,
-            chasingMonster.position.z);
 
-        yield return new WaitForSeconds(waitBeforetransition);
+    private IEnumerator CameraSequence()
+    {
+        if (virtualCamera == null || player == null || chasingMonster == null)
+            yield break;
+
+        virtualCamera.Follow = chasingMonster;
+        yield return new WaitForSeconds(holdTime);
 
         float elapsedTime = 0f;
-        Vector3 startPos = transform.position;
-        Vector3 targetPos = new Vector3(player.position.x, player.position.y, player.position.z);
-
         while (elapsedTime < transitionDuration)
         {
-            transform.position = Vector3.Lerp(startPos, targetPos, elapsedTime / transitionDuration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        transform.position = targetPos;
-
-        transitioning = false;
+        virtualCamera.Follow = player;
+        
+        isDone = true;
     }
 }

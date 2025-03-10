@@ -24,6 +24,8 @@ public class ChasingMonster : MonoBehaviour
 
     void Update()
     {
+        if (!GameManager.Instance.IsGameStarted) return;
+
         if (player == null) return;
 
         if (Time.time >= nextMoveTime)
