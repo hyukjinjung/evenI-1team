@@ -175,7 +175,7 @@ public class GameManager : MonoBehaviour
 
         UpdateBestScore(score);
 
-        
+        SoundManager.Instance.PlayClip(4);
     }
     public void RestartGame()
     {

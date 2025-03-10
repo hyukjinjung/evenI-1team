@@ -25,13 +25,13 @@ public class UIStartPanel : UIPanel
     {
         GameStartButton.interactable = false; 
         uiManager.StartGame();
-        SoundMnager.Instance.ChangeBackGroundMusic(1);
+        SoundManager.Instance.ChangeBackGroundMusic(1);
 
     }
     
     public void OnSettingButtonClicked()
     {
         uiManager.OnClickedSettingButton();
-        SoundMnager.Instance.PlayClip(22);
+        SoundManager.Instance.PlayClip(22);
     }
 }

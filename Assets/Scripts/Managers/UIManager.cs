@@ -250,15 +250,15 @@ public class UIManager : MonoBehaviour
     {
         uiPlayingPanel.SetActive(true);
     }
-    
+
 
     public void OnSkipButtonClicked()
     {
         uiPlayingPanel.SetActive(false);
         uiGameOverPanel.SetActive(false);
         uiResultPanel.SetActive(true);
+        SoundManager.Instance.PlayClip(3);
     }
-
     void OnResultCoinTwiceButtonClicked()
     {
 
