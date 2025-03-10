@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     public TestTileManager tileManager;
     public FeverSystem feverSystem;
     public FeverBackGroundManager feverBackGroundManager;
+    public ChasingMonsterManager chasingMonsterManager;
 
     public GameObject StartPanel;
     public GameObject PlayingPanel;
@@ -80,7 +81,9 @@ public class GameManager : MonoBehaviour
         uiManager = FindObjectOfType<UIManager>();
         feverSystem = FindAnyObjectByType<FeverSystem>();
         feverBackGroundManager = FindObjectOfType<FeverBackGroundManager>();
-        
+        chasingMonsterManager = FindObjectOfType<ChasingMonsterManager>();
+
+
 
         feverSystem.OnFeverStart += HandleFeverStart;
         feverSystem.OnFeverEnd += HandleFeverEnd;
@@ -113,6 +116,7 @@ public class GameManager : MonoBehaviour
 
     }
 
+
     public void StartGame()
     {
         Debug.Log("게임 시작");
@@ -130,6 +134,12 @@ public class GameManager : MonoBehaviour
         StartPanel.SetActive(false);
         PlayingPanel.SetActive(true);
 
+
+        if (ChasingMonsterManager.Instance != null)
+        {
+            ChasingMonsterManager.Instance.Initialize(player.transform);
+            SoundManager.Instance.PlayClip(5);
+        }
 
         //uiResultPanel.UpdateBestScore(0);
 
@@ -173,7 +183,6 @@ public class GameManager : MonoBehaviour
 
             PlayerAnimationController.PlayGameOverAnimation();
             player.GetComponentInChildren<Animator>().Play("Die");
-
         }
    
         StartCoroutine(FreezeGameAfterDelay());
@@ -182,10 +191,13 @@ public class GameManager : MonoBehaviour
 
         SoundManager.Instance.PlayClip(4);
     }
+
+
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
     private IEnumerator FreezeGameAfterDelay()
     {
         yield return new WaitForSecondsRealtime(0.5f);
@@ -207,6 +219,7 @@ public class GameManager : MonoBehaviour
     }
 
 
+
     public void UpdateBestScore(int value)
     {
         if (bestScore < value)
@@ -222,10 +235,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+
     public void HandleFeverStart()
     {
         Debug.Log("피버 모드 시작");
     }
+
+
 
     public void HandleFeverEnd()
     {

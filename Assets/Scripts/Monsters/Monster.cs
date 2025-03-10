@@ -16,11 +16,13 @@ public class Monster : MonoBehaviour
     private bool isDying = false;
 
     MonsterAnimationController animationController;
+    //SoundManager soundManager;
 
 
     private void Awake()
     {
         animationController = GetComponent<MonsterAnimationController>();
+
 
     }
 
@@ -45,6 +47,7 @@ public class Monster : MonoBehaviour
         Debug.Log($"∏ÛΩ∫≈Õ {gameObject.name} ªÁ∏¡");
         animationController.StartDeath(this);
         Destroy(gameObject);
+        SoundManager.Instance.PlayClip(10);
     }
 
 }

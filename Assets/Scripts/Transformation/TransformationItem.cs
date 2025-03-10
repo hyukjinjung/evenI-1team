@@ -27,6 +27,7 @@ public class TransformationItem : MonoBehaviour
 
             ApplyTransformation(controller);
             Destroy(gameObject);
+            SoundManager.Instance.PlayClip(7);
         }
     }
 }

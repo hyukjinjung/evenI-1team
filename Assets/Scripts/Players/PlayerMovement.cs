@@ -11,8 +11,6 @@ public class PlayerMovement : MonoBehaviour
 {
     //[SerializeField] private bool isAutoMode = false;
 
-    
-
     private float deathHeight = -5f; // ĳ���Ͱ� �������� ���� �����Ǵ� ����
 
     public bool isJumping { get; private set; } = false;
@@ -37,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
     private FeverSystem feverSystem;
 
     private bool canIgnoreMonster = false;
-    private Vector3 lastJumpPosition;
+    //private Vector3 lastJumpPosition;
     private bool isRecoveringFromFall = false;
     private Tile lastStandTile;
     public int feverFallCount = 0;
@@ -70,16 +68,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (transform.position.y < -0.3f)
         {
-            if (feverSystem != null && feverSystem.IsFeverActive)
-            {
-                if (feverFallCount < 1)
-                {
-                    feverFallCount++;
-                    StartCoroutine(RecoverFromFall(true));
-                    return;
-                }
-            }
-
             gameManager.GameOver();
         }
     }
@@ -91,25 +79,31 @@ public class PlayerMovement : MonoBehaviour
         if (isGameOver || isJumping) return;
 
         isJumping = true;
-        
+
         gameManager.AddScore(1);
 
         // Tile tile = testTileManager.GetForwardTile(transform.position);
         // if (tile == null) return;
         // bool isLeft = tile.TileOnLeft(transform);
 
-        lastJumpPosition = transform.position;
-
         Tile targetTile = testTileManager.GetNextTile(currentFloor);
+
         bool isLeft = targetTile.TileOnLeft(transform);
-        
-        if (IsWrongJumpDirection(isLeft, jumpLeft))
+        bool isWrongDirection = IsWrongJumpDirection(isLeft, jumpLeft);
+
+        PerformJump(jumpLeft, targetTile);
+
+        if (isWrongDirection && feverSystem != null && feverSystem.IsFeverActive)
+        {
+            StartCoroutine(MoveToNextTileAfterJump(targetTile));
+            return;
+        }
+
+        if (isWrongDirection)
         {
             gameManager.GameOver();
             return;
         }
-        
-        PerformJump(jumpLeft, targetTile);
     }
 
 
@@ -119,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 jumpDirection = jumpLeft ? leftDirection : rightDirection;
         Vector2 targetPosition = (Vector2)transform.position + jumpDirection;
         targetPosition.y += 0.5f;
-        
+
         feverSystem.AddFeverScore(FeverScoreType.Movement);
 
         TogglePlatform invisibleTile = targetTile != null ? targetTile.GetComponent<TogglePlatform>() : null;
@@ -138,16 +132,25 @@ public class PlayerMovement : MonoBehaviour
 
         jumpEffectSpawner.SpawnJumpEffect(previousPosition);
         currentFloor++;
-        
+
         playerAnimationController.SetJumping(true);
     }
 
+
+    private IEnumerator MoveToNextTileAfterJump(Tile nextTile)
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        transform.position = nextTile.transform.position;
+
+        feverSystem.EndFever();
+    }
 
 
     private bool HandleMonsterOnTile(Tile targetTile, ref Vector2 targetPosition)
     {
         if (targetTile == null) return false;
-        
+
         if (feverSystem != null && feverSystem.IsFeverActive)
             return true;
 
@@ -166,65 +169,6 @@ public class PlayerMovement : MonoBehaviour
         return false;
     }
 
-    private IEnumerator RecoverFromFall(bool shouldEndFever)
-    {
-        if (isRecoveringFromFall) yield break;
-
-        isRecoveringFromFall = true;
-
-        //1
-        float fallTime = 0.4f;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < fallTime)
-        {
-            transform.position += Vector3.down * Time.deltaTime * 2f;
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.position = lastJumpPosition;
-        // 1
-
-        //// 2
-        //float fallTime = 0.4f;
-        //float elapsedTime = 0f;
-
-        //Vector3 startPos = transform.position;
-        //Vector3 endPos = lastJumpPosition;
-
-        //while (elapsedTime < fallTime)
-        //{
-        //    transform.position = Vector3.Lerp(startPos, endPos, elapsedTime / fallTime);
-        //    elapsedTime += Time.deltaTime;
-        //    yield return null;
-        //}
-
-        //transform.position = endPos;
-        // 2
-
-        // 3
-        //float velocity = 0f;
-        //while (elapsedTime <fallTime)
-        //{
-        //    transform.position = Vector3.SmoothDamp(transform.position, endPos, ref velocity, 
-        //        fallTime);
-        //    elapsedTime += Time.deltaTime;
-        //    yield return null;
-        //}
-        // 3
-
-
-        //gameManager.PlayerAnimationController.SetFeverMode(true);
-
-        isRecoveringFromFall = false;
-
-        if (shouldEndFever)
-        {
-            feverSystem.EndFever();
-        }
-    }
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -238,9 +182,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (feverSystem != null && feverSystem.IsFeverActive && IsOnObstacleTile())
             return;
-
-
-
     }
 
 
@@ -248,12 +189,11 @@ public class PlayerMovement : MonoBehaviour
     bool IsWrongJumpDirection(bool isLeft, bool jumpLeft)
     {
         if (feverSystem != null && feverSystem.IsFeverActive)
-            return false;
+        {
+            return isLeft != jumpLeft;
+        }
 
-        if (isLeft == jumpLeft)
-            return false;
-
-        return true;
+        return isLeft != jumpLeft;
     }
 
 
