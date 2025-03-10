@@ -72,6 +72,7 @@ public class UIManager : MonoBehaviour
     public Button SettingSoundEffectButton;
     public Button SettingBGMButton;
     public Button SettingReturnButton;
+    public Button SettingCreditButton;
     public Button CreditsReTurnButton;
 
  
@@ -130,14 +131,18 @@ public class UIManager : MonoBehaviour
         
         PauseMainHomeButton.onClick.AddListener(OnPauseMainHomeButtonClicked);
         PauseContinueButton.onClick.AddListener(OnPauseContinueButtonClicked);
+
         CautionMainHomeButton.onClick.AddListener(OnCautionMainHomeButtonClicked);
         CautionContinueButton.onClick.AddListener(OnCautionContineButtonClicked);
+
         AdsComeBackButton.onClick.AddListener(OnAdsComeBackButtonClicked);
         SkipButton.onClick.AddListener(OnSkipButtonClicked);
+
         ResultCoinTwiceButton.onClick.AddListener(OnResultCoinTwiceButtonClicked);
         ResultScoreTwiceButton.onClick.AddListener(OnResultScoreTwiceButtonClicked);
         ResultReStartButton.onClick.AddListener(OnResultReStartButtonClicked);
         ResultMainHomeButton.onClick.AddListener(OnResultMainHomeButtonClicked);
+
         StoryReTurnButton.onClick.AddListener(OnStoryReTurnButtonClicked);
         StoryButton.onClick.AddListener(OnStoryButtonClicked);
 
@@ -245,15 +250,15 @@ public class UIManager : MonoBehaviour
     {
         uiPlayingPanel.SetActive(true);
     }
-    
+
 
     public void OnSkipButtonClicked()
     {
         uiPlayingPanel.SetActive(false);
         uiGameOverPanel.SetActive(false);
         uiResultPanel.SetActive(true);
+        SoundManager.Instance.PlayClip(3);
     }
-
     void OnResultCoinTwiceButtonClicked()
     {
 

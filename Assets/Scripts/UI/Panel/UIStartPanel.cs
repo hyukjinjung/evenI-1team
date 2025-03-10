@@ -18,18 +18,20 @@ public class UIStartPanel : UIPanel
     public void ReStartGame()
     {
         uiManager.StartGame();
+
     }
 
     void OnGameStartButtonClicked()
     {
         GameStartButton.interactable = false; 
         uiManager.StartGame();
-        SoundMnager.Instance.PlayClip(1);
+        SoundManager.Instance.ChangeBackGroundMusic(1);
+
     }
     
     public void OnSettingButtonClicked()
     {
         uiManager.OnClickedSettingButton();
-        SoundMnager.Instance.PlayClip(1);
+        SoundManager.Instance.PlayClip(22);
     }
 }

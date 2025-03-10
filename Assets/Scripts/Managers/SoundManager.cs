@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 
 
-public class SoundMnager : MonoBehaviour
+public class SoundManager : MonoBehaviour
 {
     [SerializeField][Range(0f, 1f)] private float soundEffectVolum;
     [SerializeField][Range(0f, 1f)] private float soundEffectPitchVariance;
@@ -18,8 +18,8 @@ public class SoundMnager : MonoBehaviour
 
     ObjectPool objectPool;
 
-    private static SoundMnager instance;
-    public static SoundMnager Instance { get { return instance; } }
+    private static SoundManager instance;
+    public static SoundManager Instance { get { return instance; } }
 
     // Start is called before the first frame update
     void Awake()
@@ -39,8 +39,6 @@ public class SoundMnager : MonoBehaviour
 
     public void ChangeBackGroundMusic(int index)
     {
-        //
-
         musicAudioSource.Stop();
         musicAudioSource.clip = musicClip[index];
         musicAudioSource.Play();

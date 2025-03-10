@@ -18,9 +18,11 @@ public class UICautionPanel : UIPanel
     void OnClickedCautionMainHomeButton()
     {
         uiManager.OnCautionMainHomeButtonClicked();
+        SoundManager.Instance.PlayClip(22);
     }
     void OnClickedCautionContinueButon()
     {
         uiManager.OnAdsComeBackButtonClicked();
+        SoundManager.Instance.PlayClip(22);
     }
 }

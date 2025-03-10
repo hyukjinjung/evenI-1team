@@ -15,5 +15,7 @@ public class JumpEffectSpawner : MonoBehaviour
 
         // 이펙트가 자동으로 사라지도록 설정
         Destroy(effect, effectAnimator.GetCurrentAnimatorStateInfo(0).length);
+
+       
     }
 }

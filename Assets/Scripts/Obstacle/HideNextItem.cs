@@ -5,7 +5,6 @@ using UnityEngine;
 public class HideNextItem : MonoBehaviour
 {
     private Collider2D playerCollider;
-    private bool isCollisionDiabled = false;
     private bool canIgnoreMonster = false;
 
     private PlayerTransformationController playerTransformationController;

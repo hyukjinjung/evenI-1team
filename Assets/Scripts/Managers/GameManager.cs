@@ -185,13 +185,9 @@ public class GameManager : MonoBehaviour
    
         StartCoroutine(FreezeGameAfterDelay());
 
-        //AddScore(score);
-
         UpdateBestScore(score);
-        //uiResultPanel.UpdateBestScore(bestScore);
-        //uiResultPanel.UpdateScore(score);
 
-
+        SoundManager.Instance.PlayClip(4);
     }
 
 
@@ -224,7 +220,9 @@ public class GameManager : MonoBehaviour
 
     public void UpdateBestScore(int value)
     {
-        if (bestScore < value)
+        if 
+            (bestScore < value)
+
         {
             bestScore = value;
 

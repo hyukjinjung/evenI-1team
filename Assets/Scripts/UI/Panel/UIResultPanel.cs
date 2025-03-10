@@ -34,35 +34,32 @@ public class UIResultPanel : UIPanel
     void OnClickedResultReStartButton()
     {
         uiManager.OnResultReStartButtonClicked();
+        SoundManager.Instance.PlayClip(1);
     }
 
     void OnClickedResultMainHomeButton()
     {
         uiManager.OnResultMainHomeButtonClicked();
+        SoundManager.Instance.PlayClip(22);
     }
 
     void OnResultCoinTwiceButtonClicked()
     {
-
+        SoundManager.Instance.PlayClip(22);
     }
     void OnResultScoreTwiceButtonClicked()
     {
-
+        SoundManager.Instance.PlayClip(22);
     }
 
     public void UpdateScore(int score)
     {
-
         resultScoreText.text = score.ToString();
-
-
     }
 
     public void UpdateBestScore(int score)
     {
-
         resultBestScoreText.text = score.ToString();
-
     }
 
 }
