@@ -152,6 +152,12 @@ public class GameManager : MonoBehaviour
         Debug.Log("게임 오버 발생");
         if (isGameOver) return;
 
+        // 화면 가림 효과 비활성화
+        if (DarkOverlayController.Instance != null)
+        {
+            DarkOverlayController.Instance.DeactivateDarkness();
+        }
+
         //if (isGodMode) return;
 
         if (FeverSystem.Instance != null && FeverSystem.Instance.IsFeverActive)
@@ -216,9 +222,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateBestScore(int value)
     {
-        if 
-            (bestScore < value)
-
+        if (bestScore < value)
         {
             bestScore = value;
 
@@ -226,6 +230,8 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.Save();
 
             uiResultPanel.UpdateBestScore(bestScore);
+
+            SoundManager.Instance.PlayClip(23);
         }
     }
 
