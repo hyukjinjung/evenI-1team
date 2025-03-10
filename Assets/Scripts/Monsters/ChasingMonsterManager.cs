@@ -13,6 +13,7 @@ public class ChasingMonsterManager : MonoBehaviour
 
     public float followDistance = 100f;
     
+    public CameraController cameraController;
 
 
     private void Awake()
@@ -71,6 +72,11 @@ public class ChasingMonsterManager : MonoBehaviour
         {
             Debug.Log($"몬스터가 생성됨. {spawnPosition}");
             currentMonster.Initialize(player);
+        }
+
+        if (cameraController != null)
+        {
+            cameraController.chasingMonster = monsterObj.transform;
         }
     }
 }
