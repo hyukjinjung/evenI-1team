@@ -203,9 +203,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateBestScore(int value)
     {
-        if 
-            (bestScore < value)
-
+        if (bestScore < value)
         {
             bestScore = value;
 
@@ -214,6 +212,7 @@ public class GameManager : MonoBehaviour
 
             uiResultPanel.UpdateBestScore(bestScore);
 
+            SoundManager.Instance.PlayClip(23);
         }
     }
 
