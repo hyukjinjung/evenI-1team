@@ -44,11 +44,13 @@ public class GameManager : MonoBehaviour
     private PlayerInputController playerInputController;
     private PlayerAttackController playerAttackController;
     private PlayerAnimationController playerAnimationController;
+    private PlayerTransformationController playerTransformationController;
     
     public PlayerMovement PlayerMovement{get{return playerMovement;}}
     public PlayerAttackController PlayerAttackController { get { return playerAttackController; } }
     public PlayerInputController PlayerInputController{get{return playerInputController;}}
     public PlayerAnimationController PlayerAnimationController{get{return playerAnimationController;}}
+    public PlayerTransformationController PlayerTransformationController{get{return playerTransformationController;}}
 
     private int score = 0;
     private int bestScore = 0;
@@ -95,12 +97,9 @@ public class GameManager : MonoBehaviour
         playerAttackController = player.GetComponent<PlayerAttackController>();
         playerInputController = player.GetComponent<PlayerInputController>();
         playerAnimationController = player.GetComponent<PlayerAnimationController>();
+        playerTransformationController = player.GetComponent<PlayerTransformationController>();
     }
 
-    //private void FeverSystem_OnFeverEnd()
-    //{
-    //    throw new System.NotImplementedException();
-    //}
 
     private void Start()
     {
@@ -145,15 +144,15 @@ public class GameManager : MonoBehaviour
 
         //if (isGodMode) return;
 
-        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+        if (FeverSystem.Instance != null && FeverSystem.Instance.IsFeverActive)
         {
             FeverSystem.Instance.EndFever();
         }
 
         if (FeverSystem.Instance != null)
         {
-            FeverSystem.Instance.feverScore = 0;
-            Debug.Log($"피버 점수 초기화. {feverSystem.feverScore}");
+            FeverSystem.Instance.FeverScore = 0;
+            Debug.Log($"피버 점수 초기화. {feverSystem.FeverScore}");
         }
 
         GameOverPanel.SetActive(true);

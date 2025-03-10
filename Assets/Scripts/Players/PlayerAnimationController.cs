@@ -31,6 +31,15 @@ public class PlayerAnimationController : MonoBehaviour
      public void SetFeverMode(bool isActive)
     {
         animator.SetBool("isFever", isActive);
+
+        if (isActive)
+        {
+            animator.Play("Fever_JumpWait", 0, 0);
+        }
+        else
+        {
+            animator.Play("WaitJump", 0, 0);
+        }
     }
 
 
@@ -130,7 +139,6 @@ public class PlayerAnimationController : MonoBehaviour
     public void StartRevertAnimation()
     {
         if (IsAnimationPlaying("RevertToNormal")) return;
-        //ResetAllAnimation();
 
         animator.Play("RevertToNormal");
 
@@ -150,5 +158,7 @@ public class PlayerAnimationController : MonoBehaviour
         ResetAllAnimation();
 
         animator.SetTrigger("ToJumpWait");
+        //GameManager.Instance.PlayerTransformationController.SetInvincible(false);
+        //GameManager.Instance.PlayerTransformationController.EnablePlayerInput(true);
     }
 }

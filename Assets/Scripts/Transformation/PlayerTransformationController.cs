@@ -23,6 +23,7 @@ public class PlayerTransformationController : MonoBehaviour
     private float remainingTime;
     private int abilityUsageCount;
     private int previousFloor;
+    private bool isInvinsible = false;
 
 
     void Start()
@@ -45,7 +46,7 @@ public class PlayerTransformationController : MonoBehaviour
     {
         if (!isTransformed) return;
 
-        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+        if (FeverSystem.Instance != null && FeverSystem.Instance.IsFeverActive)
             return;
 
         if (remainingTime > 0)
@@ -64,6 +65,11 @@ public class PlayerTransformationController : MonoBehaviour
     public bool IsTransformed()
     {
         return isTransformed;
+    }
+
+    public bool IsInvinsible()
+    {
+        return isInvinsible;
     }
     
 
@@ -106,15 +112,17 @@ public class PlayerTransformationController : MonoBehaviour
 
         playerAnimationController.StartRevertAnimation();
         
-        currentTransformationData = null;
-        
+        currentTransformationData = null;       
         EnablePlayerInput(false);
-
         playerMovement.EnableMonsterIgnore(0f);
       
         ResetTransformation();
         StartCoroutine(RevertToNormalAfterDelay());
 
+        if (playerMovement.IsOnMonsterTile())
+        {
+            GameManager.Instance.GameOver();
+        }
     }
 
 
@@ -132,10 +140,11 @@ public class PlayerTransformationController : MonoBehaviour
         yield return new WaitUntil(() => playerAnimationController.IsAnimationPlaying("RevertToNormal"));
 
         Debug.Log("변신 해제 애니메이션 종료");
-        playerAnimationController.ResetAllAnimation();
+        //playerAnimationController.ResetAllAnimation();
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(playerAnimationController.GetAssassinationAnimationLength());
 
+        isInvinsible = false;
         EnablePlayerInput(true);
 
     }
@@ -146,7 +155,7 @@ public class PlayerTransformationController : MonoBehaviour
     }
 
 
-    private void EnablePlayerInput(bool enable)
+    public void EnablePlayerInput(bool enable)
     {
         if (inputController != null)
         {
@@ -168,6 +177,8 @@ public class PlayerTransformationController : MonoBehaviour
             previousFloor = playerMovement.CurrentFloor;
         }
 
+        isInvinsible = true;
+        EnablePlayerInput(false);
 
         currentTransformationData.specialAbility.ActivateAbility(transform, currentTransformationData);
         abilityUsageCount--;
@@ -197,7 +208,7 @@ public class PlayerTransformationController : MonoBehaviour
 
     public bool IsFeverBlockingTransform()
     {
-        if (FeverSystem.Instance != null && FeverSystem.Instance.isFeverActive)
+        if (FeverSystem.Instance != null && FeverSystem.Instance.IsFeverActive)
             return true;
 
         if (currentTransformationType == TransformationType.GoldenFrog)
@@ -206,5 +217,11 @@ public class PlayerTransformationController : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void SetInvincible(bool value)
+    {
+        isInvinsible = value;
+
     }
 }

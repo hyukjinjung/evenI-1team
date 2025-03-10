@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCollisionController : MonoBehaviour
+public class HideNextItem : MonoBehaviour
 {
     private Collider2D playerCollider;
-    private bool isCollisionDiabled = false;
     private bool canIgnoreMonster = false;
 
     private PlayerTransformationController playerTransformationController;
+    [SerializeField] private CanvasGroup DarkOverlay; 
 
 
     private void Start()
@@ -23,29 +23,42 @@ public class PlayerCollisionController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("HideNext"))
         {
-            Debug.Log("✅ HideNext 아이템 획득! 주변이 어두워집니다.");
+            Debug.Log("✅ HideNext 아이템 획득! 화면이 어두워집니다.");
 
+            // ✅ DarkOverlayController를 찾아서 실행
             if (DarkOverlayController.Instance != null)
             {
-                DarkOverlayController.Instance.ActivateDarkness(); // 어두운 효과 적용
+                DarkOverlayController.Instance.ActivateDarkness();
             }
             else
             {
-                Debug.LogError("❌ DarkOverlayController가 씬에서 찾을 수 없습니다! 씬에 추가하세요.");
+                Debug.LogError("❌ DarkOverlayController가 씬에서 찾을 수 없습니다!");
             }
 
-            Destroy(collision.gameObject); // 아이템 삭제
+            // ✅ 아이템 제거
+            Destroy(collision.gameObject);
         }
     }
 
 
-    public void EnableMonsterIgnore(float duration)
+    private IEnumerator ApplyDarkEffect(float duration)
     {
-        canIgnoreMonster = true;
-        Debug.Log($"몬스터와 충돌 무시 활성화. 지속 시간 {duration}");
+        if (DarkOverlay == null)
+        {
+            Debug.LogError("화면이 어두워집니다.");
+            yield break;
+        }
 
-        StartCoroutine(DisableMonsterIgnoreAfterDelay(duration));
+        // ? ��ο� ȿ�� ����
+        DarkOverlay.alpha = 1f;
+
+        yield return new WaitForSeconds(duration);
+
+        // ? ȿ�� ����
+        DarkOverlay.alpha = 0f;
     }
+
+
 
 
     private IEnumerator DisableMonsterIgnoreAfterDelay(float duration)
@@ -57,14 +70,5 @@ public class PlayerCollisionController : MonoBehaviour
     }
 
     
-    public bool CanIgnoreMonster()
-    {
-        if (playerTransformationController.GetCurrentTransformation() ==
-            TransformationType.NinjaFrog)
-        {
-            return true;
-        }
 
-        return canIgnoreMonster;
-    }
 }

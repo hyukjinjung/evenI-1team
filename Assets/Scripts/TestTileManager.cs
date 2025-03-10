@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TestTileManager : MonoBehaviour
 {
@@ -57,7 +58,17 @@ public class TestTileManager : MonoBehaviour
             maxTiles = startTileCount;
 
         gameManager = GameManager.Instance;
-        gameManager.PlayerInputController.OnJumpEvent += OnJumpEvent;
+        if (gameManager != null && gameManager.PlayerInputController != null)
+        {
+            // 이벤트 중복 구독 방지
+            gameManager.PlayerInputController.OnJumpEvent -= OnJumpEvent;
+            gameManager.PlayerInputController.OnJumpEvent += OnJumpEvent;
+            Debug.Log("TestTileManager Start: OnJumpEvent 이벤트 구독 완료");
+        }
+        else
+        {
+            Debug.LogError("TestTileManager Start: GameManager 또는 PlayerInputController가 null입니다");
+        }
     }
 
     void OnJumpEvent(bool isLeft)
@@ -329,6 +340,19 @@ public class TestTileManager : MonoBehaviour
         return -1;
     }
 
+    public Tile GetTileByPosition(Vector2 playerPosition)
+    {
+        int floorIndex = GetFloorByPosition(playerPosition);
+
+        if (floorIndex > 0 && floorIndex < tiles.Count)
+        {
+            return tiles[floorIndex];
+        }
+
+        return null;
+    }
+
+
     // 닌자 효과로 건너뛴 타일 수만큼 새 타일 생성하는 메서드
     public void GenerateTilesAfterNinjaEffect(int skippedTiles)
     {
@@ -339,5 +363,93 @@ public class TestTileManager : MonoBehaviour
         }
         
         Debug.Log($"닌자 효과: {skippedTiles}개의 새 타일이 생성되었습니다.");
+    }
+
+    private void OnEnable()
+    {
+        // 씬이 로드될 때마다 호출되는 이벤트에 등록
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        // 이벤트 등록 해제
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // 기존 타일 모두 제거
+        foreach (var tile in tiles)
+        {
+            if (tile != null)
+            {
+                Destroy(tile.gameObject);
+            }
+        }
+        
+        // 타일 리스트 초기화
+        tiles.Clear();
+        currentX = 0;
+        currentY = 0;
+        direction = 1;
+        createTileIndex = 0;
+        
+        // 첫 번째 타일 생성
+        GenerateDefaultTile();
+        
+        // 나머지 타일 생성
+        for (int i = 0; i < startTileCount - 1; i++)
+        {
+            GenerateTile();
+        }
+        
+        // 게임 매니저 참조 업데이트
+        gameManager = GameManager.Instance;
+        if (gameManager != null && gameManager.PlayerInputController != null)
+        {
+            // 이벤트 중복 구독 방지
+            gameManager.PlayerInputController.OnJumpEvent -= OnJumpEvent;
+            gameManager.PlayerInputController.OnJumpEvent += OnJumpEvent;
+        }
+    }
+
+    public void RestartGame()
+    {
+        Debug.Log("TestTileManager: RestartGame 호출됨");
+        
+        // 1. 기존 타일 모두 제거
+        foreach (var tile in tiles)
+        {
+            if (tile != null && tile.gameObject != null)
+            {
+                Destroy(tile.gameObject);
+            }
+        }
+        
+        // 또는 더 확실하게 모든 타일 찾아서 제거
+        GameObject[] allTiles = GameObject.FindGameObjectsWithTag("Tile");
+        foreach (var tileObj in allTiles)
+        {
+            Destroy(tileObj);
+        }
+        
+        // 2. 타일 리스트 초기화
+        tiles.Clear();
+        currentX = 0;
+        currentY = 0;
+        direction = 1;
+        createTileIndex = 0;
+        
+        // 3. 첫 번째 타일 생성
+        GenerateDefaultTile();
+        
+        // 4. 나머지 타일 생성
+        for (int i = 0; i < startTileCount - 1; i++)
+        {
+            GenerateTile();
+        }
+        
+        Debug.Log($"TestTileManager: 타일 초기화 완료 (총 타일 수: {tiles.Count})");
     }
 }

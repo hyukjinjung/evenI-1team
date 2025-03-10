@@ -23,7 +23,6 @@ public class TogglePlatform : MonoBehaviour
         {
             GameObject managerObj = new GameObject("TogglePlatformManager");
             Manager = managerObj.AddComponent<TogglePlatformManager>();
-            DontDestroyOnLoad(managerObj);
         }
     }
 
