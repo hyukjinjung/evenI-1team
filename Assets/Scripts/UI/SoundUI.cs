@@ -7,14 +7,11 @@ using UnityEngine.UI;
 
 public class SoundUI : UIPanel
 {
+    /*public AudioSource bgmAudioSources;
+    public AudioSource soundEffectAudioSources;
 
-    
-    
-        public AudioSource bgmAudioSource; // BGM 오디오 소스
-        public AudioSource soundEffectAudioSource; // 효과음 오디오 소스
-
-        // 각각의 오디오 상태를 따로 관리하도록 수정
-        private bool isBGMActive = true;
+    // 각각의 오디오 상태를 따로 관리하도록 수정
+    private bool isBGMActive = true;
         private bool isSFXActive = true;
 
         public Image SettingBGMButtonImage;
@@ -36,9 +33,14 @@ public class SoundUI : UIPanel
         public Sprite PauseSoundEffectButtonOnSprite;
         public Sprite PauseSoundEffectButtonOffSprite;
 
+        
+
+
         public override void Initialize(UIManager manager)
         {
             base.Initialize(manager);
+            
+
             SettingBGMButton.onClick.AddListener(SettingBGMButtonSoundState);
             SettingSoundEffectButton.onClick.AddListener(SettingSoundEffectButtonSoundState);
             PauseBGMButton.onClick.AddListener(PauseBGMButtonSoundState);
