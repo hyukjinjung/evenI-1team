@@ -88,7 +88,8 @@ public class FeverSystem : MonoBehaviour
         Debug.Log("피버 시작");
         OnFeverStart?.Invoke();
 
-        SoundManager.Instance.ChangeBackGroundMusic(2);  
+        SoundManager.Instance.ChangeBackGroundMusic(2);
+        
     }
 
 
@@ -108,6 +109,7 @@ public class FeverSystem : MonoBehaviour
         OnFeverEnd?.Invoke();
 
         SoundManager.Instance.ChangeBackGroundMusic(1);
+        
     }
 
 
@@ -120,7 +122,7 @@ public class FeverSystem : MonoBehaviour
 
         Debug.Log($"현재 피버 점수 {feverScore}");
 
-        if (feverScore >= 50 && !isFeverActive)
+        if (feverScore >= 30 && !isFeverActive)
         {
             StartFever();
         }
