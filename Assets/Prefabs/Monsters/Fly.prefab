@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1832778883396969407}
   - component: {fileID: 3360136798793316115}
   m_Layer: 0
-  m_Name: Monster
+  m_Name: Fly
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,7 +120,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e60af326a5039a144911e55198a762ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterType: 0
   health: 1
+  socre: 0
 --- !u!114 &3360136798793316115
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -42,7 +42,17 @@ public enum AddScoreConditionType
 {
     OnKill,
     OnTransformEnd,
-    OnSpecialAbilityUse
+    OnSpecialAbilityUse,
+    GettingItems
+}
+
+public enum MonsterType
+{
+    Fly,
+    Spider,
+    Butterfly,
+    Dragonfly,
+    Mantis
 }
 
 public enum AddScoreTargetType

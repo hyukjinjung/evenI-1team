@@ -75,7 +75,7 @@ public class NinjaAbility : SpecialAbilityData
     private IEnumerator ExecuteAttackAfterDisappear(Transform playertransform, Tile targetTile,
         Monster targetMonster)
     {
-        SoundManager.Instance.PlayClip(24, 3f);
+        SoundManager.Instance.PlayClip(24, 0.5f);
 
         playerAnimationController.PlayDisappearAnimation();
         float disappearTime = playerAnimationController.GetDisappearAnimationLength();
