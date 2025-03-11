@@ -30,12 +30,12 @@ public enum ItemType
 
 public enum TransformationItemType
 {
-    Normal,
-    Lotus,
-    Bull,
     Ninja,
-    Golden
-
+    Bull,
+    Lotus,
+    Flying,
+    Musician,
+    Masician
 }
 
 public enum AddScoreConditionType
