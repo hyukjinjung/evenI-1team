@@ -4153,7 +4153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3691085612881245442, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4421210833698687298, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
       propertyPath: m_SizeDelta.x
@@ -4444,7 +4444,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7572483940710925958, guid: 421101df349b29043b2a4f63d9d6bf8d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8426442132814768355, guid: 421101df349b29043b2a4f63d9d6bf8d, type: 3}
       propertyPath: m_Sprite
@@ -4473,7 +4473,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 341502051664685124, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2802790968551126276, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
