@@ -52,7 +52,18 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI ResultBestScoreText;
     public TextMeshProUGUI ResultPileUpScoreText;
     public TextMeshProUGUI ResultCoinScoreText;
-    
+
+    //out Game
+    public Button StoryReTurnButton;
+    public Button StoryButton;
+    public Button SettingInstagrambutton;
+    public Button SettingSourceButton;
+    public Button SettingSoundEffectButton;
+    public Button SettingBGMButton;
+    public Button SettingReturnButton;
+    public Button SettingCreditButton;
+    public Button CreditsReTurnButton;
+    //in Game
     public Button PauseMainHomeButton;
     public Button PauseContinueButton;
     public Button PauseBGMButton;
@@ -65,15 +76,7 @@ public class UIManager : MonoBehaviour
     public Button ResultReStartButton;
     public Button ResultMainHomeButton;
     public Button ResultCoinTwiceButton;
-    public Button StoryReTurnButton;
-    public Button StoryButton;
-    public Button SettingInstagrambutton;
-    public Button SettingSourceButton;
-    public Button SettingSoundEffectButton;
-    public Button SettingBGMButton;
-    public Button SettingReturnButton;
-    public Button SettingCreditButton;
-    public Button CreditsReTurnButton;
+   
 
  
     private bool isActive = true; 
@@ -108,8 +111,8 @@ public class UIManager : MonoBehaviour
         uiCautionPanel = GetComponentInChildren<UICautionPanel>(true);
         uiCautionPanel.Initialize(this);
 
-        //soundUI = GetComponentInChildren<SoundUI>(true);
-        //soundUI.Initialize(this);
+        soundUI = GetComponentInChildren<SoundUI>(true);
+        soundUI.Initialize(this);
       
     }
 
