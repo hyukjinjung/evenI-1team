@@ -211,10 +211,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 482007a693e267641bb16658c2b1531b, type: 3}
   - {fileID: 8300000, guid: 41d01fa6bf0cf314fa2e376cbe1e0d24, type: 3}
   - {fileID: 8300000, guid: 843a86e17e73136479b4fd4fa2f5295e, type: 3}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: e173b9da587355247a36f61bf1b88d32, type: 3}
   - {fileID: 8300000, guid: d49ecdc994e048544b1d64f7812eb7bf, type: 3}
   - {fileID: 8300000, guid: 2b69a8375a3f3cc4e913a285e981ca00, type: 3}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 4a2419f6f572e2241bbc8fde3d261bd4, type: 3}
+  - {fileID: 8300000, guid: d6879b98e63134b48a284a4218c1a9e6, type: 3}
 --- !u!4 &49241922
 Transform:
   m_ObjectHideFlags: 0
@@ -1306,7 +1307,6 @@ GameObject:
   - component: {fileID: 417875397}
   - component: {fileID: 417875396}
   - component: {fileID: 417875398}
-  - component: {fileID: 417875400}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1465,19 +1465,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b2b7571f504acc949894443ebc425bba, type: 2}
   - {fileID: 11400000, guid: 3c15fbb2e1ab4754d9f0d317875fe612, type: 2}
   currentTransformationData: {fileID: 0}
---- !u!114 &417875400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 417875385}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea245d094305b52478b97b8e57a81f52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DarkOverlay: {fileID: 0}
 --- !u!4 &431692776 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2463282552983621013, guid: 1d2d7d339d50fcb4ab6ee21655e2a652, type: 3}
