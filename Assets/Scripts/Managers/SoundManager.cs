@@ -11,9 +11,9 @@ public class SoundManager : MonoBehaviour
     [SerializeField][Range(0f, 1f)] private float soundEffectPitchVariance;
     [SerializeField][Range(0f, 1f)] private float musicVolume;
 
-    private AudioSource musicAudioSource;
-    public AudioClip[] musicClip;
+    public AudioSource musicAudioSource;
 
+    public AudioClip[] musicClip;
     public AudioClip[] sfxSounds;
 
     ObjectPool objectPool;
@@ -21,6 +21,7 @@ public class SoundManager : MonoBehaviour
     private static SoundManager instance;
     public static SoundManager Instance { get { return instance; } }
 
+    private bool isSFXEnabled = true;
     // Start is called before the first frame update
     void Awake()
     {
@@ -46,6 +47,8 @@ public class SoundManager : MonoBehaviour
 
     public void PlayClip(int index, float pitch = 1.0f, float volumeMultiplier = 1.0f)
     {
+        if (!isSFXEnabled) return;
+
         GameObject go = objectPool.SpawnFromPool("SoundSource");
         go.SetActive(true);
         SoundSource soundSource = go.GetComponent<SoundSource>();
@@ -53,7 +56,42 @@ public class SoundManager : MonoBehaviour
 
         soundSource.SetPitch(pitch);
         soundSource.Play(sfxSounds[index], soundEffectVolum * volumeMultiplier, soundEffectPitchVariance);
+
+        soundSource.enabled = false;
     }
 
+    public void ToggleBGM()
+    {
+        musicAudioSource.mute = !musicAudioSource.mute;
+        //    if (musicAudioSource.isPlaying)
+        //    {
+        //        musicAudioSource.Pause(); 
+        //    }
+        //    else
+        //    {
+        //        musicAudioSource.Play(); 
+        //    }
+    }
+    public void ToggleSoundEffect()
+    {
+        isSFXEnabled = !isSFXEnabled;
+        //if (musicAudioSource.isPlaying)
+        //{
+        //    musicAudioSource.Pause();
+        //}
+        //else
+        //{
+        //    SoundManager.Instance.PlayClip()
 
+        //}
+    }
+    public bool IsBGMPlaying()
+    {
+        return musicAudioSource.isPlaying;
+    }
+
+    public bool IsSoundEffectPlaying()
+    {
+        return musicAudioSource.isPlaying;
+    }
 }
