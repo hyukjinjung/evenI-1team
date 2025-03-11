@@ -14,6 +14,7 @@ public class TestTileManager : MonoBehaviour
     [SerializeField] private GameObject MonsterPrefab;
     [SerializeField] private GameObject ItemTilePrefab;
     [SerializeField] private GameObject ItemPrefab;
+    [SerializeField] private GameObject shieldItemPrefab;
 
     private List<Tile> tiles = new List<Tile>();
     // private List<Tile> monsterTiles = new List<Tile>();
@@ -287,8 +288,21 @@ public class TestTileManager : MonoBehaviour
     {
         if (tile == null) return;
 
-        GameObject item = Instantiate(ItemPrefab, tile.transform);
-        item.transform.localPosition = Vector3.zero; // ✅ 타일 중앙에 배치
+        // 아이템 종류 결정 (50:50 확률)
+        GameObject selectedItemPrefab;
+        if (Random.value < 0.5f)
+        {
+            selectedItemPrefab = ItemPrefab;        // 기존 아이템 사용
+            Debug.Log("닌자 아이템 생성");
+        }
+        else
+        {
+            selectedItemPrefab = shieldItemPrefab;  // 새로운 쉴드 아이템
+            Debug.Log("쉴드 아이템 생성");
+        }
+
+        GameObject item = Instantiate(selectedItemPrefab, tile.transform);
+        item.transform.localPosition = Vector3.zero; // 타일 중앙에 배치
         item.gameObject.SetActive(true);
 
         tile.SetItem(item);
