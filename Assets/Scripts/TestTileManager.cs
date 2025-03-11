@@ -38,6 +38,9 @@ public class TestTileManager : MonoBehaviour
     private GameManager gameManager;
     private int createTileIndex = 0;
 
+    // 게임 모드 매니저 참조 추가
+    private GameModeManager gameModeManager;
+
     private void GenerateDefaultTile()
     {
         // 첫 번째 타일은 기본 타일로 생성
@@ -49,6 +52,9 @@ public class TestTileManager : MonoBehaviour
 
     void Start()
     {
+        // 게임 모드 매니저 참조 가져오기
+        gameModeManager = GameModeManager.Instance;
+        
         GenerateDefaultTile(); // ✅ 첫 번째 기본 타일 생성
         for (int i = 0; i < startTileCount - 1; i++)
         {
@@ -79,13 +85,167 @@ public class TestTileManager : MonoBehaviour
 
     private void GenerateTile()
     {
-        float randomValue = Random.value;
+        // 게임 모드에 따라 다른 타일 생성 로직 적용
+        if (gameModeManager != null)
+        {
+            switch (gameModeManager.CurrentGameMode)
+            {
+                case GameMode.Infinite:
+                    GenerateInfiniteTile();
+                    break;
+                case GameMode.Story:
+                    GenerateStoryTile();
+                    break;
+                case GameMode.Challenge:
+                    GenerateChallengeTile();
+                    break;
+                default:
+                    GenerateInfiniteTile();
+                    break;
+            }
+        }
+        else
+        {
+            // 게임 모드 매니저가 없으면 기존 로직 사용
+            GenerateInfiniteTile();
+        }
+    }
 
+    // 무한 모드 타일 생성 (기존 로직)
+    private void GenerateInfiniteTile()
+    {
+        float randomValue = Random.value;
         GameObject tilePrefab = CheckTilePrefab(randomValue);
         GameObject tileObject = GenerateTile(tilePrefab, out Tile tileComponent);
         AfterCreateTile(tilePrefab, tileComponent);
     }
 
+    // 스토리 모드 타일 생성
+    private void GenerateStoryTile()
+    {
+        // 스토리 레벨에 따른 타일 생성 로직
+        int currentLevel = gameModeManager.CurrentStoryLevel;
+        
+        // 레벨에 따라 다른 확률 적용
+        float monsterChance = monsterTileSpawnChance;
+        float itemChance = itemTileSpawnChance;
+        float invisibleChance = InvisibleTileSpawnChance;
+        
+        // 레벨별 난이도 조정
+        switch (currentLevel)
+        {
+            case 1: // 튜토리얼
+                monsterChance = 0.05f;
+                invisibleChance = 0f;
+                break;
+            case 2: // 쉬운 레벨
+                monsterChance = 0.1f;
+                invisibleChance = 0.05f;
+                break;
+            // 추가 레벨...
+        }
+        
+        // 조정된 확률로 타일 생성
+        float randomValue = Random.value;
+        GameObject tilePrefab;
+        
+        if (randomValue < monsterChance)
+        {
+            tilePrefab = MonsterTilePrefab;
+        }
+        else if (randomValue < monsterChance + itemChance)
+        {
+            tilePrefab = ItemTilePrefab;
+        }
+        else if (randomValue < monsterChance + itemChance + invisibleChance)
+        {
+            tilePrefab = InvisibleTilePrefab;
+        }
+        else
+        {
+            tilePrefab = testTilePrefab;
+        }
+        
+        GameObject tileObject = GenerateTile(tilePrefab, out Tile tileComponent);
+        AfterCreateTile(tilePrefab, tileComponent);
+    }
+
+    // 도전 모드 타일 생성
+    private void GenerateChallengeTile()
+    {
+        switch (gameModeManager.CurrentChallengeType)
+        {
+            case ChallengeType.Speed:
+                GenerateSpeedModeTile();
+                break;
+            case ChallengeType.OnOff:
+                GenerateOnOffModeTile();
+                break;
+            case ChallengeType.Monster:
+                GenerateMonsterModeTile();
+                break;
+            default:
+                GenerateInfiniteTile();
+                break;
+        }
+    }
+
+    // 스피드 모드 타일 생성
+    private void GenerateSpeedModeTile()
+    {
+        // 기본 타일 생성 로직과 유사하지만 더 빠르게 생성
+        float randomValue = Random.value;
+        GameObject tilePrefab = CheckTilePrefab(randomValue);
+        GameObject tileObject = GenerateTile(tilePrefab, out Tile tileComponent);
+        AfterCreateTile(tilePrefab, tileComponent);
+        
+        // 타일 간격을 더 좁게 설정 (선택적)
+        // currentY += 0.8f; // 기본값보다 작게 설정
+    }
+
+    // 온오프 모드 타일 생성
+    private void GenerateOnOffModeTile()
+    {
+        GameObject tilePrefab;
+        float invisibleTileChance = 0.15f; // 온오프 타일 생성 확률 15%
+        
+        // 15% 확률로 온오프 타일 생성, 나머지는 일반 타일
+        if (Random.value < invisibleTileChance)
+        {
+            tilePrefab = InvisibleTilePrefab;
+            GameObject tileObject = GenerateTile(tilePrefab, out Tile tileComponent);
+            CreateInvisibleTile(tileComponent);
+        }
+        else
+        {
+            // 나머지 85%는 일반 타일만 생성 (몬스터, 아이템 없음)
+            tilePrefab = testTilePrefab;
+            GameObject tileObject = GenerateTile(tilePrefab, out Tile tileComponent);
+            // AfterCreateTile 호출하지 않음 (몬스터, 아이템 생성 방지)
+        }
+    }
+
+    // 몬스터 모드 타일 생성
+    private void GenerateMonsterModeTile()
+    {
+        float monsterChance = 0.20f; // 몬스터 타일 생성 확률 20%
+        GameObject tilePrefab;
+        
+        if (Random.value < monsterChance)
+        {
+            // 20% 확률로 몬스터 타일 생성
+            tilePrefab = MonsterTilePrefab;
+            GameObject tileObject = GenerateTile(tilePrefab, out Tile tileComponent);
+            CreateMonsterOnTile(tileComponent);
+        }
+        else
+        {
+            // 나머지 80%는 기본 타일만 생성 (아이템 없음)
+            tilePrefab = testTilePrefab;
+            GameObject tileObject = GenerateTile(tilePrefab, out Tile tileComponent);
+            // AfterCreateTile 호출하지 않음 (아이템 생성 방지)
+        }
+    }
 
     private void AfterCreateTile(GameObject tilePrefab, Tile tileComponent)
     {
