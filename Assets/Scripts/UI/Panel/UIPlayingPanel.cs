@@ -8,14 +8,14 @@ using UnityEngine.SceneManagement;
 
 public class UIPlayingPanel : UIPanel
 {
-     [SerializeField] Button AttackButton;
-     [SerializeField] Button LeftButton;
-     [SerializeField] Button RightButton;
-     [SerializeField] Button PauseButton;
-    
-     [SerializeField] TextMeshProUGUI scoreText;
-     
-     
+    [SerializeField] Button AttackButton;
+    [SerializeField] Button LeftButton;
+    [SerializeField] Button RightButton;
+    [SerializeField] Button PauseButton;
+
+    [SerializeField] TextMeshProUGUI scoreText;
+
+
     public event Action OnClickedAttackEvent;
     public event Action<bool> OnClickedMoveEvent;   // true -> Left
 
@@ -31,30 +31,51 @@ public class UIPlayingPanel : UIPanel
         soundManager = SoundManager.Instance;
     }
 
-    
+
 
     void OnPauseButtonClicked()
     {
         uiManager.OnPauseButtonClicked();
         soundManager.PlayClip(22);
     }
-    
+
     void OnClickedAttackButton()
     {
         OnClickedAttackEvent?.Invoke();
+
+
         soundManager.PlayClip(0);
+
     }
-    
+
     void OnClickedLeftButton()
     {
         OnClickedMoveEvent?.Invoke(true);
-        soundManager.PlayClip(1);
+
+        if (GameManager.Instance.PlayerTransformationController.GetCurrentTransformation() ==
+            TransformationType.NinjaFrog)
+        {
+            soundManager.PlayClip(25);
+        }
+        else
+        {
+            soundManager.PlayClip(1);
+        }
     }
-    
+
     void OnClickedRightButton()
     {
         OnClickedMoveEvent?.Invoke(false);
-        soundManager.PlayClip(1);
+
+        if (GameManager.Instance.PlayerTransformationController.GetCurrentTransformation() ==
+            TransformationType.NinjaFrog)
+        {
+            soundManager.PlayClip(25);
+        }
+        else
+        {
+            soundManager.PlayClip(1);
+        }
     }
 
     public void UpdateScore(int score)

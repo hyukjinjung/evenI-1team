@@ -182,6 +182,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (feverSystem != null && feverSystem.IsFeverActive && IsOnObstacleTile())
             return;
+
+        if (feverSystem.IsFeverActive)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, -15f);
+        }
     }
 
 

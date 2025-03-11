@@ -22,11 +22,19 @@ public class SoundSource : MonoBehaviour
         Invoke("Disable", clip.length + 2);
     }
 
+
     public void Disable()
     {
         audioSource.Stop();
         gameObject.SetActive(false);
-
     }
 
+
+    public void SetPitch(float newPitch)
+    {
+        if (audioSource != null)
+        {
+            audioSource.pitch = newPitch;
+        }
+    }
 }
