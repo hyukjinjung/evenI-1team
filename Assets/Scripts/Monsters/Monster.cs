@@ -11,21 +11,39 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
-    public int health = 1;
+    public MonsterType monsterType;
+    
+    [SerializeField] private int health;
+    //[SerializeField] private int socre;
 
     private bool isDying = false;
 
-    MonsterAnimationController animationController;
-    //SoundManager soundManager;
+    //MonsterAnimationController animationController;
+
+    private Dictionary<MonsterType, (int health, int score)> monsterData = new Dictionary<MonsterType, (int health, int score)>
+    {
+        { MonsterType.Fly, (1, 5) },
+        { MonsterType.Spider, (2, 10) },
+        { MonsterType.Butterfly, (3, 15) },
+        { MonsterType.Dragonfly, (4, 20) },
+        { MonsterType.Mantis, (5, 25) },
+    };
 
 
     private void Awake()
     {
-        animationController = GetComponent<MonsterAnimationController>();
-
-
+        //animationController = GetComponent<MonsterAnimationController>();
     }
 
+    private void Start()
+    {
+        health = monsterData[monsterType].health;
+    }
+
+    public int GetScore()
+    {
+        return monsterData[monsterType].score;
+    }
 
 
     public void TakeDamage(int damage)
@@ -45,7 +63,10 @@ public class Monster : MonoBehaviour
     {
         
         Debug.Log($"∏ÛΩ∫≈Õ {gameObject.name} ªÁ∏¡");
-        animationController.StartDeath(this);
+        //animationController.StartDeath(this);
+
+        GameManager.Instance.AddScore(GetScore());
+
         Destroy(gameObject);
         SoundManager.Instance.PlayClip(10);
     }

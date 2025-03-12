@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public bool IsGameStarted { get; private set; } = false;
+
 
     public UIManager uiManager;
 
@@ -34,6 +36,7 @@ public class GameManager : MonoBehaviour
     public FeverSystem feverSystem;
     public FeverBackGroundManager feverBackGroundManager;
     public ChasingMonsterManager chasingMonsterManager;
+    public CameraController cameraController;
 
     public GameObject StartPanel;
     public GameObject PlayingPanel;
@@ -82,6 +85,7 @@ public class GameManager : MonoBehaviour
         feverSystem = FindAnyObjectByType<FeverSystem>();
         feverBackGroundManager = FindObjectOfType<FeverBackGroundManager>();
         chasingMonsterManager = FindObjectOfType<ChasingMonsterManager>();
+        cameraController = FindObjectOfType<CameraController>();
 
 
 
@@ -114,12 +118,24 @@ public class GameManager : MonoBehaviour
         uiResultPanel.UpdateBestScore(bestScore);
 
 
+        if (ChasingMonsterManager.Instance != null)
+        {
+            ChasingMonsterManager.Instance.Initialize(player.transform, cameraController);
+            SoundManager.Instance.PlayClip(5);
+        }
+
+        if (cameraController != null) 
+        {
+            cameraController.StartCameraSequnece();
+        }
     }
 
 
     public void StartGame()
     {
         Debug.Log("게임 시작");
+        IsGameStarted = true;
+
         playerMovement.enabled = true;
         playerInputController.enabled = true;
 
@@ -135,11 +151,6 @@ public class GameManager : MonoBehaviour
         PlayingPanel.SetActive(true);
 
 
-        if (ChasingMonsterManager.Instance != null)
-        {
-            ChasingMonsterManager.Instance.Initialize(player.transform);
-            SoundManager.Instance.PlayClip(5);
-        }
 
         //uiResultPanel.UpdateBestScore(0);
 

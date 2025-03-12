@@ -159,6 +159,13 @@ public class PlayerMovement : MonoBehaviour
 
         if (!targetTile.HasMonster()) return true;
 
+        ShieldState shieldState = GetComponent<ShieldState>();
+        if (shieldState != null && shieldState.HasShield())
+        {
+            Debug.Log("✅ 쉴드로 몬스터 충돌 방어!");
+            shieldState.UseShield();
+            return true;
+        }
 
         if (CanIgnoreMonster())
             return true;
@@ -182,6 +189,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (feverSystem != null && feverSystem.IsFeverActive && IsOnObstacleTile())
             return;
+
+        if (feverSystem.IsFeverActive)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, -15f);
+        }
     }
 
 

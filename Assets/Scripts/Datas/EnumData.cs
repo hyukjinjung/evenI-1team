@@ -30,19 +30,29 @@ public enum ItemType
 
 public enum TransformationItemType
 {
-    Normal,
-    Lotus,
-    Bull,
     Ninja,
-    Golden
-
+    Bull,
+    Lotus,
+    Flying,
+    Musician,
+    Masician
 }
 
 public enum AddScoreConditionType
 {
     OnKill,
     OnTransformEnd,
-    OnSpecialAbilityUse
+    OnSpecialAbilityUse,
+    GettingItems
+}
+
+public enum MonsterType
+{
+    Fly,
+    Spider,
+    Butterfly,
+    Dragonfly,
+    Mantis
 }
 
 public enum AddScoreTargetType

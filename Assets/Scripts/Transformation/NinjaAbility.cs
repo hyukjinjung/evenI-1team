@@ -75,6 +75,8 @@ public class NinjaAbility : SpecialAbilityData
     private IEnumerator ExecuteAttackAfterDisappear(Transform playertransform, Tile targetTile,
         Monster targetMonster)
     {
+        SoundManager.Instance.PlayClip(24, 0.5f);
+
         playerAnimationController.PlayDisappearAnimation();
         float disappearTime = playerAnimationController.GetDisappearAnimationLength();
         yield return new WaitForSeconds(disappearTime);
@@ -110,7 +112,6 @@ public class NinjaAbility : SpecialAbilityData
                 tileManager.GenerateTilesAfterNinjaEffect(skippedTiles);
             }
         }
-        //playerAnimationController.StartRevertAnimation();
     }
 
 

@@ -1321,37 +1321,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 363454249}
   m_CullTransparentMesh: 1
---- !u!1 &366100212
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 366100214}
-  m_Layer: 0
-  m_Name: ObstacleStair
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &366100214
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 366100212}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &377377109 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5144062183790717110, guid: db801b54a564cef45bccf32735e415c4, type: 3}
@@ -1487,7 +1456,6 @@ GameObject:
   - component: {fileID: 417875397}
   - component: {fileID: 417875396}
   - component: {fileID: 417875398}
-  - component: {fileID: 417875400}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1646,19 +1614,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b2b7571f504acc949894443ebc425bba, type: 2}
   - {fileID: 11400000, guid: 3c15fbb2e1ab4754d9f0d317875fe612, type: 2}
   currentTransformationData: {fileID: 0}
---- !u!114 &417875400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 417875385}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea245d094305b52478b97b8e57a81f52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DarkOverlay: {fileID: 0}
 --- !u!4 &431692776 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2463282552983621013, guid: 1d2d7d339d50fcb4ab6ee21655e2a652, type: 3}
@@ -2620,6 +2575,7 @@ MonoBehaviour:
   MonsterPrefab: {fileID: 4484346038493015994, guid: e12d6f85f99a39b45b2e8e0ca6f8f664, type: 3}
   ItemTilePrefab: {fileID: 8630953280370161833, guid: 7c2b2224622b83f4f824175669f303cb, type: 3}
   ItemPrefab: {fileID: 7927195594348371117, guid: 8702ed313f8009e4a8c3f8ad882634bb, type: 3}
+  shieldItemPrefab: {fileID: 8471668683787100318, guid: 1dff697a34e378745aaa0e05729ec795, type: 3}
   obstacleSpawnChance: 0.2
   monsterTileSpawnChance: 0.2
   itemTileSpawnChance: 0.1
@@ -5526,7 +5482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 341502051664685124, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2467518094697923785, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -6529,7 +6485,6 @@ SceneRoots:
   - {fileID: 1557261785}
   - {fileID: 51306403}
   - {fileID: 960801438}
-  - {fileID: 366100214}
   - {fileID: 184341432}
   - {fileID: 4324387553625352322}
   - {fileID: 4106134246903134001}

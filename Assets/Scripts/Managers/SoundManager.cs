@@ -45,13 +45,16 @@ public class SoundManager : MonoBehaviour
         musicAudioSource.Play();
     }
 
-    public void PlayClip(int index, float volumeMultiplier = 1.0f)
+    public void PlayClip(int index, float pitch = 1.0f, float volumeMultiplier = 1.0f)
     {
         if (!isSFXEnabled) return;
 
         GameObject go = objectPool.SpawnFromPool("SoundSource");
         go.SetActive(true);
         SoundSource soundSource = go.GetComponent<SoundSource>();
+
+
+        soundSource.SetPitch(pitch);
         soundSource.Play(sfxSounds[index], soundEffectVolum * volumeMultiplier, soundEffectPitchVariance);
 
         soundSource.enabled = false;
