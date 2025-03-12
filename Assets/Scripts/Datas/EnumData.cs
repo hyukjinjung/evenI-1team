@@ -61,7 +61,7 @@ public enum AddScoreTargetType
     Item = 1,               // 아이템
     Monster = 2,            // 몬스터
     ObstacleItem = 3,       // 방해 아이템
-    Coin = 4,               // 코인
+    Coin = 1,               // 코인
     ObstaclePattern = 5,    // 방해 패턴
     Movement = 6,           // 이동
     SpecialKeyUse = 7,      // 특수키 사용
