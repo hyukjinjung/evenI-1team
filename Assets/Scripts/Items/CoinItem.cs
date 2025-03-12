@@ -27,6 +27,7 @@ public class CoinItem : MonoBehaviour
         //UI
 
         gameObject.SetActive(false);
+        SoundManager.Instance.PlayClip(27);
     }
 
 }

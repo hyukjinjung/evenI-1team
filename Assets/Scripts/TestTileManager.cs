@@ -15,6 +15,7 @@ public class TestTileManager : MonoBehaviour
     [SerializeField] private GameObject ItemTilePrefab;
     [SerializeField] private GameObject ItemPrefab;
     [SerializeField] private GameObject shieldItemPrefab;
+    [SerializeField] private GameObject coinItemPrefab;
 
     private List<Tile> tiles = new List<Tile>();
     // private List<Tile> monsterTiles = new List<Tile>();
@@ -26,8 +27,8 @@ public class TestTileManager : MonoBehaviour
     private int direction = 1;
 
     // [SerializeField] private float spawnInterval = 0.5f;
-    [SerializeField] private float obstacleSpawnChance = 0.2f;
-    [SerializeField] private float monsterTileSpawnChance = 0.18f;
+    [SerializeField] private float obstacleSpawnChance = 0.15f;
+    [SerializeField] private float monsterTileSpawnChance = 0.3f;
     [SerializeField] private float itemTileSpawnChance = 0.15f;
     [SerializeField] private float InvisibleTileSpawnChance = 0.15f;
 
@@ -448,17 +449,18 @@ public class TestTileManager : MonoBehaviour
     {
         if (tile == null) return;
 
-        // 아이템 종류 결정 (50:50 확률)
+        // 아이템 종류 결정 (50:50 확률) -> 코인 획득 테스트로 임시로 변동
         GameObject selectedItemPrefab;
-        if (Random.value < 0.5f)
+        if (Random.value < 0.2f)
         {
             selectedItemPrefab = ItemPrefab;        // 기존 아이템 사용
             Debug.Log("닌자 아이템 생성");
         }
         else
         {
-            selectedItemPrefab = shieldItemPrefab;  // 새로운 쉴드 아이템
-            Debug.Log("쉴드 아이템 생성");
+            selectedItemPrefab = coinItemPrefab;
+            //selectedItemPrefab = shieldItemPrefab;  // 새로운 쉴드 아이템
+            //Debug.Log("쉴드 아이템 생성");
         }
 
         GameObject item = Instantiate(selectedItemPrefab, tile.transform);
