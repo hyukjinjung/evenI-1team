@@ -63,6 +63,14 @@ public class UIManager : MonoBehaviour
     public Button SettingReturnButton;
     public Button SettingCreditButton;
     public Button CreditsReTurnButton;
+
+    public Button RankingButton;
+    public Button SkinButton;
+    public Button EncyButton;
+    public Button AchieveButton;
+    public Button AdsButton;
+    public Button ModeButton;
+    public Button EventButton;
     //in Game
     public Button PauseMainHomeButton;
     public Button PauseContinueButton;
@@ -127,11 +135,17 @@ public class UIManager : MonoBehaviour
         uiSettingPanel.SetActive(false);
         uiPausePanel.SetActive(false);
         uiCautionPanel.SetActive(false);
-        
+
         //StoryPanel.SetActive(false);
 
+        RankingButton.onClick.AddListener(OnClickedRankingButton);
+        SkinButton.onClick.AddListener(OnClickedSkinButton);
+        EncyButton.onClick.AddListener(OnClickedEncyButton);
+        AchieveButton.onClick.AddListener(OnClickedAchieveButton);
+        AdsButton.onClick.AddListener(OnClickedAdsButton);
+        ModeButton.onClick.AddListener(OnClickedModeButton);
+        EventButton.onClick.AddListener(OnClickedEventButton);
 
-        
         PauseMainHomeButton.onClick.AddListener(OnPauseMainHomeButtonClicked);
         PauseContinueButton.onClick.AddListener(OnPauseContinueButtonClicked);
 
@@ -296,5 +310,37 @@ public class UIManager : MonoBehaviour
     public void OnStoryReTurnButtonClicked()
     {
         uiResultPanel.SetActive(true);
+    }
+
+    public void OnClickedRankingButton()
+    {
+
+    }
+
+    public void OnClickedSkinButton()
+    {
+
+    }
+    public void OnClickedEncyButton()
+    {
+
+    }
+
+    public void OnClickedAchieveButton()
+    {
+
+    }
+
+    public void OnClickedAdsButton()
+    {
+
+    }
+    public void OnClickedModeButton()
+    {
+
+    }
+    public void OnClickedEventButton()
+    {
+
     }
 }

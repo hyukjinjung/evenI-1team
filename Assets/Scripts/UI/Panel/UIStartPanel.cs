@@ -51,34 +51,34 @@ public class UIStartPanel : UIPanel
 
     public void OnClickedRankingButton()
     {
-
+        uiManager.OnClickedRankingButton();
     }
 
     public void OnClickedSkinButton()
     {
-
+        uiManager.StartGame();
     }
     public void OnClickedEncyButton()
     {
-
+        uiManager.OnClickedSkinButton();
     }
 
     public void OnClickedAchieveButton()
     {
-
+        uiManager.OnClickedAchieveButton();
     }
 
     public void OnClickedAdsButton()
     {
-
+        uiManager.OnClickedAdsButton();
     }
     public void OnClickedModeButton()
     {
-
+        uiManager.OnClickedModeButton();
     }
     public void OnClickedEventButton()
     {
-
+        uiManager.OnClickedEventButton();
     }
 
 }
