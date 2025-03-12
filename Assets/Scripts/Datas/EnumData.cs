@@ -87,6 +87,13 @@ public enum FeverScoreType
     TestCoin
 }
 
+public enum ChasingMonsterDistanceState
+{
+    Far,
+    Medium,
+    Colse
+}
+
 public enum BGM
 {   
    

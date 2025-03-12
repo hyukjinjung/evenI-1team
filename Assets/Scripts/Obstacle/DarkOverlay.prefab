@@ -101,8 +101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30c55e71b3476d040b12ff9a920a9f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  darkOverlay: {fileID: 6463252571661790790}
   darknessDuration: 5
   fadeInTime: 0.5
   fadeOutTime: 0.5
   maxAlpha: 1
-  debugMode: 1

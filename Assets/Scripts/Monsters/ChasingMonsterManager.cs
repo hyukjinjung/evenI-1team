@@ -14,6 +14,8 @@ public class ChasingMonsterManager : MonoBehaviour
     public float followDistance = 100f;
 
     public CameraController cameraController;
+    [SerializeField] private UIChasingMonsterGauge uiChasingMonsterGauge;
+
 
 
     private void Awake()

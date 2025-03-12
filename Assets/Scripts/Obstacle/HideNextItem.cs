@@ -42,7 +42,7 @@ public class HideNextItem : MonoBehaviour
         }
     }
 
-
+    
     private IEnumerator ApplyDarkEffect(float duration)
     {
         if (DarkOverlay == null)
