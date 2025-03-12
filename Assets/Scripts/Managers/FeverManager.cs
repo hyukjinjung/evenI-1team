@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
-using Unity.VisualScripting;
 
 public class FeverManager : MonoBehaviour
 {
@@ -30,8 +29,8 @@ public class FeverManager : MonoBehaviour
 
     void Start()
     {
-        Variables.Application.Set("FeverActive", false);
-        Variables.Application.Set("FeverScore", 0);
+        //Variables.Application.Set("FeverActive", false);
+        //Variables.Application.Set("FeverScore", 0);
     }
 
     void Update()
@@ -43,7 +42,7 @@ public class FeverManager : MonoBehaviour
     public void AddFeverScore(int amount)
     {
         feverScore += amount;
-        Variables.Application.Set("FeverScore", feverScore);
+        //Variables.Application.Set("FeverScore", feverScore);
 
         Debug.Log($"현재 피버 점수 {feverScore}");
 
@@ -56,29 +55,29 @@ public class FeverManager : MonoBehaviour
 
     public void ActivateFever()
     {
-        if (!isFeverActive)
-        {
-            isFeverActive = true;
+        //if (!isFeverActive)
+        //{
+        //    isFeverActive = true;
 
-            Variables.Application.Set("FeverActive", true);
+        //    Variables.Application.Set("FeverActive", true);
 
-            CustomEvent.Trigger(gameObject, "ActivateFever");
+        //    CustomEvent.Trigger(gameObject, "ActivateFever");
 
-            StartCoroutine(EndFeverAfterDuration());
-        }
+        //    StartCoroutine(EndFeverAfterDuration());
+        //}
     }
 
 
-    private IEnumerator EndFeverAfterDuration()
-    {
-        yield return new WaitForSeconds(feverDuration);
+    ////private IEnumerator EndFeverAfterDuration()
+    //{
+    //    //yield return new WaitForSeconds(feverDuration);
 
-        isFeverActive = false ;
-        Variables.Application.Set("FeverActive", false );
+    //    //isFeverActive = false ;
+    //    //Variables.Application.Set("FeverActive", false );
 
-        CustomEvent.Trigger(gameObject, "EndFever");
+    //    //CustomEvent.Trigger(gameObject, "EndFever");
 
-    }
+    //}
 
 
     public bool IsFeverActive()
