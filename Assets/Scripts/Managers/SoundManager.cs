@@ -53,7 +53,7 @@ public class SoundManager : MonoBehaviour
         SoundSource soundSource = go.GetComponent<SoundSource>();
 
 
-        soundSource.SetPitch(pitch);
+        //soundSource.SetPitch(pitch);
         soundSource.Play(sfxSounds[index], soundEffectVolum * volumeMultiplier, soundEffectPitchVariance);
 
         soundSource.enabled = false;
