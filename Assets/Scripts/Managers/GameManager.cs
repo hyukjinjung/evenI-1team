@@ -7,7 +7,8 @@ using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private bool isGodMode = false;
+    //[SerializeField] private bool isGodMode = false;
+
     private static GameManager _instance;
     public static GameManager Instance
     {
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
     public FeverBackGroundManager feverBackGroundManager;
     public ChasingMonsterManager chasingMonsterManager;
     public CameraController cameraController;
+    public UIChasingMonsterGauge uiChasingMonsterGauge;
 
     public GameObject StartPanel;
     public GameObject PlayingPanel;
@@ -86,7 +88,7 @@ public class GameManager : MonoBehaviour
         feverBackGroundManager = FindObjectOfType<FeverBackGroundManager>();
         chasingMonsterManager = FindObjectOfType<ChasingMonsterManager>();
         cameraController = FindObjectOfType<CameraController>();
-
+        uiChasingMonsterGauge = FindObjectOfType<UIChasingMonsterGauge>(true);
 
 
         feverSystem.OnFeverStart += HandleFeverStart;
@@ -120,7 +122,8 @@ public class GameManager : MonoBehaviour
 
         if (ChasingMonsterManager.Instance != null)
         {
-            ChasingMonsterManager.Instance.Initialize(player.transform, cameraController);
+            ChasingMonsterManager.Instance.Initialize(player.transform, cameraController,
+                uiChasingMonsterGauge);
             SoundManager.Instance.PlayClip(5);
         }
 

@@ -13,7 +13,11 @@ public class ChasingMonsterManager : MonoBehaviour
     public float followDistance = 100f;
 
     public CameraController cameraController;
+    private UIPlayingPanel uiPlayingPanel;
+
     [SerializeField] private UIChasingMonsterGauge uiChasingMonsterGauge;
+
+    private ChasingMonsterDistanceState lastState = ChasingMonsterDistanceState.Far;
 
 
 
@@ -26,15 +30,44 @@ public class ChasingMonsterManager : MonoBehaviour
         }
 
         Instance = this;
-        Debug.Log("ChasingMonsterManager »ý¼ºµÊ.");
     }
 
 
 
-    public void Initialize(Transform playerTransform, CameraController cameraController)
+    private void Start()
+    {
+        uiPlayingPanel = FindObjectOfType<UIPlayingPanel>();
+    }
+
+
+
+    private void Update()
+    {
+        if (currentMonster == null || player == null) return;
+
+        float distance = Vector3.Distance(player.position, currentMonster.transform.position);
+        ChasingMonsterDistanceState state = GetDistanceState(distance);
+
+        if (uiChasingMonsterGauge != null) 
+        {
+            uiChasingMonsterGauge.UpdateGauge(state);
+        }
+
+        //if (state == ChasingMonsterDistanceState.Close && lastState != ChasingMonsterDistanceState.Close)
+        //{
+        //    SoundManager.Instance.PlayClip(26);
+        //}
+    }
+
+
+
+    public void Initialize(Transform playerTransform, CameraController cameraController,
+        UIChasingMonsterGauge gauge)
     {
         player = playerTransform;
         this.cameraController = cameraController;
+        this.uiChasingMonsterGauge = gauge;
+
         SpawnMonster();
     }
 
@@ -45,10 +78,8 @@ public class ChasingMonsterManager : MonoBehaviour
         if (monsterPrefab == null || player == null)
             return;
 
-
         if (currentMonster != null)
             return;
-
 
         GameObject monsterObj = Instantiate(monsterPrefab);
         Vector3 spawnPosition = player.position - new Vector3(0, followDistance, 0);
@@ -65,5 +96,16 @@ public class ChasingMonsterManager : MonoBehaviour
         {
             cameraController.chasingMonster = monsterObj.transform;
         }
+    }
+
+
+    private ChasingMonsterDistanceState GetDistanceState(float distance)
+    {
+        if (distance > 80f)
+            return ChasingMonsterDistanceState.Far;
+        else if (distance > 20f)
+            return ChasingMonsterDistanceState.Medium;
+        else
+            return ChasingMonsterDistanceState.Close;
     }
 }

@@ -91,7 +91,7 @@ public enum ChasingMonsterDistanceState
 {
     Far,
     Medium,
-    Colse
+    Close
 }
 
 public enum BGM
