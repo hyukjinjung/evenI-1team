@@ -6,25 +6,37 @@ using UnityEngine.UI;
 
 public class CountDown : MonoBehaviour
 {
-    private float countdownTime = 5f;
-    private bool isCounting = false;
+    [SerializeField] private TextMeshProUGUI countdownText;
+    
+    [SerializeField] private float startCountdownTime = 3f;
 
     public Image image;
     
 
     void Start()
     {
-        StartCoroutine(TestCoroutine());  // ÄÚ·çÆ¾ È°¼ºÈ­
-        Invoke("ActiveFalse", 5.0f);  // 3ÃÊÈÄ ºñÈ°¼ºÈ­
+        StartCoroutine(CountdownRoutine());
     }
 
-    IEnumerator TestCoroutine()
+    private IEnumerator CountdownRoutine()
     {
-        while (true)
+        float timeRemaining = startCountdownTime;
+        
+        while (timeRemaining > 0)
         {
-            yield return null;
-
-            Debug.Log("È°¼ºÈ­");
+            countdownText.text = Mathf.CeilToInt(timeRemaining).ToString();
+            yield return new WaitForSeconds(1f);
+            timeRemaining -= 1f;
+        }
+        
+        countdownText.text = "GO!";
+        yield return new WaitForSeconds(1f);
+        
+        gameObject.SetActive(false);
+        
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.StartGame();
         }
     }
 
@@ -53,33 +65,33 @@ public class CountDown : MonoBehaviour
         gameOverPanel.SetActive(true);
         StartCoroutine(StartCountDown());
 
-        Debug.Log("ÀÌ¾îÇÏ±â Ã¢ È°¼ºÈ­");
+        Debug.Log("ï¿½Ì¾ï¿½ï¿½Ï±ï¿½ Ã¢ È°ï¿½ï¿½È­");
     }
 
     private IEnumerator StartCountDown()
     {
         Invoke("activeFalse", 5.0f);
 
-        isCounting = true; // Ä«¿îÆ®´Ù¿î ½ÃÀÛ
-        float timeLeft = countdownTime; // Ä«¿îÆ®´Ù¿î ½Ã°£ ¼³Á¤
+        isCounting = true; // Ä«ï¿½ï¿½Æ®ï¿½Ù¿ï¿½ ï¿½ï¿½ï¿½ï¿½
+        float timeLeft = countdownTime; // Ä«ï¿½ï¿½Æ®ï¿½Ù¿ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
 
         while (timeLeft > 0)
         {
-            countdownText.text = Mathf.CeilToInt(timeLeft).ToString(); // ³²Àº ½Ã°£ Ç¥½Ã
-            countdownImage.fillAmount = (countdownTime - timeLeft) / countdownTime; // »ö»ó Ã¤¿ì±â
-            yield return new WaitForSeconds(1f); // 1ÃÊ ´ë±â
-            timeLeft--; // ½Ã°£ 1ÃÊ °¨¼Ò
+            countdownText.text = Mathf.CeilToInt(timeLeft).ToString(); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ Ç¥ï¿½ï¿½
+            countdownImage.fillAmount = (countdownTime - timeLeft) / countdownTime; // ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½ï¿½ï¿½
+            yield return new WaitForSeconds(1f); // 1ï¿½ï¿½ ï¿½ï¿½ï¿½
+            timeLeft--; // ï¿½Ã°ï¿½ 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
 
-        // Ä«¿îÆ®´Ù¿îÀÌ ³¡³ª¸é °á°ú ÆÐ³Î Ç¥½Ã
+        // Ä«ï¿½ï¿½Æ®ï¿½Ù¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ Ç¥ï¿½ï¿½
         ResultPanel();
     }
 
     private void ResultPanel()
     {
-        // °ÔÀÓ ¿À¹ö UI ºñÈ°¼ºÈ­ ÈÄ °á°ú È­¸é Ç¥½Ã
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ UI ï¿½ï¿½È°ï¿½ï¿½È­ ï¿½ï¿½ ï¿½ï¿½ï¿½ È­ï¿½ï¿½ Ç¥ï¿½ï¿½
         gameOverPanel.SetActive(false);
-        GameManager.Instance.ResultPanel(); // °á°ú È­¸éÀ¸·Î ÀÌµ¿
+        GameManager.Instance.ResultPanel(); // ï¿½ï¿½ï¿½ È­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
     }
 
     /*public void GameOverPanelUI()
@@ -87,7 +99,7 @@ public class CountDown : MonoBehaviour
         gameOverPanel.SetActive(true);
         StartCoroutine(StartCountDown());
 
-        Debug.Log("ÀÌ¾îÇÏ±â Ã¢ È°¼ºÈ­");
+        Debug.Log("ï¿½Ì¾ï¿½ï¿½Ï±ï¿½ Ã¢ È°ï¿½ï¿½È­");
     }
 
 
@@ -106,7 +118,7 @@ public class CountDown : MonoBehaviour
         }
 
         ResultPanel();
-        Debug.Log("Á¡¼ö °á°ú Ã¢ È°¼ºÈ­ ");
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Ã¢ È°ï¿½ï¿½È­ ");
 
     }
 
@@ -125,12 +137,12 @@ public class CountDown : MonoBehaviour
     private void ResultPanel()
     {
         gameOverPanel.SetActive(false);
-        GameManager.Instance.ResultPanel(); // 5ÃÊ ÈÄ Á¡¼ö ÇÕ»ê Ã¢À¸·Î ÀÌµ¿
+        GameManager.Instance.ResultPanel(); // 5ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Õ»ï¿½ Ã¢ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
     }
 
     //private void RevivePlayer()
     //{
-    //    GameManager.Instance.RevivePlayer(); //  ±¤°í ½ÃÃ» ÈÄ ÇÃ·¹ÀÌ¾î ºÎÈ° Ã³¸®
+    //    GameManager.Instance.RevivePlayer(); //  ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½È° Ã³ï¿½ï¿½
     //}*/
 
 

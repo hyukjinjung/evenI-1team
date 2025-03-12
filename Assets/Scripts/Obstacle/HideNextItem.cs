@@ -5,7 +5,7 @@ using UnityEngine;
 public class HideNextItem : MonoBehaviour
 {
     private Collider2D playerCollider;
-    private bool canIgnoreMonster = false;
+    // private bool canIgnoreMonster = false; // 사용되지 않는 필드 제거 또는 주석 처리
 
     private PlayerTransformationController playerTransformationController;
     [SerializeField] private CanvasGroup DarkOverlay; 
@@ -66,7 +66,7 @@ public class HideNextItem : MonoBehaviour
     private IEnumerator DisableMonsterIgnoreAfterDelay(float duration)
     {
         yield return new WaitForSeconds(duration);
-        canIgnoreMonster = false;
+        // canIgnoreMonster = false;
         Debug.Log("몬스터 충돌 비활성화");
 
     }

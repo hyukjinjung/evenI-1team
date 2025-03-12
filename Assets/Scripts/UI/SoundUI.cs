@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class SoundUI : UIPanel
 {
-    private bool isBGMActive = true;
-    private bool isSFXActive = true;
+    // private bool isBGMActive = true;
+    // private bool isSFXActive = true;
 
     [SerializeField] private Button SettingBGMButton;
     [SerializeField] private Button SettingSoundEffectButton;

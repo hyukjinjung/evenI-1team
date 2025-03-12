@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private bool isGodMode = false;
+    // [SerializeField] private bool isGodMode = false;
     private static GameManager _instance;
     public static GameManager Instance
     {

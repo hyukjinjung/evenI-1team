@@ -17,7 +17,7 @@ public class PlayerAttackController : MonoBehaviour
     private PlayerTransformationController transformController;
     private PlayerMovement playerMovement;
 
-    [SerializeField] private int currentFloor = 0;
+    // [SerializeField] private int currentFloor = 0;
 
     private GameManager gameManager;
 
@@ -52,7 +52,7 @@ public class PlayerAttackController : MonoBehaviour
 
         if (isAttacking)
         {
-            Debug.Log("°ø°Ý ÁßÀÏ ¶§ Ãß°¡ °ø°Ý ºÒ°¡´É");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½ï¿½ï¿½");
             return;
         }
 
@@ -113,13 +113,13 @@ public class PlayerAttackController : MonoBehaviour
         yield return new WaitForSeconds(attackAnimationLength);
 
         isAttacking = false;
-        Debug.Log("´ÙÀ½ °ø°Ý ÁØºñ");
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Øºï¿½");
     }
 
     public void ResetAttackState()
     {
         isAttacking = false;
-        Debug.Log("°ø°Ý »óÅÂ ÃÊ±âÈ­ ¿Ï·á. ±âº» °ø°Ý °¡´É");
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ ï¿½Ï·ï¿½. ï¿½âº» ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
     }
 }
 

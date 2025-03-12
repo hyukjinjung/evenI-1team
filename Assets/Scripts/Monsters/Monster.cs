@@ -4,7 +4,7 @@ using UnityEngine;
 
 /*
  
-Å¬·¡½º ¼³¸í:
+Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½:
 
 
 */
@@ -16,7 +16,7 @@ public class Monster : MonoBehaviour
     [SerializeField] private int health;
     //[SerializeField] private int socre;
 
-    private bool isDying = false;
+    // private bool isDying = false; // ì‚¬ìš©ë˜ì§€ ì•ŠëŠ” í•„ë“œ ì œê±° ë˜ëŠ” ì£¼ì„ ì²˜ë¦¬
 
     //MonsterAnimationController animationController;
 
@@ -48,12 +48,11 @@ public class Monster : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        Debug.Log($"¸ó½ºÅÍ°¡ {damage} ÇÇÇØ¸¦ ÀÔÀ½. ÇöÀç Ã¼·Â: {health} - {damage}");
+        Debug.Log($"ï¿½ï¿½ï¿½Í°ï¿½ {damage} ï¿½ï¿½ï¿½Ø¸ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½: {health} - {damage}");
         health -= damage;
 
         if (health <= 0)
         {
-            isDying = true;
             Die();
         }
     }
@@ -62,7 +61,7 @@ public class Monster : MonoBehaviour
     private void Die()
     {
         
-        Debug.Log($"¸ó½ºÅÍ {gameObject.name} »ç¸Á");
+        Debug.Log($"ï¿½ï¿½ï¿½ï¿½ {gameObject.name} ï¿½ï¿½ï¿½");
         //animationController.StartDeath(this);
 
         GameManager.Instance.AddScore(GetScore());

@@ -11,7 +11,6 @@ public class CameraController : MonoBehaviour
 
     public float transitionDuration = 5f;
     public float holdTime = 3f;
-    private bool isDone = false;
 
 
 
@@ -46,7 +45,5 @@ public class CameraController : MonoBehaviour
         }
 
         virtualCamera.Follow = player;
-        
-        isDone = true;
     }
 }

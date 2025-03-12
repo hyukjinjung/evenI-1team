@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,9 +10,6 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    bool isGameOver = false;
-
-
     UIStartPanel uiStartPanel;
     public UIStartPanel UIStartPanel { get { return uiStartPanel; } }
 
@@ -34,6 +30,9 @@ public class UIManager : MonoBehaviour
 
     UICautionPanel uiCautionPanel;
     public UICautionPanel UICautionPanel { get { return uiCautionPanel; } }
+
+    UIModePanel uiModePanel;
+    public UIModePanel UIModePanel { get { return uiModePanel; } }
 
 
     //public GameObject StoryPanel;
@@ -87,12 +86,6 @@ public class UIManager : MonoBehaviour
    
 
  
-    private bool isActive = true; 
-
-
- 
-
-
     public PlayerAnimationController playerAnimationController;
 
 
@@ -119,6 +112,9 @@ public class UIManager : MonoBehaviour
         uiCautionPanel = GetComponentInChildren<UICautionPanel>(true);
         uiCautionPanel.Initialize(this);
 
+        uiModePanel = GetComponentInChildren<UIModePanel>(true);
+        uiModePanel.Initialize(this);
+
         //soundUI = GetComponentInChildren<SoundUI>(true);
         //soundUI.Initialize(this);
       
@@ -135,6 +131,7 @@ public class UIManager : MonoBehaviour
         uiSettingPanel.SetActive(false);
         uiPausePanel.SetActive(false);
         uiCautionPanel.SetActive(false);
+        uiModePanel.SetActive(false);
 
         //StoryPanel.SetActive(false);
 
@@ -171,7 +168,6 @@ public class UIManager : MonoBehaviour
 
     public void StartGame()
     {
-        isGameOver = false;
         playerAnimationController.PlayGameStartAnimation();
 
         uiStartPanel.SetActive(false);
@@ -181,8 +177,6 @@ public class UIManager : MonoBehaviour
     }
     public void GameOver()
     {
-        isGameOver = true;
-
         uiGameOverPanel.SetActive(true);
         uiPausePanel.SetActive(false);
         uiCautionPanel.SetActive(false);
@@ -337,7 +331,8 @@ public class UIManager : MonoBehaviour
     }
     public void OnClickedModeButton()
     {
-
+        uiStartPanel.SetActive(false);
+        uiModePanel.SetActive(true);
     }
     public void OnClickedEventButton()
     {

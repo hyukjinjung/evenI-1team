@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public enum GameMode
 {
@@ -45,6 +46,7 @@ public class GameModeManager : MonoBehaviour
     // 참조
     private TestTileManager tileManager;
     private GameManager gameManager;
+    private UIManager uiManager;
     
     private void Awake()
     {
@@ -63,6 +65,7 @@ public class GameModeManager : MonoBehaviour
     {
         gameManager = GameManager.Instance;
         tileManager = FindObjectOfType<TestTileManager>();
+        uiManager = FindObjectOfType<UIManager>();
         
         // 기본값으로 무한모드 설정
         SetGameMode(GameMode.Infinite);
@@ -239,8 +242,19 @@ public class GameModeManager : MonoBehaviour
         {
             timer -= Time.deltaTime;
             
-            // UI에 남은 시간 표시
-            // UIManager.Instance.UpdateTimerText(timer);
+            // UI에 남은 시간 표시 - 오류 수정
+            if (uiManager != null && uiManager.UIPlayingPanel != null)
+            {
+                // UpdateTimer 메서드가 없으므로 주석 처리하거나 다른 방식으로 구현
+                // uiManager.UIPlayingPanel.UpdateTimer(timer);
+                
+                // 예: 직접 텍스트 업데이트
+                TextMeshProUGUI timerText = uiManager.UIPlayingPanel.GetComponentInChildren<TextMeshProUGUI>();
+                if (timerText != null)
+                {
+                    timerText.text = Mathf.CeilToInt(timer).ToString();
+                }
+            }
             
             yield return null;
         }
