@@ -2426,6 +2426,7 @@ MonoBehaviour:
   ItemTilePrefab: {fileID: 8630953280370161833, guid: 7c2b2224622b83f4f824175669f303cb, type: 3}
   ItemPrefab: {fileID: 7927195594348371117, guid: 8702ed313f8009e4a8c3f8ad882634bb, type: 3}
   shieldItemPrefab: {fileID: 8471668683787100318, guid: 1dff697a34e378745aaa0e05729ec795, type: 3}
+  coinItemPrefab: {fileID: 7131761548473025481, guid: d9ffb7be4496f3b42931443909690b7d, type: 3}
   obstacleSpawnChance: 0.2
   monsterTileSpawnChance: 0.2
   itemTileSpawnChance: 0.1
@@ -4905,7 +4906,7 @@ PrefabInstance:
       objectReference: {fileID: 370423937}
     - target: {fileID: 8930797091095834125, guid: 3e552b4b3f942284d8e6aa19adb9aeeb, type: 3}
       propertyPath: sfxSounds.Array.size
-      value: 27
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 8930797091095834125, guid: 3e552b4b3f942284d8e6aa19adb9aeeb, type: 3}
       propertyPath: sfxSounds.Array.data[24]
@@ -4918,7 +4919,7 @@ PrefabInstance:
     - target: {fileID: 8930797091095834125, guid: 3e552b4b3f942284d8e6aa19adb9aeeb, type: 3}
       propertyPath: sfxSounds.Array.data[27]
       value: 
-      objectReference: {fileID: 8300000, guid: d6879b98e63134b48a284a4218c1a9e6, type: 3}
+      objectReference: {fileID: 8300000, guid: 4a6f7fd3fb1998a4aa3028ab71a329b4, type: 3}
     - target: {fileID: 8930797091095834125, guid: 3e552b4b3f942284d8e6aa19adb9aeeb, type: 3}
       propertyPath: sfxSounds.Array.data[28]
       value: 
