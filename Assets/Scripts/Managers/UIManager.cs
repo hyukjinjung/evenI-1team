@@ -39,8 +39,8 @@ public class UIManager : MonoBehaviour
     //public GameObject StoryPanel;
     //public GameObject CreditPanel;
 
-    SoundUI soundUI;
-    public SoundUI SoundUI { get { return SoundUI; } }
+    //SoundUI soundUI;
+    //public SoundUI SoundUI { get { return SoundUI; } }
 
 
 
@@ -119,8 +119,8 @@ public class UIManager : MonoBehaviour
         uiCautionPanel = GetComponentInChildren<UICautionPanel>(true);
         uiCautionPanel.Initialize(this);
 
-        soundUI = GetComponentInChildren<SoundUI>(true);
-        soundUI.Initialize(this);
+        //soundUI = GetComponentInChildren<SoundUI>(true);
+        //soundUI.Initialize(this);
       
     }
 

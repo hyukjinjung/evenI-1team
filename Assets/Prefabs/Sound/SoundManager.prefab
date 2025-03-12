@@ -77,10 +77,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 482007a693e267641bb16658c2b1531b, type: 3}
   - {fileID: 8300000, guid: 41d01fa6bf0cf314fa2e376cbe1e0d24, type: 3}
   - {fileID: 8300000, guid: 843a86e17e73136479b4fd4fa2f5295e, type: 3}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: e173b9da587355247a36f61bf1b88d32, type: 3}
   - {fileID: 8300000, guid: d49ecdc994e048544b1d64f7812eb7bf, type: 3}
   - {fileID: 8300000, guid: 2b69a8375a3f3cc4e913a285e981ca00, type: 3}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 4a2419f6f572e2241bbc8fde3d261bd4, type: 3}
+  - {fileID: 8300000, guid: d6879b98e63134b48a284a4218c1a9e6, type: 3}
 --- !u!114 &368720334081480293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,7 +97,7 @@ MonoBehaviour:
   pools:
   - tag: SoundSource
     prefab: {fileID: 3779003821403955567, guid: 4b89e98744af3944a89288ccae73a300, type: 3}
-    size: 10
+    size: 15
 --- !u!82 &5289826866299013412
 AudioSource:
   m_ObjectHideFlags: 0
