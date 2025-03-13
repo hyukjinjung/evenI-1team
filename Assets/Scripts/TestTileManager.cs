@@ -35,6 +35,10 @@ public class TestTileManager : MonoBehaviour
     [SerializeField] private int startTileCount = 20;
     [SerializeField] private int maxTiles = 20;
 
+    [Header("Item Spawn Rate")] 
+    [SerializeField] private float coinSpawnChance = 0.8f;
+    [SerializeField] private float transformItemChance = 0.2f;
+
     PlayerInputController playerInputController;
     private GameManager gameManager;
     private int createTileIndex = 0;
@@ -451,14 +455,15 @@ public class TestTileManager : MonoBehaviour
 
         // 아이템 종류 결정 (50:50 확률) -> 코인 획득 테스트로 임시로 변동
         GameObject selectedItemPrefab;
-        if (Random.value < 0.2f)
+
+        if (Random.value < coinSpawnChance)
         {
-            selectedItemPrefab = ItemPrefab;        // 기존 아이템 사용
+            selectedItemPrefab = coinItemPrefab;        // 기존 아이템 사용
             Debug.Log("닌자 아이템 생성");
         }
         else
         {
-            selectedItemPrefab = coinItemPrefab;
+            selectedItemPrefab = ItemPrefab;
             //selectedItemPrefab = shieldItemPrefab;  // 새로운 쉴드 아이템
             //Debug.Log("쉴드 아이템 생성");
         }
