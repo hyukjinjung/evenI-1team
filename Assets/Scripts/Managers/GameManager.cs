@@ -61,14 +61,18 @@ public class GameManager : MonoBehaviour
     private int bestScore = 0;
     private int resultScore = 0;
     private int resultBestScore = 0;
+
     
     public int Score {get{return score;}}
     public int BestScore {get{return bestScore;}}
     public int ResultScore {get{return resultScore;}}
     public int ResultBestScore {get{return resultBestScore;}}
-    
-    
- 
+
+    [SerializeField] private int totalCoins = 0;
+    public int TotalCoins => totalCoins;
+
+
+
     private bool isGameOver = false;
 
     private void Awake()
@@ -217,6 +221,31 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(0.5f);
         Time.timeScale = 0f;
+    }
+
+
+    public void AddCoins(int amount)
+    {
+        totalCoins += amount;
+
+        Debug.Log($"코인 획득 {totalCoins}");
+
+        // UI
+
+        SaveCoins();
+    }
+
+
+    private void SaveCoins()
+    {
+        PlayerPrefs.SetInt("TotalCoins", totalCoins);
+        PlayerPrefs.Save();
+    }
+
+
+    private void LoadCoins()
+    {
+        totalCoins = PlayerPrefs.GetInt("TotalCoins", 0);
     }
 
 

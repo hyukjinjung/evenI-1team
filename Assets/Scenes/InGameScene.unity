@@ -3170,12 +3170,15 @@ MonoBehaviour:
   ItemTilePrefab: {fileID: 8630953280370161833, guid: 7c2b2224622b83f4f824175669f303cb, type: 3}
   ItemPrefab: {fileID: 7927195594348371117, guid: 8702ed313f8009e4a8c3f8ad882634bb, type: 3}
   shieldItemPrefab: {fileID: 8471668683787100318, guid: 1dff697a34e378745aaa0e05729ec795, type: 3}
+  coinItemPrefab: {fileID: 7131761548473025481, guid: d9ffb7be4496f3b42931443909690b7d, type: 3}
   obstacleSpawnChance: 0.2
   monsterTileSpawnChance: 0.2
   itemTileSpawnChance: 0.1
   InvisibleTileSpawnChance: 0.15
   startTileCount: 30
   maxTiles: 100
+  coinSpawnChance: 100
+  transformItemChance: 0
 --- !u!114 &775552310 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5046567833542990440, guid: 7673b0c940ed7994ba4a2546d6932fef, type: 3}
@@ -5956,6 +5959,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1715734861}
   - component: {fileID: 1715734860}
+  - component: {fileID: 1715734864}
+  - component: {fileID: 1715734863}
+  - component: {fileID: 1715734862}
   m_Layer: 0
   m_Name: Virtual Camera
   m_TagString: Untagged
@@ -6018,6 +6024,161 @@ Transform:
   - {fileID: 1138916377}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715734859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_ImpulseShape: 2
+    m_CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.10927701
+        value: 0.18729556
+        inSlope: 1.4467807
+        outSlope: 1.4467807
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.5
+        value: 0.5
+        inSlope: 0.39519128
+        outSlope: 0.39519128
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.5022888
+        value: 0.5
+        inSlope: 0.30820152
+        outSlope: 0.30820152
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.795707
+        value: 0.19880256
+        inSlope: -1.5558106
+        outSlope: -1.5558106
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.8867292
+        value: 0.07204065
+        inSlope: -1.1519796
+        outSlope: -1.1519796
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ImpulseDuration: 0.2
+    m_ImpulseType: 0
+    m_DissipationRate: 0.25
+    m_RawSignal: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 100
+    m_PropagationSpeed: 343
+  m_DefaultVelocity: {x: 0, y: 1, z: 0}
+--- !u!114 &1715734863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715734859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ApplyAfter: 2
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
+  m_UseCameraSpace: 1
+  m_ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
+--- !u!114 &1715734864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715734859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a76f5cc117cf1d45802f4cf72630326, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  virtualCamera: {fileID: 1715734860}
+  player: {fileID: 0}
+  chasingMonster: {fileID: 0}
+  transitionDuration: 5
+  holdTime: 3
 --- !u!114 &1735416997 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8662395602770502293, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
@@ -7119,6 +7280,7 @@ PrefabInstance:
       propertyPath: sfxSounds.Array.size
       value: 26
       value: 27
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 8930797091095834125, guid: 3e552b4b3f942284d8e6aa19adb9aeeb, type: 3}
       propertyPath: sfxSounds.Array.data[24]
@@ -7132,6 +7294,7 @@ PrefabInstance:
       propertyPath: sfxSounds.Array.data[27]
       value: 
       objectReference: {fileID: 8300000, guid: d6879b98e63134b48a284a4218c1a9e6, type: 3}
+      objectReference: {fileID: 8300000, guid: df586a3b2849e4c4a8c7a0ecb9b6fbdf, type: 3}
     - target: {fileID: 8930797091095834125, guid: 3e552b4b3f942284d8e6aa19adb9aeeb, type: 3}
       propertyPath: sfxSounds.Array.data[28]
       value: 
