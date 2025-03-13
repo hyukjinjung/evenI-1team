@@ -20,9 +20,27 @@ public enum ChallengeType
 
 public class GameModeManager : MonoBehaviour
 {
-    public static GameModeManager Instance;
+    // 싱글톤 패턴 구현
+    private static GameModeManager instance;
+    public static GameModeManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<GameModeManager>();
+                if (instance == null)
+                {
+                    GameObject obj = new GameObject("GameModeManager");
+                    instance = obj.AddComponent<GameModeManager>();
+                    DontDestroyOnLoad(obj);
+                }
+            }
+            return instance;
+        }
+    }
     
-    public GameMode CurrentGameMode { get; private set; }
+    public GameMode CurrentGameMode => currentGameMode;
     public ChallengeType CurrentChallengeType { get; private set; }
     
     // 게임 모드별 설정값
@@ -48,32 +66,34 @@ public class GameModeManager : MonoBehaviour
     private GameManager gameManager;
     private UIManager uiManager;
     
+    private GameMode currentGameMode = GameMode.Story;
+    
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
+        // 싱글톤 패턴 구현
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
+            return;
         }
+        
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+        
+        gameManager = GameManager.Instance;
+        tileManager = FindObjectOfType<TestTileManager>();
+        uiManager = FindObjectOfType<UIManager>();
     }
     
     private void Start()
     {
-        gameManager = GameManager.Instance;
-        tileManager = FindObjectOfType<TestTileManager>();
-        uiManager = FindObjectOfType<UIManager>();
-        
         // 기본값으로 무한모드 설정
         SetGameMode(GameMode.Infinite);
     }
     
     public void SetGameMode(GameMode mode, ChallengeType challengeType = ChallengeType.None)
     {
-        CurrentGameMode = mode;
+        currentGameMode = mode;
         CurrentChallengeType = challengeType;
         
         Debug.Log($"게임 모드 변경: {mode}, 도전 타입: {challengeType}");
