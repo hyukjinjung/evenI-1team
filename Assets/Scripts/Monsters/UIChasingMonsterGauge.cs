@@ -29,18 +29,18 @@ public class UIChasingMonsterGauge : MonoBehaviour
         {
             case ChasingMonsterDistanceState.Far:
                 gaugeImage.sprite = farSprite;
-                StartShakeEffect(4f, 6f, 0.2f);
+                //StartShakeEffect(4f, 6f, 0.2f);
                 Debug.Log(" 몬스터와의 거리 80칸 초과");
                 break;
             case ChasingMonsterDistanceState.Medium:
                 gaugeImage.sprite = mediumSprite;
                 Debug.Log(" 몬스터와의 거리 21~80칸");
-                StartShakeEffect(5f, 7f, 0.1f);
+                StartShakeEffect(6f, 9f, 0.1f);
                 break;
             case ChasingMonsterDistanceState.Close:
                 gaugeImage.sprite = closeSprite;
                 Debug.Log(" 몬스터와의 거리 20칸 미만");
-                StartShakeEffect(6f, 9f, 0.02f);
+                StartShakeEffect(10f, 13f, 0.02f);
                 SoundManager.Instance.PlayClip(26);
                 break;
         }

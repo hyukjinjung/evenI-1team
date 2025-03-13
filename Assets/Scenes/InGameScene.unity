@@ -2433,8 +2433,8 @@ MonoBehaviour:
   InvisibleTileSpawnChance: 0.15
   startTileCount: 30
   maxTiles: 100
-  coinSpawnChance: 100
-  transformItemChance: 0
+  coinSpawnChance: 90
+  transformItemChance: 10
 --- !u!114 &775552310 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5046567833542990440, guid: 7673b0c940ed7994ba4a2546d6932fef, type: 3}
