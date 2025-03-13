@@ -119,6 +119,8 @@ public class UIManager : MonoBehaviour
         uiCautionPanel = GetComponentInChildren<UICautionPanel>(true);
         uiCautionPanel.Initialize(this);
 
+       
+
         soundUI = GetComponentInChildren<SoundUI>(true);
         soundUI.Initialize(this);
       
