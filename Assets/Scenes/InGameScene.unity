@@ -3166,8 +3166,8 @@ MonoBehaviour:
   InvisibleTileSpawnChance: 0
   startTileCount: 30
   maxTiles: 100
-  coinSpawnChance: 100
-  transformItemChance: 0
+  coinSpawnChance: 0.8
+  transformItemChance: 0.2
 --- !u!114 &775552310 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5046567833542990440, guid: 7673b0c940ed7994ba4a2546d6932fef, type: 3}
@@ -4138,7 +4138,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -0.059041}
+  m_AnchoredPosition: {x: -540, y: -105.04993}
   m_SizeDelta: {x: 1080, y: 2130.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1171123423
@@ -7762,7 +7762,7 @@ PrefabInstance:
     - target: {fileID: 7888243001746689265, guid: a2703c3d55d43b0469749cd0bb60c577, type: 3}
       propertyPath: chasingMonsterManager
       value: 
-      objectReference: {fileID: 503475925}
+      objectReference: {fileID: 0}
     - target: {fileID: 7888243001746689265, guid: a2703c3d55d43b0469749cd0bb60c577, type: 3}
       propertyPath: uIChasingMonsterGauge
       value: 
