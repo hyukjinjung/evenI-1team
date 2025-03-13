@@ -44,9 +44,11 @@ public class UIManager : MonoBehaviour
 
 
 
+
     
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI bestScoreText;
+    public TextMeshProUGUI feverScoreText;
     public TextMeshProUGUI ResultScoreText;
     public TextMeshProUGUI ResultBestScoreText;
     public TextMeshProUGUI ResultPileUpScoreText;
@@ -70,6 +72,7 @@ public class UIManager : MonoBehaviour
     public Button AdsButton;
     public Button ModeButton;
     public Button EventButton;
+
     //in Game
     public Button PauseMainHomeButton;
     public Button PauseContinueButton;

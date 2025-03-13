@@ -14,6 +14,7 @@ public class UIPlayingPanel : UIPanel
     [SerializeField] Button PauseButton;
 
     [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] TextMeshProUGUI feverScoreText;
     [SerializeField] private UIChasingMonsterGauge chasingMonsterGauge;
 
 
@@ -32,8 +33,7 @@ public class UIPlayingPanel : UIPanel
         soundManager = SoundManager.Instance;
     }
 
-
-
+    
     void OnPauseButtonClicked()
     {
         uiManager.OnPauseButtonClicked();
@@ -43,7 +43,6 @@ public class UIPlayingPanel : UIPanel
     void OnClickedAttackButton()
     {
         OnClickedAttackEvent?.Invoke();
-
 
         soundManager.PlayClip(0);
 
@@ -80,6 +79,10 @@ public class UIPlayingPanel : UIPanel
     }
 
     public void UpdateScore(int score)
+    {
+        scoreText.text = score.ToString();
+    }
+    public void FeverScore(int score)
     {
         scoreText.text = score.ToString();
     }

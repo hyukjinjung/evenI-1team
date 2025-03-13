@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class FeverSystem : MonoBehaviour
 {
@@ -26,6 +27,10 @@ public class FeverSystem : MonoBehaviour
     private Dictionary<FeverScoreType, int> feverScoresValues;
 
     GameManager gameManager;
+
+    public UIManager uiManager;
+
+    UIPlayingPanel uiPlayingPanel;
 
 
     private void Awake()
@@ -120,6 +125,8 @@ public class FeverSystem : MonoBehaviour
         {
             feverScore += feverScoresValues[feverType];
         }
+
+        uiPlayingPanel.FeverScore(feverScore);
 
         Debug.Log($"현재 피버 점수 {feverScore}");
 

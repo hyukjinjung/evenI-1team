@@ -61,12 +61,16 @@ public class GameManager : MonoBehaviour
     private int bestScore = 0;
     private int resultScore = 0;
     private int resultBestScore = 0;
+    private int feverScore = 0;
+ 
 
     
     public int Score {get{return score;}}
     public int BestScore {get{return bestScore;}}
     public int ResultScore {get{return resultScore;}}
     public int ResultBestScore {get{return resultBestScore;}}
+   
+    
 
     [SerializeField] private int totalCoins = 0;
     public int TotalCoins => totalCoins;
@@ -153,15 +157,11 @@ public class GameManager : MonoBehaviour
 
         AddScore(0);
         UpdateBestScore(0);
+        //FeverScore(0);
 
         StartPanel.SetActive(false);
         PlayingPanel.SetActive(true);
 
-
-
-        //uiResultPanel.UpdateBestScore(0);
-
-        //uiResultPanel.UpdateBestScore(bestScore);
     }
 
 
@@ -278,7 +278,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //public void FeverScore(int value)
+    //{
+        
 
+    //    //if (isGameOver) return;
+    //    //{
+    //    //    score += value;
+
+    //    //    uiPlayingPanel.UpdateScore(score);
+
+    //    //    Debug.Log("FeverScore");
+    //    //}
+    //}
 
     public void HandleFeverStart()
     {

@@ -2718,6 +2718,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 619612068}
   m_CullTransparentMesh: 1
+--- !u!114 &620798640 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1519603999367630495, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
+  m_PrefabInstance: {fileID: 645079111675260999}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &637720931
 GameObject:
   m_ObjectHideFlags: 0
@@ -4947,7 +4958,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8283108188507383690, guid: fa2455923b44bec4ab075f77413977c0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5124,6 +5135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 2068323898}
   bestScoreText: {fileID: 319736886}
+  feverScoreText: {fileID: 620798640}
   ResultScoreText: {fileID: 1914207352}
   ResultBestScoreText: {fileID: 319736886}
   ResultPileUpScoreText: {fileID: 533258573}
@@ -7219,28 +7231,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2355676130635800086, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 2355676130635800086, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -376
+      objectReference: {fileID: 0}
+    - target: {fileID: 2918698419737486145, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 16.464996
+      objectReference: {fileID: 0}
     - target: {fileID: 3691085612881245442, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
       propertyPath: m_Name
       value: PlayingPanel
       objectReference: {fileID: 0}
-    - target: {fileID: 3691085612881245442, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4194906058407514687, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
-      propertyPath: m_Name
-      value: ChasingMonsterGauge
-      objectReference: {fileID: 0}
-    - target: {fileID: 4194906058407514687, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4852919204258199152, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4209086156016298058, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
@@ -7433,11 +7442,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 341502051664685124, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
       propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2467518094697923785, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 10.659912
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2802790968551126276, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -7523,62 +7528,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5078160537243499893, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -11.659973
-      objectReference: {fileID: 0}
-    - target: {fileID: 5428303515552074694, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 13.580078
-      objectReference: {fileID: 0}
-    - target: {fileID: 5698173511324578084, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -11.660095
-      objectReference: {fileID: 0}
-    - target: {fileID: 6794755995014214079, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 1.3773804
-      objectReference: {fileID: 0}
-    - target: {fileID: 6794755995014214079, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 12.796143
-      objectReference: {fileID: 0}
-    - target: {fileID: 6825296831671228565, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
-      propertyPath: AdsButton
-      value: 
-      objectReference: {fileID: 699704628}
-    - target: {fileID: 6825296831671228565, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
-      propertyPath: EncyButton
-      value: 
-      objectReference: {fileID: 1529060014}
-    - target: {fileID: 6825296831671228565, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
-      propertyPath: ModeButton
-      value: 
-      objectReference: {fileID: 696057555}
-    - target: {fileID: 6825296831671228565, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
-      propertyPath: SkinButton
-      value: 
-      objectReference: {fileID: 1917472750}
-    - target: {fileID: 6825296831671228565, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
-      propertyPath: EventButton
-      value: 
-      objectReference: {fileID: 1602180190}
-    - target: {fileID: 6825296831671228565, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
-      propertyPath: AchieveButton
-      value: 
-      objectReference: {fileID: 1735416997}
-    - target: {fileID: 6825296831671228565, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
-      propertyPath: RankingButton
-      value: 
-      objectReference: {fileID: 389709892}
-    - target: {fileID: 7498840358525583001, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -11.659973
-      objectReference: {fileID: 0}
-    - target: {fileID: 8896969279737884905, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 9e6bf6ff9e5b65e42a2347c8854b99b3, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
