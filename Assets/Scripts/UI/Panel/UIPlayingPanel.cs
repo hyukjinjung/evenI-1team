@@ -14,6 +14,7 @@ public class UIPlayingPanel : UIPanel
     [SerializeField] Button PauseButton;
 
     [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] private UIChasingMonsterGauge chasingMonsterGauge;
 
 
     public event Action OnClickedAttackEvent;
@@ -83,4 +84,9 @@ public class UIPlayingPanel : UIPanel
         scoreText.text = score.ToString();
     }
 
+    public void UpdateChasingMonsterGauge(ChasingMonsterDistanceState state)
+    {
+        if (chasingMonsterGauge != null)
+            chasingMonsterGauge.UpdateGauge(state);
+    }
 }
