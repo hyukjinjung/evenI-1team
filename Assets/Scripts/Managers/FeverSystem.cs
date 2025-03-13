@@ -42,10 +42,12 @@ public class FeverSystem : MonoBehaviour
         InitializeFeverScoreValues();
     }
 
+
     void Start()
     {
         gameManager = GameManager.Instance;
     }
+
 
     private void InitializeFeverScoreValues()
     {
@@ -56,7 +58,7 @@ public class FeverSystem : MonoBehaviour
             {FeverScoreType.MonsterKill, 1 },
             {FeverScoreType.ItemUse, 5 },
             {FeverScoreType.FeverReductionCoin, -10 },
-            { FeverScoreType.TestCoin, 150 }
+            {FeverScoreType.TestCoin, 150 }
         };
     }
 
@@ -120,6 +122,8 @@ public class FeverSystem : MonoBehaviour
         {
             feverScore += feverScoresValues[feverType];
         }
+
+
 
         Debug.Log($"현재 피버 점수 {feverScore}");
 

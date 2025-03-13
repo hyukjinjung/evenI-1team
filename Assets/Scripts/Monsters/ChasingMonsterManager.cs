@@ -12,10 +12,12 @@ public class ChasingMonsterManager : MonoBehaviour
 
     public float followDistance = 100f;
 
+    private ChasingMonsterSilhouette chasingMonsterSilhouette;
     public CameraController cameraController;
     private UIPlayingPanel uiPlayingPanel;
+    private UIChasingMonsterGauge uiChasingMonsterGauge;
+    //private ChasingMonsterAnimationController animController;
 
-    [SerializeField] private UIChasingMonsterGauge uiChasingMonsterGauge;
 
     private ChasingMonsterDistanceState lastState = ChasingMonsterDistanceState.Far;
 
@@ -37,6 +39,7 @@ public class ChasingMonsterManager : MonoBehaviour
     private void Start()
     {
         uiPlayingPanel = FindObjectOfType<UIPlayingPanel>();
+        chasingMonsterSilhouette = FindObjectOfType<ChasingMonsterSilhouette>();
     }
 
 
@@ -46,6 +49,7 @@ public class ChasingMonsterManager : MonoBehaviour
         if (currentMonster == null || player == null) return;
 
         float distance = Vector3.Distance(player.position, currentMonster.transform.position);
+        
         ChasingMonsterDistanceState state = GetDistanceState(distance);
 
         if (uiChasingMonsterGauge != null) 
@@ -53,10 +57,17 @@ public class ChasingMonsterManager : MonoBehaviour
             uiChasingMonsterGauge.UpdateGauge(state);
         }
 
-        //if (state == ChasingMonsterDistanceState.Close && lastState != ChasingMonsterDistanceState.Close)
-        //{
-        //    SoundManager.Instance.PlayClip(26);
-        //}
+        if (chasingMonsterSilhouette != null)
+        {
+            if (state == ChasingMonsterDistanceState.Close)
+            {
+                chasingMonsterSilhouette.ShowSilhouette();
+            }
+            else
+            {
+                chasingMonsterSilhouette.HideSilhouette();
+            }
+        }
     }
 
 

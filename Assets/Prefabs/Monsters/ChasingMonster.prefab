@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3753880011452345051}
   - component: {fileID: 4999700719955231817}
   - component: {fileID: 727626275739722368}
+  - component: {fileID: -5517669618064054034}
   m_Layer: 0
   m_Name: ChasingMonster
   m_TagString: Untagged
@@ -120,6 +121,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movespeed: 3
+  attackRange: 1.5
+--- !u!114 &-5517669618064054034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3422427497409318732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c71995d8e7c922448ee9bc3360adaaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4896055570976324238
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,7 +208,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 48bd85b726d12ae49b41ccf0975ae81d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 44d7234983dc6f84d87c574f94808840, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -215,7 +229,7 @@ Animator:
   m_GameObject: {fileID: 4896055570976324238}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0ea21c326b72d394bb079112946cce0d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

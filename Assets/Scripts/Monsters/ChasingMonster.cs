@@ -8,11 +8,16 @@ public class ChasingMonster : MonoBehaviour
     public float movespeed = 5;
     private float nextMoveTime = 0f;
 
+    private bool isAttacking = false;
+
+    public float attackRange = 1f;
+
+    private ChasingMonsterAnimationController animationController;
 
 
     void Start()
     {
-        
+        animationController = GetComponent<ChasingMonsterAnimationController>();
     }
 
     public void Initialize(Transform playerTransform)
@@ -25,15 +30,22 @@ public class ChasingMonster : MonoBehaviour
     void Update()
     {
         if (!GameManager.Instance.IsGameStarted) return;
-
         if (player == null) return;
+        if (isAttacking) return;
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        if (distanceToPlayer <= attackRange)
+        {
+            StartCoroutine(AttackPlayer());
+            return;
+        }
 
         if (Time.time >= nextMoveTime)
         {
             nextMoveTime = Time.time + 1f;
             StartCoroutine(MoveTowardsPlayer());
         }
-
     }
 
 
@@ -47,6 +59,8 @@ public class ChasingMonster : MonoBehaviour
         float elapsedTime = 0f;
         float duration = 1f;
 
+        animationController?.PlayMove();
+
         while (elapsedTime < duration)
         {
             transform.position = Vector3.Lerp(startPos, targetPos, elapsedTime / duration);
@@ -55,6 +69,18 @@ public class ChasingMonster : MonoBehaviour
         }
 
         transform.position = targetPos;
+    }
+
+
+    private IEnumerator AttackPlayer()
+    {
+        isAttacking = true;
+
+        animationController?.PlayAttack();
+
+        yield return new WaitForSeconds(0.8f);
+
+        GameManager.Instance.GameOver();
     }
 
 
