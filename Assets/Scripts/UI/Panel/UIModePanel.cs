@@ -6,19 +6,19 @@ using TMPro;
 
 public class UIModePanel : MonoBehaviour
 {
-    [Header("��� ��ư")]
-    [SerializeField] private Button infiniteModeButton;
+    [Header("메인 모드 버튼 참조")]
     [SerializeField] private Button storyModeButton;
+    [SerializeField] private Button infiniteModeButton;
     [SerializeField] private Button challengeModeButton;
-
-    [Header("���� ��� ��ư")]
-    [SerializeField] private GameObject challengeSubPanel;
-    [SerializeField] private Button speedModeButton;
-    [SerializeField] private Button onOffModeButton;
-    [SerializeField] private Button monsterModeButton;
-
-    [Header("��Ÿ ��ư")]
     [SerializeField] private Button backButton;
+
+    [Header("도전 모드 선택 패널")]
+    [SerializeField] private GameObject challengeSubPanel;
+
+    [Header("도전 모드 타입 버튼")]
+    [SerializeField] private Button speedModeButton;
+    [SerializeField] private Button monsterModeButton;
+    [SerializeField] private Button onOffModeButton;
 
     private UIManager uiManager;
     private GameModeManager gameModeManager;
@@ -30,6 +30,9 @@ public class UIModePanel : MonoBehaviour
         {
             Initialize(FindObjectOfType<UIManager>());
         }
+
+        // 도전 모드 선택 패널 초기 상태 설정 (숨김)
+        if (challengeSubPanel != null) challengeSubPanel.SetActive(false);
     }
 
     public void Initialize(UIManager uiManager)
@@ -38,7 +41,7 @@ public class UIModePanel : MonoBehaviour
         
         this.uiManager = uiManager;
         
-        // 버튼 이벤트 등록
+        // 메인 모드 버튼 이벤트 등록
         if (storyModeButton != null)
         {
             storyModeButton.onClick.AddListener(OnStoryModeSelected);
@@ -66,10 +69,6 @@ public class UIModePanel : MonoBehaviour
             Debug.LogError("challengeModeButton이 할당되지 않았습니다!");
         }
 
-        speedModeButton.onClick.AddListener(() => OnChallengeModeTypeSelected(ChallengeType.Speed));
-        onOffModeButton.onClick.AddListener(() => OnChallengeModeTypeSelected(ChallengeType.OnOff));
-        monsterModeButton.onClick.AddListener(() => OnChallengeModeTypeSelected(ChallengeType.Monster));
-
         if (backButton != null)
         {
             backButton.onClick.AddListener(OnBackButtonClicked);
@@ -79,8 +78,33 @@ public class UIModePanel : MonoBehaviour
             Debug.LogError("backButton이 할당되지 않았습니다!");
         }
 
-        // ʱ 
-        challengeSubPanel.SetActive(false);
+        // 도전 모드 타입 버튼 이벤트 등록
+        if (speedModeButton != null)
+        {
+            speedModeButton.onClick.AddListener(() => OnChallengeTypeSelected(ChallengeType.Speed));
+        }
+        else
+        {
+            Debug.LogWarning("speedModeButton이 할당되지 않았습니다!");
+        }
+        
+        if (monsterModeButton != null)
+        {
+            monsterModeButton.onClick.AddListener(() => OnChallengeTypeSelected(ChallengeType.Monster));
+        }
+        else
+        {
+            Debug.LogWarning("monsterModeButton이 할당되지 않았습니다!");
+        }
+        
+        if (onOffModeButton != null)
+        {
+            onOffModeButton.onClick.AddListener(() => OnChallengeTypeSelected(ChallengeType.OnOff));
+        }
+        else
+        {
+            Debug.LogWarning("onOffModeButton이 할당되지 않았습니다!");
+        }
 
         // GameModeManager 참조 가져오기
         EnsureGameModeManager();
@@ -92,12 +116,21 @@ public class UIModePanel : MonoBehaviour
     public void SetActive(bool active)
     {
         gameObject.SetActive(active);
+        
+        // 패널이 활성화될 때 도전 모드 선택 패널 초기 상태 설정
+        if (active && challengeSubPanel != null)
+        {
+            challengeSubPanel.SetActive(false);
+        }
     }
 
     private void OnInfiniteModeSelected()
     {
         try
         {
+            // 도전 모드 선택 패널 숨기기
+            if (challengeSubPanel != null) challengeSubPanel.SetActive(false);
+            
             // GameModeManager 확인
             EnsureGameModeManager();
             
@@ -118,6 +151,9 @@ public class UIModePanel : MonoBehaviour
     {
         try
         {
+            // 도전 모드 선택 패널 숨기기
+            if (challengeSubPanel != null) challengeSubPanel.SetActive(false);
+            
             // GameModeManager 확인
             EnsureGameModeManager();
             
@@ -138,15 +174,22 @@ public class UIModePanel : MonoBehaviour
     {
         try
         {
-            // GameModeManager 확인
-            EnsureGameModeManager();
-            
-            // 게임 모드 설정
-            gameModeManager.SetGameMode(GameMode.Challenge);
-            Debug.Log("챌린지 모드 선택됨");
-            
-            // 게임 시작
-            StartGame();
+            // 도전 모드 선택 패널 표시
+            if (challengeSubPanel != null)
+            {
+                challengeSubPanel.SetActive(true);
+                Debug.Log("도전 모드 선택됨 - 하위 모드 표시");
+            }
+            else
+            {
+                Debug.LogError("challengeSubPanel이 null입니다!");
+                
+                // 패널이 없으면 기본 도전 모드로 설정
+                EnsureGameModeManager();
+                gameModeManager.SetGameMode(GameMode.Challenge);
+                gameModeManager.SetChallengeType(ChallengeType.Speed); // 기본값
+                StartGame();
+            }
         }
         catch (System.Exception e)
         {
@@ -154,22 +197,51 @@ public class UIModePanel : MonoBehaviour
         }
     }
 
-    private void OnChallengeModeTypeSelected(ChallengeType type)
+    private void OnChallengeTypeSelected(ChallengeType challengeType)
     {
-        gameModeManager.SetGameMode(GameMode.Challenge, type);
-        uiManager.StartGame();
+        try
+        {
+            // 도전 모드 선택 패널 숨기기
+            if (challengeSubPanel != null) challengeSubPanel.SetActive(false);
+            
+            // GameModeManager 확인
+            EnsureGameModeManager();
+            
+            // 게임 모드 및 도전 타입 설정
+            gameModeManager.SetGameMode(GameMode.Challenge);
+            gameModeManager.SetChallengeType(challengeType);
+            
+            Debug.Log($"도전 모드 타입 선택됨: {challengeType}");
+            
+            // 게임 시작
+            StartGame();
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"도전 모드 타입 선택 중 오류 발생: {e.Message}\n{e.StackTrace}");
+        }
     }
 
     private void OnBackButtonClicked()
     {
         try
         {
+            // 도전 모드 선택 패널이 활성화되어 있으면 숨기고 종료
+            if (challengeSubPanel != null && challengeSubPanel.activeSelf)
+            {
+                challengeSubPanel.SetActive(false);
+                return;
+            }
+            
             // UIManager 참조 가져오기
-            UIManager uiManager = FindObjectOfType<UIManager>();
             if (uiManager == null)
             {
-                Debug.LogError("UIManager를 찾을 수 없습니다!");
-                return;
+                uiManager = FindObjectOfType<UIManager>();
+                if (uiManager == null)
+                {
+                    Debug.LogError("UIManager를 찾을 수 없습니다!");
+                    return;
+                }
             }
             
             // 모드 선택 패널 비활성화
@@ -204,11 +276,14 @@ public class UIModePanel : MonoBehaviour
             }
             
             // UIManager 참조 가져오기
-            UIManager uiManager = FindObjectOfType<UIManager>();
             if (uiManager == null)
             {
-                Debug.LogError("UIManager를 찾을 수 없습니다!");
-                return;
+                uiManager = FindObjectOfType<UIManager>();
+                if (uiManager == null)
+                {
+                    Debug.LogError("UIManager를 찾을 수 없습니다!");
+                    return;
+                }
             }
             
             // 모드 선택 패널 비활성화

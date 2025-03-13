@@ -15,7 +15,7 @@ public enum ChallengeType
     None,        // 기본값
     Speed,       // 스피드모드
     OnOff,       // 온오프모드
-    Monster      // 몬스터모드
+    Monster,     // 몬스터모드
 }
 
 public class GameModeManager : MonoBehaviour
@@ -41,7 +41,7 @@ public class GameModeManager : MonoBehaviour
     }
     
     public GameMode CurrentGameMode => currentGameMode;
-    public ChallengeType CurrentChallengeType { get; private set; }
+    public ChallengeType CurrentChallengeType => currentChallengeType;
     
     // 게임 모드별 설정값
     [Header("스피드모드 설정")]
@@ -67,6 +67,7 @@ public class GameModeManager : MonoBehaviour
     private UIManager uiManager;
     
     private GameMode currentGameMode = GameMode.Story;
+    private ChallengeType currentChallengeType = ChallengeType.Speed;
     
     private void Awake()
     {
@@ -91,15 +92,19 @@ public class GameModeManager : MonoBehaviour
         SetGameMode(GameMode.Infinite);
     }
     
-    public void SetGameMode(GameMode mode, ChallengeType challengeType = ChallengeType.None)
+    public void SetGameMode(GameMode mode)
     {
         currentGameMode = mode;
-        CurrentChallengeType = challengeType;
-        
-        Debug.Log($"게임 모드 변경: {mode}, 도전 타입: {challengeType}");
+        Debug.Log($"게임 모드 설정: {mode}");
         
         // 게임 모드에 따른 초기화 작업
         InitializeGameMode();
+    }
+    
+    public void SetChallengeType(ChallengeType type)
+    {
+        currentChallengeType = type;
+        Debug.Log($"도전 모드 타입 설정: {type}");
     }
     
     private void InitializeGameMode()

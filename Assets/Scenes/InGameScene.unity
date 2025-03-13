@@ -4141,14 +4141,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 015d630aa7aeea04eb4dbb2aeee5172f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infiniteModeButton: {fileID: 1952196895}
   storyModeButton: {fileID: 1321507368}
+  infiniteModeButton: {fileID: 1952196895}
   challengeModeButton: {fileID: 1680849506}
+  backButton: {fileID: 637720933}
   challengeSubPanel: {fileID: 1765545773}
   speedModeButton: {fileID: 473006876}
-  onOffModeButton: {fileID: 1781924867}
   monsterModeButton: {fileID: 670536539}
-  backButton: {fileID: 637720933}
+  onOffModeButton: {fileID: 1781924867}
 --- !u!114 &1171123424
 MonoBehaviour:
   m_ObjectHideFlags: 0
