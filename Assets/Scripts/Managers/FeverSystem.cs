@@ -12,6 +12,7 @@ public class FeverSystem : MonoBehaviour
 
     [SerializeField] private float feverDuration = 10;
     [SerializeField] private float feverTimer = 0;
+
     [SerializeField] private int feverScore = 0;
     public int FeverScore
     {
@@ -99,7 +100,6 @@ public class FeverSystem : MonoBehaviour
         if (!isFeverActive) return;
 
         isFeverActive = false;
-        //feverScore = 0;
 
         gameManager.PlayerAnimationController.SetFeverMode(false);
         gameManager.feverBackGroundManager.SetFeverMode(false);
@@ -123,7 +123,7 @@ public class FeverSystem : MonoBehaviour
 
         Debug.Log($"현재 피버 점수 {feverScore}");
 
-        if (feverScore >= 30 && !isFeverActive)
+        if (feverScore >= 150 && !isFeverActive)
         {
             StartFever();
         }

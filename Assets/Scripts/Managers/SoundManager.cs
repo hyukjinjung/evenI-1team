@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -54,7 +53,7 @@ public class SoundManager : MonoBehaviour
         SoundSource soundSource = go.GetComponent<SoundSource>();
 
 
-        soundSource.SetPitch(pitch);
+        //soundSource.SetPitch(pitch);
         soundSource.Play(sfxSounds[index], soundEffectVolum * volumeMultiplier, soundEffectPitchVariance);
 
         soundSource.enabled = false;

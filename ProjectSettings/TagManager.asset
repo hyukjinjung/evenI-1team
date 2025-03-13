@@ -11,6 +11,7 @@ TagManager:
   - Item
   - Obstacle
   - HideNext
+  - Coin
   layers:
   - Default
   - TransparentFX

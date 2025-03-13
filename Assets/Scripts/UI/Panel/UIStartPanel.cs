@@ -20,7 +20,7 @@ public class UIStartPanel : UIPanel
         base.Initialize(manager);
         GameStartButton.onClick.AddListener(OnGameStartButtonClicked);
         SettingButton.onClick.AddListener(OnSettingButtonClicked);
-        RankingButton.onClick.AddListener(OnClickedRankingButton);
+        //RankingButton.onClick.AddListener(OnClickedRankingButton);
         SkinButton.onClick.AddListener(OnClickedSkinButton);
         EncyButton.onClick.AddListener(OnClickedEncyButton);
         AchieveButton.onClick.AddListener(OnClickedAchieveButton);
@@ -57,8 +57,7 @@ public class UIStartPanel : UIPanel
 
     public void OnClickedSkinButton()
     {
-        uiManager.StartGame();
-        SoundManager.Instance.PlayClip(22);
+        //uiManager.StartGame();
     }
     public void OnClickedEncyButton()
     {

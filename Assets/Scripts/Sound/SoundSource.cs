@@ -30,11 +30,11 @@ public class SoundSource : MonoBehaviour
     }
 
 
-    public void SetPitch(float newPitch)
-    {
-        if (audioSource != null)
-        {
-            audioSource.pitch = newPitch;
-        }
-    }
+    //public void SetPitch(float newPitch)
+    //{
+    //    if (audioSource != null)
+    //    {
+    //        audioSource.pitch = newPitch;
+    //    }
+    //}
 }

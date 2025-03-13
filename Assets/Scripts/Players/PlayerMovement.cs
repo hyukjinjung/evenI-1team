@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,13 +10,13 @@ public class PlayerMovement : MonoBehaviour
 {
     //[SerializeField] private bool isAutoMode = false;
 
-    private float deathHeight = -5f; // ĳ���Ͱ� �������� ���� �����Ǵ� ����
+    // private float deathHeight = -5f; // 사용되지 않는 필드 제거 또는 주석 처리
 
     public bool isJumping { get; private set; } = false;
-    public bool isGameOver { get; private set; } = false; // ���� ���� �ߺ� ����
+    public bool isGameOver { get; private set; } = false; // 게임 종료 플래그
 
-    private readonly Vector2 leftDirection = new Vector2(-1f, 1f); // ��ǥ�� Ÿ�� ���ݿ� ���� ����
-    private readonly Vector2 rightDirection = new Vector2(1f, 1f); // ��ǥ�� Ÿ�� ���ݿ� ���� ����
+    private readonly Vector2 leftDirection = new Vector2(-1f, 1f); // 좌측 방향 벡터
+    private readonly Vector2 rightDirection = new Vector2(1f, 1f); // 우측 방향 벡터
 
     private Rigidbody2D rb;
     private PlayerInputController playerInputController;

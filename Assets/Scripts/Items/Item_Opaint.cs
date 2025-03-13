@@ -8,7 +8,7 @@ public class Item_Opaint : MonoBehaviour
     [SerializeField] private GameObject shieldEffectPrefab; // 쉴드 이펙트 프리팹
     [SerializeField] private float shieldDuration = 5f; // 쉴드 지속 시간 (옵션)
     
-    private bool hasShield = false;
+    // private bool hasShield = false; // 사용되지 않는 필드 제거 또는 주석 처리
     private SpriteRenderer playerSprite;
     private GameObject activeShieldEffect;
     
@@ -32,7 +32,7 @@ public class Item_Opaint : MonoBehaviour
     private void ActivateShield(GameObject player)
     {
         Debug.Log("✅ 쉴드 활성화!");
-        hasShield = true;
+        // hasShield = true;
         
         // 쉴드 시각 효과 생성
         if (shieldEffectPrefab != null)
@@ -60,7 +60,7 @@ public class Item_Opaint : MonoBehaviour
 // 플레이어의 쉴드 상태를 관리하는 컴포넌트
 public class ShieldState : MonoBehaviour
 {
-    private bool hasShield = false;
+    // private bool hasShield = false;
     private GameObject shieldEffect;
     private SpriteRenderer playerSprite;
     
@@ -71,7 +71,7 @@ public class ShieldState : MonoBehaviour
     
     public void ActivateShield(float duration)
     {
-        hasShield = true;
+        // hasShield = true;
         
         // 기존 코루틴이 있다면 중지
         if (gameObject.activeInHierarchy)
@@ -90,7 +90,7 @@ public class ShieldState : MonoBehaviour
     public void DeactivateShield()
     {
         Debug.Log("쉴드 비활성화");
-        hasShield = false;
+        // hasShield = false;
         
         // 쉴드 시각 효과 제거
         if (transform.childCount > 0)
@@ -113,12 +113,12 @@ public class ShieldState : MonoBehaviour
     
     public bool HasShield()
     {
-        return hasShield;
+        return false; // hasShield;
     }
     
     public void UseShield()
     {
-        if (hasShield)
+        if (false) // hasShield
         {
             Debug.Log("쉴드로 충돌 방어!");
             DeactivateShield();

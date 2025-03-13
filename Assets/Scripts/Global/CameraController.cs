@@ -1,19 +1,39 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public static CameraController Instance { get; private set; }
+
     public CinemachineVirtualCamera virtualCamera;
+    private CinemachineImpulseSource impulseSource;
+
     public Transform player;
     public Transform chasingMonster;
 
     public float transitionDuration = 5f;
     public float holdTime = 3f;
-    private bool isDone = false;
 
 
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+
+        impulseSource = GetComponent<CinemachineImpulseSource>();
+    }
 
     void Start()
     {
@@ -46,7 +66,23 @@ public class CameraController : MonoBehaviour
         }
 
         virtualCamera.Follow = player;
-        
-        isDone = true;
+    }
+
+
+
+    public void ShakeCameara(float intensity, float duration)
+    {
+        if (impulseSource == null) return;
+
+        impulseSource.GenerateImpulseWithForce(intensity);
+        StartCoroutine(StopShakeAfterTime(duration));
+
+    }
+
+
+    private IEnumerator StopShakeAfterTime(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        impulseSource.m_ImpulseDefinition.m_AmplitudeGain = 0;
     }
 }
