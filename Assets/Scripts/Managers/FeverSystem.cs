@@ -52,7 +52,7 @@ public class FeverSystem : MonoBehaviour
 
         gameManager.feverBackGroundManager.SetFeverMode(false);
 
-        StartCoroutine( PreloadFeverAudio());
+        //StartCoroutine( PreloadFeverAudio());
     }
 
 
@@ -123,6 +123,8 @@ public class FeverSystem : MonoBehaviour
 
     public void AddFeverScore(FeverScoreType feverType)
     {
+        if (isFeverActive) return;
+
         if (feverScoresValues.ContainsKey(feverType))
         {
             CurrentfeverScore += feverScoresValues[feverType];
