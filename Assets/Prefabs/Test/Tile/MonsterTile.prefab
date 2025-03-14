@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 7957225243176364108}
   - component: {fileID: 8362937748747296966}
   - component: {fileID: -122734764978011464}
+  - component: {fileID: 3118751375659186873}
   m_Layer: 0
   m_Name: MonsterTile
   m_TagString: Tile
@@ -176,3 +177,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
+--- !u!114 &3118751375659186873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8739971171360135241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa24f65640e32d04b8a4c0e716e4c86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterPrefabs:
+  - {fileID: 4484346038493015994, guid: e12d6f85f99a39b45b2e8e0ca6f8f664, type: 3}
+  - {fileID: 6917763255129693937, guid: 612081224c3d1604c9ade935083e160e, type: 3}
+  - {fileID: 3764129853393100364, guid: d7eec87615320394489fbb887099ae29, type: 3}
+  - {fileID: 3764129853393100364, guid: 34e4ca5509ad3464da7311b4567fab79, type: 3}
+  - {fileID: 3764129853393100364, guid: 5ed854a8e96854447a0a0bffa2b93a4b, type: 3}
+  monsterSpawnPoint: {fileID: 0}
+  spawnHeightOffset: 0
