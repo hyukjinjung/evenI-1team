@@ -52,7 +52,7 @@ public class FeverSystem : MonoBehaviour
 
         gameManager.feverBackGroundManager.SetFeverMode(false);
 
-        //StartCoroutine( PreloadFeverAudio());
+        //StartCoroutine(PreloadFeverAudio());
     }
 
 
@@ -90,7 +90,7 @@ public class FeverSystem : MonoBehaviour
 
         isFeverActive = true;
         RemaningFeverTime = feverDuration;
-        CurrentfeverScore = 0;
+        //CurrentfeverScore = 0;
 
         StartCoroutine(SmoothToFever());
 
@@ -106,10 +106,7 @@ public class FeverSystem : MonoBehaviour
     {
         if (!isFeverActive) return;
 
-        isFeverActive = false;
-
-        gameManager.PlayerAnimationController.SetFeverMode(false);
-        gameManager.feverBackGroundManager.SetFeverMode(false);
+        ResetFever();
 
         gameManager.PlayerMovement.feverFallCount = 0;
 
@@ -118,6 +115,17 @@ public class FeverSystem : MonoBehaviour
 
         SoundManager.Instance.ChangeBackGroundMusic(1);
 
+    }
+
+
+    public void ResetFever()
+    {
+        isFeverActive = false ;
+        RemaningFeverTime = 0;
+        CurrentfeverScore = 0;
+
+        gameManager.PlayerAnimationController.SetFeverMode(false);
+        gameManager.feverBackGroundManager.SetFeverMode(false);
     }
 
 

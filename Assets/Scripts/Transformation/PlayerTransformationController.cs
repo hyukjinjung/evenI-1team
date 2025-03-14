@@ -143,8 +143,7 @@ public class PlayerTransformationController : MonoBehaviour
 
         Debug.Log("변신 해제 애니메이션 종료");
         //playerAnimationController.ResetAllAnimation();
-
-        yield return new WaitForSeconds(playerAnimationController.GetAssassinationAnimationLength());
+        yield return new WaitForSeconds(0.5f);
 
         isInvinsible = false;
         EnablePlayerInput(true);
