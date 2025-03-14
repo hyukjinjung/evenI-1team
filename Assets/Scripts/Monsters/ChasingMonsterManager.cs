@@ -10,17 +10,17 @@ public class ChasingMonsterManager : MonoBehaviour
     public Transform player;
     private ChasingMonster currentMonster;
 
-    public float followDistance = 100f;
-
-    private ChasingMonsterSilhouette chasingMonsterSilhouette;
     public CameraController cameraController;
     private UIPlayingPanel uiPlayingPanel;
     private UIChasingMonsterGauge uiChasingMonsterGauge;
-    //private ChasingMonsterAnimationController animController;
 
-
+    private ChasingMonsterSilhouette silhouette;
     private ChasingMonsterDistanceState lastState = ChasingMonsterDistanceState.Far;
 
+    [Header("ChasingMonster Distance Settings")]
+    [SerializeField] private float followDistance = 100f;
+    [SerializeField] private float mediumDistance = 80f;
+    [SerializeField] private float closeDistance = 20f;
 
 
     private void Awake()
@@ -39,7 +39,7 @@ public class ChasingMonsterManager : MonoBehaviour
     private void Start()
     {
         uiPlayingPanel = FindObjectOfType<UIPlayingPanel>();
-        chasingMonsterSilhouette = FindObjectOfType<ChasingMonsterSilhouette>();
+        silhouette = FindObjectOfType<ChasingMonsterSilhouette>();
     }
 
 
@@ -49,24 +49,12 @@ public class ChasingMonsterManager : MonoBehaviour
         if (currentMonster == null || player == null) return;
 
         float distance = Vector3.Distance(player.position, currentMonster.transform.position);
-        
         ChasingMonsterDistanceState state = GetDistanceState(distance);
 
-        if (uiChasingMonsterGauge != null) 
+        if (state != lastState)
         {
-            uiChasingMonsterGauge.UpdateGauge(state);
-        }
-
-        if (chasingMonsterSilhouette != null)
-        {
-            if (state == ChasingMonsterDistanceState.Close)
-            {
-                chasingMonsterSilhouette.ShowSilhouette();
-            }
-            else
-            {
-                chasingMonsterSilhouette.HideSilhouette();
-            }
+            silhouette?.SetSilhouette(state == ChasingMonsterDistanceState.Close);
+            lastState = state;
         }
     }
 
@@ -86,35 +74,21 @@ public class ChasingMonsterManager : MonoBehaviour
 
     public void SpawnMonster()
     {
-        if (monsterPrefab == null || player == null)
-            return;
-
-        if (currentMonster != null)
+        if (monsterPrefab == null || player == null || currentMonster != null)
             return;
 
         GameObject monsterObj = Instantiate(monsterPrefab);
-        Vector3 spawnPosition = player.position - new Vector3(0, followDistance, 0);
-        monsterObj.transform.position = spawnPosition;
-
+        monsterObj.transform.position = player.position - new Vector3(0, followDistance, 0);
         currentMonster = monsterObj.GetComponent<ChasingMonster>();
-        if (currentMonster != null)
-        {
-            Debug.Log($"몬스터가 생성됨. {spawnPosition}");
-            currentMonster.Initialize(player);
-        }
-
-        if (cameraController != null)
-        {
-            cameraController.chasingMonster = monsterObj.transform;
-        }
+        currentMonster?.Initialize(player);
     }
 
 
     private ChasingMonsterDistanceState GetDistanceState(float distance)
     {
-        if (distance > 80f)
+        if (distance > mediumDistance)
             return ChasingMonsterDistanceState.Far;
-        else if (distance > 20f)
+        else if (distance > closeDistance)
             return ChasingMonsterDistanceState.Medium;
         else
             return ChasingMonsterDistanceState.Close;

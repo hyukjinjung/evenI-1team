@@ -18,6 +18,7 @@ public class ChasingMonsterSilhouette : MonoBehaviour
     }
 
 
+
     void Update()
     {
         if (isSilhouetteActive)
@@ -27,26 +28,22 @@ public class ChasingMonsterSilhouette : MonoBehaviour
     }
 
 
-    public void ShowSilhouette()
+    
+    public void SetSilhouette(bool isVisibe)
     {
-        if (!isSilhouetteActive)
-        {
-            gameObject.SetActive(true);
-            animator.SetTrigger("ShowSilhouette");
-            isSilhouetteActive = true;
-        }
-    }
+        if (isSilhouetteActive == isVisibe) return;
 
+        isSilhouetteActive = isVisibe;
+        gameObject.SetActive(isVisibe);
 
-    public void HideSilhouette()
-    {
-        if (isSilhouetteActive)
+        animator.SetTrigger(isVisibe ? "ShowSilhouette" : "HideSilhouette");
+
+        if (!isVisibe)
         {
-            animator.SetTrigger("HideSilhouette");
-            isSilhouetteActive = false;
             StartCoroutine(DisableAfterAnimation());
         }
     }
+
 
 
     private IEnumerator DisableAfterAnimation()

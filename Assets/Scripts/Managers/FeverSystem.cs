@@ -152,8 +152,13 @@ public class FeverSystem : MonoBehaviour
     private IEnumerator PreloadFeverAudio()
     {
         yield return null;
-        SoundManager.Instance.ChangeBackGroundMusic(2);
+
+        AudioSource temp = gameObject.AddComponent<AudioSource>();
+        temp.clip = SoundManager.Instance.musicClip[2];
+        temp.Play();
+
         yield return new WaitForSeconds(0.1f);
-        SoundManager.Instance.ChangeBackGroundMusic(1);
+
+        Destroy(temp);
     }
 }

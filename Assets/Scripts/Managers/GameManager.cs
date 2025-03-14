@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
         {
             ChasingMonsterManager.Instance.Initialize(player.transform, cameraController,
                 uiChasingMonsterGauge);
-            SoundManager.Instance.PlayClip(5);
+            //SoundManager.Instance.PlayClip(5);
         }
 
         if (cameraController != null) 

@@ -49,7 +49,7 @@ public class ChasingMonsterAnimationController : MonoBehaviour
 
         animator.SetTrigger("Attack");
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
 
         GameManager.Instance.GameOver();
     }
