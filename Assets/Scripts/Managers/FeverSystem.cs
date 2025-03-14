@@ -12,7 +12,7 @@ public class FeverSystem : MonoBehaviour
 
     [Header("Fever Mode Settings")]
     [SerializeField] private float feverDuration = 10;
-    [SerializeField] private float feverTimer = 0;
+    [SerializeField] private float RemaningFeverTime = 0;
 
     [SerializeField] private int CurrentfeverScore = 0;
     public int FeverScore
@@ -75,9 +75,9 @@ public class FeverSystem : MonoBehaviour
     {
         if (isFeverActive)
         {
-            feverTimer -= Time.deltaTime;
+            RemaningFeverTime -= Time.deltaTime;
 
-            if (feverTimer <= 0)
+            if (RemaningFeverTime <= 0)
             {
                 EndFever();
             }
@@ -90,7 +90,7 @@ public class FeverSystem : MonoBehaviour
         if (isFeverActive) return;
 
         isFeverActive = true;
-        feverTimer = feverDuration;
+        RemaningFeverTime = feverDuration;
         CurrentfeverScore = 0;
 
         StartCoroutine(SmoothToFever());
