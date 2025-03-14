@@ -50,7 +50,6 @@ public class FeverSystem : MonoBehaviour
     {
         gameManager = GameManager.Instance;
 
-        gameManager.PlayerAnimationController.SetFeverMode(false);
         gameManager.feverBackGroundManager.SetFeverMode(false);
 
         StartCoroutine( PreloadFeverAudio());

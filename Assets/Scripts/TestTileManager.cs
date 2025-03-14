@@ -35,7 +35,7 @@ public class TestTileManager : MonoBehaviour
     [SerializeField] private int startTileCount = 20;
     [SerializeField] private int maxTiles = 20;
 
-    [Header("Item Spawn Rate")] 
+    [Header("Item Spawn Rate Settings")] 
     [SerializeField] private float coinSpawnChance = 0.8f;
     [SerializeField] private float transformItemChance = 0.2f;
 
