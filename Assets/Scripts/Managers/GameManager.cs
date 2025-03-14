@@ -7,8 +7,7 @@ using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
-    //[SerializeField] private bool isGodMode = false;
-
+    // [SerializeField] private bool isGodMode = false;
     private static GameManager _instance;
     public static GameManager Instance
     {
@@ -92,6 +91,7 @@ public class GameManager : MonoBehaviour
         feverBackGroundManager = FindObjectOfType<FeverBackGroundManager>();
         chasingMonsterManager = FindObjectOfType<ChasingMonsterManager>();
         cameraController = FindObjectOfType<CameraController>();
+
         uiChasingMonsterGauge = FindObjectOfType<UIChasingMonsterGauge>(true);
 
 

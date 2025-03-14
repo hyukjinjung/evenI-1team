@@ -52,6 +52,7 @@ public class UIStartPanel : UIPanel
     public void OnClickedRankingButton()
     {
         uiManager.OnClickedRankingButton();
+        SoundManager.Instance.PlayClip(22);
     }
 
     public void OnClickedSkinButton()
@@ -61,24 +62,29 @@ public class UIStartPanel : UIPanel
     public void OnClickedEncyButton()
     {
         uiManager.OnClickedSkinButton();
+        SoundManager.Instance.PlayClip(22);
     }
 
     public void OnClickedAchieveButton()
     {
         uiManager.OnClickedAchieveButton();
+        SoundManager.Instance.PlayClip(22);
     }
 
     public void OnClickedAdsButton()
     {
         uiManager.OnClickedAdsButton();
+        SoundManager.Instance.PlayClip(22);
     }
     public void OnClickedModeButton()
     {
         uiManager.OnClickedModeButton();
+        SoundManager.Instance.PlayClip(22);
     }
     public void OnClickedEventButton()
     {
         uiManager.OnClickedEventButton();
+        SoundManager.Instance.PlayClip(22);
     }
 
 }

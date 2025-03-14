@@ -24,7 +24,7 @@ public class TestTileManager : MonoBehaviour
 
     private int currentX = 0;
     private int currentY = 0;
-    private int direction = 1;
+    // private int direction = 1;
 
     // [SerializeField] private float spawnInterval = 0.5f;
     [SerializeField] private float obstacleSpawnChance = 0.15f;
@@ -573,7 +573,6 @@ public class TestTileManager : MonoBehaviour
         tiles.Clear();
         currentX = 0;
         currentY = 0;
-        direction = 1;
         createTileIndex = 0;
         
         // 첫 번째 타일 생성
@@ -619,7 +618,6 @@ public class TestTileManager : MonoBehaviour
         tiles.Clear();
         currentX = 0;
         currentY = 0;
-        direction = 1;
         createTileIndex = 0;
         
         // 3. 첫 번째 타일 생성
