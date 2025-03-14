@@ -89,7 +89,8 @@ public class ChasingMonster : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            GameManager.Instance.GameOver();
+            animationController.PlayAttack();
+            //GameManager.Instance.GameOver();
         }
     }
 }

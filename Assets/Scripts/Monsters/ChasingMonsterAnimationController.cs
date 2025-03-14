@@ -30,20 +30,27 @@ public class ChasingMonsterAnimationController : MonoBehaviour
         {
             animator.SetTrigger("Attack");
             isAttacking = true;
-            StartCoroutine(ResetAttackState());
+            StartCoroutine(PlayAttackSequence());
         }
     }
 
 
-    private IEnumerator ResetAttackState()
+    //private IEnumerator ResetAttackState()
+    //{
+    //    yield return new WaitForSeconds(1f);
+    //    isAttacking = false ;
+    //}
+    
+    private IEnumerator PlayAttackSequence()
     {
+        GameManager.Instance.PlayerAnimationController.PlaySurprised();
+
+        yield return new WaitForSeconds(0.5f);
+
+        animator.SetTrigger("Attack");
+
         yield return new WaitForSeconds(1f);
-        isAttacking = false ;
+
+        GameManager.Instance.GameOver();
     }
-
-
-
-
-
-
 }

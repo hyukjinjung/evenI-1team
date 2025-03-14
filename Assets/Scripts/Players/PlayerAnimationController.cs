@@ -56,6 +56,12 @@ public class PlayerAnimationController : MonoBehaviour
     }
 
 
+    public void PlaySurprised()
+    {
+        animator.SetTrigger("Surprised");
+    }
+
+
 
     public void PlayDisappearAnimation()
     {
