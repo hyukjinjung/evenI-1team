@@ -22,7 +22,13 @@ public class ChasingMonster : MonoBehaviour
 
     [Header("Real-time Speed")]
     [SerializeField] private float currentMoveSpeed;
+    [SerializeField] private float elapsedTime;
 
+
+    private void Awake()
+    {
+        
+    }
 
     void Start()
     {
@@ -45,7 +51,7 @@ public class ChasingMonster : MonoBehaviour
         if (player == null) return;
         if (isAttacking) return;
 
-        float elapsedTime = Time.time - startTime;
+        elapsedTime = Time.time - GameManager.Instance.gameStartTime;
         UpdateMoveSpeed(elapsedTime);
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
@@ -66,15 +72,20 @@ public class ChasingMonster : MonoBehaviour
 
     private void UpdateMoveSpeed(float elapsedTime)
     {
+        //Debug.Log($"ElapsedTime {elapsedTime}");
+
         if (elapsedTime < initialSpeedUpTime)
         {
             currentMoveSpeed = baseMoveSpeed;
         }
         else
         {
-            int extraSpeed = Mathf.FloorToInt((elapsedTime - initialSpeedUpTime) / speedIncreaseTime);
+            int extraSpeed = Mathf.FloorToInt((elapsedTime - (initialSpeedUpTime - speedIncreaseTime))
+                / speedIncreaseTime);
             currentMoveSpeed = baseMoveSpeed + (extraSpeed * speedIncreaseAmount);
         }
+
+        Debug.Log($"MoveSpeed {currentMoveSpeed}");
     }
 
 

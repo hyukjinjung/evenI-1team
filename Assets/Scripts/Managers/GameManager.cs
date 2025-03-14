@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     }
 
     public bool IsGameStarted { get; private set; } = false;
+    public float gameStartTime { get; private set; }
 
 
     public UIManager uiManager;
@@ -142,6 +143,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("게임 시작");
         IsGameStarted = true;
+        gameStartTime = Time.time;
 
         playerMovement.enabled = true;
         playerInputController.enabled = true;

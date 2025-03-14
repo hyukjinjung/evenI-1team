@@ -120,8 +120,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4949554d2ee8fd243985c89f0f7f9289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movespeed: 3
-  attackRange: 1.5
+  attackRange: 0
+  baseMoveSpeed: 3
+  initialSpeedUpTime: 60
+  speedIncreaseTime: 30
+  speedIncreaseAmount: 1
+  currentMoveSpeed: 0
 --- !u!114 &-5517669618064054034
 MonoBehaviour:
   m_ObjectHideFlags: 0
