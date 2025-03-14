@@ -55,6 +55,8 @@ public class ChasingMonsterManager : MonoBehaviour
         {
             silhouette?.SetSilhouette(state == ChasingMonsterDistanceState.Close);
             lastState = state;
+
+            uiChasingMonsterGauge?.UpdateGauge(state);
         }
     }
 

@@ -5,24 +5,36 @@ using UnityEngine;
 public class ChasingMonster : MonoBehaviour
 {
     private Transform player;
-    public float movespeed = 5;
+    private ChasingMonsterAnimationController animationController;
+    private UIChasingMonsterGauge monsterGauge;
+    
     private float nextMoveTime = 0f;
+    private float startTime;
 
     private bool isAttacking = false;
-
     public float attackRange = 1f;
 
-    private ChasingMonsterAnimationController animationController;
+    [Header("MoveSpeed Settings")]
+    [SerializeField] private float baseMoveSpeed = 3;
+    [SerializeField] private float initialSpeedUpTime = 60;
+    [SerializeField] private float speedIncreaseTime = 30;
+    [SerializeField] private float speedIncreaseAmount = 1;
+
+    [Header("Real-time Speed")]
+    [SerializeField] private float currentMoveSpeed;
 
 
     void Start()
     {
         animationController = GetComponent<ChasingMonsterAnimationController>();
+        startTime = Time.time;
+        currentMoveSpeed = baseMoveSpeed;
     }
 
     public void Initialize(Transform playerTransform)
     {
         player = playerTransform;
+        //monsterGauge = gauge;
     }
 
 
@@ -32,6 +44,9 @@ public class ChasingMonster : MonoBehaviour
         if (!GameManager.Instance.IsGameStarted) return;
         if (player == null) return;
         if (isAttacking) return;
+
+        float elapsedTime = Time.time - startTime;
+        UpdateMoveSpeed(elapsedTime);
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
@@ -49,12 +64,25 @@ public class ChasingMonster : MonoBehaviour
     }
 
 
+    private void UpdateMoveSpeed(float elapsedTime)
+    {
+        if (elapsedTime < initialSpeedUpTime)
+        {
+            currentMoveSpeed = baseMoveSpeed;
+        }
+        else
+        {
+            int extraSpeed = Mathf.FloorToInt((elapsedTime - initialSpeedUpTime) / speedIncreaseTime);
+            currentMoveSpeed = baseMoveSpeed + (extraSpeed * speedIncreaseAmount);
+        }
+    }
+
 
     private IEnumerator MoveTowardsPlayer()
     {
         Vector3 startPos = transform.position;
         Vector3 direction = (player.position - startPos).normalized;
-        Vector3 targetPos = startPos + direction * movespeed;
+        Vector3 targetPos = startPos + direction * currentMoveSpeed;
 
         float elapsedTime = 0f;
         float duration = 1f;
