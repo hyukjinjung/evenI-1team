@@ -10,15 +10,18 @@ public class FeverSystem : MonoBehaviour
     [SerializeField] private bool isFeverActive = false;
     public bool IsFeverActive => isFeverActive;
 
+    [Header("Fever Mode Settings")]
     [SerializeField] private float feverDuration = 10;
     [SerializeField] private float feverTimer = 0;
 
-    [SerializeField] private int feverScore = 0;
+    [SerializeField] private int CurrentfeverScore = 0;
     public int FeverScore
     {
-        get => feverScore;
-        set => feverScore = Mathf.Max(0, value);
+        get => CurrentfeverScore;
+        set => CurrentfeverScore = Mathf.Max(0, value);
     }
+
+    [SerializeField] private int feverScoreLimit = 150;
 
     public event Action OnFeverStart;
     public event Action OnFeverEnd;
@@ -46,6 +49,11 @@ public class FeverSystem : MonoBehaviour
     void Start()
     {
         gameManager = GameManager.Instance;
+
+        gameManager.PlayerAnimationController.SetFeverMode(false);
+        gameManager.feverBackGroundManager.SetFeverMode(false);
+
+        StartCoroutine( PreloadFeverAudio());
     }
 
 
@@ -83,17 +91,15 @@ public class FeverSystem : MonoBehaviour
 
         isFeverActive = true;
         feverTimer = feverDuration;
-        feverScore = 0;
+        CurrentfeverScore = 0;
 
-        gameManager.PlayerAnimationController.SetFeverMode(true);
-        gameManager.feverBackGroundManager.SetFeverMode(true);
+        StartCoroutine(SmoothToFever());
 
         Debug.Log("피버 시작");
         OnFeverStart?.Invoke();
 
-        SoundManager.Instance.PlayClip(21);
         SoundManager.Instance.ChangeBackGroundMusic(2);
-        
+
     }
 
 
@@ -112,7 +118,7 @@ public class FeverSystem : MonoBehaviour
         OnFeverEnd?.Invoke();
 
         SoundManager.Instance.ChangeBackGroundMusic(1);
-        
+
     }
 
 
@@ -120,16 +126,35 @@ public class FeverSystem : MonoBehaviour
     {
         if (feverScoresValues.ContainsKey(feverType))
         {
-            feverScore += feverScoresValues[feverType];
+            CurrentfeverScore += feverScoresValues[feverType];
         }
 
 
 
-        Debug.Log($"현재 피버 점수 {feverScore}");
+        Debug.Log($"현재 피버 점수 {CurrentfeverScore}");
 
-        if (feverScore >= 150 && !isFeverActive)
+        if (CurrentfeverScore >= feverScoreLimit && !isFeverActive)
         {
             StartFever();
+            SoundManager.Instance.PlayClip(21);
         }
+    }
+
+
+    private IEnumerator SmoothToFever()
+    {
+        gameManager.feverBackGroundManager.SetFeverMode(true);
+        yield return new WaitForSeconds(0.1f);
+
+        gameManager.PlayerAnimationController.SetFeverMode(true);
+        yield return new WaitForSeconds(0.1f);
+    }
+
+    private IEnumerator PreloadFeverAudio()
+    {
+        yield return null;
+        SoundManager.Instance.ChangeBackGroundMusic(2);
+        yield return new WaitForSeconds(0.1f);
+        SoundManager.Instance.ChangeBackGroundMusic(1);
     }
 }
