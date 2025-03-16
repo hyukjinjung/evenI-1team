@@ -24,6 +24,7 @@ public class ChasingMonsterAnimationController : MonoBehaviour
     }
 
 
+
     public void PlayAttack()
     {
         if (!isAttacking)
@@ -35,11 +36,6 @@ public class ChasingMonsterAnimationController : MonoBehaviour
     }
 
 
-    //private IEnumerator ResetAttackState()
-    //{
-    //    yield return new WaitForSeconds(1f);
-    //    isAttacking = false ;
-    //}
     
     private IEnumerator PlayAttackSequence()
     {
