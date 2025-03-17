@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     public FeverSystem feverSystem;
     public FeverBackGroundManager feverBackGroundManager;
     public ChasingMonsterManager chasingMonsterManager;
-    public CameraController cameraController;
+    //public CameraController cameraController;
     public UIChasingMonsterGauge uiChasingMonsterGauge;
 
     public GameObject StartPanel;
@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
         feverSystem = FindAnyObjectByType<FeverSystem>();
         feverBackGroundManager = FindObjectOfType<FeverBackGroundManager>();
         chasingMonsterManager = FindObjectOfType<ChasingMonsterManager>();
-        cameraController = FindObjectOfType<CameraController>();
+        //cameraController = FindObjectOfType<CameraController>();
 
         uiChasingMonsterGauge = FindObjectOfType<UIChasingMonsterGauge>(true);
 
@@ -127,15 +127,15 @@ public class GameManager : MonoBehaviour
 
         if (ChasingMonsterManager.Instance != null)
         {
-            ChasingMonsterManager.Instance.Initialize(player.transform, cameraController,
+            ChasingMonsterManager.Instance.Initialize(player.transform,
                 uiChasingMonsterGauge);
             //SoundManager.Instance.PlayClip(5);
         }
 
-        if (cameraController != null) 
-        {
-            cameraController.StartCameraSequnece();
-        }
+        //if (cameraController != null) 
+        //{
+        //    cameraController.StartCameraSequnece();
+        //}
     }
 
 

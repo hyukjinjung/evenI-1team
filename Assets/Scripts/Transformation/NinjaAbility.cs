@@ -76,7 +76,7 @@ public class NinjaAbility : SpecialAbilityData
 
         playerAnimationController.PlayAssassinationAnimation();
 
-        CameraController.Instance?.ShakeCameara(1.5f, 0.3f);
+        //CameraController.Instance?.ShakeCameara(1.5f, 0.3f);
 
         float assassinationTime = playerAnimationController.GetAssassinationAnimationLength();
         yield return new WaitForSeconds(assassinationTime);

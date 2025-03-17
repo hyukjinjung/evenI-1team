@@ -8,6 +8,8 @@ public class CameraController : MonoBehaviour
 {
     public static CameraController Instance { get; private set; }
 
+
+
     public CinemachineVirtualCamera virtualCamera;
     private CinemachineImpulseSource impulseSource;
 
@@ -52,10 +54,16 @@ public class CameraController : MonoBehaviour
 
     private IEnumerator CameraSequence()
     {
-        if (virtualCamera == null || player == null || chasingMonster == null)
+        if (virtualCamera == null || chasingMonster == null)
+        {
+            Debug.Log("CameraSequence 실행 불가");
             yield break;
+        }
+
 
         virtualCamera.Follow = chasingMonster;
+        virtualCamera.LookAt = chasingMonster;
+
         yield return new WaitForSeconds(holdTime);
 
         float elapsedTime = 0f;
@@ -66,6 +74,7 @@ public class CameraController : MonoBehaviour
         }
 
         virtualCamera.Follow = player;
+        virtualCamera.LookAt = player;
     }
 
 

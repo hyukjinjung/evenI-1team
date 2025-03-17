@@ -168,7 +168,7 @@ public class UIManager : MonoBehaviour
 
     public void StartGame()
     {
-        //playerAnimationController.PlayGameStartAnimation();
+        playerAnimationController.PlayGameStartAnimation();
 
         uiStartPanel.SetActive(false);
         uiPlayingPanel.SetActive(true);

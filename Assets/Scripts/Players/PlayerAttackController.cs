@@ -22,7 +22,7 @@ public class PlayerAttackController : MonoBehaviour
     private GameManager gameManager;
 
 
-    public SpecialAbilityData specialAbilityData;
+    private SpecialAbilityData specialAbilityData;
 
     [SerializeField] private GameObject attackEffectPrefab;
 
@@ -48,6 +48,8 @@ public class PlayerAttackController : MonoBehaviour
     {
         if (FeverSystem.Instance !=null && FeverSystem.Instance.IsFeverActive) 
             return;
+
+        if (playerMovement.isJumping) return;
 
 
         if (isAttacking)
@@ -80,11 +82,11 @@ public class PlayerAttackController : MonoBehaviour
 
         playerAnimationController.SetAttacking(attackLeft);
 
+        SpawnAttackEffect();
         StartCoroutine(ResetAttackFlag());
 
-        isAttacking = true;
+        //isAttacking = true;
 
-        SpawnAttackEffect();
     }
 
 
@@ -99,7 +101,6 @@ public class PlayerAttackController : MonoBehaviour
         bool attackLeft = forwardTile.TileOnLeft(transform);
 
         Vector3 spawnPosition = forwardTile.transform.position;
-
         Quaternion rotation = attackLeft ? Quaternion.Euler(0f, 180f, 0f) : Quaternion.identity;
 
         Instantiate(attackEffectPrefab, spawnPosition, rotation);
@@ -112,7 +113,7 @@ public class PlayerAttackController : MonoBehaviour
 
         yield return new WaitForSeconds(attackAnimationLength);
 
-        isAttacking = false;
+        //isAttacking = false;
         Debug.Log("���� ���� �غ�");
     }
 

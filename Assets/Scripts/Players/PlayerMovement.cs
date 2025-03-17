@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     // private float deathHeight = -5f; // 사용되지 않는 필드 제거 또는 주석 처리
 
     public bool isJumping { get; private set; } = false;
+    public bool isGrounded { get; private set; } = false ;
     public bool isGameOver { get; private set; } = false; // 게임 종료 플래그
 
     private readonly Vector2 leftDirection = new Vector2(-1f, 1f); // 좌측 방향 벡터
@@ -78,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
         if (isGameOver || isJumping) return;
 
         isJumping = true;
+        isGrounded = false;
 
         gameManager.AddScore(1);
 
@@ -182,6 +184,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Tile"))
         {
             isJumping = false;
+            isGrounded = true;
             playerAnimationController.SetJumping(false);
             playerAnimationController.SetJumpWait();
         }
@@ -189,10 +192,10 @@ public class PlayerMovement : MonoBehaviour
         if (feverSystem != null && feverSystem.IsFeverActive && IsOnObstacleTile())
             return;
 
-        if (feverSystem.IsFeverActive)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, -15f);
-        }
+        //if (feverSystem.IsFeverActive)
+        //{
+        //    rb.velocity = new Vector2(rb.velocity.x, -10f);
+        //}
     }
 
 

@@ -28,7 +28,7 @@ public class PlayerAnimationController : MonoBehaviour
         animator.SetTrigger("ToJumpWait");
     }
 
-     public void SetFeverMode(bool isActive)
+    public void SetFeverMode(bool isActive)
     {
         animator.SetBool("isFever", isActive);
 

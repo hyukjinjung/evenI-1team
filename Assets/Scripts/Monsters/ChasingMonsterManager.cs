@@ -10,7 +10,7 @@ public class ChasingMonsterManager : MonoBehaviour
     public Transform player;
     private ChasingMonster currentMonster;
 
-    public CameraController cameraController;
+    //public CameraController cameraController;
     private UIPlayingPanel uiPlayingPanel;
     private UIChasingMonsterGauge uiChasingMonsterGauge;
 
@@ -62,11 +62,11 @@ public class ChasingMonsterManager : MonoBehaviour
 
 
 
-    public void Initialize(Transform playerTransform, CameraController cameraController,
+    public void Initialize(Transform playerTransform,
         UIChasingMonsterGauge gauge)
     {
         player = playerTransform;
-        this.cameraController = cameraController;
+        //this.cameraController = cameraController;
         this.uiChasingMonsterGauge = gauge;
 
         SpawnMonster();

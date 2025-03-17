@@ -41,7 +41,7 @@ public class UIStartPanel : UIPanel
     void OnGameStartButtonClicked()
     {
         GameStartButton.interactable = false;
-        gameStartController.OpeningSequence();
+        uiManager.StartGame();
         SoundManager.Instance.ChangeBackGroundMusic(1);
 
     }
