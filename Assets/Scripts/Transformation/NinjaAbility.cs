@@ -38,33 +38,21 @@ public class NinjaAbility : SpecialAbilityData
     {
         Initialize(playerTransform);
 
-
-        if (GameManager.Instance == null)
-        {
-            Debug.Log("GameManager NULL");
-            return;
-        }
+        if (GameManager.Instance == null) return;
 
         if (playerMovement == null) return;
-
         playerMovement.EnableMonsterIgnore(transformationData.duration);
         Debug.Log("몬스터 충돌 무시 활성화");
         
-        Tile monsterTile = testTileManager.GetNextMonsterTile(playerMovement.CurrentFloor);
-        
-        if (monsterTile == null)
-        {
-            return;
-        }
-
+        Tile monsterTile = testTileManager.GetNextMonsterTile(playerMovement.CurrentFloor);         
+        if (monsterTile == null) return;
 
         Monster targetMonster = monsterTile.MonsterOnTile;
+        if (targetMonster == null) return;
 
-        if (targetMonster == null)
-        {
-            Debug.Log("타일에 몬스터가 존재하지 않음");
-            return;
-        }
+        float distance = Vector3.Distance(playerTransform.position, monsterTile.transform.position);
+        if (distance > 7f) return;
+
 
         playerTransformationController.StartCoroutine(ExecuteAttackAfterDisappear(
             playerTransform, monsterTile, targetMonster));

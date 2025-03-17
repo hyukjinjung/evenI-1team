@@ -119,7 +119,6 @@ public class PlayerAttackController : MonoBehaviour
     public void ResetAttackState()
     {
         isAttacking = false;
-        Debug.Log("���� ���� �ʱ�ȭ �Ϸ�. �⺻ ���� ����");
     }
 }
 
