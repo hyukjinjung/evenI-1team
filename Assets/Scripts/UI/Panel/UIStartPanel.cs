@@ -15,6 +15,9 @@ public class UIStartPanel : UIPanel
     public Button ModeButton;
     public Button EventButton;
 
+    public GameStartController gameStartController;
+
+
     public override void Initialize(UIManager manager)
     {
         base.Initialize(manager);
@@ -28,17 +31,17 @@ public class UIStartPanel : UIPanel
         ModeButton.onClick.AddListener(OnClickedModeButton);
         EventButton.onClick.AddListener(OnClickedEventButton);
     }
-    
+
+
     public void ReStartGame()
     {
         uiManager.StartGame();
-
     }
 
     void OnGameStartButtonClicked()
     {
-        GameStartButton.interactable = false; 
-        uiManager.StartGame();
+        GameStartButton.interactable = false;
+        gameStartController.OpeningSequence();
         SoundManager.Instance.ChangeBackGroundMusic(1);
 
     }
