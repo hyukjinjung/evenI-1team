@@ -85,6 +85,7 @@ public class UIPlayingPanel : UIPanel
     public void FeverScore(int score)
     {
         scoreText.text = score.ToString();
+        Debug.Log("현재 피버 점수" + score);
     }
 
     public void UpdateChasingMonsterGauge(ChasingMonsterDistanceState state)

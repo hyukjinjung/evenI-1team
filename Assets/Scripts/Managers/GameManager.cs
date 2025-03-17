@@ -59,14 +59,14 @@ public class GameManager : MonoBehaviour
 
     private int score = 0;
     private int bestScore = 0;
+    private int feverScore = 0;
     private int resultScore = 0;
     private int resultBestScore = 0;
-    private int feverScore = 0;
- 
 
     
     public int Score {get{return score;}}
     public int BestScore {get{return bestScore;}}
+    public int FeverScore {get{return feverScore;}}
     public int ResultScore {get{return resultScore;}}
     public int ResultBestScore {get{return resultBestScore;}}
    
@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour
 
         AddScore(0);
         UpdateBestScore(0);
-        //FeverScore(0);
+        AddFeverScore(0);
 
         StartPanel.SetActive(false);
         PlayingPanel.SetActive(true);
@@ -278,19 +278,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //public void FeverScore(int value)
-    //{
-        
+    public void AddFeverScore(int value)
+    {
+        if (isGameOver) return;
+        {
+            score += value;
 
-    //    //if (isGameOver) return;
-    //    //{
-    //    //    score += value;
-
-    //    //    uiPlayingPanel.UpdateScore(score);
-
-    //    //    Debug.Log("FeverScore");
-    //    //}
-    //}
+            uiPlayingPanel.UpdateScore(score);
+            
+            Debug.Log("FeverScore");
+        }
+    }
 
     public void HandleFeverStart()
     {

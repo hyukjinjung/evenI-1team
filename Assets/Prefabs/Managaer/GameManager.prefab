@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8553680681558298801}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -2.8, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -44,10 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d5afc440c994bc43a4a5456723fe7a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGodMode: 0
   uiManager: {fileID: 0}
   tileManager: {fileID: 0}
+  feverSystem: {fileID: 0}
+  feverBackGroundManager: {fileID: 0}
+  chasingMonsterManager: {fileID: 0}
+  cameraController: {fileID: 0}
+  uiChasingMonsterGauge: {fileID: 0}
   StartPanel: {fileID: 0}
   PlayingPanel: {fileID: 0}
   GameOverPanel: {fileID: 0}
   player: {fileID: 0}
+  totalCoins: 0

@@ -7247,6 +7247,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayingPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 3691085612881245442, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9025450666720084061, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
+      propertyPath: feverScoreText
+      value: 
+      objectReference: {fileID: 620798640}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4209086156016298058, guid: 54cea7771e16eea42b4b3dbb6715d81f, type: 3}
@@ -7442,7 +7450,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 341502051664685124, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1465564423267080733, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.48388672
       objectReference: {fileID: 0}
     - target: {fileID: 2802790968551126276, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
