@@ -8,7 +8,8 @@ using UnityEngine;
 // 변신 타입, 변신 지속 시간, 능력 사용 횟수 관리
 public class TransformationData : ScriptableObject
 {
-    public TransformationType transformationType;   // 변신 유형
+    public TransformationType transformationType;
+    public SpecialAbilityType specialAbilityType;
     public float duration;                          // 변신 지속 시간
 
     public SpecialAbilityData specialAbility;       // 변신 시 사용할 특수 능력

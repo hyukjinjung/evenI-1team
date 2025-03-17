@@ -94,6 +94,13 @@ public enum ChasingMonsterDistanceState
     Close
 }
 
+public enum SpecialAbilityType
+{
+    None,
+    NinjaAssassination,
+    BullSwallowAndSpit
+}
+
 public enum BGM
 {   
    

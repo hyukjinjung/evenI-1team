@@ -51,12 +51,7 @@ public class PlayerAttackController : MonoBehaviour
 
         if (playerMovement.isJumping) return;
 
-
-        if (isAttacking)
-        {
-            Debug.Log("���� ���� �� �߰� ���� �Ұ���");
-            return;
-        }
+        if (isAttacking) return;
 
         if (transformController.IsTransformed())
         {
@@ -86,7 +81,6 @@ public class PlayerAttackController : MonoBehaviour
         StartCoroutine(ResetAttackFlag());
 
         //isAttacking = true;
-
     }
 
 
