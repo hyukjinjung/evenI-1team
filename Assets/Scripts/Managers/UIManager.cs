@@ -262,6 +262,11 @@ public class UIManager : MonoBehaviour
         uiPlayingPanel.SetActive(true);
     }
 
+    public void StartTimer(float time)
+    {
+        // 예: UI 텍스트에 time초 카운트다운을 표시
+        Debug.Log($"[UIManager] {time}초 타이머 시작!");
+    }
 
     public void OnSkipButtonClicked()
     {
@@ -338,4 +343,5 @@ public class UIManager : MonoBehaviour
     {
 
     }
+
 }

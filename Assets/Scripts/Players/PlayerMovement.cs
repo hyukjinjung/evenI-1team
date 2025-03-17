@@ -9,7 +9,8 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     //[SerializeField] private bool isAutoMode = false;
-
+    [SerializeField] private List<Tile> tiles = new List<Tile>();
+    public List<Tile> Tiles => tiles;
     // private float deathHeight = -5f; // 사용되지 않는 필드 제거 또는 주석 처리
 
     public bool isJumping { get; private set; } = false;
@@ -70,7 +71,29 @@ public class PlayerMovement : MonoBehaviour
             gameManager.GameOver();
         }
     }
+    public Tile GetForwardTile(Vector3 playerPosition)
+    {
+        Tile forwardTile = null;
+        float minDistance = Mathf.Infinity;
 
+        // tiles는 TestTileManager에서 관리하는 모든 타일 리스트라고 가정
+        foreach (Tile tile in tiles)
+        {
+            // 플레이어보다 위(y 좌표가 더 큰) 타일 중에서,
+            // 플레이어와의 거리가 가장 가까운 타일을 찾는다
+            if (tile.transform.position.y > playerPosition.y)
+            {
+                float distance = Vector3.Distance(playerPosition, tile.transform.position);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    forwardTile = tile;
+                }
+            }
+        }
+
+        return forwardTile;
+    }
 
 
     public void Jump(bool jumpLeft)
