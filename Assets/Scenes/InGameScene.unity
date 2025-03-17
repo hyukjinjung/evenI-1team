@@ -7450,7 +7450,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 341502051664685124, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1465564423267080733, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -7670,18 +7670,6 @@ PrefabInstance:
       propertyPath: GameOverPanel
       value: 
       objectReference: {fileID: 1435799839}
-    - target: {fileID: 7888243001746689265, guid: a2703c3d55d43b0469749cd0bb60c577, type: 3}
-      propertyPath: cameraController
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7888243001746689265, guid: a2703c3d55d43b0469749cd0bb60c577, type: 3}
-      propertyPath: chasingMonsterManager
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7888243001746689265, guid: a2703c3d55d43b0469749cd0bb60c577, type: 3}
-      propertyPath: uIChasingMonsterGauge
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8553680681558298801, guid: a2703c3d55d43b0469749cd0bb60c577, type: 3}
       propertyPath: m_Name
       value: GameManager
