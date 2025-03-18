@@ -108,7 +108,6 @@ public class PlayerTransformationController : MonoBehaviour
         if (!isTransformed) return;
         
         currentTransformationType = TransformationType.NormalFrog;
-
         Debug.Log("변신 해제 완료. NormalFrog 상태");
 
         playerAnimationController.StartRevertAnimation();
@@ -116,9 +115,10 @@ public class PlayerTransformationController : MonoBehaviour
         
         currentTransformationData = null;       
         EnablePlayerInput(false);
-        playerMovement.EnableMonsterIgnore(0f);
+        playerMovement.EnableMonsterIgnore(0.5f);
       
         ResetTransformation();
+        playerMovement.UpdateCurrentFloor();
         StartCoroutine(RevertToNormalAfterDelay());
 
         if (playerMovement.IsOnMonsterTile())
@@ -142,10 +142,12 @@ public class PlayerTransformationController : MonoBehaviour
         yield return new WaitUntil(() => playerAnimationController.IsAnimationPlaying("RevertToNormal"));
 
         Debug.Log("변신 해제 애니메이션 종료");
-        //playerAnimationController.ResetAllAnimation();
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
 
         isInvinsible = false;
+
+        //yield return new WaitForSeconds(0.3f);
+
         EnablePlayerInput(true);
 
     }
@@ -223,6 +225,5 @@ public class PlayerTransformationController : MonoBehaviour
     //public void SetInvincible(bool value)
     //{
     //    isInvinsible = value;
-
     //}
 }

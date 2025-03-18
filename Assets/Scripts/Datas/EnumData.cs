@@ -2,6 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum GameState
+{
+    Idle,
+    Cinematic,
+    Playing,
+    GameOver
+}
+
+
 public enum CharacterState
 {
     Normal,         // 일반 상태

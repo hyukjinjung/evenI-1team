@@ -58,7 +58,7 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void PlaySurprised()
     {
-        animator.SetTrigger("Surprised");
+        animator.SetTrigger("SupriseAnim");
     }
 
 
@@ -92,7 +92,7 @@ public class PlayerAnimationController : MonoBehaviour
     }
 
     public float GetDisappearAnimationLength() => 0.5f;
-    public float GetAssassinationAnimationLength() => 1;
+    public float GetAssassinationAnimationLength() => 1f;
 
 
 

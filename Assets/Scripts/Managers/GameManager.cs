@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     public ChasingMonsterManager chasingMonsterManager;
     //public CameraController cameraController;
     public UIChasingMonsterGauge uiChasingMonsterGauge;
+    public ChasingMonster chasingMonster;
+    public ChasingMonsterAnimationController chasingMonsterAnim;
 
     public GameObject StartPanel;
     public GameObject PlayingPanel;
@@ -72,7 +74,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int totalCoins = 0;
     public int TotalCoins => totalCoins;
 
-
+    public GameState currentState = GameState.Idle;
 
     private bool isGameOver = false;
 
@@ -94,7 +96,11 @@ public class GameManager : MonoBehaviour
         //cameraController = FindObjectOfType<CameraController>();
 
         uiChasingMonsterGauge = FindObjectOfType<UIChasingMonsterGauge>(true);
-
+        //chasingMonsterAnim = FindObjectOfType<ChasingMonsterAnimationController>();
+        //if (chasingMonsterAnim == null)
+        //{
+        //    Debug.LogError("chasingMonsterAnim null");
+        //}
 
         feverSystem.OnFeverStart += HandleFeverStart;
         feverSystem.OnFeverEnd += HandleFeverEnd;
@@ -112,6 +118,9 @@ public class GameManager : MonoBehaviour
         playerInputController = player.GetComponent<PlayerInputController>();
         playerAnimationController = player.GetComponent<PlayerAnimationController>();
         playerTransformationController = player.GetComponent<PlayerTransformationController>();
+
+        chasingMonster = chasingMonster.GetComponent<ChasingMonster>();
+        chasingMonsterAnim = chasingMonster.GetComponent<ChasingMonsterAnimationController>();
     }
 
 
@@ -131,18 +140,19 @@ public class GameManager : MonoBehaviour
                 uiChasingMonsterGauge);
             //SoundManager.Instance.PlayClip(5);
         }
-
-        //if (cameraController != null) 
-        //{
-        //    cameraController.StartCameraSequnece();
-        //}
     }
+
 
 
     public void StartGame()
     {
+        if (currentState != GameState.Idle) return;
+
+        StartCoroutine(GameStartSequence());
+
+
         Debug.Log("게임 시작");
-        IsGameStarted = true;
+        //IsGameStarted = true;
         gameStartTime = Time.time;
 
         playerMovement.enabled = true;
@@ -169,7 +179,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        Debug.Log("게임 오버 발생");
+        Debug.Log("게임 오버");
         if (isGameOver) return;
 
         // 화면 가림 효과 비활성화
@@ -217,6 +227,25 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+
+    private IEnumerator GameStartSequence()
+    {
+        currentState = GameState.Cinematic;
+
+        playerAnimationController.PlaySurprised();
+
+        if (chasingMonsterAnim == null)
+        {
+            Debug.Log("chasingMonsterAnim null");
+        }
+        chasingMonsterAnim.PlayMonsterRoar();
+
+        yield return new WaitForSeconds(3f);
+
+        currentState = GameState.Playing;
+    }
+
 
     private IEnumerator FreezeGameAfterDelay()
     {

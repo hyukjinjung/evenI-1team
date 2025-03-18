@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class ChasingMonsterAnimationController : MonoBehaviour
 {
-    private Animator animator;
+    public Animator animator;
     private bool isAttacking = false;
 
 
-    void Start()
+    private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
+    }
+
+    void Start()
+    {
+        
     }
 
     void Update()
@@ -29,10 +34,21 @@ public class ChasingMonsterAnimationController : MonoBehaviour
     {
         if (!isAttacking)
         {
-            animator.SetTrigger("Attack");
+            //animator.SetTrigger("Attack");
             isAttacking = true;
             StartCoroutine(PlayAttackSequence());
         }
+    }
+
+
+    public void PlayMonsterRoar()
+    {
+        if (animator == null)
+        {
+            Debug.Log("Animator is null");
+        }
+
+        animator.SetTrigger("MonsterRoar");
     }
 
 

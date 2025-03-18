@@ -27,12 +27,12 @@ public class ChasingMonster : MonoBehaviour
 
     private void Awake()
     {
-        
+        animationController = GetComponentInChildren<ChasingMonsterAnimationController>();
+
     }
 
     void Start()
     {
-        animationController = GetComponent<ChasingMonsterAnimationController>();
         startTime = Time.time;
         currentMoveSpeed = baseMoveSpeed;
     }
@@ -47,7 +47,7 @@ public class ChasingMonster : MonoBehaviour
 
     void Update()
     {
-        if (!GameManager.Instance.IsGameStarted) return;
+        if (GameManager.Instance.currentState != GameState.Playing) return;
         if (player == null) return;
         if (isAttacking) return;
 
@@ -72,8 +72,6 @@ public class ChasingMonster : MonoBehaviour
 
     private void UpdateMoveSpeed(float elapsedTime)
     {
-        //Debug.Log($"ElapsedTime {elapsedTime}");
-
         if (elapsedTime < initialSpeedUpTime)
         {
             currentMoveSpeed = baseMoveSpeed;
@@ -98,7 +96,7 @@ public class ChasingMonster : MonoBehaviour
         float elapsedTime = 0f;
         float duration = 1f;
 
-        animationController?.PlayMove();
+        //animationController?.PlayMove();
 
         while (elapsedTime < duration)
         {

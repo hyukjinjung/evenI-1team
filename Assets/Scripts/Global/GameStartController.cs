@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,12 +11,24 @@ public class GameStartController : MonoBehaviour
     public Animator playerAnimaiton;
     public Animator monsterAnimation;
 
+    public CinemachineVirtualCamera virtualCamera;
+    public Transform monsterTransform;
+
+    public UIManager uiManager;
+    public ChasingMonster chasingMonster;
+
+
+
     private void Start()
     {
-        if (playerAnimaiton == null)
+        uiManager = FindObjectOfType<UIManager>();
+
+        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+
+        chasingMonster = FindObjectOfType<ChasingMonster>();
+
         playerAnimaiton = GetComponentInChildren<Animator>();
 
-        if (monsterAnimation == null)
         monsterAnimation = GetComponentInChildren<Animator>();
     }
 
@@ -28,8 +41,8 @@ public class GameStartController : MonoBehaviour
 
     private IEnumerator WaitForAnimationAndStartGame()
     {
-        playerAnimaiton.SetTrigger("StartButtonClicked");
-        yield return new WaitForSeconds(playerAnimaiton.GetCurrentAnimatorStateInfo(0).length);
+        //playerAnimaiton.SetTrigger("StartButtonClicked");
+        //yield return new WaitForSeconds(playerAnimaiton.GetCurrentAnimatorStateInfo(0).length);
 
         playerAnimaiton.SetTrigger("SupriseAnim");
         yield return new WaitForSeconds(playerAnimaiton.GetCurrentAnimatorStateInfo(0).length);
