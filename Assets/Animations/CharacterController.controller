@@ -467,7 +467,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: GameStart
+    m_ConditionEvent: TurnAround
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2822538953349199095}
@@ -1596,11 +1596,11 @@ AnimatorStateMachine:
     second:
     - {fileID: -6405205892592244996}
     - {fileID: -9122749784959486632}
+  - first: {fileID: -7581386413480109804}
+    second: []
   - first: {fileID: -3958044562346194602}
     second:
     - {fileID: -8378265264464469033}
-  - first: {fileID: -7581386413480109804}
-    second: []
   - first: {fileID: 9076079896559221847}
     second: []
   m_StateMachineBehaviours: []

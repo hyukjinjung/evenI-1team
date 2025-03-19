@@ -59,6 +59,12 @@ public class SoundManager : MonoBehaviour
         soundSource.enabled = false;
     }
 
+    public void StopClip(int index)
+    {
+        
+    }
+    
+
     public void ToggleBGM()
     {
         musicAudioSource.mute = !musicAudioSource.mute;
@@ -71,6 +77,8 @@ public class SoundManager : MonoBehaviour
         //        musicAudioSource.Play(); 
         //    }
     }
+
+
     public void ToggleSoundEffect()
     {
         isSFXEnabled = !isSFXEnabled;
@@ -84,10 +92,13 @@ public class SoundManager : MonoBehaviour
 
         //}
     }
+
+
     public bool IsBGMPlaying()
     {
         return musicAudioSource.isPlaying;
     }
+
 
     public bool IsSoundEffectPlaying()
     {

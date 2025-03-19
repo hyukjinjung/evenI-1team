@@ -27,28 +27,40 @@ public class GameStartController : MonoBehaviour
 
         chasingMonster = FindObjectOfType<ChasingMonster>();
 
-        playerAnimaiton = GetComponentInChildren<Animator>();
+        playerAnimaiton = GameObject.FindWithTag("Player")?.GetComponentInChildren<Animator>();
 
-        monsterAnimation = GetComponentInChildren<Animator>();
+        monsterAnimation = chasingMonster?.GetComponentInChildren<Animator>();
     }
 
 
     public void OpeningSequence()
     {
+        if (playerAnimaiton == null || monsterAnimation == null)
+        {
+            Debug.Log("애니메이션을 찾을 수 없음");
+            return;
+        }
+
         StartCoroutine(WaitForAnimationAndStartGame());
+
     }
 
 
     private IEnumerator WaitForAnimationAndStartGame()
     {
-        //playerAnimaiton.SetTrigger("StartButtonClicked");
-        //yield return new WaitForSeconds(playerAnimaiton.GetCurrentAnimatorStateInfo(0).length);
-
         playerAnimaiton.SetTrigger("SupriseAnim");
         yield return new WaitForSeconds(playerAnimaiton.GetCurrentAnimatorStateInfo(0).length);
 
-        monsterAnimation.SetTrigger("MonsterRoar");
-        yield return new WaitForSeconds(monsterAnimation.GetCurrentAnimatorStateInfo(0).length);
+        int roarCount = 0;
+        while (roarCount < 3)
+        {
+            monsterAnimation.SetTrigger("MonsterRoar");
+            SoundManager.Instance.PlayClip(5);
+            yield return new WaitForSeconds(monsterAnimation.GetCurrentAnimatorStateInfo(0).length);
+            roarCount++;
+        }
+
+        monsterAnimation.SetTrigger("inMoving");
 
         playerAnimaiton.SetTrigger("TurnAround");
         yield return new WaitForSeconds(playerAnimaiton.GetCurrentAnimatorStateInfo(0).length);

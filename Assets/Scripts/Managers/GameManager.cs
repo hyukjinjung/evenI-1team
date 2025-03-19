@@ -37,10 +37,10 @@ public class GameManager : MonoBehaviour
     public FeverSystem feverSystem;
     public FeverBackGroundManager feverBackGroundManager;
     public ChasingMonsterManager chasingMonsterManager;
-    //public CameraController cameraController;
     public UIChasingMonsterGauge uiChasingMonsterGauge;
     public ChasingMonster chasingMonster;
     public ChasingMonsterAnimationController chasingMonsterAnim;
+    public GameStartController gameStartController;
 
     public GameObject StartPanel;
     public GameObject PlayingPanel;
@@ -93,14 +93,10 @@ public class GameManager : MonoBehaviour
         feverSystem = FindAnyObjectByType<FeverSystem>();
         feverBackGroundManager = FindObjectOfType<FeverBackGroundManager>();
         chasingMonsterManager = FindObjectOfType<ChasingMonsterManager>();
-        //cameraController = FindObjectOfType<CameraController>();
+        gameStartController = FindObjectOfType<GameStartController>();
 
         uiChasingMonsterGauge = FindObjectOfType<UIChasingMonsterGauge>(true);
-        //chasingMonsterAnim = FindObjectOfType<ChasingMonsterAnimationController>();
-        //if (chasingMonsterAnim == null)
-        //{
-        //    Debug.LogError("chasingMonsterAnim null");
-        //}
+
 
         feverSystem.OnFeverStart += HandleFeverStart;
         feverSystem.OnFeverEnd += HandleFeverEnd;
@@ -138,7 +134,6 @@ public class GameManager : MonoBehaviour
         {
             ChasingMonsterManager.Instance.Initialize(player.transform,
                 uiChasingMonsterGauge);
-            //SoundManager.Instance.PlayClip(5);
         }
     }
 
@@ -148,11 +143,16 @@ public class GameManager : MonoBehaviour
     {
         if (currentState != GameState.Idle) return;
 
-        StartCoroutine(GameStartSequence());
+        if (gameStartController != null)
+        {
+            gameStartController.OpeningSequence();
+            return;
+        }
 
 
         Debug.Log("게임 시작");
         //IsGameStarted = true;
+        currentState = GameState.Playing;
         gameStartTime = Time.time;
 
         playerMovement.enabled = true;
@@ -169,7 +169,7 @@ public class GameManager : MonoBehaviour
         StartPanel.SetActive(false);
         PlayingPanel.SetActive(true);
 
-
+        chasingMonsterManager.ResetMonsterPosition();
 
         //uiResultPanel.UpdateBestScore(0);
 
@@ -229,22 +229,22 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private IEnumerator GameStartSequence()
-    {
-        currentState = GameState.Cinematic;
+    //private IEnumerator GameStartSequence()
+    //{
+    //    currentState = GameState.Cinematic;
 
-        playerAnimationController.PlaySurprised();
+    //    playerAnimationController.PlaySurprised();
 
-        if (chasingMonsterAnim == null)
-        {
-            Debug.Log("chasingMonsterAnim null");
-        }
-        chasingMonsterAnim.PlayMonsterRoar();
+    //    if (chasingMonsterAnim == null)
+    //    {
+    //        Debug.Log("chasingMonsterAnim null");
+    //    }
+    //    chasingMonsterAnim.PlayMonsterRoar();
 
-        yield return new WaitForSeconds(3f);
+    //    yield return new WaitForSeconds(3f);
 
-        currentState = GameState.Playing;
-    }
+    //    currentState = GameState.Playing;
+    //}
 
 
     private IEnumerator FreezeGameAfterDelay()

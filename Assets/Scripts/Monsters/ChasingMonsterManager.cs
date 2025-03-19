@@ -6,14 +6,11 @@ public class ChasingMonsterManager : MonoBehaviour
 {
     public static ChasingMonsterManager Instance { get; private set; }
 
-    public GameObject monsterPrefab;
     public Transform player;
     private ChasingMonster currentMonster;
 
-    //public CameraController cameraController;
     private UIPlayingPanel uiPlayingPanel;
     private UIChasingMonsterGauge uiChasingMonsterGauge;
-
     private ChasingMonsterSilhouette silhouette;
     private ChasingMonsterDistanceState lastState = ChasingMonsterDistanceState.Far;
 
@@ -40,6 +37,7 @@ public class ChasingMonsterManager : MonoBehaviour
     {
         uiPlayingPanel = FindObjectOfType<UIPlayingPanel>();
         silhouette = FindObjectOfType<ChasingMonsterSilhouette>();
+        currentMonster = FindObjectOfType<ChasingMonster>();
     }
 
 
@@ -66,24 +64,31 @@ public class ChasingMonsterManager : MonoBehaviour
         UIChasingMonsterGauge gauge)
     {
         player = playerTransform;
-        //this.cameraController = cameraController;
         this.uiChasingMonsterGauge = gauge;
 
-        SpawnMonster();
+        ResetMonsterPosition();
     }
 
 
-
-    public void SpawnMonster()
+    public void ResetMonsterPosition()
     {
-        if (monsterPrefab == null || player == null || currentMonster != null)
-            return;
+        if (currentMonster == null || player == null) return;
 
-        GameObject monsterObj = Instantiate(monsterPrefab);
-        monsterObj.transform.position = player.position - new Vector3(0, followDistance, 0);
-        currentMonster = monsterObj.GetComponent<ChasingMonster>();
-        currentMonster?.Initialize(player);
+        Vector3 newPosition = player.position - new Vector3(0, followDistance, 0);
+        currentMonster.transform.position = newPosition;
     }
+
+
+    //public void SpawnMonster()
+    //{
+    //    if (monsterPrefab == null || player == null || currentMonster != null)
+    //        return;
+
+    //    GameObject monsterObj = Instantiate(monsterPrefab);
+    //    monsterObj.transform.position = player.position - new Vector3(0, followDistance, 0);
+    //    currentMonster = monsterObj.GetComponent<ChasingMonster>();
+    //    currentMonster?.Initialize(player);
+    //}
 
 
     private ChasingMonsterDistanceState GetDistanceState(float distance)

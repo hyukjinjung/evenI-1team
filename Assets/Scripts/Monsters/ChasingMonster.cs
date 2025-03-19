@@ -96,7 +96,7 @@ public class ChasingMonster : MonoBehaviour
         float elapsedTime = 0f;
         float duration = 1f;
 
-        //animationController?.PlayMove();
+        animationController?.PlayMove();
 
         while (elapsedTime < duration)
         {
@@ -127,7 +127,6 @@ public class ChasingMonster : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             animationController.PlayAttack();
-            //GameManager.Instance.GameOver();
         }
     }
 }

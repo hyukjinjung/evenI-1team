@@ -13,15 +13,6 @@ public class ChasingMonsterAnimationController : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
     }
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 
     public void PlayMove()
     {
@@ -34,7 +25,6 @@ public class ChasingMonsterAnimationController : MonoBehaviour
     {
         if (!isAttacking)
         {
-            //animator.SetTrigger("Attack");
             isAttacking = true;
             StartCoroutine(PlayAttackSequence());
         }
