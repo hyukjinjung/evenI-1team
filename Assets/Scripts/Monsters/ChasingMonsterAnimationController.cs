@@ -16,7 +16,7 @@ public class ChasingMonsterAnimationController : MonoBehaviour
 
     public void PlayMove()
     {
-        animator.SetBool("isMoving", true);
+        animator.SetTrigger("isMoving");
     }
 
 

@@ -16,6 +16,7 @@ public class GameStartController : MonoBehaviour
 
     public UIManager uiManager;
     public ChasingMonster chasingMonster;
+    public ChasingMonsterAnimationController animationController;
 
 
 
@@ -51,14 +52,12 @@ public class GameStartController : MonoBehaviour
         playerAnimaiton.SetTrigger("SupriseAnim");
         yield return new WaitForSeconds(playerAnimaiton.GetCurrentAnimatorStateInfo(0).length);
 
-        int roarCount = 0;
-        while (roarCount < 3)
-        {
-            monsterAnimation.SetTrigger("MonsterRoar");
-            SoundManager.Instance.PlayClip(5);
-            yield return new WaitForSeconds(monsterAnimation.GetCurrentAnimatorStateInfo(0).length);
-            roarCount++;
-        }
+
+        animationController.PlayMonsterRoar();
+        //SoundManager.Instance.PlayClip(5);
+        yield return new WaitForSeconds(monsterAnimation.GetCurrentAnimatorStateInfo(0).length);
+
+
 
         monsterAnimation.SetTrigger("inMoving");
 
