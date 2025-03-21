@@ -693,6 +693,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &113264798
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 113264800}
+  - component: {fileID: 113264799}
+  m_Layer: 0
+  m_Name: GameStartController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &113264799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113264798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f7b0d5b56efa4844a22dd6410d61428, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAnimaiton: {fileID: 320762912}
+  monsterAnimation: {fileID: 1596056610}
+  virtualCamera: {fileID: 1715734860}
+  monsterTransform: {fileID: 1580056422}
+  uiManager: {fileID: 1557261786}
+  chasingMonster: {fileID: 1580056419}
+--- !u!4 &113264800
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113264798}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &115139960 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6475592568248119446, guid: 7673b0c940ed7994ba4a2546d6932fef, type: 3}
@@ -1841,7 +1891,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testTileManager: {fileID: 768112588}
-  specialAbilityData: {fileID: 0}
   attackEffectPrefab: {fileID: 2404944003320474627, guid: ffc2d07edf3c55d41aff6205f3dad3c0, type: 3}
 --- !u!114 &417875396
 MonoBehaviour:
@@ -3699,6 +3748,78 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 50, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &983049707 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4425342270567405902, guid: 0489a1ecdd2bdf2478c49c0f1e080305, type: 3}
+  m_PrefabInstance: {fileID: 1621722329}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe72bbf085fd1e04ea921eb5f4394a7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &984628560
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3422427497409318732, guid: c7c38f2c60091384ebbd8beb2d296287, type: 3}
+      propertyPath: m_Name
+      value: ChasingMonster
+      objectReference: {fileID: 0}
+    - target: {fileID: 3753880011452345051, guid: c7c38f2c60091384ebbd8beb2d296287, type: 3}
+      propertyPath: m_Size.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7538231947823395913, guid: c7c38f2c60091384ebbd8beb2d296287, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7538231947823395913, guid: c7c38f2c60091384ebbd8beb2d296287, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7538231947823395913, guid: c7c38f2c60091384ebbd8beb2d296287, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7538231947823395913, guid: c7c38f2c60091384ebbd8beb2d296287, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7538231947823395913, guid: c7c38f2c60091384ebbd8beb2d296287, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7538231947823395913, guid: c7c38f2c60091384ebbd8beb2d296287, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7538231947823395913, guid: c7c38f2c60091384ebbd8beb2d296287, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7538231947823395913, guid: c7c38f2c60091384ebbd8beb2d296287, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7538231947823395913, guid: c7c38f2c60091384ebbd8beb2d296287, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7538231947823395913, guid: c7c38f2c60091384ebbd8beb2d296287, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c7c38f2c60091384ebbd8beb2d296287, type: 3}
 --- !u!114 &996964732 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8357045725410472754, guid: db801b54a564cef45bccf32735e415c4, type: 3}
@@ -5323,6 +5444,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1574890494}
   m_CullTransparentMesh: 1
+--- !u!114 &1580056418 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -5517669618064054034, guid: c7c38f2c60091384ebbd8beb2d296287, type: 3}
+  m_PrefabInstance: {fileID: 984628560}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c71995d8e7c922448ee9bc3360adaaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1580056419 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 727626275739722368, guid: c7c38f2c60091384ebbd8beb2d296287, type: 3}
+  m_PrefabInstance: {fileID: 984628560}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4949554d2ee8fd243985c89f0f7f9289, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1580056422 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7538231947823395913, guid: c7c38f2c60091384ebbd8beb2d296287, type: 3}
+  m_PrefabInstance: {fileID: 984628560}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1585310624
 GameObject:
   m_ObjectHideFlags: 0
@@ -5457,6 +5605,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1585310624}
   m_CullTransparentMesh: 1
+--- !u!95 &1596056610 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5253590088788642644, guid: c7c38f2c60091384ebbd8beb2d296287, type: 3}
+  m_PrefabInstance: {fileID: 984628560}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1602180190 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3891538345869141997, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
@@ -5937,7 +6090,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1715734861}
   - component: {fileID: 1715734860}
-  - component: {fileID: 1715734864}
   - component: {fileID: 1715734863}
   m_Layer: 0
   m_Name: Virtual Camera
@@ -6024,23 +6176,6 @@ MonoBehaviour:
     m_FrequencyGain: 1
     m_Duration: 1
     m_NoiseOffsets: {x: 0, y: 0, z: 0}
---- !u!114 &1715734864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1715734859}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a76f5cc117cf1d45802f4cf72630326, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  virtualCamera: {fileID: 1715734860}
-  player: {fileID: 0}
-  chasingMonster: {fileID: 0}
-  transitionDuration: 5
-  holdTime: 3
 --- !u!114 &1735416997 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8662395602770502293, guid: cbb5f310cd23a9c4783532eea4ec5def, type: 3}
@@ -7745,13 +7880,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1435799839}
     - target: {fileID: 7888243001746689265, guid: a2703c3d55d43b0469749cd0bb60c577, type: 3}
+      propertyPath: chasingMonster
+      value: 
+      objectReference: {fileID: 1580056419}
+    - target: {fileID: 7888243001746689265, guid: a2703c3d55d43b0469749cd0bb60c577, type: 3}
       propertyPath: cameraController
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7888243001746689265, guid: a2703c3d55d43b0469749cd0bb60c577, type: 3}
+      propertyPath: chasingMonsterAnim
+      value: 
+      objectReference: {fileID: 1580056418}
+    - target: {fileID: 7888243001746689265, guid: a2703c3d55d43b0469749cd0bb60c577, type: 3}
+      propertyPath: gameStartController
+      value: 
+      objectReference: {fileID: 113264799}
+    - target: {fileID: 7888243001746689265, guid: a2703c3d55d43b0469749cd0bb60c577, type: 3}
       propertyPath: chasingMonsterManager
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 983049707}
     - target: {fileID: 7888243001746689265, guid: a2703c3d55d43b0469749cd0bb60c577, type: 3}
       propertyPath: uIChasingMonsterGauge
       value: 
@@ -8530,3 +8677,5 @@ SceneRoots:
   - {fileID: 8344267701920000929}
   - {fileID: 57999384}
   - {fileID: 1621722329}
+  - {fileID: 984628560}
+  - {fileID: 113264800}
